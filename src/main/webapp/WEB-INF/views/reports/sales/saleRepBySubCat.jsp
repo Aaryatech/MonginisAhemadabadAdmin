@@ -529,22 +529,19 @@
 		});
 
 		function genPdf() {
+			var selectedFr = $("#selectFr").val();
+			var selectedSubCatIdList = $("#item_grp2").val();
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
-			var selectedFr = $("#selectFr").val();
-			var routeId = $("#selectRoute").val();
-			var selectedCat = $("#item_grp1").val();
 
 			window
-					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportByDatePdf/'
+					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSummeryFrAndSubCatPdf/'
 							+ from_date
 							+ '/'
 							+ to_date
 							+ '/'
 							+ selectedFr
-							+ '/' + routeId + '/' + selectedCat + '/');
-
-			//window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
+							+ '/' + selectedSubCatIdList);
 
 		}
 	</script>

@@ -82,24 +82,55 @@ th {
 			<c:set var="totalNetAmt" value="${0}" />
 			<c:set var="retAmtPer" value="${0}" />
 			<tr>
-				<td width="200"><c:out value="${fr.frName}" /></td>
+
 
 			</tr>
 			<c:forEach items="${subCatReportList}" var="report" varStatus="count">
 				<tr>
 
-
 					<td width="0"><c:out value="${count.index+1}" /></td>
-					<td width="100"><c:out value="${report.subCatName}" /></td>
-					<td width="200"><c:out value="${report.soldQty}" /></td>
-					<td width="100"><c:out value="${report.soldAmt}" /></td>
-					<td width="100"><c:out value="${report.varQty}" /></td>
-					<td width="100"><c:out value="${report.varAmt}" /></td>
-					<td width="200"><c:out value="${report.retQty}" /></td>
-					<td width="100"><c:out value="${report.retAmt}" /></td>
-					<td width="100"><c:out value="${report.netQty}" /></td>
-					<td width="100"><c:out value="${report.netAmt}" /></td>
-					<td width="100"><c:out value="${report.retAmtPer}" /></td>
+					<td width="200"><c:out value="${report.subCatName}" /></td>
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.soldQty}" /></td>
+
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.soldAmt}" /></td>
+
+
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.varQty}" /></td>
+
+
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.varAmt}" /></td>
+
+
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.retQty}" /></td>
+
+
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.retAmt}" /></td>
+
+
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.netQty}" /></td>
+
+
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.netAmt}" /></td>
+
+					<td width="10" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.retAmtPer}" /></td>
 
 
 					<c:set var="totalSoldQty" value="${totalSoldQty+(report.soldQty)}" />
@@ -121,49 +152,50 @@ th {
 
 			<tr>
 
-				<td colspan='2'><b>Total</b></td>
+				<td></td>
+
+				<td colspan='1'><b>Total</b></td>
 
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalSoldQty}" /></b></td>
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalSoldAmt}" /></b></td>
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalVarQty}" /></b></td>
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalVarAmt}" /></b></td>
 
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalRetQty}" /></b></td>
 
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalRetAmt}" /></b></td>
 
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalNetQty}" /></b></td>
 
 
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalNetAmt}" /></b></td>
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="10" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${retAmtPer}" /></b></td>
-
 
 
 
