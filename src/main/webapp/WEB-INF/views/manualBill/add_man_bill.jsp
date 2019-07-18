@@ -151,7 +151,7 @@ select {
 
 
 </head>
-<body onload="spTypeChange(${frId})">
+<body >
 
 	<c:url var="getFlavourBySpfId" value="/getFlavourBySpfId" />
 	<c:url var="findAddOnRate" value="/getAddOnRate" />
@@ -339,10 +339,15 @@ select {
 						</div> --%>
 						<div class="col-md-2">Flavour<font size="5" color="red">*</font></div>
 							<div class="col-md-7" >
-									<select data-placeholder="Select Flavour" name="spFlavour" required
-											class="form-control chosen" tabindex="-1" id="spFlavour"
-											onchange="onChangeFlavour()">
-									</select>
+				<select data-placeholder="Select Flavour" name="spFlavour" required
+							class="form-control chosen" tabindex="-1" id="spFlavour"
+							onchange="onChangeFlavour()">
+					<option value="">Select Flavour</option>
+                   <c:forEach items="${filterFlavoursList}" var="flavoursList">
+                     <option value="${flavoursList.spfId}">${flavoursList.spfName}</option>
+                   </c:forEach>
+											
+				</select>
 							</div>
 							<!--------------------------2------------------------------->
 							<div class="col-md-1"style="border:1px dashed;" ><b>Type</b></div>

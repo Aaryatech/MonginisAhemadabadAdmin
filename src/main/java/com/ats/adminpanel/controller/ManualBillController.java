@@ -15,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +32,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -288,11 +291,32 @@ public class ManualBillController {
 				}
 
 			}
+			//--------------------------New For Flavors----------------------------------------
+			List<Flavour> filterFlavoursList=new ArrayList<>();
+			FlavourList	flavourListRes = restTemplate.getForObject(Constants.url + "/showFlavourList", FlavourList.class);
+			List<Flavour> flavoursArrayList = flavourList.getFlavour();
 
+			for (int i = 0; i < flavoursArrayList.size(); i++) {
+             	filterFlavoursList.add(flavoursArrayList.get(i));
+			}
+			List<String> list = Arrays.asList(specialCake.getErpLinkcode().split(","));
+			System.err.println("list"+specialCake.getErpLinkcode());
+			for (Flavour flavour : flavoursArrayList) {
+				
+					if (list.contains(""+flavour.getSpfId())) {
+						flavour.setSpfAdonRate(0.0);
+					
+					}
+				
+					filterFlavoursList.add(flavour);
+
+			}
+			
+			//------------------------------------------------------------------
 			System.err.println("sprRate " + sprRate);
 			model.addObject("sprRate", sprRate);
 			model.addObject("spBackendRate", spBackendRate);
-
+            model.addObject("filterFlavoursList", filterFlavoursList);
 			model.addObject("weightList", weightList);
 			model.addObject("billBy", billBy);
 			String spNo = "";
