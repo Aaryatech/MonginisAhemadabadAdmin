@@ -47,7 +47,7 @@
 				<li><i class="fa fa-home"></i> <a
 					href="${pageContext.request.contextPath}/home">Home</a> <span
 					class="divider"><i class="fa fa-angle-right"></i></span></li>
-				<li class="active">Bill Report</li>
+				<li class="active">Franchisee Report</li>
 			</ul>
 		</div>
 		<!-- END Breadcrumb -->
@@ -229,7 +229,7 @@
 									alert("No records found !!");
 									document.getElementById("expExcel").disabled = true;
 								}
-
+								var index = 0;
 								$
 										.each(
 												data.frIdNamesList,
@@ -273,16 +273,16 @@
 																					.getElementById("expExcel").disabled = false;
 																			document
 																					.getElementById('range').style.display = 'block';
-																			var index = key + 1;
-																			//var tr = "<tr>";
 
+																			//var tr = "<tr>";
+																			index = index + 1;
 																			var tr = $('<tr></tr>');
 
 																			tr
 																					.append($(
 																							'<td></td>')
 																							.html(
-																									key + 1));
+																									index));
 																			tr
 																					.append($(
 																							'<td></td>')

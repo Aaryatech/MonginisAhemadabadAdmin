@@ -181,7 +181,7 @@
 
 			}, function(data) {
 
-				alert(data);
+				//alert(data);
 
 				$('#table_grid td').remove();
 				$('#loader').hide();
@@ -238,6 +238,7 @@
 
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.retQty.toFixed(2)));
+
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.retAmt.toFixed(2)));
 

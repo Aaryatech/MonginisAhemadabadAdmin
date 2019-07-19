@@ -11,7 +11,7 @@
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Sales Report Billwise PDF</title>
+<title>Franchisee Summery Report PDF</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -50,8 +50,9 @@ th {
 	<h3 align="center">${FACTORYNAME}</h3>
 	<p align="center">${FACTORYADDRESS}</p>
 	<div align="center">
-		<h5>Sales Report (Franchisee Wise) &nbsp;&nbsp;&nbsp;&nbsp; From
-			&nbsp; ${fromDate} &nbsp;To &nbsp; ${toDate}</h5>
+		<h5>Sales Report (Franchisee Summery Wise)
+			&nbsp;&nbsp;&nbsp;&nbsp; From &nbsp; ${fromDate} &nbsp;To &nbsp;
+			${toDate}</h5>
 	</div>
 	<table align="center" border="1" cellspacing="0" cellpadding="1"
 		id="table_grid" class="table table-bordered">
@@ -84,10 +85,10 @@ th {
 						<c:choose>
 							<c:when test="${report.frId==fr.frId}">
 								<td width="0"><c:out value="${count.index+1}" /></td>
-								<td width="200"><c:out value="${report.billDate}" /></td>
-								<td width="100"><c:out value="${report.type}" /></td>
-								<td width="100"><c:out value="${report.invoiceNo}" /></td>
-								<td width="100"><c:out value="${report.orderRef}" /></td>
+								<td width="100"><c:out value="${report.billDate}" /></td>
+								<td width="20"><c:out value="${report.type}" /></td>
+								<td width="20"><c:out value="${report.invoiceNo}" /></td>
+								<td width="20"><c:out value="${report.orderRef}" /></td>
 
 								<c:choose>
 									<c:when test="${report.type eq 'INV'}">
@@ -139,14 +140,14 @@ th {
 					<td colspan='4'><b>Total</b></td>
 					<td></td>
 
-					<td width="100" align="right"><b><fmt:formatNumber
+					<td width="20" align="right"><b><fmt:formatNumber
 								type="number" maxFractionDigits="2" minFractionDigits="2"
 								value="${totalDrAMt}" /></b></td>
 
-					<td width="100" align="right"><b><fmt:formatNumber
+					<td width="20" align="right"><b><fmt:formatNumber
 								type="number" maxFractionDigits="2" minFractionDigits="2"
 								value="${totalCrAMt}" /></b></td>
-					<td width="100" align="right"><b><fmt:formatNumber
+					<td width="20" align="right"><b><fmt:formatNumber
 								type="number" maxFractionDigits="2" minFractionDigits="2"
 								value="${totalDrAMt-totalCrAMt}" /></b></td>
 					<!--  <td><b>Total</b></td> -->
