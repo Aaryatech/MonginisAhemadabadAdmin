@@ -478,7 +478,7 @@ public class SalesReportController2 {
 
 				subCatFrReportList.get(i).setNetQty(netQty);
 				subCatFrReportList.get(i).setNetAmt(netAmt);
-				subCatFrReportList.get(i).setRetAmt(retAmtPer);
+				subCatFrReportList.get(i).setRetAmtPer(retAmtPer);
 			}
 
 			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
@@ -680,7 +680,7 @@ public class SalesReportController2 {
 
 				subCatFrReportList.get(i).setNetQty(netQty);
 				subCatFrReportList.get(i).setNetAmt(netAmt);
-				subCatFrReportList.get(i).setRetAmt(retAmtPer);
+				subCatFrReportList.get(i).setRetAmtPer(retAmtPer);
 			}
 
 			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
@@ -1115,7 +1115,7 @@ public class SalesReportController2 {
 
 				subCatFrReportList.get(i).setNetQty(netQty);
 				subCatFrReportList.get(i).setNetAmt(netAmt);
-				subCatFrReportList.get(i).setRetAmt(retAmtPer);
+				subCatFrReportList.get(i).setRetAmtPer(retAmtPer);
 			}
 
 			AllItemsListResponse allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems",
@@ -1412,7 +1412,7 @@ public class SalesReportController2 {
 
 				subCatFrReportList.get(i).setNetQty(netQty);
 				subCatFrReportList.get(i).setNetAmt(netAmt);
-				subCatFrReportList.get(i).setRetAmt(retAmtPer);
+				subCatFrReportList.get(i).setRetAmtPer(retAmtPer);
 			}
 
 			AllItemsListResponse allItemsListResponse = restTemplate.getForObject(Constants.url + "getAllItems",

@@ -271,7 +271,7 @@
 
 							},
 							function(data) {
-								alert(data.subCatFrReportList);
+								//alert(data.subCatFrReportList);
 
 								$('#table_grid td').remove();
 								$('#loader').hide();
