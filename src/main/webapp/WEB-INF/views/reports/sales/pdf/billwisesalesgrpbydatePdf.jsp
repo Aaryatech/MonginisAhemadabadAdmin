@@ -60,7 +60,6 @@ th {
 		<thead>
 			<tr class="bgpink">
 				<th height="25">Sr.No.</th>
-
 				<th>Date</th>
 				<th>Taxable Value</th>
 				<th>Tax Value</th>
@@ -77,14 +76,58 @@ th {
 			</tr>
 		</thead>
 		<tbody>
-			<c:set var="taxAmount" value="${0}" />
-			<c:set var="igst" value="${0 }" />
-			<c:set var="cgst" value="${0 }" />
-			<c:set var="sgst" value="${0 }" />
-			<c:set var="rOff" value="${0}" />
-			<c:set var="grandTotal" value="${0 }" />
+
+			<c:set var="totalGrandTotal" value="${0}" />
+			<c:set var="totalTax" value="${0 }" />
+			<c:set var="totalTaxableAmt" value="${0 }" />
+
+			<c:set var="totalGrnGrandTotal" value="${0 }" />
+			<c:set var="totalGrnTaxableAmt" value="${0}" />
+			<c:set var="totalGrnTax" value="${0 }" />
+
+			<c:set var="totalGvnGrandTotal" value="${0 }" />
+			<c:set var="totalGvnTax" value="${0}" />
+			<c:set var="totalGvnTaxableAmt" value="${0 }" />
+
+
+			<c:set var="totalNetGrandTotal" value="${0 }" />
+			<c:set var="totalNetTax" value="${0}" />
+			<c:set var="totalNetTaxableAmt" value="${0 }" />
 			<c:forEach items="${report}" var="report" varStatus="count">
-				<%-- <tr>
+				<tr>
+
+					<c:set var="totalTaxableAmt"
+						value="${totalTaxableAmt + report.taxableAmt}" />
+					<c:set var="totalTax" value="${totalTax + report.totalTax}" />
+					<c:set var="totalGrandTotal"
+						value="${totalGrandTotal + report.grandTotal}" />
+
+
+					<c:set var="totalGrnGrandTotal"
+						value="${totalGrnGrandTotal + report.grnGrandTotal}" />
+					<c:set var="totalGrnTaxableAmt"
+						value="${totalGrnTaxableAmt + report.grnTaxableAmt}" />
+					<c:set var="totalGrnTax"
+						value="${totalGrnTax + report.grnTotalTax}" />
+
+
+
+					<c:set var="totalGvnGrandTotal"
+						value="${totalGvnGrandTotal + report.gvnGrandTotal}" />
+					<c:set var="totalGvnTaxableAmt"
+						value="${totalGvnTaxableAmt + report.gvnTaxableAmt}" />
+					<c:set var="totalGvnTax"
+						value="${totalGvnTax + report.gvnTotalTax}" />
+
+
+					<c:set var="totalNetGrandTotal"
+						value="${totalNetGrandTotal + report.netGrandTotal}" />
+					<c:set var="totalNetTax"
+						value="${totalNetTax + report.netTotalTax}" />
+					<c:set var="totalNetTaxableAmt"
+						value="${totalNetTaxableAmt + report.netTaxableAmt}" />
+
+
 					<td width="0"><c:out value="${count.index+1}" /></td>
 					<td width="100"><c:out value="${report.billDate}" /></td>
 					<td width="100" align="right"><fmt:formatNumber type="number"
@@ -97,55 +140,110 @@ th {
 					<td width="100" align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2"
 							value="${report.grandTotal}" /></td>
-					<td width="100" align="right"><c:out value="0" /></td>
-					 
 
-
-					<c:set var="total" value="${report.igstSum+ report.taxableAmt}" />
-					<c:set var="igst" value="${igst + report.igstSum}" />
-
-					<td width="100" align="right"><c:out value="0" /></td>
-					<td width="100" align="right"><c:out value="0"></c:out></td>
 					<td width="100" align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2"
-							value="${report.igstSum}" /></td>
+							value="${report.grnTaxableAmt}" /></td>
 
-					<c:set var="taxAmount" value="${taxAmount + report.taxableAmt}" />
-
-					<c:set var="grandTotal" value="${grandTotal+total}" />
 					<td width="100" align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2"
-							value="${report.roundOff}" /></td>
-					<td><c:out value="${total}" /></td>
-					<c:set var="rOff" value="${rOff+report.roundOff}" />
+							value="${report.grnTotalTax}" /></td>
+
+
 					<td width="100" align="right"><fmt:formatNumber type="number"
-							maxFractionDigits="2" minFractionDigits="2" value="${total}" /></td>
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.grnGrandTotal}" /></td>
+
+
+					<td width="100" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.gvnTaxableAmt}" /></td>
+
+					<td width="100" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.gvnTotalTax}" /></td>
+
+
+					<td width="100" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.gvnGrandTotal}" /></td>
+
+
+
+
+
+					<td width="100" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.netTaxableAmt}" /></td>
+
+					<td width="100" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.netTotalTax}" /></td>
+
+
+					<td width="100" align="right"><fmt:formatNumber type="number"
+							maxFractionDigits="2" minFractionDigits="2"
+							value="${report.netGrandTotal}" /></td>
+
+
+
 				</tr>
- --%>
+
 			</c:forEach>
-			<%-- <tr>
+			<tr>
+
+
 
 				<td colspan='2'><b>Total</b></td>
+
+
 				<td width="100" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${taxAmount}" /></b></td>
+							value="${totalTaxableAmt}" /></b></td>
 				<td width="100" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${cgst}" /></b></td>
+							value="${totalTax}" /></b></td>
 				<td width="100" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${sgst}" /></b></td>
+							value="${totalGrandTotal}" /></b></td>
+
+
+
 				<td width="100" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${igst}" /></b></td>
+							value="${totalGrnTaxableAmt}" /></b></td>
 				<td width="100" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${rOff}" /></b></td>
+							value="${totalGrnTax}" /></b></td>
 				<td width="100" align="right"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${grandTotal}" /></b></td>
-				<!--  <td><b>Total</b></td> -->
-			</tr> --%>
+							value="${totalGrnGrandTotal}" /></b></td>
+
+
+
+				<td width="100" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${totalGvnTaxableAmt}" /></b></td>
+				<td width="100" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${totalGvnTax}" /></b></td>
+				<td width="100" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${totalGvnGrandTotal}" /></b></td>
+
+
+
+				<td width="100" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${totalNetTaxableAmt}" /></b></td>
+				<td width="100" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${totalNetTax}" /></b></td>
+				<td width="100" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${totalNetGrandTotal}" /></b></td>
+
+			</tr>
 		</tbody>
 	</table>
 
