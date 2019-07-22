@@ -138,12 +138,11 @@
 					<label class="col-sm-3 col-lg-2 control-label">Select</label>
 					<div class="col-sm-6 col-lg-4 controls">
 						<select data-placeholder="Select Route"
-							class="form-control chosen" name="selectRoute" id="selectRoute"
-							onchange="disableFr()">
+							class="form-control chosen" name="selectStatus" id="selectStatus">
 							<option value="-1">All</option>
-
-							<option value="1">Grnad Total</option>
 							<option value="1">Taxable</option>
+							<option value="2">Grnad Total</option>
+
 
 
 						</select>
@@ -181,64 +180,134 @@
 		</div>
 
 
-		<div class="box">
-			<div class="box-title">
-				<h3>
-					<i class="fa fa-list-alt"></i>Bill Report
-				</h3>
+		<div class=" box-content" id="allTable">
+			<div class="row">
+				<div class="col-md-12 table-responsive">
+					<table class="table table-bordered table-striped fill-head "
+						style="width: 100%" id="table_grid">
+						<thead style="background-color: #f3b5db;">
+							<tr>
+								<th>Sr.No.</th>
+								<th>Month</th>
+								<th>Taxable Value</th>
+								<th>Tax Value</th>
+								<th>Grand Total</th>
+								<th>GRN Taxable Value</th>
+								<th>GRN Tax Value</th>
+								<th>GRN Grand Total</th>
+								<th>GVN Taxable Value</th>
+								<th>GVN Tax Value</th>
+								<th>GVN Grand Total</th>
+								<th>NET Taxable Total</th>
+								<th>NET Tax Total</th>
+								<th>NET Grand Total</th>
+								<!-- <th>Total</th> -->
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+				<div class="form-group" style="display: none;" id="range">
+
+
+
+					<div class="col-sm-3  controls">
+						<input type="button" id="expExcel" class="btn btn-primary"
+							value="EXPORT TO Excel" onclick="exportToExcel();"
+							disabled="disabled">
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div id="taxableTable" style="display: none;">
+
+			<div class=" box-content">
+				<div class="row">
+					<div class="col-md-12 table-responsive">
+						<table class="table table-bordered table-striped fill-head "
+							style="width: 100%" id="table_grid1">
+							<thead style="background-color: #f3b5db;">
+								<tr>
+									<th>Sr.No.</th>
+									<th>Month</th>
+									<th>Taxable Value</th>
+									<th>Tax Value</th>
+
+									<th>GRN Taxable Value</th>
+									<th>GRN Tax Value</th>
+
+									<th>GVN Taxable Value</th>
+									<th>GVN Tax Value</th>
+
+									<th>NET Taxable Total</th>
+									<th>NET Tax Total</th>
+
+									<!-- <th>Total</th> -->
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+					<div class="form-group" style="display: none;" id="range">
+
+
+
+						<div class="col-sm-3  controls">
+							<input type="button" id="expExcel" class="btn btn-primary"
+								value="EXPORT TO Excel" onclick="exportToExcel();"
+								disabled="disabled">
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+		<div id="totalTable" style="display: none;">
+			<div class=" box-content">
+				<div class="row">
+					<div class="col-md-12 table-responsive">
+						<table class="table table-bordered table-striped fill-head "
+							style="width: 100%" id="table_grid2">
+							<thead style="background-color: #f3b5db;">
+								<tr>
+									<th>Sr.No.</th>
+									<th>Month</th>
+									<th>Grand Total</th>
+									<th>GRN Grand Total</th>
+									<th>GVN Grand Total</th>
+									<th>NET Grand Total</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+					<div class="form-group" style="display: none;" id="range">
+
+
+
+						<div class="col-sm-3  controls">
+							<input type="button" id="expExcel" class="btn btn-primary"
+								value="EXPORT TO Excel" onclick="exportToExcel();"
+								disabled="disabled">
+						</div>
+					</div>
+				</div>
+
 
 			</div>
 
-			<form id="submitBillForm"
-				action="${pageContext.request.contextPath}/submitNewBill"
-				method="post">
-				<div class=" box-content">
-					<div class="row">
-						<div class="col-md-12 table-responsive">
-							<table class="table table-bordered table-striped fill-head "
-								style="width: 100%" id="table_grid">
-								<thead style="background-color: #f3b5db;">
-									<tr>
-										<th>Sr.No.</th>
-										<th>Month</th>
-										<th>Taxable Value</th>
-										<th>Tax Value</th>
-										<th>Grand Total</th>
-										<th>GRN Taxable Value</th>
-										<th>GRN Tax Value</th>
-										<th>GRN Grand Total</th>
-										<th>GVN Taxable Value</th>
-										<th>GVN Tax Value</th>
-										<th>GVN Grand Total</th>
-										<th>NET Taxable Total</th>
-										<th>NET Tax Total</th>
-										<th>NET Grand Total</th>
-										<!-- <th>Total</th> -->
-									</tr>
-								</thead>
-								<tbody>
-
-								</tbody>
-							</table>
-						</div>
-						<div class="form-group" style="display: none;" id="range">
-
-
-
-							<div class="col-sm-3  controls">
-								<input type="button" id="expExcel" class="btn btn-primary"
-									value="EXPORT TO Excel" onclick="exportToExcel();"
-									disabled="disabled">
-							</div>
-						</div>
-					</div>
-
-
-					<div id="chart_div"
-						style="width: 100%; height: 700px; background-color: white;"></div>
-					<div id="PieChart_div" style="width: 100%; height: 700px;"></div>
-				</div>
-			</form>
 		</div>
 	</div>
 	<!-- END Main Content -->
@@ -251,6 +320,7 @@
 		class="fa fa-chevron-up"></i></a>
 
 
+
 	<script type="text/javascript">
 		function searchReport() {
 			//	var isValid = validate();
@@ -261,159 +331,634 @@
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
 
+			var selectStatus = document.getElementById("selectStatus").value;
+			//alert(selectStatus);
+
 			$('#loader').show();
 
-			$.getJSON('${getBillList}',
+			$
+					.getJSON(
+							'${getBillList}',
 
-			{
-				fr_id_list : JSON.stringify(selectedFr),
-				fromDate : from_date,
-				toDate : to_date,
-				route_id : routeId,
-				ajax : 'true'
+							{
+								fr_id_list : JSON.stringify(selectedFr),
+								fromDate : from_date,
+								toDate : to_date,
+								route_id : routeId,
+								ajax : 'true'
 
-			}, function(data) {
-				alert(data);
+							},
+							function(data) {
+								//alert(data);
 
-				$('#table_grid td').remove();
-				$('#loader').hide();
+								$('#table_grid td').remove();
+								$('#loader').hide();
 
-				if (data == "") {
-					alert("No records found !!");
-					document.getElementById("expExcel").disabled = true;
+								if (data == "") {
+									alert("No records found !!");
+									document.getElementById("expExcel").disabled = true;
 
-				}
+								}
+								if (selectStatus == -1) {
 
-				var totalGrnGrandTotal = 0;
-				var totalGrnTaxableAmt = 0;
-				var totalGrnTax = 0;
+									$('#allTable').show();
+									$('#taxableTable').hide();
+									$('#totalTable').hide();
 
-				var totalGvnGrandTotal = 0;
-				var totalGvnTax = 0;
-				var totalGvnTaxableAmt = 0;
+									var totalGrnGrandTotal = 0;
+									var totalGrnTaxableAmt = 0;
+									var totalGrnTax = 0;
 
-				var totalGrandTotal = 0;
-				var totalTax = 0;
-				var totalTaxableAmt = 0;
+									var totalGvnGrandTotal = 0;
+									var totalGvnTax = 0;
+									var totalGvnTaxableAmt = 0;
 
-				var totalNetGrandTotal = 0;
-				var totalNetTax = 0;
-				var totalNetTaxableAmt = 0;
+									var totalGrandTotal = 0;
+									var totalTax = 0;
+									var totalTaxableAmt = 0;
 
-				$.each(data, function(key, report) {
+									var totalNetGrandTotal = 0;
+									var totalNetTax = 0;
+									var totalNetTaxableAmt = 0;
 
-					totalGrnGrandTotal = totalGrnGrandTotal
-							+ report.grnGrandTotal;
-					totalGrnTaxableAmt = totalGrnTaxableAmt
-							+ report.grnGrandTotal;
-					totalGrnTax = totalGrnTax + report.grnGrandTotal;
+									$
+											.each(
+													data,
+													function(key, report) {
 
-					totalGvnGrandTotal = totalGvnGrandTotal
-							+ report.gvnGrandTotal;
-					totalGvnTaxableAmt = totalGvnTaxableAmt
-							+ report.gvnTaxableAmt;
-					totalGvnTax = totalGvnTax + report.gvnTotalTax;
+														totalGrnGrandTotal = totalGrnGrandTotal
+																+ report.grnGrandTotal;
+														totalGrnTaxableAmt = totalGrnTaxableAmt
+																+ report.grnGrandTotal;
+														totalGrnTax = totalGrnTax
+																+ report.grnGrandTotal;
 
-					totalGrandTotal = totalGrandTotal + report.grandTotal;
-					totalTax = totalTax + report.totalTax;
-					totalTaxableAmt = totalTaxableAmt + report.taxableAmt;
+														totalGvnGrandTotal = totalGvnGrandTotal
+																+ report.gvnGrandTotal;
+														totalGvnTaxableAmt = totalGvnTaxableAmt
+																+ report.gvnTaxableAmt;
+														totalGvnTax = totalGvnTax
+																+ report.gvnTotalTax;
 
-					totalNetGrandTotal = totalNetGrandTotal
-							+ report.netGrandTotal;
-					totalNetTax = totalNetTax + report.netTotalTax;
+														totalGrandTotal = totalGrandTotal
+																+ report.grandTotal;
+														totalTax = totalTax
+																+ report.totalTax;
+														totalTaxableAmt = totalTaxableAmt
+																+ report.taxableAmt;
 
-					totalNetTaxableAmt = totalNetTaxableAmt
-							+ report.netTaxableAmt;
+														totalNetGrandTotal = totalNetGrandTotal
+																+ report.netGrandTotal;
+														totalNetTax = totalNetTax
+																+ report.netTotalTax;
 
-					document.getElementById("expExcel").disabled = false;
-					document.getElementById('range').style.display = 'block';
-					var index = key + 1;
-					//var tr = "<tr>";
-					var tr = $('<tr></tr>');
-					tr.append($('<td></td>').html(key + 1));
-					tr.append($('<td></td>').html(report.month));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.taxableAmt.toFixed(2)));
+														totalNetTaxableAmt = totalNetTaxableAmt
+																+ report.netTaxableAmt;
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.totalTax.toFixed(2)));
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+														var index = key + 1;
+														//var tr = "<tr>";
+														var tr = $('<tr></tr>');
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				key + 1));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.month));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.taxableAmt
+																						.toFixed(2)));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.grandTotal.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.totalTax
+																						.toFixed(2)));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.grnTaxableAmt.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.grandTotal
+																						.toFixed(2)));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.grnTotalTax.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.grnTaxableAmt
+																						.toFixed(2)));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.grnGrandTotal.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.grnTotalTax
+																						.toFixed(2)));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.gvnTaxableAmt.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.grnGrandTotal
+																						.toFixed(2)));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.gvnTotalTax.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.gvnTaxableAmt
+																						.toFixed(2)));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.gvnGrandTotal.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.gvnTotalTax
+																						.toFixed(2)));
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.netTaxableAmt.toFixed(2)));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.netTotalTax.toFixed(2)));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.netGrandTotal.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.gvnGrandTotal
+																						.toFixed(2)));
 
-					$('#table_grid tbody').append(tr);
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.netTaxableAmt
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.netTotalTax
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.netGrandTotal
+																						.toFixed(2)));
 
-				})
+														$('#table_grid tbody')
+																.append(tr);
 
-				var tr = $('<tr></tr>');
+													})
 
-				tr.append($('<td></td>').html(""));
+									var tr = $('<tr></tr>');
 
-				tr.append($('<td style="font-weight:bold;"></td>')
-						.html("Total"));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalTaxableAmt.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalTax.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalGrandTotal.toFixed(2)));
+									tr.append($('<td></td>').html(""));
 
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalGrnTaxableAmt.toFixed(2)));
+									tr
+											.append($(
+													'<td style="font-weight:bold;"></td>')
+													.html("Total"));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalTaxableAmt
+																	.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(totalTax.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGrandTotal
+																	.toFixed(2)));
 
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalGrnTax.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalGrnGrandTotal.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGrnTaxableAmt
+																	.toFixed(2)));
 
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalGvnTaxableAmt.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGrnTax
+																	.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGrnGrandTotal
+																	.toFixed(2)));
 
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalGvnTax.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGvnTaxableAmt
+																	.toFixed(2)));
 
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalGvnGrandTotal.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGvnTax
+																	.toFixed(2)));
 
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalNetGrandTotal.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalNetTax.toFixed(2)));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalNetGrandTotal.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGvnGrandTotal
+																	.toFixed(2)));
 
-				$('#table_grid tbody').append(tr);
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalNetTaxableAmt
+																	.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalNetTax
+																	.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalNetGrandTotal
+																	.toFixed(2)));
 
-			});
+									$('#table_grid tbody').append(tr);
+
+								}
+
+								else if (selectStatus == 1) {
+
+									$('#taxableTable').show();
+									$('#allTable').hide();
+									$('#totalTable').hide();
+
+									var totalGrnGrandTotal = 0;
+									var totalGrnTaxableAmt = 0;
+									var totalGrnTax = 0;
+
+									var totalGvnGrandTotal = 0;
+									var totalGvnTax = 0;
+									var totalGvnTaxableAmt = 0;
+
+									var totalGrandTotal = 0;
+									var totalTax = 0;
+									var totalTaxableAmt = 0;
+
+									var totalNetGrandTotal = 0;
+									var totalNetTax = 0;
+									var totalNetTaxableAmt = 0;
+
+									$
+											.each(
+													data,
+													function(key, report) {
+
+														totalGrnGrandTotal = totalGrnGrandTotal
+																+ report.grnGrandTotal;
+														totalGrnTaxableAmt = totalGrnTaxableAmt
+																+ report.grnGrandTotal;
+														totalGrnTax = totalGrnTax
+																+ report.grnGrandTotal;
+
+														totalGvnGrandTotal = totalGvnGrandTotal
+																+ report.gvnGrandTotal;
+														totalGvnTaxableAmt = totalGvnTaxableAmt
+																+ report.gvnTaxableAmt;
+														totalGvnTax = totalGvnTax
+																+ report.gvnTotalTax;
+
+														totalGrandTotal = totalGrandTotal
+																+ report.grandTotal;
+														totalTax = totalTax
+																+ report.totalTax;
+														totalTaxableAmt = totalTaxableAmt
+																+ report.taxableAmt;
+
+														totalNetGrandTotal = totalNetGrandTotal
+																+ report.netGrandTotal;
+														totalNetTax = totalNetTax
+																+ report.netTotalTax;
+
+														totalNetTaxableAmt = totalNetTaxableAmt
+																+ report.netTaxableAmt;
+
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+														var index = key + 1;
+														//var tr = "<tr>";
+														var tr = $('<tr></tr>');
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				key + 1));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.month));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.taxableAmt
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.totalTax
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.grnTaxableAmt
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.grnTotalTax
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.gvnTaxableAmt
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.gvnTotalTax
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.netTaxableAmt
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.netTotalTax
+																						.toFixed(2)));
+
+														$('#table_grid1 tbody')
+																.append(tr);
+
+													})
+
+									var tr = $('<tr></tr>');
+
+									tr.append($('<td></td>').html(""));
+
+									tr
+											.append($(
+													'<td style="font-weight:bold;"></td>')
+													.html("Total"));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalTaxableAmt
+																	.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(totalTax.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGrnTaxableAmt
+																	.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGrnTax
+																	.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGvnTaxableAmt
+																	.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGvnTax
+																	.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalNetGrandTotal
+																	.toFixed(2)));
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalNetTax
+																	.toFixed(2)));
+
+									$('#table_grid1 tbody').append(tr);
+
+								}
+
+								else
+
+								{
+
+									$('#totalTable').show();
+									$('#allTable').hide();
+									$('#taxableTable').hide();
+
+									var totalGrnGrandTotal = 0;
+									var totalGrnTaxableAmt = 0;
+									var totalGrnTax = 0;
+
+									var totalGvnGrandTotal = 0;
+									var totalGvnTax = 0;
+									var totalGvnTaxableAmt = 0;
+
+									var totalGrandTotal = 0;
+									var totalTax = 0;
+									var totalTaxableAmt = 0;
+
+									var totalNetGrandTotal = 0;
+									var totalNetTax = 0;
+									var totalNetTaxableAmt = 0;
+
+									$
+											.each(
+													data,
+													function(key, report) {
+
+														totalGrnGrandTotal = totalGrnGrandTotal
+																+ report.grnGrandTotal;
+														totalGrnTaxableAmt = totalGrnTaxableAmt
+																+ report.grnGrandTotal;
+														totalGrnTax = totalGrnTax
+																+ report.grnGrandTotal;
+
+														totalGvnGrandTotal = totalGvnGrandTotal
+																+ report.gvnGrandTotal;
+														totalGvnTaxableAmt = totalGvnTaxableAmt
+																+ report.gvnTaxableAmt;
+														totalGvnTax = totalGvnTax
+																+ report.gvnTotalTax;
+
+														totalGrandTotal = totalGrandTotal
+																+ report.grandTotal;
+														totalTax = totalTax
+																+ report.totalTax;
+														totalTaxableAmt = totalTaxableAmt
+																+ report.taxableAmt;
+
+														totalNetGrandTotal = totalNetGrandTotal
+																+ report.netGrandTotal;
+														totalNetTax = totalNetTax
+																+ report.netTotalTax;
+
+														totalNetTaxableAmt = totalNetTaxableAmt
+																+ report.netTaxableAmt;
+
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+														var index = key + 1;
+														//var tr = "<tr>";
+														var tr = $('<tr></tr>');
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				key + 1));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.month));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.grandTotal
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.grnGrandTotal
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.gvnGrandTotal
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.netGrandTotal
+																						.toFixed(2)));
+
+														$('#table_grid2 tbody')
+																.append(tr);
+
+													})
+
+									var tr = $('<tr></tr>');
+
+									tr.append($('<td></td>').html(""));
+
+									tr
+											.append($(
+													'<td style="font-weight:bold;"></td>')
+													.html("Total"));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGrandTotal
+																	.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGrnGrandTotal
+																	.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalGvnGrandTotal
+																	.toFixed(2)));
+
+									tr
+											.append($(
+													'<td style="text-align:right;"></td>')
+													.html(
+															totalNetGrandTotal
+																	.toFixed(2)));
+
+									$('#table_grid2 tbody').append(tr);
+
+								}
+
+							});
 
 		}
 	</script>
-
 	<script type="text/javascript">
 		function validate() {
 
