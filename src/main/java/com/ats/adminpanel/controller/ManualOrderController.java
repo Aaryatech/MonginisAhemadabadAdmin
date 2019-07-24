@@ -208,11 +208,11 @@ public class ManualOrderController {
 				/*if (item.getGrnTwo() == 1) {*/
 					if (frGrnTwo == 1) {
 
-						order.setGrnType(1);
+						order.setGrnType(item.getGrnTwo());
 
 					} else {
 
-						order.setGrnType(0);
+						order.setGrnType(2);
 					}
 				/*} // end of if
 
@@ -224,22 +224,26 @@ public class ManualOrderController {
 						order.setGrnType(0);
 					}
 				}*/ // end of else
-				if (menuId == 29 || menuId == 30 || menuId == 42 || menuId == 43 || menuId == 44 || menuId == 47) {
-
-					order.setGrnType(3);
-
-				}
+				/*
+				 * if (menuId == 29 || menuId == 30 || menuId == 42 || menuId == 43 || menuId ==
+				 * 44 || menuId == 47) {
+				 * 
+				 * order.setGrnType(3);
+				 * 
+				 * }
+				 */
 				// for push grn
-				if (menuId == 48) {
-
-					order.setGrnType(4);
-				}
+				/*
+				 * if (menuId == 48) {
+				 * 
+				 * order.setGrnType(4); }
+				 */
 
 				order.setOrderId(0);
 				order.setItemId(String.valueOf(item.getId()));
 				order.setItemName(item.getItemName() + "--[" + franchiseeList.getFrCode() + "]");
 				order.setFrId(frId);
-				if (menuId == 29 || menuId == 86 || menuId == 87 ) {
+				if (menuId == 29 || menuId == 86 || menuId == 87 || menuId == 68 || menuId == 75 ) {
 					order.setDeliveryDate(sqlCurrDate);
 				} else {
 					order.setDeliveryDate(sqlTommDate);
