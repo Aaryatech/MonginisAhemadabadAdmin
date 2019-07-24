@@ -49,6 +49,7 @@ import com.ats.adminpanel.model.AllspMessageResponse;
 import com.ats.adminpanel.model.ConfigureFrBean;
 import com.ats.adminpanel.model.ConfigureFrListResponse;
 import com.ats.adminpanel.model.ErrorMessage;
+import com.ats.adminpanel.model.FlavourConf;
 import com.ats.adminpanel.model.FlavourList;
 import com.ats.adminpanel.model.GenerateBill;
 import com.ats.adminpanel.model.GenerateBillList;
@@ -72,6 +73,7 @@ import com.ats.adminpanel.model.manspbill.SpecialCake;
 import com.ats.adminpanel.model.masters.SpMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @Controller
 @Scope("session")
@@ -293,12 +295,14 @@ public class ManualBillController {
 			}
 			//--------------------------New For Flavors----------------------------------------
 			List<Flavour> filterFlavoursList=new ArrayList<>();
-			FlavourList	flavourListRes = restTemplate.getForObject(Constants.url + "/showFlavourList", FlavourList.class);
-			List<Flavour> flavoursArrayList = flavourList.getFlavour();
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("spId", specialCake.getSpId());
+			flavourList = restTemplate.postForObject(Constants.url + "/showFlavourListBySpId",map, FlavourList.class);
+				List<Flavour> flavoursArrayList = flavourList.getFlavour();
 
-			for (int i = 0; i < flavoursArrayList.size(); i++) {
-             	filterFlavoursList.add(flavoursArrayList.get(i));
-			}
+			//for (int i = 0; i < flavoursArrayList.size(); i++) {
+             //	filterFlavoursList.add(flavoursArrayList.get(i));
+			//}
 			List<String> list = Arrays.asList(specialCake.getErpLinkcode().split(","));
 			System.err.println("list"+specialCake.getErpLinkcode());
 			for (Flavour flavour : flavoursArrayList) {
@@ -416,8 +420,9 @@ public class ManualBillController {
 	// ------------------------Get Addon Rate AJAX
 	// method(spcakeorder)-----------------------------------
 	@RequestMapping(value = "/getAddOnRate", method = RequestMethod.GET)
-	public @ResponseBody Flavour getAddOnRate(@RequestParam(value = "spfId", required = true) double spfId) {
-		List<Flavour> flavoursList = new ArrayList<Flavour>();
+	public @ResponseBody FlavourConf getAddOnRate(@RequestParam(value = "spfId", required = true) int spfId,@RequestParam(value = "spId", required = true) int spId) {
+		FlavourConf flavourConf=new FlavourConf();
+		/*List<Flavour> flavoursList = new ArrayList<Flavour>();
 		Flavour filteredFlavour = new Flavour();
 		flavoursList = flavourList.getFlavour();
 
@@ -428,7 +433,15 @@ public class ManualBillController {
 				filteredFlavour = flavour;
 			}
 		}
-		return filteredFlavour;
+		return filteredFlavour;*/
+		RestTemplate restTemplate = new RestTemplate();
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("spId", spId);
+		map.add("spfId", spfId);
+		flavourConf = restTemplate.postForObject(Constants.url + "getFlConfByIds", map, FlavourConf.class);
+
+		return flavourConf;
 	}
 
 	// insertManualSpBill

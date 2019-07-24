@@ -304,10 +304,10 @@ select {
 							<div class="col-md-2">Min Weight <b>${specialCake.spMinwt} Kg </b> </div>
 							<div class="col-md-2">Max Weight <b>${specialCake.spMaxwt} Kg </b></div>
 							<c:set var = "dbRate" scope="session" value = "${sprRate}"/>
-		         				 <input type="hidden" name="spBackendRate" id="spBackendRate" value="${spBackendRate}">	
+		         				 <input type="hidden" name="spBackendRate" id="spBackendRate" value="0">	<%-- ${spBackendRate} --%>
 									<!-----------------------1-------------------------------->
-									<h4 class="inrbox" id="INR" style="font-weight: bold;"><span style="padding:5px;font-weight: bold;">INR -  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> &nbsp;&nbsp;${(sprRate*specialCake.spMinwt)}</h4>
-									<input type="hidden" name="sp_grand" id="sp_grand" value="${(sprRate*specialCake.spMinwt)}">
+									<h4 class="inrbox" id="INR" style="font-weight: bold;"><span style="padding:5px;font-weight: bold;">INR -  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> &nbsp;&nbsp;0<%-- ${(sprRate*specialCake.spMinwt)} --%></h4>
+									<input type="hidden" name="sp_grand" id="sp_grand" value="0"> <%-- ${(sprRate*specialCake.spMinwt)} --%>
 									<!-----------------------1---End-------------------------->
 						</div>
 									
@@ -357,9 +357,9 @@ select {
 						<div class="form-group">
 						   <div class="col-md-1">Weight<font size="5" color="red">*</font></div> 
 						   <div class="col-md-2">
-						   <input type="hidden" name="dbRate" id="dbRate" value="${sprRate}">
+						   <input type="hidden" name="dbRate" id="dbRate" value="0"> <%-- ${sprRate} --%>
 						   
-						      <select name="spwt" id="spwt" class="form-control" onchange="onChange('${sprRate}')" required  >
+						      <select name="spwt" id="spwt" class="form-control" onchange="onChange()" required  > <%-- '${sprRate}' --%>
             				     <c:forEach items="${weightList}" var="weightList">
                   				 <option value="${weightList}">${weightList}</option>
             				     </c:forEach> 
@@ -379,8 +379,8 @@ select {
 						</div>
 						<!--------------------------3------------------------------->
 						<div class="col-md-1" style="border:1px dashed;"><b>Price</b></div>
-						<div class="col-md-1" id="price"style="border:1px dashed;font-weight: bold;">${sprRate*specialCake.spMinwt}</div>
-						<input name="sp_calc_price" id="sp_calc_price" value="${sprRate*specialCake.spMinwt}" type="hidden">	
+						<div class="col-md-1" id="price"style="border:1px dashed;font-weight: bold;">0<%-- ${sprRate*specialCake.spMinwt} --%></div>
+						<input name="sp_calc_price" id="sp_calc_price" value="0" type="hidden">	 <%-- ${sprRate*specialCake.spMinwt} --%>
 						<!--------------------------3 End--------------------------->
 											
 	 				    </div>
@@ -475,8 +475,8 @@ select {
 						<div class="col-md-3"><!-- <input name="gst_no" id="gst_no" class="form-control" type="text" value="-"> --></div>
 						  <!-----------------------6-------------------------------->
 	   			    <div class="col-md-1" style="border:1px dashed;font-weight: bold;"><b>Sub Total</b></div>
-					<div class="col-md-1" style="border:1px dashed;font-weight: bold;" id="subtotal">${sprRate*specialCake.spMinwt}</div>
-					<input name="sp_sub_total" id="sp_sub_total"  type="hidden"value="${sprRate*specialCake.spMinwt}">
+					<div class="col-md-1" style="border:1px dashed;font-weight: bold;" id="subtotal">0<%-- ${sprRate*specialCake.spMinwt} --%></div>
+					<input name="sp_sub_total" id="sp_sub_total"  type="hidden"value="0"> <%-- ${sprRate*specialCake.spMinwt} --%>
 				 <!-----------------------6-End------------------------------->
 				
 						
@@ -519,8 +519,8 @@ select {
 						<c:set var="varGstRs" value="${(((sprRate*specialCake.spMinwt)*100)/((specialCake.spTax1+specialCake.spTax2)+100))*(specialCake.spTax1+specialCake.spTax2)/100}" />  
 						<fmt:formatNumber var="fGstRs" minFractionDigits="2" maxFractionDigits="2" type="number" value="${varGstRs}" />  
 					
-						<div class="col-md-1" id="gstrs"style="border:1px dashed;font-weight: bold;"><c:out value="${fGstRs}" /></div>
-						<input type="hidden" id="gst_rs" name="gst_rs" value="${fGstRs}">
+						<div class="col-md-1" id="gstrs"style="border:1px dashed;font-weight: bold;">0<%-- <c:out value="${fGstRs}" /> --%></div>
+						<input type="hidden" id="gst_rs" name="gst_rs" value="0"><%--  ${fGstRs} --%>
 					<!---------------------8-End----------------------------->	
 					</div>
 					<div class="form-group">
@@ -619,12 +619,12 @@ select {
 					<c:set var="varMgstamt" value="${(((sprRate*specialCake.spMinwt)*100)/((specialCake.spTax1+specialCake.spTax2)+100))}"/>
 					<fmt:formatNumber var="fMgstamt" minFractionDigits="2" maxFractionDigits="2" type="number" value="${varMgstamt}" />  
 					
-					<div class="col-md-2" id="mgstamt" style="border:1px dashed;font-weight: bold;">AMT-<c:out value="${fMgstamt}"></c:out></div>
+					<div class="col-md-2" id="mgstamt" style="border:1px dashed;font-weight: bold;">AMT- 0<%-- <c:out value="${fMgstamt}"></c:out> --%></div>
 					
-				   <input type="hidden" name="m_gst_amt" id="m_gst_amt" type="hidden" value="${fMgstamt}">
+				   <input type="hidden" name="m_gst_amt" id="m_gst_amt" type="hidden" value="0"/> <%-- "${fMgstamt} --%>
 				
-					<div class="col-md-2"id="tot" style="border:1px dashed;font-weight: bold;">TOTAL -${(sprRate*specialCake.spMinwt)}</div>
-										 <input type="hidden" name="total_amt" id="total_amt" value="${(sprRate*specialCake.spMinwt)}">
+					<div class="col-md-2"id="tot" style="border:1px dashed;font-weight: bold;">TOTAL - 0 <%-- ${(sprRate*specialCake.spMinwt)} --%></div>
+										 <input type="hidden" name="total_amt" id="total_amt" value="0"> <%-- ${(sprRate*specialCake.spMinwt)} --%>
 					
  				    <!----------------------9----End-------------------------->   				
 											<input type="hidden" id="tax1" name="tax1"	value="${specialCake.spTax1}"> 
@@ -635,16 +635,16 @@ select {
 											</c:if>
 											
 											<c:if	test="${specialCake.spTax1!=0 or specialCake.spTax1!=0.00}">
-												<input type="hidden" id="t1amt" name="t1amt" value="${(sprRate*specialCake.spMinwt)*(specialCake.spTax1)/100}">
+												<input type="hidden" id="t1amt" name="t1amt" value="0"> <%-- ${(sprRate*specialCake.spMinwt)*(specialCake.spTax1)/100} --%>
 											</c:if>
 											<c:if	test="${specialCake.spTax2==0 or specialCake.spTax2!=0.00}">
 												<input type="hidden" id="t2amt" name="t2amt" value="0.0">
 											</c:if>
 											<c:if test="${specialCake.spTax2!=0 or specialCake.spTax2!=0.00}">
-												<input type="hidden" id="t2amt" name="t2amt" value="${(sprRate*specialCake.spMinwt)*(specialCake.spTax2)/100}">
+												<input type="hidden" id="t2amt" name="t2amt" value="0"> <%--  ${(sprRate*specialCake.spMinwt)*(specialCake.spTax2)/100} --%>
 											</c:if>
 											<input type="hidden" id="dbAdonRate" name="dbAdonRate">
-										    <input type="hidden" id="dbPrice" name="dbPrice" value="${sprRate}"> 
+										    <input type="hidden" id="dbPrice" name="dbPrice" value="0">  <%--  ${sprRate} --%>
 										    <input type="hidden" id="sp_id" name="sp_id"	value="${specialCake.spId}">
 										</div>
 									 <div class="form-group">
@@ -826,20 +826,25 @@ select {
 $(document).ready(function() { 
 	$('#spFlavour').change(
 			function() {
+				var spId=document.getElementById("sp_id").value;
 				$.getJSON('${findAddOnRate}', {
+					spId:spId,
 					spfId : $(this).val(),
 					ajax : 'true'
 				}, function(data) {
 					 $('#rate').empty();	
-					 $("#dbAdonRate").val(data.spfAdonRate);
-					$("#rate").html(data.spfAdonRate);
-				
-					document.getElementById("sp_add_rate").setAttribute('value',data.spfAdonRate);
+					 $("#dbAdonRate").val(0);//data.spfAdonRate
+					$("#rate").html(data.mrp);//data.spfAdonRate
+					document.getElementById("dbPrice").value=data.mrp;//new
+					document.getElementById("dbRate").value=data.mrp;//new
+					document.getElementById("spBackendRate").value=data.rate;//new
+					
+					document.getElementById("sp_add_rate").setAttribute('value',0);//data.spfAdonRate
 				
 					
 					var wt = $('#spwt').find(":selected").text();
 					
-					var flavourAdonRate =data.spfAdonRate;
+					var flavourAdonRate=0;//data.spfAdonRate;
 					
 					var tax3 = parseFloat($("#tax3").val());
 					var tax1 = parseFloat($("#tax1").val());
@@ -848,7 +853,7 @@ $(document).ready(function() {
 					//alert("sp_ex_charges"+sp_ex_charges);
 					var sp_disc=parseFloat($("#sp_disc").val());
 					//alert("sp_disc"+sp_disc);
-					var price = $("#dbPrice").val();
+					var price =data.mrp;// $("#dbPrice").val();
 				
 					var totalFlavourAddonRate= wt*flavourAdonRate;
 					var billBy=${billBy};
@@ -940,8 +945,9 @@ $(document).ready(function() {
 </script>
 
 <script type="text/javascript">
-		function onChange(dbRate) {
-			
+		function onChange() {
+			var dbRate=$("#dbRate").val();
+
 			var wt = $('#spwt').find(":selected").text();
 			var flavourAdonRate =$("#dbAdonRate").val();
 					

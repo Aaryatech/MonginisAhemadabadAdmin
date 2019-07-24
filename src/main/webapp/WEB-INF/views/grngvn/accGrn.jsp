@@ -174,20 +174,20 @@
 															<c:choose>
 																<c:when test="${grnList.grnGvnStatus==2}">
 																	<td><input type="checkbox" name="select_to_agree"
-																		id="${grnList.grnGvnId}" value="${grnList.grnGvnId}"></></td>
+																		id="${grnList.grnGvnId}" value="${grnList.grnGvnId}"></td>
 
 																</c:when>
 																<c:when test="${grnList.grnGvnStatus==3}">
 																	<td><input type="checkbox" name="select_to_agree"
 																		disabled="disabled" id="${grnList.grnGvnId}"
-																		value="${grnList.grnGvnId}"></></td>
+																		value="${grnList.grnGvnId}"></td>
 
 																</c:when>
 
 																<c:when test="${grnList.grnGvnStatus==1}">
 																	<td><input type="checkbox" name="select_to_agree"
 																		disabled="disabled" id="${grnList.grnGvnId}"
-																		value="${grnList.grnGvnId}"></></td>
+																		value="${grnList.grnGvnId}"></td>
 
 																</c:when>
 
@@ -195,28 +195,28 @@
 																<c:when test="${grnList.grnGvnStatus==6}">
 																	<td><input type="checkbox" name="select_to_agree"
 																		disabled="disabled" id="${grnList.grnGvnId}"
-																		value="${grnList.grnGvnId}"></></td>
+																		value="${grnList.grnGvnId}"></td>
 
 																</c:when>
 
 																<c:when test="${grnList.grnGvnStatus==4}">
 																	<td><input type="checkbox" name="select_to_agree"
 																		disabled="disabled" id="${grnList.grnGvnId}"
-																		value="${grnList.grnGvnId}"></></td>
+																		value="${grnList.grnGvnId}"></td>
 
 
 																</c:when>
 																<c:when test="${grnList.grnGvnStatus==5}">
 																	<td><input type="checkbox" name="select_to_agree"
 																		disabled="disabled" id="${grnList.grnGvnId}"
-																		value="${grnList.grnGvnId}"></></td>
+																		value="${grnList.grnGvnId}"></td>
 
 
 																</c:when>
 
 																<c:when test="${grnList.grnGvnStatus==7}">
 																	<td><input type="checkbox" name="select_to_agree"
-																		id="${grnList.grnGvnId}" value="${grnList.grnGvnId}"></></td>
+																		id="${grnList.grnGvnId}" value="${grnList.grnGvnId}"></td>
 
 
 																</c:when>
@@ -651,7 +651,7 @@
 									</div>
 										<div
 											class="col-sm-1 col-sm-offset-1 col-lg-1 col-lg-offset-0">
-											<input type="button" value="Submit" onclick="callSubmit()"
+											<input type="button" value="Submit" onclick="callSubmit()" id="submitGrn" disabled="disabled"
 												class="btn btn-primary">
 
 										</div>
@@ -667,7 +667,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-				<p>2017 © MONGINIS.</p>
+				<p>2019 © MONGINIS.</p>
 			</footer>
 
 
@@ -990,7 +990,28 @@ function checkQty(grnId,grnQty,qty){
 		}
 		
 	</script>
+<script type="text/javascript">
+	    $(document).on('change', 'input[type="checkbox"]', function(e){
+	    	var flag=0;
+	    	$('[name="select_to_agree"]').each( function (){
+	    		
+	            if($(this).prop('checked') == true){
+	            	flag=1;
+	            }
+	    	});
+	            if(flag==1)
+	            	{
+	            	document.getElementById("submitGrn").disabled=false;
 
+	            	}else{
+		            	document.getElementById("submitGrn").disabled=true;
+
+	            	}
+	        
+	    });
+
+
+	</script>
 
 
 </body>

@@ -618,7 +618,7 @@
 									</div>
 										<div
 											class="col-sm-2 col-sm-offset-0 col-lg-2 col-lg-offset-0">
-											<input type="submit" value="Submit" class="btn btn-primary">
+											<input type="submit" value="Submit"  disabled="disabled" class="btn btn-primary" id="submitGvn">
 
 
 										</div>
@@ -634,7 +634,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-				<p>2017 © MONGINIS.</p>
+				<p>2019 © MONGINIS.</p>
 			</footer>
 
 
@@ -898,7 +898,7 @@ for (i = 0; i < acc.length; i++) {
 
 function showGateGvnDetails(){
 	
-	alert("hi");
+
 		var fromDate=$("#from_date").val();
 	
 		var toDate=$("#to_date").val();
@@ -996,6 +996,28 @@ function checkQty(grnId,gvnQty,qty){
 			
 		}
 		
+	</script>
+	<script type="text/javascript">
+	  $(document).on('change', 'input[type="checkbox"]', function(e){
+	    	var flag=0;
+	    	$('[name="select_to_agree"]').each( function (){
+	    		
+	            if($(this).prop('checked') == true){
+	            	flag=1;
+	            }
+	    	});
+	            if(flag==1)
+	            	{
+	            	document.getElementById("submitGvn").disabled=false;
+
+	            	}else{
+		            	document.getElementById("submitGvn").disabled=true;
+
+	            	}
+	        
+	    });
+
+
 	</script>
 
 </body>

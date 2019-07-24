@@ -3,6 +3,8 @@ package com.ats.adminpanel.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,8 +27,12 @@ import com.ats.adminpanel.commons.AccessControll;
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.model.AllEventListResponse;
 import com.ats.adminpanel.model.CustList;
+import com.ats.adminpanel.model.FlavourConf;
+import com.ats.adminpanel.model.FlavourList;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.Route;
+import com.ats.adminpanel.model.SpCakeResponse;
+import com.ats.adminpanel.model.SpecialCake;
 import com.ats.adminpanel.model.SubCategoryRes;
 import com.ats.adminpanel.model.RawMaterial.RmItemSubCategory;
 import com.ats.adminpanel.model.accessright.ModuleJson;
@@ -40,7 +48,7 @@ import com.ats.adminpanel.model.masters.AllspMessageResponse;
 import com.ats.adminpanel.model.masters.Rate;
 import com.ats.adminpanel.model.masters.SpMessage;
 import com.ats.adminpanel.model.modules.ErrorMessage;
-
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 @Controller
 public class MastersController {
 
@@ -809,6 +817,207 @@ public class MastersController {
 			e.printStackTrace();
 
 		}
+		return mav;
+
+	}
+	List<Flavour> flavoursList=new ArrayList<Flavour>();
+	@RequestMapping(value = "/showFlavorConfiguration", method = RequestMethod.GET)
+	public ModelAndView showFlavorConfiguration(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView model = new ModelAndView("masters/flavourConf");
+		
+		try {
+			HttpSession session = request.getSession();
+
+			/*List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("showFlavorConfiguration", "showFlavorConfiguration", "1", "0", "0", "0", newModuleList);
+
+			if (view.getError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				RestTemplate restTemplate = new RestTemplate();
+
+				SpCakeResponse spCakeResponse = restTemplate
+						.getForObject(Constants.url + "showSpecialCakeListOrderBySpCode", SpCakeResponse.class);
+				System.out.println("SpCake Controller SpCakeList Response " + spCakeResponse.toString());
+				List<com.ats.adminpanel.model.SpecialCake> specialCakeList = new ArrayList<com.ats.adminpanel.model.SpecialCake>();
+
+				specialCakeList = spCakeResponse.getSpecialCake();
+
+				model.addObject("specialCakeList", specialCakeList);
+				String strSp="";
+				for(int i=0;i<specialCakeList.size();i++)
+				{
+					strSp=specialCakeList.get(i).getSpId()+","+strSp;
+				}
+				strSp = strSp.substring(1, strSp.length() - 1);
+				model.addObject("strSp", strSp);
+                System.out.println("strSp"+strSp);
+
+				//--------------------------New For Flavors----------------------------------------
+
+				FlavourList flavourList = restTemplate.getForObject(Constants.url + "/showFlavourList", FlavourList.class);
+				 flavoursList = flavourList.getFlavour();
+				model.addObject("flavoursList", flavoursList);
+				String strFlavours="";
+				for(int i=0;i<flavoursList.size();i++)
+				{
+					strFlavours=flavoursList.get(i).getSpfId()+","+strFlavours;
+				}
+			//	strFlavours = strFlavours.substring(1, strFlavours.length() - 1);
+				model.addObject("strFlavours", strFlavours);
+                System.out.println("strFlavours"+strFlavours);
+				//------------------------------------------------------------------
+				
+			/*}*/
+		}
+        catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	@RequestMapping(value = "/showAllSpSelected", method = RequestMethod.GET)
+	public @ResponseBody List<SpecialCake> showAllSpSelected(HttpServletRequest request, HttpServletResponse response) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		SpCakeResponse spCakeResponse = restTemplate
+				.getForObject(Constants.url + "showSpecialCakeListOrderBySpCode", SpCakeResponse.class);
+		System.out.println("SpCake Controller SpCakeList Response " + spCakeResponse.toString());
+		List<com.ats.adminpanel.model.SpecialCake> specialCakeList = new ArrayList<com.ats.adminpanel.model.SpecialCake>();
+
+		specialCakeList = spCakeResponse.getSpecialCake();
+		return specialCakeList;
+	}
+
+	
+	@RequestMapping(value = "/findFlConf", method = RequestMethod.GET)
+	public @ResponseBody List<Flavour> findFlConf(HttpServletRequest request, HttpServletResponse response) {
+		List<Flavour> flavorListRes=new ArrayList<Flavour>();
+		System.err.println("findFlConf");
+		try {
+			String spFlavour=request.getParameter("spFlavour");
+			spFlavour = spFlavour.substring(1, spFlavour.length() - 1);
+			spFlavour = spFlavour.replaceAll("\"", "");
+			List<Integer> spFlavourList = Stream.of(spFlavour.split(",")).map(Integer::parseInt)
+					.collect(Collectors.toList());
+			RestTemplate restTemplate = new RestTemplate();
+			FlavourList flavourList = restTemplate.getForObject(Constants.url + "/showFlavourList", FlavourList.class);
+			 flavoursList = flavourList.getFlavour();
+			 System.err.println("spFlavourList"+spFlavourList.toString());
+			 System.err.println("flavoursList@@"+flavoursList.toString());
+			for(Flavour flavour:flavoursList)
+			{
+				for(int i=0;i<spFlavourList.size();i++)
+				{
+					if(flavour.getSpfId()==spFlavourList.get(i)) {
+			        	flavorListRes.add(flavour);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flavorListRes;
+	}
+	@RequestMapping(value = "/saveFlavourConf", method = RequestMethod.POST)
+	public String saveFlavourConf(HttpServletRequest request, HttpServletResponse response) {
+		
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+
+			String[] spIds=request.getParameterValues("sp");
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < spIds.length; i++) {
+
+				sb = sb.append(spIds[i] + ",");
+
+			}
+			String spId = sb.toString();
+
+			spId = spId.substring(0, spId.length() - 1);
+			List<Integer> spIdsList = Stream.of(spId.split(",")).map(Integer::parseInt)
+					.collect(Collectors.toList());
+			
+			String[] spFlavours=request.getParameterValues("fl");
+			StringBuilder sb1 = new StringBuilder();
+
+			for (int i = 0; i < spFlavours.length; i++) {
+
+				sb1 = sb1.append(spFlavours[i] + ",");
+
+			}
+			String spfId = sb1.toString();
+			spfId = spfId.substring(0, spfId.length() - 1);
+            System.out.println(spfId+"spfId");
+			List<Integer> spFlavourList = Stream.of(spfId.split(",")).map(Integer::parseInt)
+					.collect(Collectors.toList());
+			FlavourList flavourList = restTemplate.getForObject(Constants.url + "/showFlavourList", FlavourList.class);
+			 flavoursList = flavourList.getFlavour();
+			 List<Flavour> flavorListRes=new ArrayList<>();
+				for(Flavour flavour:flavoursList)
+				{
+					for(int i=0;i<spFlavourList.size();i++)
+					{
+						if(flavour.getSpfId()==spFlavourList.get(i)) {
+				        	flavorListRes.add(flavour);
+						}
+					}
+				}
+			List<FlavourConf> flavourConfList=new ArrayList<FlavourConf>();
+			for(int i=0;i<spIdsList.size();i++)	{
+			for(int j=0;j<flavorListRes.size();j++)
+			{
+				System.err.println("spFlavourList.get(j)"+flavorListRes.get(j));
+				float rate=Float.parseFloat(request.getParameter("rate"+flavorListRes.get(j).getSpfId()));
+				float mrp=Float.parseFloat(request.getParameter("mrp"+flavorListRes.get(j).getSpfId()));
+                if(rate!=0 && mrp!=0) {
+				 FlavourConf flConf=new FlavourConf();
+				 flConf.setFlavId(0);
+				 flConf.setSpId(spIdsList.get(i));
+				 flConf.setSpfId(flavorListRes.get(j).getSpfId());
+				 flConf.setRate(Math.round(rate));
+				 flConf.setMrp(Math.round(mrp));
+				 flConf.setSpType(flavorListRes.get(j).getSpType());
+				 flConf.setExVar1("-");
+				 flConf.setExInt1(0);
+				 flConf.setDelStatus(0);
+				 flavourConfList.add(flConf);
+                }
+			}
+			}
+
+			List<FlavourConf> resp = restTemplate.postForObject(Constants.url + "/saveFlavourConf", flavourConfList,
+					List.class);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/showFlavorConfiguration";
+	}
+	@RequestMapping(value = "/flConfList", method = RequestMethod.GET)
+	public ModelAndView flConfList(HttpServletRequest request, HttpServletResponse response) {
+	
+		ModelAndView mav =new ModelAndView("masters/flConfList");
+	
+			RestTemplate restTemplate = new RestTemplate();
+			AllFlavoursListResponse allFlavoursListResponse = restTemplate
+					.getForObject(Constants.url + "showFlavourList", AllFlavoursListResponse.class);
+
+			List<Flavour> flavoursList = allFlavoursListResponse.getFlavour();
+			SpCakeResponse spCakeResponse = restTemplate
+					.getForObject(Constants.url + "showSpecialCakeListOrderBySpCode", SpCakeResponse.class);
+			System.out.println("SpCake Controller SpCakeList Response " + spCakeResponse.toString());
+			List<com.ats.adminpanel.model.SpecialCake> specialCakeList = new ArrayList<com.ats.adminpanel.model.SpecialCake>();
+
+			specialCakeList = spCakeResponse.getSpecialCake();
+			
+			List<FlavourConf>  flList = restTemplate.getForObject(Constants.url + "getAllFlConf", List.class);
+			mav.addObject("flList", flList);
+			mav.addObject("specialCakeList", specialCakeList);
+			mav.addObject("flavoursList", flavoursList);
+		
 		return mav;
 
 	}

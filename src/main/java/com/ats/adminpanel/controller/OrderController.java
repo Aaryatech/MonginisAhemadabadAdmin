@@ -1343,7 +1343,24 @@ public class OrderController {
 		model.addObject("imgUrl2", Constants.CUST_CHOICE_PHOTO_CAKE_FOLDER);
 		return model;
 	}
-	
+	@RequestMapping(value = "/showSpcakeOrderPdfByOrderNo/{orderNo}", method = RequestMethod.GET)
+	public ModelAndView showSpcakeOrderPdfInRange(@PathVariable("orderNo")String orderNo,
+			HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("orders/spCakeOrderPdfNew");
+
+		RestTemplate restTemp = new RestTemplate();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		
+		map.add("spOrderNo", orderNo);
+		List<GetSpCkOrder> orderListResponse = restTemp.postForObject(Constants.url + "getSpCKOrderBySpOrderNo", map,
+				List.class);
+
+		model.addObject("spCakeOrder", orderListResponse);
+		model.addObject("from", 0);
+		model.addObject("imgUrl", Constants.SP_CAKE_FOLDER);
+		model.addObject("imgUrl2", Constants.CUST_CHOICE_PHOTO_CAKE_FOLDER);
+		return model;
+	}
 	@RequestMapping(value = "/showSpcakeOrderPdfInRangeForDotMatrix/{from}/{to}", method = RequestMethod.GET)
 	public ModelAndView showSpcakeOrderPdfInRangeForDotMatrix(@PathVariable("from") int from, @PathVariable("to") int to,
 			HttpServletRequest request, HttpServletResponse response) {
