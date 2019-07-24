@@ -460,16 +460,16 @@
 
 														<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" checked
-															value="0" /> GRN1
+															value="0" /> GRN1 (85% Refund)
 														</label>
 															<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" value="1" />
-															GRN2
+															GRN2 (75% Refund)
 														</label>
 														
 														<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" value="2" />
-															GRN3
+															GRN3 (100% Refund)
 														</label>
 														
 													</c:when>

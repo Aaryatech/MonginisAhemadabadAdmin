@@ -388,13 +388,13 @@
 									<div class="col-sm-9 col-lg-10 controls">
 										<label class="radio-inline"> <input type="radio"
 											name="grn_two" id="optionsRadios1" value="0" checked>
-											GRN1
+											GRN1 (85% Refund)
 										</label> <label class="radio-inline"> <input type="radio"
 											name="grn_two" id="optionsRadios1" value="1"
-											data-rule-required="false" />GRN2
+											data-rule-required="false" />GRN2 (75% Refund)
 										</label> <label class="radio-inline"> <input type="radio"
 											name="grn_two" id="optionsRadios1" value="2"
-											data-rule-required="false" />GRN3
+											data-rule-required="false" />GRN3 (100% Refund)
 										</label>
 									</div>
 								</div>
