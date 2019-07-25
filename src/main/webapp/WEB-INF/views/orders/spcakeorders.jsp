@@ -1025,15 +1025,17 @@ table {
 			var checkedVals = $('.selorder:checkbox:checked').map(function() {
 				return this.value;
 			}).get();
+			var spOrderNo=checkedVals.join(",");
 			if (checkedVals != "" && checkedVals != null) {
 				$.getJSON('${updateBillStatusForSp}', {
-					spOrderNo : checkedVals.join(","),
+					spOrderNo : spOrderNo,
 					ajax : 'true',
 				}, function(data) {
 
 					if (data.error == false) {
 						alert("Special Cake Taken for Production");
 						callSearch();
+						window.open("${pageContext.request.contextPath}/showSpcakeOrderPdfByOrderNo/"+spOrderNo, '_blank');
 					}
 
 				});

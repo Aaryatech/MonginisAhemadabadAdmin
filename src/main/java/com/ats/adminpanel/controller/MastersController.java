@@ -1021,4 +1021,39 @@ public class MastersController {
 		return mav;
 
 	}
+	
+	@RequestMapping(value = "/updateFlavourConf", method = RequestMethod.GET)
+	public @ResponseBody Info updateFlavourConf(HttpServletRequest request, HttpServletResponse response) {
+		Info info=new Info();
+		try {
+			int flavId=Integer.parseInt(request.getParameter("flavId"));
+		    float rate=Float.parseFloat(request.getParameter("rate"));
+		    float mrp=Float.parseFloat(request.getParameter("mrp"));
+		    
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("flavId", flavId);
+			map.add("rate", rate);
+			map.add("mrp", mrp);
+			RestTemplate restTemplate = new RestTemplate();
+			 info = restTemplate.postForObject(Constants.url + "/updateFlavourConf",map, Info.class);
+			} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+	@RequestMapping(value = "/deleteFlavourConf/{flavId}", method = RequestMethod.GET)
+
+	public String deleteFlavourConf(@PathVariable("flavId") int flavId) {
+
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("flavId", flavId);
+			Info info = restTemplate.postForObject(Constants.url + "/deleteFlavourConf", map, Info.class);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return "redirect:/flConfList";
+	}
 }
