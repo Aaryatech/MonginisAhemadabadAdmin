@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.lang.*"%>
  <%@ page import="com.ats.adminpanel.commons.Constants" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -169,6 +170,7 @@ page-break-inside: auto !important
 			</tr>
 
 			<c:set var="totalQty" value="0" />
+			<c:set var="totalSpKgQty" value="0" />
 			<c:set var="totalAmt" value="0" />
 			<c:set var="totalCgst" value="0" />
 				<c:set var="totalDisc" value="0" />
@@ -480,10 +482,27 @@ page-break-inside: auto !important
 								<td align="left"
 									style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">${billDetails.itemHsncd}</td>
 								<td align="right"
-									style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+									style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">
+									<c:choose>
+									<c:when test="${billDetails.catId==5}">
+									${billDetails.remark} Kg
+									<c:set var="spKg" value="${billDetails.remark}"/>
+									<% 
+									  String spKgStr =(String) pageContext.getAttribute("spKg");
+									  float spKgFloat=Float.parseFloat(spKgStr.trim());
+                                    %>
+                                    	<c:set var="spKgFloat" value="<%=spKgFloat%>" />
+                                    	<c:set var="totalSpKgQty" value="${spKgFloat+totalSpKgQty}" />
+									</c:when>
+									<c:otherwise>
+									<fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${billDetails.billQty}" /></td>
-								<c:set var="totalQty" value="${totalQty+billDetails.billQty}" />
+										value="${billDetails.billQty}" />
+										<c:set var="totalQty" value="${totalQty+billDetails.billQty}" />
+									</c:otherwise>
+									</c:choose>
+									</td>
+								
 								<%-- <td align="center"
 									style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">${billDetails.itemUom}</td>
 						 --%>		<td align="right"
@@ -540,7 +559,7 @@ page-break-inside: auto !important
 				<td align="left"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b>Total</b></td>
 				<td align="center"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;">SP <b>${totalSpKgQty} Kg</b></td>
 				<td align="right"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"

@@ -418,9 +418,9 @@ public class MastersController {
 
 	}
 
-// end of event update
-	@RequestMapping(value = "/deleteFlavour/{spfId}", method = RequestMethod.GET)
-	public String deleteFlavour(@PathVariable String[] spfId) {
+// end of event update///deleteFlavour/{spfId}==changed on 5 aug
+	@RequestMapping(value = "/updateFlavourStatus/{spfId}/{status}", method = RequestMethod.GET)
+	public String deleteFlavour(@PathVariable String[] spfId,@PathVariable int status) {
 
 		// String id=request.getParameter("id");
 
@@ -433,8 +433,8 @@ public class MastersController {
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("spfId", strSpfIdIds);
-
-		ErrorMessage errorResponse = restTemplate.postForObject(Constants.url + "deleteFlavour", map,
+		map.add("status", status);
+		ErrorMessage errorResponse = restTemplate.postForObject(Constants.url + "updateFlavourStatus", map,
 				ErrorMessage.class);
 		System.out.println(errorResponse.toString());
 

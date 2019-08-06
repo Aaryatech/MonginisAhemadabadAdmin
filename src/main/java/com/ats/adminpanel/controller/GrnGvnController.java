@@ -1100,12 +1100,12 @@ public class GrnGvnController {
 			float grandTotal;
 			if (detail.getGrnType() == 0) {
 
-				grnRate = detail.getBaseRate() * 80 / 100;
+				grnRate = detail.getBaseRate() * 85 / 100;
 			}
 
 			if (detail.getGrnType() == 1) {
 
-				grnRate = detail.getBaseRate() * 70 / 100;
+				grnRate = detail.getBaseRate() * 75 / 100;
 			}
 
 			if (detail.getGrnType() == 2 || detail.getGrnType() == 4) {
@@ -1223,12 +1223,12 @@ public class GrnGvnController {
 					float grandTotal;
 					if (detail.getGrnType() == 0) {
 
-						grnRate = detail.getBaseRate() * 80 / 100;
+						grnRate = detail.getBaseRate() * 85 / 100;
 					}
 
 					if (detail.getGrnType() == 1) {
 
-						grnRate = detail.getBaseRate() * 70 / 100;
+						grnRate = detail.getBaseRate() * 75 / 100;
 					}
 
 					if (detail.getGrnType() == 2 || detail.getGrnType() == 4) {
@@ -1583,12 +1583,12 @@ public class GrnGvnController {
 					float grandTotal;
 					if (detail.getGrnType() == 0) {
 
-						grnRate = detail.getBaseRate() * 80 / 100;
+						grnRate = detail.getBaseRate() * 85 / 100;
 					}
 
 					if (detail.getGrnType() == 1) {
 
-						grnRate = detail.getBaseRate() * 70 / 100;
+						grnRate = detail.getBaseRate() * 75 / 100;
 					}
 
 					if (detail.getGrnType() == 2 || detail.getGrnType() == 4) {
@@ -1958,12 +1958,12 @@ public class GrnGvnController {
 						float grandTotal;
 						if (detail.getGrnType() == 0) {
 
-							grnRate = detail.getBaseRate() * 80 / 100;
+							grnRate = detail.getBaseRate() * 85 / 100;
 						}
 
 						if (detail.getGrnType() == 1) {
 
-							grnRate = detail.getBaseRate() * 70 / 100;
+							grnRate = detail.getBaseRate() * 75 / 100;
 						}
 
 						if (detail.getGrnType() == 2 || detail.getGrnType() == 4) {

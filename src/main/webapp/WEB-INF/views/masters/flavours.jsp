@@ -188,14 +188,27 @@
                                            <td align="left"><c:out value=""/></td>
                                            </c:otherwise>
 										</c:choose>
+										<td align="left">
+										<select name="activeStatus" id="activeStatus" onchange="if (this.value) window.location.href=this.value" >
+										<c:choose>
+											<c:when test="${flavoursList.delStatus==0}">
+  										     <option value="${pageContext.request.contextPath}/updateFlavourStatus/${flavoursList.spfId}/0" selected>Active</option>
+  										     <option value="${pageContext.request.contextPath}/updateFlavourStatus/${flavoursList.spfId}/1">Inactive</option>
+  										    </c:when>
+  										    <c:when test="${flavoursList.delStatus==1}">
+  										     <option value="${pageContext.request.contextPath}/updateFlavourStatus/${flavoursList.spfId}/0" >Active</option>
+  										     <option value="${pageContext.request.contextPath}/updateFlavourStatus/${flavoursList.spfId}/1" selected>Inactive</option>
+  										    </c:when>
+  										 </c:choose>
+										</select>
+										</td>
 
 										<td align="left"><a
 											href="updateFlavour/${flavoursList.spfId}"><span
 												class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-											<a href="deleteFlavour/${flavoursList.spfId}"
-											onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a>
+										<%-- 	<a href="deleteFlavour/${flavoursList.spfId}"
+											onClick="return confirm('Are you sure want to delete this record');"></a> --%>
 										</td>
 									</tr>
 								</c:forEach>
@@ -209,7 +222,7 @@
 						<div class="form-group">				
 								<input type="button" margin-right: 5px;" id="btn_delete"
 											class="btn btn-primary" onclick="deleteById()" 
-											value="Delete" /></div>
+											value="Inactive" /> </div>
 
 				<%-- <div class="box-content">
 <jsp:include page="/WEB-INF/views/include/tableSearch.jsp"></jsp:include>
@@ -345,7 +358,7 @@ if(checkedVals=="")
 	}
 else
 	{
-	window.location.href='${pageContext.request.contextPath}/deleteFlavour/'+checkedVals;
+	window.location.href='${pageContext.request.contextPath}/updateFlavourStatus/'+checkedVals+"/1";
 
 	}
 

@@ -932,11 +932,11 @@ function calcGrn(grnType,baseRate,grnId,sgstPer,cgstPer,grnQty,curQty,discPer){
 	var acc_grn_qty=$("#acc_grn_qty"+grnId).val();
 
 	if(grnType==0){
-		grnRate=baseRate*80/100;
+		grnRate=baseRate*85/100;
 	}
 	
 	if(grnType==1){
-		grnRate=baseRate*90/100;
+		grnRate=baseRate*75/100;
 	}
 	
 	if(grnType==2 || grnType==4){

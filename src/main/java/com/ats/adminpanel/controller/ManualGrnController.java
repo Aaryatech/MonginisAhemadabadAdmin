@@ -313,15 +313,15 @@ public class ManualGrnController {
 					float grnRate = 0.0f;
 
 					if (selectedGrn.get(i).getGrnType() == 0) {
-						grnBaseRate = baseRate * 80 / 100;
+						grnBaseRate = baseRate * 85 / 100;
 
-						grnRate = (selectedGrn.get(i).getRate() * 80) / 100;
+						grnRate = (selectedGrn.get(i).getRate() * 85) / 100;
 						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
 					}
 
 					if (selectedGrn.get(i).getGrnType() == 1) {
-						grnBaseRate = baseRate * 70 / 100;
-						grnRate = (selectedGrn.get(i).getRate() * 70) / 100;
+						grnBaseRate = baseRate * 75 / 100;
+						grnRate = (selectedGrn.get(i).getRate() * 75) / 100;
 						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
 					}
 

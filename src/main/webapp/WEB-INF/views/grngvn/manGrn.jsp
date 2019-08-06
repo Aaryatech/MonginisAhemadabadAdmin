@@ -365,14 +365,14 @@
 					
 				    if(grnType==0){
 						var grnRate=rate;
-						grnBaseRate = baseRate * 80 / 100;
-						 grnRate=(rate * 80) / 100;
+						grnBaseRate = baseRate * 85 / 100;
+						 grnRate=(rate * 85) / 100;
 					}
 				 if(grnType==1){
 
 						var grnRate=rate;
-						grnBaseRate = baseRate * 70 / 100;
-						grnRate=(rate * 70) / 100;
+						grnBaseRate = baseRate * 75 / 100;
+						grnRate=(rate * 75) / 100;
 					
 						}
 				 
