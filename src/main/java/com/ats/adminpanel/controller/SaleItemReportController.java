@@ -120,6 +120,7 @@ public class SaleItemReportController {
 				model.addObject("itemsList", itemsList);
 				model.addObject("subCatList", subCatList);
 				model.addObject("subCatId", subCatId);
+				model.addObject("catId",catId);
 
 				// exportToExcel
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();

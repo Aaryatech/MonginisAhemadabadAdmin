@@ -5872,12 +5872,12 @@ public class SalesReportController {
 					}
 
 				}
-
-				System.out.println("temp list " + tempList.toString() + "size of t List " + tempList.size());
+			}
+				System.out.println("temp list " + categoryList.toString() + "size of t List " + categoryList.size());
 				royaltyBean.setCategoryList(tempList);
 				royaltyBean.setSalesReportRoyalty(royaltyList);
 				staticRoyaltyBean = royaltyBean;
-			}
+		
 		} catch (
 
 		Exception e) {

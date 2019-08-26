@@ -17,32 +17,32 @@
 
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-
-<style type="text/css">
-table {
+ <style type="text/css">
+ table {
 	border-collapse: collapse;
 	font-size: 10;
-	width: 100%;
-	page-break-inside: auto !important
-}
+	width:100%;
+page-break-inside: auto !important 
 
-p {
-	color: black;
-	font-family: arial;
-	font-size: 60%;
+} 
+p  {
+    color: black;
+    font-family: arial;
+    font-size: 60%;
 	margin-top: 0;
 	padding: 0;
-}
 
-h6 {
-	color: black;
-	font-family: arial;
-	font-size: 80%;
+}
+h6  {
+    color: black;
+    font-family: arial;
+    font-size: 80%;
 }
 
 th {
 	background-color: #EA3291;
 	color: white;
+	
 }
 </style>
 </head>
@@ -54,7 +54,12 @@ th {
 			&nbsp;&nbsp;&nbsp;&nbsp; From &nbsp; ${fromDate} &nbsp;To &nbsp;
 			${toDate}</h5>
 	</div>
-	<table align="center" border="1" cellspacing="0" cellpadding="1"
+	
+
+			<c:forEach items="${frList}" var="fr" varStatus="c1">
+				<c:set var="totalDrAMt" value="${0}" />
+				<c:set var="totalCrAMt" value="${0}" />
+				<table align="center" border="1" cellspacing="0" cellpadding="1"
 		id="table_grid" class="table table-bordered">
 		<thead>
 			<tr class="bgpink">
@@ -71,15 +76,12 @@ th {
 			</tr>
 		</thead>
 		<tbody>
-
-			<c:forEach items="${frList}" var="fr" varStatus="c1">
-				<c:set var="totalDrAMt" value="${0}" />
-				<c:set var="totalCrAMt" value="${0}" />
 				<tr>
-					<td width="200"><c:out value="${fr.frName}" /></td>
+					<td colspan='8' width="200"><c:out value="${fr.frName}" /></td>
 
 				</tr>
 				<c:forEach items="${salesRepFrList}" var="report" varStatus="count">
+					
 					<tr>
 
 						<c:choose>
@@ -115,7 +117,7 @@ th {
 										<td width="80" align="right"><fmt:formatNumber
 												type="number" maxFractionDigits="2" minFractionDigits="2"
 												value="${report.grandTotal}" /></td>
-
+	                                    <td  align="right"></td>
 
 										<c:set var="totalCrAMt"
 											value="${totalCrAMt + report.grandTotal }" />
@@ -124,6 +126,7 @@ th {
 										<td width="80" align="right"><fmt:formatNumber
 												type="number" maxFractionDigits="2" minFractionDigits="2"
 												value="${0}" /></td>
+												<td  align="right"></td>
 									</c:otherwise>
 								</c:choose>
 
@@ -135,7 +138,7 @@ th {
 
 				</c:forEach>
 
-				<tr>
+				<tr >
 
 					<td colspan='4'><b>Total</b></td>
 					<td></td>
@@ -152,13 +155,16 @@ th {
 								value="${totalDrAMt-totalCrAMt}" /></b></td>
 					<!--  <td><b>Total</b></td> -->
 				</tr>
-			</c:forEach>
+				</tbody>
+			</table>
+			<div style="page-break-after: always;"></div>
+			
+				
+			</c:forEach>		
+	
 
-		</tbody>
-	</table>
-
-
-	<!-- END Main Content -->
+	<!-- END Main Content 			    <tr style=" page-break-after:always;"><td></td></tr>
+	-->
 
 </body>
 </html>

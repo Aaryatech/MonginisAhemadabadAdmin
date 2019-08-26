@@ -58,7 +58,7 @@
 				<div class="box-content">
 					<div class="row">
 						<div class="form-group">
-							<label class="col-sm-3 col-lg-2	 control-label">Year</label>
+							<label class="col-sm-3 col-lg-1	 control-label">Year</label>
 							<div class="col-sm-2 col-lg-2 controls date_select">
 								<select id="year" name="year" class="form-control">
 
@@ -78,13 +78,21 @@
 									<option value=" ">Select</option>
 
 									<c:forEach items="${catList}" var="cat" varStatus="count">
-										<option value="${cat.catId}"><c:out
+										<c:choose>
+											<c:when test="${cat.catId==catId}">
+										<option value="${cat.catId}" selected><c:out
 												value="${cat.catName}" /></option>
+												</c:when>
+												<c:otherwise>
+													<option value="${cat.catId}"><c:out
+												value="${cat.catName}" /></option>
+												</c:otherwise>
+												</c:choose>
 									</c:forEach>
 								</select>
 							</div>
 
-							<label class="col-sm-2 col-lg-2 control-label">Sub
+							<label class="col-sm-2 col-lg-1 control-label">Sub
 								Category</label>
 							<div class="col-sm-3 col-lg-2 controls">
 								<select data-placeholder="Select Sub Category"
