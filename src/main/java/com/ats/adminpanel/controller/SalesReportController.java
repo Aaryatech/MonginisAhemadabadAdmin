@@ -68,6 +68,7 @@ import com.ats.adminpanel.model.DispatchReportList;
 import com.ats.adminpanel.model.ExportToExcel;
 import com.ats.adminpanel.model.FranchiseForDispatch;
 import com.ats.adminpanel.model.Info;
+import com.ats.adminpanel.model.NonRegFrTaxDao;
 import com.ats.adminpanel.model.PDispatchReport;
 import com.ats.adminpanel.model.PDispatchReportList;
 import com.ats.adminpanel.model.POrder;
@@ -6740,7 +6741,184 @@ public class SalesReportController {
 		return spKgSummaryDaoResponse;
 	}
 	// ---------------------------------------------------------------------------------------------------
+	@RequestMapping(value = "/showNonRegisteredFrTaxReport", method = RequestMethod.GET)
+	public ModelAndView showNonRegisteredFrTaxReport(HttpServletRequest request, HttpServletResponse response) {
 
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+		String fromDate = "";
+		String toDate = "";
+		/*List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("showTaxReport", "showTaxReport", "1", "0", "0", "0", newModuleList);
+
+		if (view.getError() == true) {
+
+			model = new ModelAndView("accessDenied");
+
+		} else {*/
+			model = new ModelAndView("reports/tax/nonregfrtax");
+			List<NonRegFrTaxDao> taxReportList = null;
+
+			try {
+
+				RestTemplate restTemplate = new RestTemplate();
+
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+
+				if (fromDate == null && toDate == null) {
+					
+				}else {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("fromDate", fromDate);
+				map.add("toDate", toDate);
+
+				ParameterizedTypeReference<List<NonRegFrTaxDao>> typeRef = new ParameterizedTypeReference<List<NonRegFrTaxDao>>() {
+				};
+				ResponseEntity<List<NonRegFrTaxDao>> responseEntity = restTemplate.exchange(Constants.url + "getNonRegFrTaxReport",
+						HttpMethod.POST, new HttpEntity<>(map), typeRef);
+
+				taxReportList = responseEntity.getBody();
+				model.addObject("taxReportList", taxReportList);
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+
+				// exportToExcel
+				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+				ExportToExcel expoExcel = new ExportToExcel();
+				List<String> rowData = new ArrayList<String>();
+
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				rowData.add("Sr.No.");
+				rowData.add("Franchise");
+				rowData.add("Tax%");
+				rowData.add("Bill Taxable");
+				rowData.add("Bill SGST");
+				rowData.add("BILL CGST");
+				//rowData.add("BILL IGST");
+				rowData.add("BILL Total");
+				rowData.add("CRN Taxable");
+				rowData.add("CRN SGST");
+				rowData.add("CRN CGST");
+				//rowData.add("CRN IGST");
+				rowData.add("CRN Total");
+				rowData.add("Taxable Amt");
+				rowData.add("SGST");
+				rowData.add("CGST");
+				//rowData.add("IGST");
+				rowData.add("Grand Amt");
+				
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+				float billTaxableAmt = 0.0f;
+				float billSgstAmt = 0.0f;
+				float billCgstAmt = 0.0f;
+				float billIgstAmt = 0.0f;
+				float billGrandAmt = 0.0f;
+				float crnTaxableAmt = 0.0f;
+				float crnSgstAmt = 0.0f;
+				float crnCgstAmt = 0.0f;
+				float crnIgstAmt = 0.0f;
+				float crnGrandAmt = 0.0f;
+				float actTaxableAmtTot = 0.0f;
+				float actSgstAmtTot = 0.0f;
+				float actCgstAmtTot = 0.0f;
+				float actIgstAmtTot = 0.0f;
+				float actGrandAmtTot = 0.0f;
+				
+				for (int i = 0; i < taxReportList.size(); i++) {
+				
+					 billTaxableAmt = billTaxableAmt+taxReportList.get(i).getBillTaxableAmt();
+					 billSgstAmt =billSgstAmt+taxReportList.get(i).getBillSgstAmt();
+					 billCgstAmt = billCgstAmt+taxReportList.get(i).getBillCgstAmt();
+					 billIgstAmt = billIgstAmt+taxReportList.get(i).getBillIgstAmt();
+					 billGrandAmt =billGrandAmt+taxReportList.get(i).getBillGrandAmt();
+					 crnTaxableAmt =crnTaxableAmt+ taxReportList.get(i).getCrnTaxableAmt();
+					 crnSgstAmt =crnSgstAmt+taxReportList.get(i).getCrnSgstAmt();
+					 crnCgstAmt =crnCgstAmt+ taxReportList.get(i).getCrnCgstAmt();
+					 crnIgstAmt =crnIgstAmt+taxReportList.get(i).getCrnIgstAmt();
+					 crnGrandAmt =crnGrandAmt+taxReportList.get(i).getCrnGrandAmt();
+					 float actTaxableAmt =taxReportList.get(i).getBillTaxableAmt()-taxReportList.get(i).getCrnTaxableAmt();
+					 float  actSgstAmt =taxReportList.get(i).getBillSgstAmt()-taxReportList.get(i).getCrnSgstAmt();
+					 float actCgstAmt =taxReportList.get(i).getBillCgstAmt()-taxReportList.get(i).getCrnCgstAmt();
+					 float actIgstAmt =taxReportList.get(i).getBillIgstAmt()-taxReportList.get(i).getCrnIgstAmt();
+					 float  actGrandAmt =taxReportList.get(i).getBillGrandAmt()-taxReportList.get(i).getCrnGrandAmt();
+					   actTaxableAmtTot =actTaxableAmtTot+actTaxableAmt;
+					   actSgstAmtTot =actSgstAmtTot+actSgstAmt;
+					   actCgstAmtTot =actCgstAmtTot+actCgstAmt;
+					   actIgstAmtTot =actIgstAmtTot+actIgstAmt;
+					   actGrandAmtTot =actGrandAmtTot+actGrandAmt;
+
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
+					rowData.add((i + 1) + "");
+					rowData.add("" + taxReportList.get(i).getFrName());
+					rowData.add("" + taxReportList.get(i).getTaxPer());
+					rowData.add("" + taxReportList.get(i).getBillTaxableAmt());
+					rowData.add("" + taxReportList.get(i).getBillSgstAmt());
+					rowData.add("" + taxReportList.get(i).getBillCgstAmt());
+					//rowData.add("" + taxReportList.get(i).getBillIgstAmt());
+					rowData.add("" + taxReportList.get(i).getBillGrandAmt());
+					rowData.add("" + taxReportList.get(i).getCrnTaxableAmt());
+					rowData.add("" + taxReportList.get(i).getCrnSgstAmt());
+					rowData.add("" + taxReportList.get(i).getCrnCgstAmt());
+					//rowData.add("" + taxReportList.get(i).getCrnIgstAmt());
+					rowData.add("" + taxReportList.get(i).getCrnGrandAmt());
+					rowData.add("" +actTaxableAmt);
+					rowData.add("" +actSgstAmt);
+					rowData.add("" +actCgstAmt);
+					//rowData.add("" +actIgstAmt);
+					rowData.add("" +actGrandAmt);
+
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+
+				}
+
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add("Total");
+				rowData.add("");
+				rowData.add("");
+				rowData.add(""+billTaxableAmt);
+				rowData.add(""+billSgstAmt);
+				rowData.add(""+billCgstAmt);
+				//rowData.add(""+billIgstAmt);
+				rowData.add(""+billGrandAmt);
+				rowData.add(""+crnTaxableAmt);
+				rowData.add(""+crnSgstAmt);
+				rowData.add(""+crnCgstAmt);
+				//rowData.add(""+crnIgstAmt);
+				rowData.add(""+crnGrandAmt);
+				rowData.add(""+actTaxableAmtTot);
+				rowData.add(""+actSgstAmtTot);
+				rowData.add(""+actCgstAmtTot);
+				//rowData.add(""+actIgstAmtTot);
+				rowData.add(""+actGrandAmtTot);
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+				session.setAttribute("exportExcelListNew", exportToExcelList);
+				session.setAttribute("excelNameNew", "NonRegFrTaxReport");
+				session.setAttribute("reportNameNew", "Non Registered Franchise Tax Report");
+				session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: " + toDate + " ");
+				session.setAttribute("mergeUpto1", "$A$1:$R$1");
+				session.setAttribute("mergeUpto2", "$A$2:$R$2");
+				}
+			} catch (Exception e) {
+				System.out.println("Exc in Tax Report" + e.getMessage());
+				e.printStackTrace();
+			}
+
+		return model;
+
+	}
+	//------------------------------------------------------------------------------------------------------
 	private Dimension format = PD4Constants.A4;
 	private boolean landscapeValue = false;
 	private int topValue = 8;
