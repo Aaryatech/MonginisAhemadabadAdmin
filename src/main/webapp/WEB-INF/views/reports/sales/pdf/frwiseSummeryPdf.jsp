@@ -47,17 +47,19 @@ th {
 </style>
 </head>
 <body onload="myFunction()">
-	<h3 align="center">${FACTORYNAME}</h3>
-	<p align="center">${FACTORYADDRESS}</p>
-	<div align="center">
-		<h5>Sales Report (Franchisee Summery Wise)
-			&nbsp;&nbsp;&nbsp;&nbsp; From &nbsp; ${fromDate} &nbsp;To &nbsp;
-			${toDate}</h5>
-	</div>
+	
+	
 	
 
 			<c:forEach items="${frList}" var="fr" varStatus="c1">
-				<c:set var="totalDrAMt" value="${0}" />
+			<h3 align="center">${FACTORYNAME}</h3>
+	<p align="center">${FACTORYADDRESS}</p>
+			<div align="center">
+		<h5>${fr.frName}
+			&nbsp;&nbsp;&nbsp;&nbsp; From &nbsp; ${fromDate} &nbsp;To &nbsp;
+			${toDate}</h5>
+	</div>
+				<c:set var="totalDrAMt" value="${0}" /><c:set var="sr" value="${0}" />
 				<c:set var="totalCrAMt" value="${0}" />
 				<table align="center" border="1" cellspacing="0" cellpadding="1"
 		id="table_grid" class="table table-bordered">
@@ -76,17 +78,18 @@ th {
 			</tr>
 		</thead>
 		<tbody>
-				<tr>
-					<td colspan='8' width="200"><c:out value="${fr.frName}" /></td>
+				<%-- <tr>
+					<td colspan='8' width="200"><c:out value="" /></td>
 
-				</tr>
+				</tr> --%>
 				<c:forEach items="${salesRepFrList}" var="report" varStatus="count">
 					
 					<tr>
 
 						<c:choose>
 							<c:when test="${report.frId==fr.frId}">
-								<td width="0"><c:out value="${count.index+1}" /></td>
+							<c:set var="sr" value="${sr+1}" />
+								<td width="10"><c:out value="${sr}" /></td>
 								<td width="100"><c:out value="${report.billDate}" /></td>
 								<td width="20"><c:out value="${report.type}" /></td>
 								<td width="20"><c:out value="${report.invoiceNo}" /></td>
@@ -139,9 +142,9 @@ th {
 				</c:forEach>
 
 				<tr >
-
-					<td colspan='4'><b>Total</b></td>
-					<td></td>
+                    
+					<td colspan='1'><b>Total</b></td>
+					 <td></td> <td></td> <td></td> <td></td>
 
 					<td width="20" align="right"><b><fmt:formatNumber
 								type="number" maxFractionDigits="2" minFractionDigits="2"

@@ -182,7 +182,7 @@
 
 
 												<tr>
-													<td><input type="checkbox" name="select_to_credit"
+													<td><input type="checkbox" name="select_to_credit" class="chk"
 														id="select_to_credit" value="${creditNoteList.grnGvnId}"></td>
 
 													<td><c:out value="${count.index+1}" /></td>
@@ -237,7 +237,7 @@
 										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-2">
 										<label class=" col-md-1 control-label franchisee_label">Date</label>
 						<div class="col-sm-3 col-lg-2 controls">
-										<input class="form-control date-picker" id="date" size="19" placeholder="dd-mm-yyyy"
+										<input class="form-control date-picker" id="date" size="19" placeholder="dd-mm-yyyy" value="${fromDate}"
 											type="text" name="date" autocomplete="off" required/>
 									</div>
 										<input type="submit" class="btn btn-primary"
@@ -346,5 +346,6 @@
 	window.open('${pageContext.request.contextPath}/showCreditNotes');
 	}
 	</script>
+	
 </body>
 </html>
