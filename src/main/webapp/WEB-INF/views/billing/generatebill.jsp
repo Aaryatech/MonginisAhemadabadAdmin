@@ -267,6 +267,8 @@
 					action="${pageContext.request.contextPath}/submitNewBill"
 					method="post"
 					onsubmit="submitBill.disabled = true; return confirm('Do you want to Generate Bill ?');">
+					
+					<input type="hidden" name="sectionId" id="postSectionId"/>
 					<div class=" box-content">
 						<div class="row">
 							<div class="col-md-12 table-responsive">
@@ -394,10 +396,11 @@
 			if (isValid) {
 				var selectedFr = $("#selectFr").val();
 				var routeId=$("#selectRoute").val();
-				
+				var sectionId=$("#sectionId").val();
 				var selectedMenu = $("#selectMenu").val();
 				var deliveryDate = $("#deliveryDate").val();
 				
+				document.getElementById("postSectionId").value=sectionId;
 				$('#loader').show();
 
 				$
@@ -466,17 +469,17 @@
 																}
 																
 
-														var orderQty = "<td>&nbsp;<input type=hidden name=sgstPer"+bill.orderId+" id=sgstPer"+bill.orderId+" value="+bill.itemTax1+" /><input type=hidden name=cgstPer"+bill.orderId+" id=cgstPer"+bill.orderId+" value="+bill.itemTax2+" /><input type=hidden name=igstPer"+bill.orderId+" id=igstPer"+bill.orderId+" value="+bill.itemTax3+" /> "
+														var orderQty = "<td>&nbsp;<input type=hidden name=sgstPer"+bill.catId+""+bill.orderId+" id=sgstPer"+bill.catId+""+bill.orderId+" value="+bill.itemTax1+" /><input type=hidden name=cgstPer"+bill.catId+""+bill.orderId+" id=cgstPer"+bill.catId+""+bill.orderId+" value="+bill.itemTax2+" /><input type=hidden name=igstPer"+bill.catId+""+bill.orderId+" id=igstPer"+bill.catId+""+bill.orderId+" value="+bill.itemTax3+" /> "
 																+ bill.orderQty
 																+ "</td>";
 
 														 var billQty = "<td align=center><input type='text' min=0 style='width: 5em' class=form-control   onkeyup= updateTotal("
-																+ bill.orderId + ","
-																+ bill.orderRate + ") onchange= updateTotal("+ bill.orderId+ ","+ bill.orderRate+ ")  id=billQty"+ bill.orderId+ " name=billQty"+bill.orderId+" value = "+ bill.orderQty+ "></td>"; 
+																+ bill.catId+","+bill.orderId + ","
+																+ bill.orderRate + ") onchange= updateTotal("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ")  id=billQty"+ bill.catId+""+bill.orderId+ " name=billQty"+bill.catId+""+bill.orderId+" value = "+ bill.orderQty+ "></td>"; 
 														
 												 var discPer = "<td align=center><input type=text  style='width: 5em' class=form-control   onkeyup= updateTotal("
-																		+ bill.orderId + ","
-																		+ bill.orderRate + ") onchange= updateTotal("+ bill.orderId+ ","+ bill.orderRate+ ")  id=discPer"+ bill.orderId+ " name=discPer"+bill.orderId+" value ="+bill.isPositive+" ></td>"; 
+																		+ bill.catId+","+bill.orderId + ","
+																		+ bill.orderRate + ") onchange= updateTotal("+ bill.catId+","+bill.orderId+ ","+ bill.orderRate+ ")  id=discPer"+ bill.catId+""+bill.orderId+ " name=discPer"+bill.catId+""+bill.orderId+" value ="+bill.isPositive+" ></td>"; 
 																	
 																//var billQty = "<td align=center><input name=newId id=newId value=21 type=number ></td>";
                                                    
@@ -508,12 +511,12 @@
 																var taxableAmt= baseRateAmt * bill.orderQty;
 																var disCalAmt=(taxableAmt * bill.isPositive) /100;//alert(discAmt+"discAmt");
 																disCalAmt=disCalAmt.toFixed(2);
-																var discAmt = "<td align=center  id=discAmt"+bill.orderId+">"+disCalAmt+"</td>"; //new
+																var discAmt = "<td align=center  id=discAmt"+bill.catId+""+bill.orderId+">"+disCalAmt+"</td>"; //new
 																
 																taxableAmt=taxableAmt-disCalAmt;
 																taxableAmt=taxableAmt.toFixed(2);
 																//var taxableAmount = "<td align=center"+taxableAmt+">"+"</td>";
-																var taxableAmount ="<td align=center id=taxableAmount"+bill.orderId+">&nbsp;"
+																var taxableAmount ="<td align=center id=taxableAmount"+bill.catId+""+bill.orderId+">&nbsp;"
 																+ taxableAmt+ "</td>";
 																//alert("taxable amt "+taxableAmt);
 																
@@ -549,12 +552,12 @@
 																//var totalTax=sgstRS+cgstRS+igstRS;
 																//alert(totalTax);
 
-																var sgst = "<td align=center id=sgstRs"+bill.orderId+">&nbsp;"
+																var sgst = "<td align=center id=sgstRs"+bill.catId+""+bill.orderId+">&nbsp;"
 																	+ sgstRS+ "</td>";
 
-																var cgst = "<td align=center id=cgstRs"+bill.orderId+">&nbsp;"
+																var cgst = "<td align=center id=cgstRs"+bill.catId+""+bill.orderId+">&nbsp;"
 																	+ cgstRS+ "</td>";
-																var igst ="<td align=center id=igstRs"+bill.orderId+">&nbsp;"
+																var igst ="<td align=center id=igstRs"+bill.catId+""+bill.orderId+">&nbsp;"
 																	+ igstRS+ "</td>";
 																var totTaxP;
 																
@@ -574,7 +577,7 @@
 																
 														total=total.toFixed(2);
 														
-														var totaLBill = "<td align=center id=billTotal"+bill.orderId+">"
+														var totaLBill = "<td align=center id=billTotal"+bill.catId+""+bill.orderId+">"
 																+ total
 																+ "</td>";
 
@@ -676,18 +679,18 @@
 	</script>
 
 		<script type="text/javascript">
-		function updateTotal(orderId, rate) {
+		function updateTotal(catId,orderId, rate) {
 			
-			var qty= parseFloat($("#billQty" + orderId).val());//alert(qty+"qty");
-			var discPer=parseFloat($("#discPer" + orderId).val());//alert(discPer+"discPer");
-			var sgstPer=parseFloat($("#sgstPer" + orderId).val());// alert(sgstPer+"sgstPer");
-			var cgstPer=parseFloat($("#cgstPer" + orderId).val());//alert(cgstPer+"cgstPer");
+			var qty= parseFloat($("#billQty" +catId+""+orderId).val());//alert(qty+"qty");
+			var discPer=parseFloat($("#discPer" + catId+""+orderId).val());//alert(discPer+"discPer");
+			var sgstPer=parseFloat($("#sgstPer" + catId+""+orderId).val());// alert(sgstPer+"sgstPer");
+			var cgstPer=parseFloat($("#cgstPer" + catId+""+orderId).val());//alert(cgstPer+"cgstPer");
     		var baseRate = ((rate * 100) / (100 + sgstPer+cgstPer));//alert(baseRate+"baseRate");
 
 			var taxableAmt = parseFloat(qty) * parseFloat(baseRate);//alert(taxableAmt+"taxableAmt");
 			 if(discPer>0){
            	   var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
-           	  document.getElementById("discAmt" + orderId).innerHTML=discAmt.toFixed(2);
+           	  document.getElementById("discAmt" + catId+""+orderId).innerHTML=discAmt.toFixed(2);
            	 
            	  taxableAmt=parseFloat(taxableAmt) - parseFloat(discAmt);//alert(taxableAmt+"taxableAmt");
            	  var sgstRs=((parseFloat(taxableAmt) * parseFloat(sgstPer))/100);//alert(sgstRs+"sgstRs");
@@ -696,27 +699,27 @@
          	 
            	  var total=parseFloat(taxableAmt) + parseFloat(taxAmt);//alert("total"+total);
            	  
-      		 document.getElementById("sgstRs"+orderId).innerHTML=sgstRs.toFixed(2);
-     		 document.getElementById("cgstRs"+orderId).innerHTML=cgstRs.toFixed(2);
+      		 document.getElementById("sgstRs"+catId+""+orderId).innerHTML=sgstRs.toFixed(2);
+     		 document.getElementById("cgstRs"+catId+""+orderId).innerHTML=cgstRs.toFixed(2);
 
-           	 $('#billTotal'+orderId).html(total.toFixed(2));
-           	 $('#taxableAmount'+orderId).html(taxableAmt.toFixed(2));
+           	 $('#billTotal'+catId+""+orderId).html(total.toFixed(2));
+           	 $('#taxableAmount'+catId+""+orderId).html(taxableAmt.toFixed(2));
            	 }
            	 else
            		 {
            		  var discAmt=0.0;
-           		  document.getElementById("discAmt" + orderId).innerHTML=discAmt;
+           		  document.getElementById("discAmt" + catId+""+orderId).innerHTML=discAmt;
            		 var sgstRs=((parseFloat(taxableAmt) * parseFloat(sgstPer))/100);
                  var cgstRs=((parseFloat(taxableAmt) * parseFloat(cgstPer))/100);
                  
            		 var taxAmt=(parseFloat(sgstRs) + parseFloat(cgstRs));
            		 var total=parseFloat(taxableAmt)+ parseFloat(taxAmt);//alert("total"+total);
            		 
-           		 document.getElementById("sgstRs"+orderId).innerHTML=sgstRs.toFixed(2);
-         		 document.getElementById("cgstRs"+orderId).innerHTML=cgstRs.toFixed(2);
+           		 document.getElementById("sgstRs"+catId+""+orderId).innerHTML=sgstRs.toFixed(2);
+         		 document.getElementById("cgstRs"+catId+""+orderId).innerHTML=cgstRs.toFixed(2);
 
-               	 $('#billTotal'+orderId).html(total.toFixed(2));
-               	 $('#taxableAmount'+orderId).html(taxableAmt.toFixed(2));
+               	 $('#billTotal'+catId+""+orderId).html(total.toFixed(2));
+               	 $('#taxableAmount'+catId+""+orderId).html(taxableAmt.toFixed(2));
            		 }
 
 			

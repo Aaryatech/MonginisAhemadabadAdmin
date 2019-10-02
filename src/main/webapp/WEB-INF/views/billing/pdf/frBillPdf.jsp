@@ -489,11 +489,11 @@ page-break-inside: auto !important
 									<c:when test="${billDetails.grnType==3}">
 									<td
 								style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">${billDetails.itemName} [NR]
-								<c:choose>
+								<%-- <c:choose>
 									<c:when test="${billDetails.remark ne '0'}">
 								------ ${billDetails.remark} Kg
 								</c:when>
-								</c:choose>
+								</c:choose> --%>
 								
 								</td>
 									

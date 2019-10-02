@@ -151,7 +151,7 @@ select {
 
 
 </head>
-<body >
+<body onload="findFranchiseeData()">
 
 	<c:url var="getFlavourBySpfId" value="/getFlavourBySpfId" />
 	<c:url var="findAddOnRate" value="/getAddOnRate" />
@@ -217,7 +217,7 @@ select {
 											<div class="col-md-3">
 												<select data-placeholder="Select Franchisee" name="fr_id"
 													class="form-control chosen" tabindex="-1" id="fr_id"
-													data-rule-required="true" onchange="findFranchiseeData(this.value)">
+													data-rule-required="true" onchange="findFranchiseeData()">
 													<option value=""> </option>
 													<!-- <optgroup label="All Franchisee"> -->
 													<option value="">Select Franchise</option>
@@ -800,9 +800,8 @@ select {
 		<script type="text/javascript">
 
 			function spTypeChange(spType) {
-				  var frId=document.getElementById("fr_id").value;
 
-				findFranchiseeData(frId);
+				findFranchiseeData();
 				$.getJSON('${getFlavourBySpfId}', {
 					spType : spType,
 					ajax : 'true'
@@ -1443,8 +1442,9 @@ function validate() {
 </script> 
 
 <script type="text/javascript">
-function findFranchiseeData(frId)
+function findFranchiseeData()
 {
+	  var frId=document.getElementById("fr_id").value;
 	$.getJSON(
 					'${findFranchiseeData}',
 					{

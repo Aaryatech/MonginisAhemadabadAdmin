@@ -195,6 +195,7 @@ public class BillController {
 		String vehNo = request.getParameter("vehNo");
 		String billTime = request.getParameter("time");
 		// ------------------------------------------------------------------------
+		String sectionId=request.getParameter("sectionId");
 
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -304,9 +305,9 @@ public class BillController {
 						PostBillDetail billDetail = new PostBillDetail();
 
 						String billQty = request
-								.getParameter("" + "billQty" + tempGenerateBillList.get(j).getOrderId());
+								.getParameter("" + "billQty" +tempGenerateBillList.get(j).getCatId()+""+tempGenerateBillList.get(j).getOrderId());
 						float discPer = Float.parseFloat(
-								request.getParameter("" + "discPer" + tempGenerateBillList.get(j).getOrderId()));
+								request.getParameter("" + "discPer" +tempGenerateBillList.get(j).getCatId()+""+tempGenerateBillList.get(j).getOrderId()));
 
 						// billQty = String.valueOf(gBill.getOrderQty());
 						Float orderRate = (float) gBill.getOrderRate();
@@ -453,7 +454,7 @@ public class BillController {
 						header.setPartyGstin(gBill.getPartyGstin());// new
 						header.setPartyAddress(gBill.getPartyAddress());// new
 						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
-
+                        header.setExVarchar1(sectionId);
 					}
 
 				}
@@ -985,6 +986,10 @@ public class BillController {
 
 				model.addObject("billHeadersList", billHeadersListForPrint);
 
+				SectionMaster[] sectionMasterArray = restTemplate.getForObject(Constants.url + "/getSectionListOnly",
+						SectionMaster[].class);
+				List<SectionMaster> sectionList = new ArrayList<SectionMaster>(Arrays.asList(sectionMasterArray));
+				model.addObject("sectionList", sectionList);
 				System.out.println(
 						"First Header : bill header for print with address :  " + billHeadersListForPrint.toString());
 

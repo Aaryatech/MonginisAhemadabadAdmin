@@ -141,7 +141,7 @@ td {
 
 										</select>
 									</div>
-							<!-- 	</div>
+							</div>
 
 
 
@@ -151,7 +151,21 @@ td {
 
 
 
-								<div align="center" class="form-group"> -->
+								<div align="center" class="form-group"> 
+							<label for="textfield2" class="col-xs-3 col-lg-2 control-label">
+										Section </label>
+									<div class="col-sm-9 col-lg-3 controls">
+														
+<select id="section"  class='form-control'>
+<option value="-">All</option>
+	<c:forEach items="${sectionList}" var="sectionList">
+									<option value="${sectionList.sectionId}"><c:out
+											value="${sectionList.sectionName}" /></option>
+								</c:forEach>
+
+</select>
+</div>
+								
 									<div
 										class="col-sm-1">
 										<input class="btn btn-primary" type="button" value="Search" id="callSubmit"
@@ -196,7 +210,6 @@ td {
 									</div> -->
 
 									<div class="box-content">
-
 										<div align="center" class="form-group" style="color:white; height:65px; background: #0288d1;
     background: -webkit-linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
     background: linear-gradient(45deg, #e693c6 0%,  #5cc8d6 100%);box-shadow: 0 6px 20px 0 rgba(38, 198, 218, 0.5);  ">
@@ -477,7 +490,7 @@ form.submit();
 			var frIds = $("#fr_id").val();
 			var fromDate = document.getElementById("dp1").value;
 			var toDate = document.getElementById("dp2").value;
-
+			var section= document.getElementById("section").value;
 			var routeId = document.getElementById("route_id").value;
 			var isValid=validate();
 			if(isValid==true){
@@ -499,150 +512,45 @@ form.submit();
 								if (data == "") {
 									alert("No Bill Found");
 								}
-
-								$
-										.each(
-												data,
-												function(key, bill) {
-
+								$.each(data,function(key, bill) {
+												
+													if(section!="-" &&  section==bill.exVarchar1){
 													var tr = $('<tr></tr>');
-													
-															
-													tr
-															.append($(
-																	'<td class="col-sm-1"></td>')
-																	.html(
-																			"<input type='checkbox' name='select_to_print' value="+bill.billNo+">"));
-
-													tr.append($('<td class="col-sm-1"></td>')
-															.html(key + 1));
-
-													tr
-															.append($(
-																	'<td class="col-md-1"></td>')
-																	.html(
-																			bill.invoiceNo));
-
-													tr
-															.append($(
-																	'<td class="col-md-1"></td>')
-																	.html(
-																			bill.billDate));
-
-													tr.append($('<td class="col-md-2"></td>')
-															.html(bill.frName));
-
-													tr
-															.append($(
-																	'<td class="col-md-2" style="text-align:right;"></td>')
-																	.html(
-																			bill.taxableAmt.toFixed(2)));
-
-													tr
-															.append($(
-																	'<td class="col-sm-1" style="text-align:right;"></td>')
-																	.html(
-																			bill.totalTax.toFixed(2)));
-
-													tr
-															.append($(
-																	'<td class="col-md-1" style="text-align:right;"></td>')
-																	.html(
-																			bill.grandTotal.toFixed(2)));
-													
-													
-
-													//tr.append($('<td></td>').html("<a href='${pageContext.request.contextPath}/updateBillDetails/"+bill.billNo+"/"+bill.frName+"'><input type='button' name='update' value='Update'/></a><a href='${pageContext.request.contextPath}/viewBillDetails/"+bill.billNo+"/"+bill.frName+"'><input type='button' name='view' value='View'/></a><a href='${pageContext.request.contextPath}/deleteBill/"+bill.billNo+"/"+bill.frName+"'><input type='button' name='deleteBill' value='Delete'/></a>"));
-													
-													
+													tr.append($('<td class="col-sm-1"></td>').html("<input type='checkbox' name='select_to_print' value="+bill.billNo+">"));
+                                                    tr.append($('<td class="col-sm-1"></td>').html(key + 1));
+                                                    tr.append($('<td class="col-md-1"></td>').html(bill.invoiceNo));
+                                                    tr.append($('<td class="col-md-1"></td>').html(bill.billDate));
+													tr.append($('<td class="col-md-2"></td>').html(bill.frName));
+													tr.append($('<td class="col-md-2" style="text-align:right;"></td>').html(bill.taxableAmt.toFixed(2)));
+													tr.append($('<td class="col-sm-1" style="text-align:right;"></td>').html(bill.totalTax.toFixed(2)));
+													tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html(bill.grandTotal.toFixed(2)));
 													tr.append($('<td class="col-md-2"></td>').html("<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='BillDetail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
-
-													$('#table1 tbody').append(
-															tr);
-
-													document.getElementById("expExcel2").disabled=false;
-													
-													
-													/* var index = key + 1;
-													
-													var tr = "<tr>";
-
-													var index = "<td>&nbsp;&nbsp;&nbsp;"
-															+ index + "</td>";
-															
-													var billNo = "<td>&nbsp;&nbsp;&nbsp;"
-															+ bill.billNo
-															+ "</td>";
-															
-													var billDate = "<td>&nbsp;&nbsp;&nbsp;"
-															+ bill.billDate
-															+ "</td>";
-															
-													var frName = "<td>&nbsp;&nbsp;&nbsp;&nbsp;"
-															+ bill.frName
-															+ "</td>";
-															
-													var taxableAmt = "<td>&nbsp;&nbsp;&nbsp;&nbsp;"
-															+ bill.taxableAmt
-															+ "</td>";
-															
-													
-													var totalTax = "<td>&nbsp;&nbsp;&nbsp;&nbsp;"
-															+ bill.totalTax
-															+ "</td>";
-															
-													var grandTotal = "<td>&nbsp;&nbsp;&nbsp;&nbsp;"
-															+ bill.grandTotal
-															+ "</td>"; 
-															
-															
-													if (bill.status == 1) {
-														var status = "<td>&nbsp;&nbsp;&nbsp;&nbsp;Pending</td>";
-
-													} else if (bill.status == 2) {
-														var status = "<td>&nbsp;&nbsp;&nbsp;&nbsp;Received</td>";
-
-													} else if (bill.status == 3) {
-														var status = "<td>&nbsp;&nbsp;&nbsp;&nbsp;GVN Applied/td>";
-
-													} else if (bill.status == 4) {
-														var status = "<td>&nbsp;&nbsp;&nbsp;&nbsp;GVN Approved</td>";
-
-													} else if (bill.status == 5) {
-														var status = "<td>&nbsp;&nbsp;&nbsp;&nbsp;GRN Applied</td>";
-
-													} else if (bill.status == 6) {
-														var status = "<td>&nbsp;&nbsp;&nbsp;&nbsp;GRN Approved</td>";
-
-													} else if (bill.status == 7) {
-														var status = "<td>&nbsp;&nbsp;&nbsp;&nbsp;Closed</td>";
-
-													}
-													
-													var remark = "<td>&nbsp;&nbsp;&nbsp;&nbsp;"
-															+ bill.remark
-															+ "</td>";
-															
-													var action="<td>"+ "<a href='${pageContext.request.contextPath}/updateBillDetails/"+bill.billNo+"/"+bill.frName+"'><input type='button' name='update' value='Update'/></a><a href='${pageContext.request.contextPath}/viewBillDetails/"+bill.billNo+"/"+bill.frName+"'><input type='button' name='view' value='View'/></a><a href='${pageContext.request.contextPath}/deleteBill/"+bill.billNo+"/"+bill.frName+"'><input type='button' name='deleteBill' value='Delete'/></a>"+"</td>";
-
-													var trclosed = "</tr>";
-
 													$('#table1 tbody').append(tr);
-													$('#table1 tbody').append(index);
-													$('#table1 tbody').append(billNo);
-													$('#table1 tbody').append(billDate);
-													$('#table1 tbody').append(frName);
-													$('#table1 tbody').append(taxableAmt);
+												}
 													
-													$('#table1 tbody').append(totalTax);
-													$('#table1 tbody').append(grandTotal);
-													$('#table1 tbody').append(status);
-													$('#table1 tbody').append(remark);
-													$('#table1 tbody').append(action);
+													document.getElementById("expExcel2").disabled=false;
 
-													$('#table1 tbody').append(trclosed);
-													 */
-												})
+									})
+										if(section=="-")
+										{
+									$.each(data,function(key, bill) {
+											
+														var tr = $('<tr></tr>');
+														tr.append($('<td class="col-sm-1"></td>').html("<input type='checkbox' name='select_to_print' value="+bill.billNo+">"));
+	                                                    tr.append($('<td class="col-sm-1"></td>').html(key + 1));
+	                                                    tr.append($('<td class="col-md-1"></td>').html(bill.invoiceNo));
+	                                                    tr.append($('<td class="col-md-1"></td>').html(bill.billDate));
+														tr.append($('<td class="col-md-2"></td>').html(bill.frName));
+														tr.append($('<td class="col-md-2" style="text-align:right;"></td>').html(bill.taxableAmt.toFixed(2)));
+														tr.append($('<td class="col-sm-1" style="text-align:right;"></td>').html(bill.totalTax.toFixed(2)));
+														tr.append($('<td class="col-md-1" style="text-align:right;"></td>').html(bill.grandTotal.toFixed(2)));
+														tr.append($('<td class="col-md-2"></td>').html("<input type='button' id='btn_submit' name='btn_submit' onClick='submitBill()' value='BillDetail'  class='btn btn-primary'/> &nbsp;&nbsp; <input type='button' id='btn_submit_pdf' value='PDF'  class='btn btn-primary' onClick='submitBillPdf()'/>"));
+														$('#table1 tbody').append(tr);
+													
+											document.getElementById("expExcel2").disabled=false;
+
+										})
+								}
 
 							});
 			}
