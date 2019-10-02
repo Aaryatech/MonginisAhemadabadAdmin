@@ -182,7 +182,7 @@
 
 																	<c:when
 																		test="${gvnList.grnGvnStatus==4 or gvnList.grnGvnStatus==5}">
-																		<c:set var="qty" value="${gvnList.aprQtyStore}" />
+																		<c:set var="qty" value="${gvnList.grnGvnQty}" />
 																	</c:when>
 
 																	<c:otherwise>

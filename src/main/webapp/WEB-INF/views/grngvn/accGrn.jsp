@@ -279,7 +279,7 @@
 																	<c:set var ="qty" value="0" ></c:set>
 															<c:choose>
 																<c:when test="${grnList.grnGvnStatus==1 or grnList.grnGvnStatus==2 or grnList.grnGvnStatus==3}">
-																<c:set var ="qty" value="${grnList.aprQtyGate}" />
+																<c:set var ="qty" value="${grnList.grnGvnQty}" />
 																
 																</c:when>
 																<c:otherwise>
