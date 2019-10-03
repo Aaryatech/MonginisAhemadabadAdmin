@@ -444,37 +444,44 @@ public class ManualBillController {
 		return flavourConf;
 	}
 
+
 	// insertManualSpBill
 	@RequestMapping(value = "/insertManualSpBill", method = RequestMethod.POST)
 	public String insertManualSpBill(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "order_photo", required = false) List<MultipartFile> orderPhoto,
 			@RequestParam(value = "cust_choice_ck", required = false) List<MultipartFile> custChoiceCk)
 			throws JsonProcessingException {
+		
 		SpCakeOrderRes spCakeOrderRes = new SpCakeOrderRes();
 		ModelAndView model = null;
 		float exCharges = 0.0f;
 		try {
+			
 			model = new ModelAndView("manualBill/add_man_bill");
 			RestTemplate restTemplate = new RestTemplate();
+			
+			int billClick = Integer.parseInt(request.getParameter("hdnbt"));
+			logger.info("billClick" + billClick);
 			String frName = request.getParameter("fr_name");
 			logger.info("frName" + frName);
+			
 			String gstNo = request.getParameter("gst_no");
 			logger.info("gstNo" + gstNo);
 
 			int frId = Integer.parseInt(request.getParameter("fr_id"));
 			logger.info("frId" + frId);
+			
 			int billBy = Integer.parseInt(request.getParameter("billBy"));
 			logger.info("billBy" + billBy);
 
 			FranchiseeList frDetails = restTemplate.getForObject(Constants.url + "getFranchisee?frId={frId}",
 					FranchiseeList.class, frId);
 
-			// -------------------------------------------------------------------------------------------
-
 			int spId = Integer.parseInt(request.getParameter("sp_id"));
 
 			int spMenuId = Integer.parseInt(request.getParameter("spMenuId"));
 			logger.info("1spId" + spId);
+			
 			String spCode = request.getParameter("sp_code");
 			logger.info("2spCode" + spCode);
 
@@ -508,40 +515,17 @@ public class ManualBillController {
 			String spEvents = request.getParameter("sp_event");
 			logger.info("12spEvents" + spEvents);
 			
-			/* int  instLang = Integer.parseInt(request.getParameter("showtextarea"));
-			   
-			    String spInstructions="";
-			    if(instLang==1)
-			    {
-			    	spInstructions =request.getParameter("sp_inst1");
-			    }else
-			    {
-			    	spInstructions =request.getParameter("sp_inst2");
-			    }
-				logger.info("spInstructions" + spInstructions);
-*/
 			String spDeliveryDt = request.getParameter("datepicker");
 			logger.info("14spDeliveryDt" + spDeliveryDt);
+			
 			String spProdDate = request.getParameter("spProdDate");
 			logger.info("15spProdDate" + spProdDate);
 
 			String spCustDOB = request.getParameter("datepicker4");
 			logger.info("17spCustDOB" + spCustDOB);
 
-			// String spBookForDOB = request.getParameter("datepicker5");
-			// logger.info("18" + spBookForDOB);
-
-			// String spCustMobileNo = request.getParameter("sp_cust_mobile_no");
-			// logger.info("19" + spCustMobileNo);
-
-			// String spBookForNum = request.getParameter("sp_book_for_number");
-			// logger.info("20" + spBookForNum);
-
 			String spCustName = request.getParameter("sp_cust_name");
 			logger.info("21spCustName" + spCustName);
-
-			// String spBookedForName = request.getParameter("sp_booked_for_name");
-			// logger.info("22" + spBookedForName);
 
 			String spGrand = request.getParameter("sp_grand");
 			logger.info("23spGrand" + spGrand);
@@ -551,8 +535,10 @@ public class ManualBillController {
 
 			String spAddRate = request.getParameter("sp_add_rate");
 			logger.info("25spAddRate" + spAddRate);
+			
 			float dbAdonRate = Float.parseFloat(request.getParameter("dbAdonRate"));
 			logger.info("dbAdonRate" + dbAdonRate);
+			
 			float spSubTotal = Float.parseFloat(request.getParameter("sp_sub_total"));
 			logger.info("26spSubTotal" + spSubTotal);
 
@@ -570,11 +556,8 @@ public class ManualBillController {
 
 			String rmAmount = request.getParameter("rm_amount");
 			logger.info("31rmAmount" + rmAmount);
-
-			// float spAdvance =Float.parseFloat(request.getParameter("adv"));
-			// logger.info("32" + spAdvance);
-
-			String spPlace = request.getParameter("sp_place");
+	
+     		String spPlace = request.getParameter("sp_place");
 			logger.info("33spPlace" + spPlace);
 
 			exCharges = Float.parseFloat(request.getParameter("sp_ex_charges"));
@@ -623,13 +606,6 @@ public class ManualBillController {
 			float backendSpRate = Float.parseFloat(request.getParameter("spBackendRate"));
 			logger.info("backendSpRate" + backendSpRate);
 
-			
-			/*
-			 * Calendar cal1 = Calendar.getInstance(); SimpleDateFormat sdf = new
-			 * SimpleDateFormat("HH:mm:ss"); System.out.println(sdf.format(cal1.getTime()));
-			 * 
-			 * String curTimeStamp = sdf.format(cal1.getTime());
-			 */
 			String curTimeStamp = new SimpleDateFormat("yyyy_MM_dd.HH_mm_ss").format(new Date());
 			logger.info("curTimeStamp" + curTimeStamp);
 
@@ -637,9 +613,7 @@ public class ManualBillController {
 			String orderPhoto1 = "";
 
 			if (isSpPhoUpload == 1) {
-
-				System.out.println("Empty image");
-				// orderPhoto1 = ImageS3Util.uploadPhotoCakeImage(orderPhoto);
+				logger.info("Empty image");
 
 				VpsImageUpload upload = new VpsImageUpload();
 
@@ -786,7 +760,6 @@ public class ManualBillController {
 
 			spCakeOrder.setItemId(spCode);
 			spCakeOrder.setOrderDate(dateFormat.format(orderDate));
-			// float rmAmt=spSubTotal-spAdvance;
 			spCakeOrder.setRmAmount(spSubTotal);
 			spCakeOrder.setSpTotalAddRate(Float.valueOf(spAddRate));
 			spCakeOrder.setSpAdvance(0);
@@ -836,52 +809,36 @@ public class ManualBillController {
 			spCakeOrder.setIsAllocated(0);
 
 			spCakeOrder.setExtraCharges(exCharges);
-			;
+	
 			spCakeOrder.setDisc(disc);
 			spCakeOrder.setExVar1(ctype);
 			spCakeOrder.setCustEmail(custEmail);
 			spCakeOrder.setCustGstin(custGstNo);
 			spCakeOrder.setSpCustMobNo(spCustMobNo);
-			// -----------------for slip no-------------
-			//MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			//map.add("settingKeyList", "sp_slip_no");
-			//FrItemStockConfigureList settingListForSlipNo = restTemplate
-			//		.postForObject(Constants.url + "getDeptSettingValue", map, FrItemStockConfigureList.class);
-			//List<FrItemStockConfigure> settingListResForSlipNo = settingListForSlipNo.getFrItemStockConfigure();
-			// ---------------------------------------
 			spCakeOrder.setSlipNo("0");// slipNo
-
-			// Float floatBackEndRate = backendSpRate*spWeight;
-			// float intAddonRatePerKG = Float.parseFloat(spAddRate);
-
-			/*
-			 * float intAddonRatePerKG = (dbAdonRate * 0.8f); float floatBackEndRate =
-			 * (backendSpRate + intAddonRatePerKG) * spWeight;
-			 */
 
 			float intAddonRatePerKG = (dbAdonRate * 0.8f);
 			float extraCharges = (exCharges * 0.8f);
 			float floatBackEndRate = ((backendSpRate + intAddonRatePerKG) * spWeight) + extraCharges;
-			System.out.println("Placing Order: \n Back End Rate " + floatBackEndRate);
-			System.out.println("Placing Order: \n Add On Rate " + intAddonRatePerKG);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			spCakeOrder.setSpBackendRate(floatBackEndRate);
 			try {
 				HttpHeaders httpHeaders = new HttpHeaders();
 				httpHeaders.set("Content-Type", "application/json");
-
 				ObjectMapper mapper = new ObjectMapper();
 				String jsonInString = mapper.writeValueAsString(spCakeOrder);
-				System.out.println("All Sp Order Data" + jsonInString.toString());
 
 				HttpEntity<String> httpEntity = new HttpEntity<String>(jsonInString.toString(), httpHeaders);
-
 				spCakeOrderRes = restTemplate.postForObject(Constants.url + "/placeSpCakeOrder", httpEntity,
 						SpCakeOrderRes.class);
+				
 				System.out.println("ORDER PLACED " + spCakeOrderRes.toString());
 				spCakeOrder.setSpInstructions(spCakeOrderRes.getSpCakeOrder().getSpInstructions());
+				
 				SpCakeOrder spCake = spCakeOrderRes.getSpCakeOrder();
+				
 				if (spCakeOrderRes.getErrorMessage().isError() != true) {
+					
 					System.out.println("ORDER PLACED " + spCakeOrderRes.toString());
 					map = new LinkedMultiValueMap<String, Object>();
 					map = new LinkedMultiValueMap<String, Object>();
@@ -902,224 +859,185 @@ public class ManualBillController {
 					Info info = restTemplate.postForObject(Constants.url + "updateFrSettingBillNo", map, Info.class);
 
 					map = new LinkedMultiValueMap<String, Object>();
-
 					map.add("frId", frDetails.getFrId());
 
 					Info updateFrSettingGrnGvnNo = restTemplate.postForObject(Constants.url + "updateFrSettingSpNo",
 							map, Info.class);
+					if(billClick==1) {
+					try {
+						PostBillDataCommon postBillDataCommon = new PostBillDataCommon();
+						List<PostBillHeader> postBillHeaderList = new ArrayList<PostBillHeader>();
+						List<PostBillDetail> postBillDetailsList = new ArrayList();
+						PostBillHeader header = new PostBillHeader();
+						header.setBillDate(new Date());
+						header.setPartyAddress(frDetails.getFrAddress());
+						header.setPartyGstin(gstNo);
+						header.setPartyName(frName);
+						header.setFrCode(frDetails.getFrCode());
+						header.setDelStatus(0);
+						header.setFrId(frDetails.getFrId());
 
-					//map = new LinkedMultiValueMap<String, Object>();
-					//map.add("settingValue", settingListResForSlipNo.get(0).getSettingValue() + 1);// +1 to slip no in
-																									// setting table
-					//map.add("settingKey", "sp_slip_no");
+						float sumTaxableAmt = 0, sumTotalTax = 0, sumGrandTotal = 0;
+						float sumDiscAmt = 0;
 
-					//Info updateSetting = restTemplate.postForObject(Constants.url + "updateSeetingForPB", map,
-					//		Info.class);
+						PostBillDetail billDetail = new PostBillDetail();
 
-				}
+						Float orderRate = Float.parseFloat(spGrand);
+						Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
+						baseRate = roundUp(baseRate);
+						Float taxableAmt = baseRate;
+
+						float sgstRs = (taxableAmt * tax1) / 100;
+						float cgstRs = (taxableAmt * tax2) / 100;
+						float igstRs = (taxableAmt * (tax1 + tax2)) / 100;
+						Float totalTax = sgstRs + cgstRs;
+						float discAmt = 0;
+						float discPer = 0.0f;
+						
+						if (frDetails.getIsSameState() == 1) {
+							baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
+							taxableAmt=baseRate;
+							// ----------------------------------------------------------
+							discAmt = ((taxableAmt * discPer) / 100); // new row added
+							System.out.println("discAmt: " + discAmt);// new row added
+							sumDiscAmt = sumDiscAmt + discAmt;
+
+							taxableAmt = taxableAmt - discAmt; // new row added
+							// ----------------------------------------------------------
+							sgstRs = (taxableAmt * tax1) / 100;
+							cgstRs = (taxableAmt * tax2) / 100;
+							igstRs = 0;
+							totalTax = sgstRs + cgstRs;
+						}
+						else {
+							baseRate =(orderRate * 100) / (100 + (tax1 + tax2));
+							taxableAmt =baseRate;
+							// ----------------------------------------------------------
+							discAmt = ((taxableAmt * discPer) / 100); // new row added
+							System.out.println("discAmt: " + discAmt);// new row added
+							sumDiscAmt = sumDiscAmt + discAmt;
+
+							taxableAmt = taxableAmt - discAmt; // new row added
+							// ----------------------------------------------------------
+							sgstRs = 0;
+							cgstRs = 0;
+							igstRs = (taxableAmt * (tax1 + tax2)) / 100;
+							totalTax = igstRs;
+						}
+						sgstRs = roundUp(sgstRs);
+						cgstRs = roundUp(cgstRs);
+						igstRs = roundUp(igstRs);
+						totalTax = roundUp(totalTax);
+
+						Float grandTotal = totalTax + taxableAmt;
+						grandTotal = roundUp(grandTotal);
+
+						sumTaxableAmt = sumTaxableAmt + taxableAmt;
+						sumTaxableAmt = roundUp(sumTaxableAmt);
+
+						sumTotalTax = sumTotalTax + totalTax;
+						sumTotalTax = roundUp(sumTotalTax);
+
+						sumGrandTotal = sumGrandTotal + grandTotal;
+						sumGrandTotal = roundUp(sumGrandTotal);
+
+						billDetail.setOrderId(spCake.getSpOrderNo());//Sp Order No
+						billDetail.setMenuId(spMenuId);
+						billDetail.setCatId(5);
+						billDetail.setItemId(spId);
+						billDetail.setOrderQty(1);
+						billDetail.setBillQty(1);
+
+						if (frDetails.getFrRateCat() == 1) {
+							billDetail.setMrp(specialCake.getMrpRate1());
+						} else {
+							billDetail.setMrp(specialCake.getMrpRate3());
+						}
+						billDetail.setRateType(frDetails.getFrRateCat());
+						billDetail.setRate(Float.parseFloat(spGrand));
+						billDetail.setBaseRate(roundUp(baseRate));
+						billDetail.setTaxableAmt(roundUp(taxableAmt));
+						billDetail.setDiscPer(discPer);// new
+						billDetail.setRemark("" + discAmt);// new
+						billDetail.setSgstPer(tax1);
+						billDetail.setSgstRs(sgstRs);
+						billDetail.setCgstPer(tax2);
+						billDetail.setCgstRs(cgstRs);
+						billDetail.setIgstPer((tax1 + tax2));
+						billDetail.setIgstRs(igstRs);
+						billDetail.setTotalTax(totalTax);
+						billDetail.setGrandTotal(grandTotal);
+						billDetail.setDelStatus(0);
+						billDetail.setIsGrngvnApplied(0);
+						billDetail.setGrnType(3);// newly added
+						billDetail.setHsnCode(Constants.SPHSN);//hardcoded
+						header.setSgstSum(billDetail.getSgstRs());
+						header.setCgstSum(billDetail.getCgstRs());
+						header.setIgstSum(billDetail.getIgstRs());
+
+						DateFormat Df = new SimpleDateFormat("dd-MM-yyyy");
+						String deliveryDate = Df.format(header.getBillDate());
+						String calculatedDate = incrementDate(deliveryDate, 1);
+
+						if (spMenuId == 88) {
+							calculatedDate = incrementDate(deliveryDate, 1);
+						}
+						Date expiryDate = null;
+						try {
+							expiryDate = Df.parse(calculatedDate);
+						} catch (ParseException e) {
+
+							e.printStackTrace();
+						}
+						billDetail.setExpiryDate(expiryDate);
+						postBillDetailsList.add(billDetail);
+						header.setTaxableAmt(sumTaxableAmt);
+						header.setGrandTotal(Math.round(sumGrandTotal));
+						header.setDiscAmt(sumDiscAmt);
+						header.setTotalTax(sumTotalTax);
+						header.setTaxApplicable((int)(tax1 + tax2));
+						header.setStatus(1);
+						header.setBillTime("-");
+						ZoneId zoneId = ZoneId.of("Asia/Calcutta");
+						ZonedDateTime zdt = ZonedDateTime.now(zoneId);
+
+						SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss ");
+						TimeZone istTimeZone = TimeZone.getTimeZone("Asia/Kolkata");
+						Date d = new Date();
+						sdf.setTimeZone(istTimeZone);
+						String strtime = sdf.format(d);
+
+						DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						Calendar cal = Calendar.getInstance();
+
+						header.setRemark(dateFormat1.format(cal.getTime()));
+						header.setTime(strtime);
+						header.setVehNo("-");
+						header.setExVarchar1("-");
+						header.setExVarchar2("-");
+						header.setPostBillDetailsList(postBillDetailsList);
+						postBillHeaderList.add(header);
+
+						postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
+
+						List<PostBillHeader> infoRes = restTemplate.postForObject(Constants.url + "insertBillData",
+							postBillDataCommon, List.class);
+
+						System.out.println("Info Data insertBillData response " + infoRes.toString());
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+					}//bill end 
+		        }
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			// --------------------------------------------------------------------------------------------
-			/*if (spCakeOrderRes.getErrorMessage().isError() != true) {
-				PostBillDataCommon postBillDataCommon = new PostBillDataCommon();
-
-				List<PostBillHeader> postBillHeaderList = new ArrayList<PostBillHeader>();
-
-				List<PostBillDetail> postBillDetailsList = new ArrayList();
-
-				PostBillHeader header = new PostBillHeader();
-
-				header.setBillDate(new Date());
-
-				header.setPartyAddress("-");
-				header.setPartyGstin(gstNo);
-				header.setPartyName(frName);
-
-				header.setFrCode(frDetails.getFrCode());
-
-				header.setDelStatus(0);
-				header.setFrId(frDetails.getFrId());
-
-				float sumTaxableAmt = 0, sumTotalTax = 0, sumGrandTotal = 0;
-				float sumDiscAmt = 0;
-
-				PostBillDetail billDetail = new PostBillDetail();
-
-				String billQty = "1";
-				Float orderRate = Float.parseFloat(spGrand);
-				Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-				baseRate = roundUp(baseRate);
-				Float taxableAmt = (float) (baseRate * 1);
-				taxableAmt = roundUp(taxableAmt);
-
-				float sgstRs = (taxableAmt * tax1) / 100;
-				float cgstRs = (taxableAmt * tax2) / 100;
-				float igstRs = (taxableAmt * (tax1 + tax2)) / 100;
-				Float totalTax = sgstRs + cgstRs;
-				float discAmt = 0;
-				if (billQty == null || billQty == "") {// new code to handle hidden records
-					billQty = "1";
-				}
-
-				Float discPer = 0.0f;
-				if (frDetails.getIsSameState() == 1) {
-					baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-					taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
-					// ----------------------------------------------------------
-					discAmt = ((taxableAmt * discPer) / 100); // new row added
-					System.out.println("discAmt: " + discAmt);// new row added
-					sumDiscAmt = sumDiscAmt + discAmt;
-
-					taxableAmt = taxableAmt - discAmt; // new row added
-					// ----------------------------------------------------------
-					sgstRs = (taxableAmt * tax1) / 100;
-					cgstRs = (taxableAmt * tax2) / 100;
-					igstRs = 0;
-					totalTax = sgstRs + cgstRs;
-
-				}
-
-				else {
-					baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
-					taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
-					// ----------------------------------------------------------
-					discAmt = ((taxableAmt * discPer) / 100); // new row added
-					System.out.println("discAmt: " + discAmt);// new row added
-					sumDiscAmt = sumDiscAmt + discAmt;
-
-					taxableAmt = taxableAmt - discAmt; // new row added
-					// ----------------------------------------------------------
-					sgstRs = 0;
-					cgstRs = 0;
-					igstRs = (taxableAmt * (tax1 + tax2)) / 100;
-					totalTax = igstRs;
-				}
-
-				sgstRs = roundUp(sgstRs);
-				cgstRs = roundUp(cgstRs);
-				igstRs = roundUp(igstRs);
-
-				totalTax = roundUp(totalTax);
-
-				Float grandTotal = totalTax + taxableAmt;
-				grandTotal = roundUp(grandTotal);
-
-				sumTaxableAmt = sumTaxableAmt + taxableAmt;
-				sumTaxableAmt = roundUp(sumTaxableAmt);
-
-				sumTotalTax = sumTotalTax + totalTax;
-				sumTotalTax = roundUp(sumTotalTax);
-
-				sumGrandTotal = sumGrandTotal + grandTotal;
-				sumGrandTotal = roundUp(sumGrandTotal);
-
-				billDetail.setOrderId(0);
-				billDetail.setMenuId(spMenuId);//
-				billDetail.setCatId(5);
-				billDetail.setItemId(spId);
-				billDetail.setOrderQty(1);
-				billDetail.setBillQty(1);
-
-				if (frDetails.getFrRateCat() == 1) {
-					billDetail.setMrp(specialCake.getMrpRate1());//
-				} else {
-					billDetail.setMrp(specialCake.getMrpRate3());//
-
-				}
-				billDetail.setRateType(frDetails.getFrRateCat());
-				billDetail.setRate(Float.parseFloat(spGrand));
-				billDetail.setBaseRate(baseRate);
-				billDetail.setTaxableAmt(taxableAmt);
-				billDetail.setDiscPer(discPer);// new
-				billDetail.setRemark("" + discAmt);// new
-				billDetail.setSgstPer(tax1);
-				billDetail.setSgstRs(sgstRs);
-				billDetail.setCgstPer(tax2);
-				billDetail.setCgstRs(cgstRs);
-				billDetail.setIgstPer((tax1 + tax2));
-				billDetail.setIgstRs(igstRs);
-				billDetail.setTotalTax(totalTax);
-				billDetail.setGrandTotal(grandTotal);
-				billDetail.setDelStatus(0);
-				billDetail.setIsGrngvnApplied(0);
-
-				billDetail.setGrnType(3);// newly added
-
-				header.setSgstSum(billDetail.getSgstRs());
-				header.setCgstSum(billDetail.getCgstRs());
-				header.setIgstSum(billDetail.getIgstRs());
-
-				int itemShelfLife = 1;
-
-				
-				 * // inc exp date if these menuId if (gBill.getMenuId() == 44 ||
-				 * gBill.getMenuId() == 45 || gBill.getMenuId() == 46) {
-				 * 
-				 * calculatedDate = incrementDate(calculatedDate, 1);
-				 * 
-				 * }
-				 
-
-				DateFormat Df = new SimpleDateFormat("dd-MM-yyyy");
-				String deliveryDate = Df.format(header.getBillDate());
-				String calculatedDate = incrementDate(deliveryDate, itemShelfLife);
-
-				Date expiryDate = null;
-				try {
-					expiryDate = Df.parse(calculatedDate);
-				} catch (ParseException e) {
-
-					e.printStackTrace();
-				}
-				billDetail.setExpiryDate(expiryDate);
-				postBillDetailsList.add(billDetail);
-
-				header.setTaxableAmt(sumTaxableAmt);
-				header.setGrandTotal(Math.round(sumGrandTotal));
-				header.setDiscAmt(sumDiscAmt);// new
-
-				System.err.println("sumof grand total beofre " + sumGrandTotal);
-
-				System.err.println("Math round up Sum " + header.getGrandTotal());
-				header.setTotalTax(sumTotalTax);
-
-				header.setStatus(1);
-				header.setPostBillDetailsList(postBillDetailsList);
-
-				ZoneId zoneId = ZoneId.of("Asia/Calcutta");
-				ZonedDateTime zdt = ZonedDateTime.now(zoneId);
-
-				SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss ");
-				TimeZone istTimeZone = TimeZone.getTimeZone("Asia/Kolkata");
-				Date d = new Date();
-				sdf.setTimeZone(istTimeZone);
-				String strtime = sdf.format(d);
-
-				DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Calendar cal = Calendar.getInstance();
-
-				header.setRemark(dateFormat1.format(cal.getTime()));
-				header.setTime(strtime);
-				postBillHeaderList.add(header);
-
-				postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
-
-				List<PostBillHeader> info = restTemplate.postForObject(Constants.url + "insertBillData",
-						postBillDataCommon, List.class);
-
-				System.out.println("Info Data insertBillData response " + info.toString());
-			}*/
-
 		} catch (Exception e) {
 			System.err.println("Exx in insertManualSpBill " + e.getMessage());
 			e.printStackTrace();
 		}
-
-		// return "redirect:/pdf/showBillPdf/-/-/1,9";
-
 		return "redirect:/showManualBill";
 
 	}
@@ -1193,9 +1111,6 @@ public class ManualBillController {
 			curStrYear = curStrYear + nextStrYear;
 			System.out.println("Month >=4::Cur Str Year " + curStrYear);
 		}
-
-		////
-
 		int length = String.valueOf(settingValue).length();
 
 		String invoiceNo = null;

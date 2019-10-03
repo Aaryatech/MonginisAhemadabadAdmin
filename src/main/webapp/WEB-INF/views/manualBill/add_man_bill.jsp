@@ -1,10 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@page import="com.ats.adminpanel.model.franchisee.SubCategory"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page
-	import="java.io.*, java.util.*, java.util.Enumeration, java.text.*"%>
+<%@page	import="java.io.*, java.util.*, java.util.Enumeration, java.text.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
@@ -37,20 +35,15 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.css" />
 
-<!--page specific css styles-->
-
 <!--flaty css styles-->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/flaty.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/flaty-responsive.css">
-
 <link rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/img/favicon.png">
-
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/common.js"></script>
-
 <!--basic scripts-->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -159,37 +152,19 @@ select {
 	
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-
-
 	<div class="container" id="main-container">
-
 		<!-- BEGIN Sidebar -->
 		<div id="sidebar" class="navbar-collapse collapse">
-
 			<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
-
 			<div id="sidebar-collapse" class="visible-lg">
 				<i class="fa fa-angle-double-left"></i>
 			</div>
 			<!-- END Sidebar Collapse Button -->
 		</div>
 		<!-- END Sidebar -->
-
-
 		<!-- BEGIN Content -->
 		<div id="main-content">
-			<!-- BEGIN Page Title -->
-			<!-- 	<div class="page-title">
-				<div>
-					<h1>
-						<i class="fa fa-file-o"></i> Franchisee
-					</h1>
-				</div>
-			</div> -->
-			<!-- END Page Title -->
-
-
-			<!-- BEGIN Main Content -->
+			
 			<div class="row">
 				<div class="col-md-12">
 					<div class="row">
@@ -199,12 +174,7 @@ select {
 									<h3>
 										<i class="fa fa-bars"></i>SP Manual Bill
 									</h3>
-									<div class="box-tool">
-										<%-- 	<a href="${pageContext.request.contextPath}/configuredFrMenus">Back to
-											List</a> <a data-action="collapse" href="#"><i
-											class="fa fa-chevron-up"></i></a> --%>
-									</div>
-								</div>
+							</div>
 
 
 			<c:set var="allFranchiseeAndMenuList"	value="${allFranchiseeAndMenuList}" />
@@ -268,10 +238,6 @@ select {
 												</select>
 											</div>
 										
-										<!-- 	<div
-												class="col-md-1">
-										<input type="submit" class="btn btn-primary" value="Search">
-								</div> -->
 						</div>
 				</form>	<hr>
 											
@@ -312,31 +278,7 @@ select {
 						</div>
 									
 						<div class="form-group"><input type="hidden" name="sptype" id="sptype" value="1" />
-						<!-- <div class="col-md-2">Flavour Type</div>
-						<div class="col-md-3"> --><%-- <select name="sptype" tabindex="-1" id="sptype" class="form-control chosen" data-rule-required="true">
-             									 <option value="">Select Type</option>
-                								 <c:set var= "spCakeType" value="${specialCake.spType}"></c:set>
-             									  <c:choose>
-                   								  <c:when test="${spCakeType=='1'}"> <option value="1">Chocolate</option>   </c:when> 
-                    							  <c:when test="${spCakeType=='2'}"> <option value="2">FC</option>          </c:when>
-                    							  <c:when test="${spCakeType=='3'}"> <option value="3">BC</option>          </c:when>
-                       							  <c:when test="${spCakeType=='4'}"> 
-												  <option value="1">Chocolate</option> <option value="2">FC</option> 
-                     							  </c:when>
-                      							  <c:when test="${spCakeType=='5'}"> 
-												  <option value="1">Chocolate</option> <option value="3">BC</option> 
-                    						      </c:when>
-                     						      <c:when test="${spCakeType=='6'}"> 
-												  <option value="2">FC</option> <option value="3">BC</option> 
-                    						      </c:when>
-                       							  <c:otherwise>
-                      							  <option value="1">Chocolate</option>
-                        						  <option value="2">FC</option>
-                       							  <option value="3">BC</option>
-								                </c:otherwise>    
-              									</c:choose>
-            								</select>
-						</div> --%>
+						
 						<div class="col-md-2">Flavour<font size="5" color="red">*</font></div>
 							<div class="col-md-7" >
 				<select data-placeholder="Select Flavour" name="spFlavour" required
@@ -409,7 +351,7 @@ select {
 	
 					<div class="form-group">
 	   				<!-- <div class="col-md-2"> --><!-- Customer Name --><!-- </div> -->
-					<!-- <div class="col-md-3"> --><input class="form-control" placeholder="Customer Name" required name="sp_cust_name" type="hidden" id="sp_cust_name"required value=""><!-- </div> -->
+					<!-- <div class="col-md-3"> --><input class="form-control" placeholder="Customer Name" required name="sp_cust_name" type="hidden" id="sp_cust_name"required value="-"><!-- </div> -->
 		
 					<!-- <div class="col-md-1"> --><!-- DOB --><!-- </div> -->
 					<!-- <div class="col-md-3" > --><input id="datepicker4"  data-date-format="dd-mm-yyyy" required autocomplete="off" class="form-control date-picker" placeholder="" name="datepicker4" type="hidden" value="${currentDate}" required>
@@ -429,17 +371,7 @@ select {
 					</div>								
 	 
 	 				 <div class="form-group">
-					 <!-- <div class="col-md-2"> --><!-- Select Language --><!-- </div> -->
-      				<!--  <div class="col-md-3"> -->
-                    <!--   <select id="show" class="form-control" name="showtextarea" onchange="showDiv(this)" required>
-                              <option value="1" id="marathi" >Marathi</option>
-                              <option value="2" id="english" >English</option>
-                       </select> -->
-        		<!-- 	</div> -->
-	    			<!-- <div class="col-md-1"> --><!-- Sp Instructions --><!-- </div> -->
-					<!-- <div class="col-md-2" id="marathiDiv"> -->
-					<!-- <textarea id="transliterateTextarea"  name="sp_inst1" cols="" rows="" style=" visibility:hidden;width:240px;height:50px"maxlength="300" >-</textarea> -->
-				<!-- 	</div> -->
+				
 	    			<div class="col-md-2" id="englishDiv" style="display: none;">
 	   					 <textarea id="textarea"  name="sp_inst2" cols="" rows="" style=" visibility:hidden;width:240px;height:50px"maxlength="300">-</textarea>
 	   			   </div>
@@ -499,18 +431,7 @@ select {
 					<div class="col-md-3"><%-- <input class="form-control" placeholder="Order No" name="sp_place" id="sp_place" type="text" value="${spNo}" readonly> --%></div>
 			         	<div class="col-md-1"><!-- Select Menu --></div>
 											<div class="col-md-3">
-											<%-- <select name="spMenuId" class="form-control chosen" data-placeholder="Menu" 
-												id="spMenuId" required>
-												<option value="">Select Menu</option>
-												<c:forEach items="${frMenuList}" var="frMenuList">
-													<c:choose>
-														<c:when test="${frMenuList.mainCatId==5}">
-															<option value="${frMenuList.menuId}">
-															<c:out value="${frMenuList.menuTitle}" /></option>
-														</c:when>
-													</c:choose>
-												</c:forEach>
-											</select> --%>
+											
                                            </div>
 			       
 		       
@@ -610,9 +531,10 @@ select {
 	</c:when>
 	<c:otherwise><div class="col-md-6"></div></c:otherwise>
 </c:choose> 
-					<div class="col-md-2" style="text-align: center;">
-					<input class="btn btn-primary"  value="SUBMIT" onclick="callSubmit()" type="button" id="click" >
-						<!-- <input name="" class="btn btn-danger" class="btnReset" value="RESET" type="reset"> -->
+					<div class="col-md-2" style="text-align: center;"><input type="hidden" name="hdnbt" id="hdnbt" value="0"/>
+					
+					<input class="btn btn-primary"  value="Order" onclick="callSubmit()" type="button" id="click" name=orderClick >
+					 <input name="billClick" type="button" class="btn btn-primary" onclick="callBillSubmit()" value="Order&Bill" id="billClick">
 					</div>
 		        <div class="col-md-4" style="text-align: center;"></div>
 					<!----------------------9-------------------------------->    
@@ -650,7 +572,7 @@ select {
 									 <div class="form-group">
 										  <div  id="ctype1">
 											<div class="col-md-2" id="cktype"><!-- Cake Type --></div>
-											<div class="col-md-2"><input class="form-control"  name="ctype" type="hidden" id="ctype"  ></div>
+											<div class="col-md-2"><input class="form-control"  name="ctype" type="hidden" id="ctype"  value=""></div>
 										  </div> 
 										<input class="texboxitemcode"  name="temp" type="hidden" id="temp" value="${cutSec}"  >
 										<!-- <div class="col-md-1">Cust GST</div>
@@ -658,114 +580,7 @@ select {
 									</div>	
 						<textarea id="transliterateTextarea"  name="sp_inst1" cols="" rows="" style=" visibility:hidden;width:240px;height:50px"maxlength="300" >-</textarea>
 											
-											<%--<div class="col-md-2">Select Menu</div>
-											<div class="col-md-3">
-											<select name="spMenuId" class="form-control chosen" data-placeholder="Menu" 
-												id="spMenuId" required>
-												<option value="">Select Menu</option>
-												<c:forEach items="${frMenuList}" var="frMenuList">
-													<c:choose>
-														<c:when test="${frMenuList.mainCatId==5}">
-															<option value="${frMenuList.menuId}">
-															<c:out value="${frMenuList.menuTitle}" /></option>
-														</c:when>
-													</c:choose>
-												</c:forEach>
-											</select>
-                                           </div>
-										</div> --%>
-										<!--rightForm-->	
-<%-- <div class="right">
-	<div class="box-content">
-		<h2 class="inrbox" id="INR">INR - ${(sprRate*specialCake.spMinwt)}</h2>
-		 <input type="hidden" name="sp_grand" id="sp_grand" value="${(sprRate*specialCake.spMinwt)}">
-		 <section class="form-control">
-		    
-		<div class="form-group">
-								
-			
-					<div class="col-md-1">Type  </div>
-					<div class="col-md-1"><span>Premium</span></div>
-				
-					<div class="col-md-1">Price </div>
-					<div class="col-md-1" id="price">${sprRate*specialCake.spMinwt}</div>
-					<input name="sp_calc_price" id="sp_calc_price" value="${sprRate*specialCake.spMinwt}" type="hidden">
-			
-					<div class="col-md-1">Add Rate </div>
-					<div class="col-md-1"  id="rate" >00</div>
-					 <input name="sp_add_rate" id="sp_add_rate"  type="hidden" value="0">
-			
-					<div class="col-md-1">Sub Total </div>
-					<div class="col-md-1" id="subtotal">${sprRate*specialCake.spMinwt}</div>
-					<input name="sp_sub_total" id="sp_sub_total"  type="hidden"value="${sprRate*specialCake.spMinwt}">
-					</div>
-					</section>
-					 <section class="form-control">
-					<div class="form-group">
-				
-					<div class="col-md-1">GST (%)</div>
-					<div class="col-md-1" id="taxPer3"> ${specialCake.spTax1+specialCake.spTax2} </div>
-					<input type="hidden" id="tax3" name="tax3" value="${specialCake.spTax1+specialCake.spTax2}">
-					
-					<div class="col-md-1">GST RS.</div>
-					<c:set var="varGstRs" value="${(((sprRate*specialCake.spMinwt)*100)/((specialCake.spTax1+specialCake.spTax2)+100))*(specialCake.spTax1+specialCake.spTax2)/100}" />  
-					<fmt:formatNumber var="fGstRs" minFractionDigits="2" maxFractionDigits="2" type="number" value="${varGstRs}" />  
-					
-					<div class="col-md-1" id="gstrs"><c:out value="${fGstRs}" /></div>
-					<input type="hidden" id="gst_rs" name="gst_rs" value="${fGstRs}">
-				
-				<c:set var="varMgstamt" value="${(((sprRate*specialCake.spMinwt)*100)/((specialCake.spTax1+specialCake.spTax2)+100))}"/>
-					<fmt:formatNumber var="fMgstamt" minFractionDigits="2" maxFractionDigits="2" type="number" value="${varMgstamt}" />  
-					
-					<div class="col-md-2" id="mgstamt">AMT-<c:out value="${fMgstamt}"></c:out></div>
-					
-				   <input type="hidden" name="m_gst_amt" id="m_gst_amt" type="hidden" value="${fMgstamt}">
-				
-					<div class="col-md-2"id="tot">TOTAL AMT -${(sprRate*specialCake.spMinwt)}</div>
-					</div>
-					</section>
-					 <section class="form-control" style="border-bottom: none; border-left: none;border-right: none;" >
-					
-		<div class="remainamount">
-			<div class="priceLeft">Remaining Amount</div>
-					<div class="priceRight" id="rmAmt">${(sprRate*specialCake.spMinwt)}</div>
-				    <input type="hidden" name="rm_amount" id="rm_amount" value="${(sprRate*specialCake.spMinwt)}">
-		</div>
-	</div>
-	
-	<div class="order-btn" style="text-align: center;">
-		<input class="btn btn-primary" onclick="callSubmit()" value="SUBMIT"  type="button" id="click" >
-		<input name="" class="btn btn-danger" class="btnReset" value="RESET" type="reset">
-	</div>
-	</section>
-	
-	
-</div>
-
-<input type="hidden" id="tax1" name="tax1" value="${specialCake.spTax1}">
-<input type="hidden" id="tax2" name="tax2" value="${specialCake.spTax2}">
-
-
-<c:if test="${specialCake.spTax1==0 or specialCake.spTax1==0.00}">
-<input type="hidden" id="t1amt" name="t1amt" value="0.0">
-</c:if>
-<c:if test="${specialCake.spTax1!=0 or specialCake.spTax1!=0.00}">
-<input type="hidden" id="t1amt" name="t1amt" value="${(sprRate*specialCake.spMinwt)*(specialCake.spTax1)/100}">
-
-</c:if>
-<c:if test="${specialCake.spTax2==0 or specialCake.spTax2!=0.00}">
-<input type="hidden" id="t2amt" name="t2amt" value="0.0">
-</c:if>
-<c:if test="${specialCake.spTax2!=0 or specialCake.spTax2!=0.00}">
-<input type="hidden" id="t2amt" name="t2amt" value="${(sprRate*specialCake.spMinwt)*(specialCake.spTax2)/100}">
-
-</c:if>
-
-<input type="hidden" id="dbAdonRate" name="dbAdonRate">
- <input type="hidden" id="dbPrice" name="dbPrice"  value="${sprRate}">
-<input type="hidden" id="sp_id" name="sp_id"  value="${specialCake.spId}">
-
-</div> --%>
+											
 									</form>
 
 								</div>
@@ -791,7 +606,15 @@ select {
 <script type="text/javascript">
 		function callSubmit() {
 			var isValid=validate();
+			if(isValid){document.getElementById("hdnbt").value=0;
+			var form=document.getElementById("validation-form1");
+			form.submit();
+			}
+		}
+		function callBillSubmit() {
+			var isValid=validate();
 			if(isValid){
+				document.getElementById("hdnbt").value=1;
 			var form=document.getElementById("validation-form1");
 			form.submit();
 			}
@@ -1434,8 +1257,7 @@ function validate() {
 	        document.getElementById('custGstNo').focus();
 	        isValid= false;
 	  }  
-
-    
+   
     return isValid;
  
 }
@@ -1462,8 +1284,6 @@ function findFranchiseeData()
 					});
 	
 }
-
-
 </script>
 <script type="text/javascript">
  jQuery(function() {
