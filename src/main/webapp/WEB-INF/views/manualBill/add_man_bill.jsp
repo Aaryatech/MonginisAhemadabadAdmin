@@ -606,17 +606,24 @@ select {
 <script type="text/javascript">
 		function callSubmit() {
 			var isValid=validate();
-			if(isValid){document.getElementById("hdnbt").value=0;
+			if(isValid){
+				var isInsert=confirm("Do you want to save your ORDER     !");
+	             if(isInsert==true)	{
+			document.getElementById("hdnbt").value=0;
 			var form=document.getElementById("validation-form1");
 			form.submit();
+	             }
 			}
 		}
 		function callBillSubmit() {
 			var isValid=validate();
 			if(isValid){
-				document.getElementById("hdnbt").value=1;
+				 var isInsert=confirm("Do you want to save your ORDER &  BILL     !");
+             if(isInsert==true)	{
+			document.getElementById("hdnbt").value=1;
 			var form=document.getElementById("validation-form1");
 			form.submit();
+             }
 			}
 		}
 		</script>
