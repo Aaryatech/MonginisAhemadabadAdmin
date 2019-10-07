@@ -125,6 +125,16 @@ th {
 										<c:set var="totalCrAMt"
 											value="${totalCrAMt + report.grandTotal }" />
 									</c:when>
+									<c:when test="${report.type eq 'VER'}">
+
+										<td width="80" align="right"><fmt:formatNumber
+												type="number" maxFractionDigits="2" minFractionDigits="2"
+												value="${report.grandTotal}" /></td>
+	                                    <td  align="right"></td>
+
+										<c:set var="totalCrAMt"
+											value="${totalCrAMt + report.grandTotal }" />
+									</c:when>
 									<c:otherwise>
 										<td width="80" align="right"><fmt:formatNumber
 												type="number" maxFractionDigits="2" minFractionDigits="2"

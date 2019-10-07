@@ -167,11 +167,22 @@ public class SalesReportController2 {
 
 			saleList = responseEntity.getBody();
 
-			TreeSet<Integer> frIdListFinal = new TreeSet<Integer>();
+	        ArrayList<Integer> newList = new ArrayList<Integer>(); 
+
+			ArrayList<Integer> frIdListFinal = new ArrayList<Integer>();
 			for (int j = 0; j < saleList.size(); j++) {
 				frIdListFinal.add(saleList.get(j).getFrId());
 			}
-			for (int frId : frIdListFinal) {
+			for (Integer element : frIdListFinal) { 
+				  
+	            // If this element is not present in newList 
+	            // then add it 
+	            if (!newList.contains(element)) { 
+	  
+	                newList.add(element); 
+	            } 
+	        } 
+			for (int frId : newList) {
 				for (int j = 0; j < allFrIdNameList.getFrIdNamesList().size(); j++) {
 					if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
 						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));
@@ -182,7 +193,7 @@ public class SalesReportController2 {
 			salesFrListSummery.setFrIdNamesList(frListFinal);
 			salesFrListSummery.setSalesReportFranchiseeList(saleList);
 
-			System.out.println("saleList*********************************************" + saleList.toString());
+			System.out.println("saleList*********************************************" + frIdListFinal.toString());
 
 		} catch (
 
@@ -244,14 +255,17 @@ public class SalesReportController2 {
 					if (saleList.get(i).getType().equals("INV")) {
 
 						drTotalAmt = drTotalAmt + saleList.get(i).getGrandTotal();
-						rowData.add("" + roundUp(saleList.get(i).getGrandTotal()));
+						rowData.add("" +saleList.get(i).getGrandTotal());
 					} else {
 						rowData.add("0");
 					}
 
 					if (saleList.get(i).getType().equals("RET")) {
 						crTotalAmt = crTotalAmt + saleList.get(i).getGrandTotal();
-						rowData.add("" + roundUp(saleList.get(i).getGrandTotal()));
+						rowData.add("" +saleList.get(i).getGrandTotal());
+					}if (saleList.get(i).getType().equals("VER")) {
+						crTotalAmt = crTotalAmt + saleList.get(i).getGrandTotal();
+						rowData.add("" +saleList.get(i).getGrandTotal());
 					} else {
 						rowData.add("0");
 					}
@@ -322,14 +336,23 @@ public class SalesReportController2 {
 					Constants.url + "getSaleReportFrwiseSummery", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 			saleList = responseEntity.getBody();
+	        ArrayList<Integer> newList = new ArrayList<Integer>(); 
 
-			TreeSet<Integer> frIdListFinal = new TreeSet<Integer>();
+			ArrayList<Integer> frIdListFinal = new ArrayList<Integer>();
 			for (int j = 0; j < saleList.size(); j++) {
 				frIdListFinal.add(saleList.get(j).getFrId());
 			}
-
+			for (Integer element : frIdListFinal) { 
+				  
+	            // If this element is not present in newList 
+	            // then add it 
+	            if (!newList.contains(element)) { 
+	  
+	                newList.add(element); 
+	            } 
+	        } 
 			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
-			for (int frId : frIdListFinal) {
+			for (int frId : newList) {
 				for (int j = 0; j < allFrIdNameList.getFrIdNamesList().size(); j++) {
 					if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
 						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));

@@ -413,6 +413,8 @@ public class ManualOrderController {
 		String submitorder = request.getParameter("submitorder");
 		String submitbill = request.getParameter("submitbill");
 		int frId = Integer.parseInt(request.getParameter("fr_id"));
+		 Calendar calender = Calendar.getInstance();
+	     SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			if (orderList != null || !orderList.isEmpty()) {
@@ -647,7 +649,7 @@ public class ManualOrderController {
 					header.setPartyGstin(partyGstin);
 					header.setPartyAddress(partyAddress);
 					
-					header.setBillTime("-");
+					header.setBillTime(sdf1.format(calender.getTime()));
 					header.setVehNo("-");
 					header.setExVarchar1("-");
 					header.setExVarchar2("-");

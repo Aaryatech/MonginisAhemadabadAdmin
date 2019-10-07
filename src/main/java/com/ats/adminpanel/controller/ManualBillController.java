@@ -455,6 +455,8 @@ public class ManualBillController {
 		SpCakeOrderRes spCakeOrderRes = new SpCakeOrderRes();
 		ModelAndView model = null;
 		float exCharges = 0.0f;
+		Calendar calender = Calendar.getInstance();
+	     SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
 		try {
 			
 			model = new ModelAndView("manualBill/add_man_bill");
@@ -997,7 +999,7 @@ public class ManualBillController {
 						header.setTotalTax(sumTotalTax);
 						header.setTaxApplicable((int)(tax1 + tax2));
 						header.setStatus(1);
-						header.setBillTime("-");
+						header.setBillTime(sdf1.format(calender.getTime()));
 						ZoneId zoneId = ZoneId.of("Asia/Calcutta");
 						ZonedDateTime zdt = ZonedDateTime.now(zoneId);
 
