@@ -242,16 +242,16 @@ public class ManualBillController {
 			float sprRate;
 			float spBackendRate;
 
-			float minWt = Float.valueOf(specialCake.getSpMinwt());
+			/*float minWt = Float.valueOf(specialCake.getSpMinwt());
 
 			float maxWt = Float.valueOf(specialCake.getSpMaxwt());
 
 			weightList.add(minWt);
 			float currentWt = minWt;
-		/*	while (currentWt < maxWt) {
+			while (currentWt < maxWt) {
 				currentWt = currentWt + specialCake.getSpRate2();// spr rate 2 means weight increment by
 				weightList.add(currentWt);
-			}*/
+			}
 			while (currentWt < 2) {
 				currentWt = currentWt + 0.5f;//spr rate 2 means weight increment by 
 				if(currentWt<=2) {
@@ -259,7 +259,28 @@ public class ManualBillController {
 				}
 				
 			}
-			float max=2;
+			float max=2;*/
+			
+			
+			//float minWt = Float.valueOf(specialCake.getSpMinwt());
+			float minWt = 1;
+			float maxWt = 15;
+			//float maxWt = Float.valueOf(specialCake.getSpMaxwt());
+
+			weightList.add(minWt);
+			float currentWt = minWt;
+		/*	while (currentWt < maxWt) {
+				currentWt = currentWt + specialCake.getSpRate2();// spr rate 2 means weight increment by
+				weightList.add(currentWt);
+			}*/
+			while (currentWt < 15) {
+				currentWt = currentWt + 0.5f;//spr rate 2 means weight increment by 
+				if(currentWt<=15) {
+				weightList.add(currentWt);
+				}
+				
+			}
+			float max=15;
 			while(max<maxWt)
 			{
 				max=max+specialCake.getSpRate2();
