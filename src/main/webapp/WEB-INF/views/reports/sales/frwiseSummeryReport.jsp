@@ -310,44 +310,27 @@
 																				tr
 																						.append($(
 																								'<td style="text-align:right;"></td>')
-																								.html(
-																										report.grandTotal
-																												.toFixed(2)));
+																								.html(report.grandTotal));
 																			} else {
 																				tr
 																						.append($(
 																								'<td style="text-align:right;"></td>')
-																								.html(
-																										0));
+																								.html(0));
 																			}
 
 																			if (report.type == 'RET') {
-																				totalCrAmt = totalCrAmt
-																						+ report.grandTotal;
-																				tr
-																						.append($(
-																								'<td style="text-align:right;"></td>')
-																								.html(
-																										report.grandTotal
-																												.toFixed(2)));
-																			} else {
-																				tr
-																						.append($(
-																								'<td style="text-align:right;"></td>')
-																								.html(
-																										0));
+																				totalCrAmt = totalCrAmt+ report.grandTotal;
+																				tr.append($('<td style="text-align:right;"></td>').html(report.grandTotal));
+																			}else	if (report.type == 'VER') {
+																				totalCrAmt = totalCrAmt+ report.grandTotal;
+																		        tr.append($('<td style="text-align:right;"></td>').html(report.grandTotal));
+																	} else {
+																				tr.append($('<td style="text-align:right;"></td>').html(0));
 																			}
 
-																			tr
-																					.append($(
-																							'<td></td>')
-																							.html(
-																									""));
+																			tr.append($('<td></td>').html(""));
 
-																			$(
-																					'#table_grid tbody')
-																					.append(
-																							tr);
+																			$('#table_grid tbody').append(tr);
 																		}
 
 																	})

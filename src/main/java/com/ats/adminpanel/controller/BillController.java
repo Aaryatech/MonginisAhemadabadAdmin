@@ -631,7 +631,9 @@ public class BillController {
 				model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
 
 				model.addObject("routeList", routeList);
-
+				 Calendar cal = Calendar.getInstance();
+			     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			     model.addObject("time",sdf.format(cal.getTime()));
 			} catch (Exception e) {
 
 				System.out.println("Exc in show generate bill " + e.getMessage());

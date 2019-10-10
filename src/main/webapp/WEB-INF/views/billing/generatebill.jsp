@@ -309,7 +309,7 @@
 							</div>
 							<label class="col-sm-3 col-lg-1 control-label">Time </label>
 							<div class="col-sm-6 col-lg-2 controls">
-								<input type="text" name="time" id="time" class="form-control" value="-"/>
+								<input type="text" name="time" id="time" class="form-control" value="${time}"/>
 							</div>
 							<div class="col-md-offset-3 col-md-1">
 								<!-- 							<button class="btn btn-info pull-right">Submit & PDF</button>
