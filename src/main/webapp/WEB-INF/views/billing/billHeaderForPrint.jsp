@@ -227,9 +227,14 @@ td {
 													value="0" data-rule-required="true" />
 											</div>
 														</div>
+<div class="box-content">
+		<div class="col-md-9" ></div> 
+					<label for="search" class="col-md-3" id="search">
+    
+									<input type="text"  id="myInput" onkeyup="myFunction()" autocomplete="off" style="border-radius: 60px;" placeholder="Search Shop Name & Invoice Number" title="Type in a name" width=60%>
+										</label>   <br>
 
-
-										<div class="clearfix"></div>
+										<!-- <div class="clearfix"></div> -->
 										<div class="table-responsive" style="border: 0">
 											<table width="100%" class="table table-bordered table-striped" id="table1"  border="1">
 												<thead style="background-color: #f3b5db; ">
@@ -674,6 +679,32 @@ form.submit();
 			
 		}
 		
+		
+		
+		
+		function myFunction() {
+			  var input, filter, table, tr, td,td1, i;
+			  input = document.getElementById("myInput");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("table1");
+			  tr = table.getElementsByTagName("tr");
+			  for (i = 0; i < tr.length; i++) {
+			    td = tr[i].getElementsByTagName("td")[2];
+			    td1 = tr[i].getElementsByTagName("td")[4];
+			    if (td || td1) {
+			      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			        tr[i].style.display = "";
+			      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			        tr[i].style.display = "";
+			      }  else {
+			        tr[i].style.display = "none";
+			      }
+			    }       
+			  }//end of for
+			  
+			 
+			  
+			}
 	</script>
 	<!-- <script type="text/javascript">
 	$(document).ready(function () {

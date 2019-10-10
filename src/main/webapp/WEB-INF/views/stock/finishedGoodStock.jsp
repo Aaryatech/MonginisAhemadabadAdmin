@@ -323,11 +323,13 @@ table {
 			$('#table1 td').remove();
 			var catId = $("#item_grp1").val();
 			var subCatId = $("#item_grp2").val();
+			//alert("catId" + catId);
+			//alert("subCatId" + subCatId);
 			var subCatName = $('#item_grp2 option:selected').text();
 			if (subCatId == 0) {
 				subCatId = catId;
 			}
-			alert("Items For Sub Category - " + subCatName);
+			//alert("Items For Sub Category - " + subCatName);
 			$('#loader').show();
 
 			$

@@ -316,7 +316,7 @@ select {
            			    </select>
            			    </div>
            			    
-           			    <div class="col-md-1" >Name<font size="5" color="red">*</font></div>
+           			    <div class="col-md-1" >Name<font size="5" color="red"></font></div>
 		 				<div class="col-md-3"><input  class="form-control" placeholder="Name" name="event_name" type="text" id="event_name" required>
 						</div>
 						<!--------------------------3------------------------------->
