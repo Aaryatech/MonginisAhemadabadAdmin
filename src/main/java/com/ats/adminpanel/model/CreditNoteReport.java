@@ -25,6 +25,7 @@ public class CreditNoteReport {
 	private String itemName;
 	private String frName;
 	private int frId;
+	private String itemUom;
 	private float peneltyAmt;
 	
 	public int getCrndId() {
@@ -165,6 +166,12 @@ public class CreditNoteReport {
 	public void setPeneltyAmt(float peneltyAmt) {
 		this.peneltyAmt = peneltyAmt;
 	}
+	public String getItemUom() {
+		return itemUom;
+	}
+	public void setItemUom(String itemUom) {
+		this.itemUom = itemUom;
+	}
 	@Override
 	public String toString() {
 		return "CreditNoteReport [crndId=" + crndId + ", crnId=" + crnId + ", billNo=" + billNo + ", billDate="
@@ -172,8 +179,8 @@ public class CreditNoteReport {
 				+ ", grnGvnQty=" + grnGvnQty + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", grnGvnAmt="
 				+ grnGvnAmt + ", cgstPer=" + cgstPer + ", sgstPer=" + sgstPer + ", igstPer=" + igstPer + ", baseRate="
 				+ baseRate + ", refInvoiceNo=" + refInvoiceNo + ", grngvnSrno=" + grngvnSrno + ", crnDate=" + crnDate
-				+ ", crnNo=" + crnNo + ", itemName=" + itemName + ", frName=" + frName + ", frId=" + frId
-				+ ", peneltyAmt=" + peneltyAmt + "]";
+				+ ", crnNo=" + crnNo + ", itemName=" + itemName + ", frName=" + frName + ", frId=" + frId + ", itemUom="
+				+ itemUom + ", peneltyAmt=" + peneltyAmt + "]";
 	}
 	
 	

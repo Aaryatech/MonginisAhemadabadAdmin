@@ -1815,66 +1815,65 @@ public class GrnGvnReportController {
 		}
 
 	}
-	
-	
-	@RequestMapping(value = "/creditNoteReportBetweenDate", method = RequestMethod.GET)
-	public String creditNoteReportBetweenDate(HttpServletRequest request, HttpServletResponse response,Model model) {
 
-		 
+	@RequestMapping(value = "/creditNoteReportBetweenDate", method = RequestMethod.GET)
+	public String creditNoteReportBetweenDate(HttpServletRequest request, HttpServletResponse response, Model model) {
+
 		HttpSession session = request.getSession();
 
-		/*List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		Info view = AccessControll.checkAccess("showAddNewFranchisee", "showAddNewFranchisee", "1", "0", "0", "0",
-				newModuleList);
+		/*
+		 * List<ModuleJson> newModuleList = (List<ModuleJson>)
+		 * session.getAttribute("newModuleList"); Info view =
+		 * AccessControll.checkAccess("showAddNewFranchisee", "showAddNewFranchisee",
+		 * "1", "0", "0", "0", newModuleList);
+		 * 
+		 * if (view.getError() == true) {
+		 * 
+		 * model = new ModelAndView("accessDenied");
+		 * 
+		 * } else {
+		 */
+		String mav = "reports/grnGvn/creditNoteReportBetweenDate";
 
-		if (view.getError() == true) {
+		try {
 
-			model = new ModelAndView("accessDenied");
+			allFrIdNameList = getFrNameId();
 
-		} else {*/
-			String mav =  "reports/grnGvn/creditNoteReportBetweenDate" ;
+			model.addAttribute("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
 
-			try {
- 
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			RestTemplate restTemplate = new RestTemplate();
 
-				allFrIdNameList = getFrNameId(); 
- 
-				model.addAttribute("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
-				
-				 String fromDate = request.getParameter("fromDate");
-				 String toDate = request.getParameter("toDate");
-				 RestTemplate restTemplate = new RestTemplate();
-				 
-				 if(fromDate!=null && toDate!=null) {
-					 
-					 int frId = Integer.parseInt(request.getParameter("selectFr"));
-					 
-					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-					 map.add("frId", frId);
-					 map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-					 map.add("toDate", DateConvertor.convertToYMD(toDate));
-					 CreditNoteReport[] creditNoteReport = restTemplate.postForObject(Constants.url + "creditNoteReportBetweenDate",
-								map, CreditNoteReport[].class);
-					 
-					 List<CreditNoteReport> list = new ArrayList<>(Arrays.asList(creditNoteReport));
-					 model.addAttribute("list", list);
-					 model.addAttribute("toDate", toDate);
-					 model.addAttribute("fromDate", fromDate);
-					 model.addAttribute("frId", frId);
-				 }
-				
+			if (fromDate != null && toDate != null) {
 
-			} catch (Exception e) {
-				System.out.println("Exce inshowGGReportDateWise " + e.getMessage());
-				e.printStackTrace();
+				int frId = Integer.parseInt(request.getParameter("selectFr"));
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("frId", frId);
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				CreditNoteReport[] creditNoteReport = restTemplate
+						.postForObject(Constants.url + "creditNoteReportBetweenDate", map, CreditNoteReport[].class);
+
+				List<CreditNoteReport> list = new ArrayList<>(Arrays.asList(creditNoteReport));
+				model.addAttribute("list", list);
+				model.addAttribute("toDate", toDate);
+				model.addAttribute("fromDate", fromDate);
+				model.addAttribute("frId", frId);
 			}
-		//}
+
+		} catch (Exception e) {
+			System.out.println("Exce inshowGGReportDateWise " + e.getMessage());
+			e.printStackTrace();
+		}
+		// }
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/creditNoteReportBetweenDatePdf ", method = RequestMethod.GET)
-	public void creditNoteReportBetweenDatePdf(  HttpServletRequest request, HttpServletResponse response)
+	public void creditNoteReportBetweenDatePdf(HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showPOReportPdf");
@@ -1883,7 +1882,6 @@ public class GrnGvnReportController {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 
-		
 		String FILE_PATH = Constants.REPORT_SAVE;
 		File file = new File(FILE_PATH);
 
@@ -1899,438 +1897,427 @@ public class GrnGvnReportController {
 		document.open();
 		PdfPTable table = new PdfPTable(10);
 		try {
-			
+
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
-			 RestTemplate restTemplate = new RestTemplate();
-			 
-			 
-			 System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
-				 int frId = Integer.parseInt(request.getParameter("selectedFr"));
-				 
-				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				 map.add("frId",frId);
-				 map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-				 map.add("toDate", DateConvertor.convertToYMD(toDate));
-				 System.out.println(map);
-				 CreditNoteReport[] creditNoteReport = restTemplate.postForObject(Constants.url + "creditNoteReportBetweenDate",
-							map, CreditNoteReport[].class);
-				 
-				 List<CreditNoteReport> list = new ArrayList<>(Arrays.asList(creditNoteReport)); 
-			 
+			RestTemplate restTemplate = new RestTemplate();
+
+			System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+			int frId = Integer.parseInt(request.getParameter("selectedFr"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("frId", frId);
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			System.out.println(map);
+			CreditNoteReport[] creditNoteReport = restTemplate
+					.postForObject(Constants.url + "creditNoteReportBetweenDate", map, CreditNoteReport[].class);
+
+			List<CreditNoteReport> list = new ArrayList<>(Arrays.asList(creditNoteReport));
+
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.0f, 3.5f, 3.2f, 4.0f, 2.0f, 3.2f, 3.2f , 3.2f , 3.2f , 3.2f});
+			table.setWidths(new float[] { 2.0f, 3.5f, 3.2f, 4.0f, 2.0f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
-			
-			Font totalFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLACK); 
-			
-			
+
+			Font totalFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLACK);
+
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
 
 			Paragraph name = new Paragraph("Siddarth Foods\n", f);
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
-			 
-			
+
 			Paragraph company = new Paragraph("Itemwise Grn/Gvn Report\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
-			
-			Paragraph date = new Paragraph("Date : "+fromDate+" To "+toDate+"\n", f);
+
+			Paragraph date = new Paragraph("Date : " + fromDate + " To " + toDate + "\n", f);
 			date.setAlignment(Element.ALIGN_CENTER);
 			document.add(date);
-			
-			String frnchiname=list.get(0).getFrName();
-			
-			Paragraph frName = new Paragraph(frnchiname+"\n", f);
-			frName.setAlignment(Element.ALIGN_RIGHT);
-			document.add(frName);
-			document.add(new Paragraph(" "));
-			
-			PdfPCell hcell = new PdfPCell();
-			  
-			hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
+			if (list.size() > 0) {
 
-			hcell = new PdfPCell(new Phrase("Doc No", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
+				String frnchiname = list.get(0).getFrName();
 
-			hcell = new PdfPCell(new Phrase("Date", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
+				Paragraph frName = new Paragraph(frnchiname + "\n", f);
+				frName.setAlignment(Element.ALIGN_RIGHT);
+				document.add(frName);
+				document.add(new Paragraph(" "));
 
-			hcell = new PdfPCell(new Phrase("Item Description", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
+				PdfPCell hcell = new PdfPCell();
 
-			hcell = new PdfPCell(new Phrase("UOM", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("QTY", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
- 
-			hcell = new PdfPCell(new Phrase("Rate", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("Penalty AMT", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("Credit AMT", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
-			
-			hcell = new PdfPCell(new Phrase("Ref Inv No", headFont1));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.PINK);
-			hcell.setPadding(5);
-			table.addCell(hcell);
-			
-			int index = 0;
-			  
-		    float totalPanalty=0;
-		    float totalCredit=0;
-		    float finaltotalPanalty=0;
-		    float finaltotalCredit=0;
-		    
-		    DecimalFormat df = new DecimalFormat("#.00");
-		     
-			for (int i=0; i< list.size() ; i++) {
-				 
-				CreditNoteReport row = list.get(i);
-				
-				index++;
-				PdfPCell cell;
+				hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				 
+				hcell = new PdfPCell(new Phrase("Doc No", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				cell = new PdfPCell(new Phrase(String.valueOf(index), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				cell.setPadding(3);
-				cell.setPaddingRight(2);
-				table.addCell(cell);
+				hcell = new PdfPCell(new Phrase("Date", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				  
+				hcell = new PdfPCell(new Phrase("Item Description", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				cell = new PdfPCell(new Phrase("" + row.getCrnNo(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
+				hcell = new PdfPCell(new Phrase("UOM", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				cell = new PdfPCell(new Phrase("" + row.getCrnDate(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
+				hcell = new PdfPCell(new Phrase("QTY", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				cell = new PdfPCell(new Phrase("" + row.getItemName(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
+				hcell = new PdfPCell(new Phrase("Rate", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				cell = new PdfPCell(new Phrase("-", headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
+				hcell = new PdfPCell(new Phrase("Penalty AMT", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				cell = new PdfPCell(new Phrase("" + row.getGrnGvnQty(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
+				hcell = new PdfPCell(new Phrase("Credit AMT", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
 
-				cell = new PdfPCell(new Phrase("" + row.getBaseRate(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
-				
-				cell = new PdfPCell(new Phrase("" + row.getPeneltyAmt(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
-				totalPanalty=totalPanalty+row.getPeneltyAmt();
-				
-				cell = new PdfPCell(new Phrase("" + row.getGrnGvnAmt(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
-				totalCredit=totalCredit+row.getGrnGvnAmt();
-				
-				cell = new PdfPCell(new Phrase("" + row.getRefInvoiceNo(), headFont));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				cell.setPaddingRight(2);
-				cell.setPadding(3);
-				table.addCell(cell);
-				
-				int istotal=0;
-				try {
-					
-					if(list.get(i+1).getCrnId()!=row.getCrnId()) {
-						istotal=1;
+				hcell = new PdfPCell(new Phrase("Ref Inv No", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				hcell.setPadding(5);
+				table.addCell(hcell);
+
+				int index = 0;
+
+				float totalPanalty = 0;
+				float totalCredit = 0;
+				float finaltotalPanalty = 0;
+				float finaltotalCredit = 0;
+
+				DecimalFormat df = new DecimalFormat("#.00");
+
+				for (int i = 0; i < list.size(); i++) {
+
+					CreditNoteReport row = list.get(i);
+
+					index++;
+					PdfPCell cell;
+
+					cell = new PdfPCell(new Phrase(String.valueOf(index), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					cell.setPadding(3);
+					cell.setPaddingRight(2);
+					table.addCell(cell);
+
+					cell = new PdfPCell(new Phrase("" + row.getCrnNo(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+
+					cell = new PdfPCell(new Phrase("" + row.getCrnDate(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+
+					cell = new PdfPCell(new Phrase("" + row.getItemName(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+
+					cell = new PdfPCell(new Phrase(" "+row.getItemUom(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+
+					cell = new PdfPCell(new Phrase("" + row.getGrnGvnQty(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+
+					cell = new PdfPCell(new Phrase("" + row.getBaseRate(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+
+					cell = new PdfPCell(new Phrase("" + row.getPeneltyAmt(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+					totalPanalty = totalPanalty + row.getPeneltyAmt();
+
+					cell = new PdfPCell(new Phrase("" + row.getGrnGvnAmt(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+					totalCredit = totalCredit + row.getGrnGvnAmt();
+
+					cell = new PdfPCell(new Phrase("" + row.getRefInvoiceNo(), headFont));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setPaddingRight(2);
+					cell.setPadding(3);
+					table.addCell(cell);
+
+					int istotal = 0;
+					try {
+
+						if (list.get(i + 1).getCrnId() != row.getCrnId()) {
+							istotal = 1;
+						}
+
+					} catch (Exception e) {
+						istotal = 1;
 					}
-					
-				}catch(Exception e) {
-					istotal=1;
-				}
-				
-				
-				if(istotal==1) {
-					 
-					cell = new PdfPCell(new Phrase("Total ", totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					cell.setColspan(7);
-					table.addCell(cell);
-					
-					cell = new PdfPCell(new Phrase("" + df.format(totalPanalty), totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-					  
-					cell = new PdfPCell(new Phrase("" + df.format(totalCredit), totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-				  
-					cell = new PdfPCell(new Phrase("-", totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-					
-					finaltotalPanalty=finaltotalPanalty+totalPanalty;
-					finaltotalCredit=finaltotalCredit+totalCredit;
-					
-					totalPanalty=0;
-					totalCredit=0;
-					
-				}
-				
-				int isnextpage=0;
-				try {
-					
-					if(list.get(i+1).getFrId()!=row.getFrId()) {
-						isnextpage=1;
-						frnchiname=list.get(i+1).getFrName();
+
+					if (istotal == 1) {
+
+						cell = new PdfPCell(new Phrase("Total ", totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						cell.setColspan(7);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + df.format(totalPanalty), totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + df.format(totalCredit), totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("-", totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						finaltotalPanalty = finaltotalPanalty + totalPanalty;
+						finaltotalCredit = finaltotalCredit + totalCredit;
+
+						totalPanalty = 0;
+						totalCredit = 0;
+
 					}
-					
-				}catch(Exception e) {
-					//isnextpage=1;
-					
-					cell = new PdfPCell(new Phrase("Final Total ", totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					cell.setColspan(7);
-					table.addCell(cell);
-					
-					cell = new PdfPCell(new Phrase("" + df.format(finaltotalPanalty), totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-					  
-					cell = new PdfPCell(new Phrase("" + df.format(finaltotalCredit), totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-				  
-					cell = new PdfPCell(new Phrase("-", totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-					document.add(table);
-					finaltotalPanalty=0;
-					finaltotalCredit=0;
-					
+
+					int isnextpage = 0;
+					try {
+
+						if (list.get(i + 1).getFrId() != row.getFrId()) {
+							isnextpage = 1;
+							frnchiname = list.get(i + 1).getFrName();
+						}
+
+					} catch (Exception e) {
+						// isnextpage=1;
+
+						cell = new PdfPCell(new Phrase("Final Total ", totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						cell.setColspan(7);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + df.format(finaltotalPanalty), totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + df.format(finaltotalCredit), totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("-", totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						document.add(table);
+						finaltotalPanalty = 0;
+						finaltotalCredit = 0;
+
+					}
+
+					if (isnextpage == 1) {
+
+						cell = new PdfPCell(new Phrase("Final Total ", totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						cell.setColspan(7);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + df.format(finaltotalPanalty), totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + df.format(finaltotalCredit), totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("-", totalFont));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						cell.setPaddingRight(2);
+						cell.setPadding(3);
+						table.addCell(cell);
+						document.add(table);
+						finaltotalPanalty = 0;
+						finaltotalCredit = 0;
+
+						// System.out.println("next paage");
+						document.newPage();
+						table = new PdfPTable(10);
+						table.setWidthPercentage(100);
+						table.setWidths(new float[] { 2.0f, 3.5f, 3.2f, 4.0f, 2.0f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
+
+						hcell = new PdfPCell();
+
+						hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("Doc No", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("Date", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("Item Description", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("UOM", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("QTY", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("Rate", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("Penalty AMT", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("Credit AMT", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						hcell = new PdfPCell(new Phrase("Ref Inv No", headFont1));
+						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						hcell.setBackgroundColor(BaseColor.PINK);
+						hcell.setPadding(5);
+						table.addCell(hcell);
+
+						document.add(name);
+						document.add(company);
+						document.add(date);
+						frName = new Paragraph(frnchiname + "\n", f);
+						frName.setAlignment(Element.ALIGN_RIGHT);
+						document.add(frName);
+						document.add(new Paragraph(" "));
+
+					}
+
 				}
-				
-				if(isnextpage==1) {
-					
-					cell = new PdfPCell(new Phrase("Final Total ", totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					cell.setColspan(7);
-					table.addCell(cell);
-					
-					cell = new PdfPCell(new Phrase("" + df.format(finaltotalPanalty), totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-					  
-					cell = new PdfPCell(new Phrase("" + df.format(finaltotalCredit), totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-				  
-					cell = new PdfPCell(new Phrase("-", totalFont));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
-					table.addCell(cell);
-					document.add(table);
-					finaltotalPanalty=0;
-					finaltotalCredit=0;
-					
-					//System.out.println("next paage");
-					document.newPage();
-					table = new PdfPTable(10);
-					table.setWidthPercentage(100);
-					table.setWidths(new float[] { 2.0f, 3.5f, 3.2f, 4.0f, 2.0f, 3.2f, 3.2f , 3.2f , 3.2f , 3.2f});
-					 
-					hcell = new PdfPCell();
-					  
-					hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
 
-					hcell = new PdfPCell(new Phrase("Doc No", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
+				/*
+				 * Paragraph name = new Paragraph("Siddarth Foods\n", f);
+				 * name.setAlignment(Element.ALIGN_CENTER); document.add(name); document.add(new
+				 * Paragraph(" ")); Paragraph company = new
+				 * Paragraph("Itemwise Grn/Gvn Report\n", f);
+				 * company.setAlignment(Element.ALIGN_CENTER); document.add(company);
+				 * document.add(new Paragraph(" "));
+				 */
 
-					hcell = new PdfPCell(new Phrase("Date", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
-
-					hcell = new PdfPCell(new Phrase("Item Description", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
-
-					hcell = new PdfPCell(new Phrase("UOM", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
-					
-					hcell = new PdfPCell(new Phrase("QTY", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
-		 
-					hcell = new PdfPCell(new Phrase("Rate", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
-					
-					hcell = new PdfPCell(new Phrase("Penalty AMT", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
-					
-					hcell = new PdfPCell(new Phrase("Credit AMT", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
-					
-					hcell = new PdfPCell(new Phrase("Ref Inv No", headFont1));
-					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					hcell.setBackgroundColor(BaseColor.PINK);
-					hcell.setPadding(5);
-					table.addCell(hcell);
-					
-					 
-					document.add(name); 
-					document.add(company);
-					document.add(date);
-					frName = new Paragraph(frnchiname+"\n", f);
-					frName.setAlignment(Element.ALIGN_RIGHT);
-					document.add(frName);
-					document.add(new Paragraph(" "));
-					
-				}
+				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+				String reportDate = DF.format(new Date());
 
 			}
- 
-
-			
-			/*Paragraph name = new Paragraph("Siddarth Foods\n", f);
-			name.setAlignment(Element.ALIGN_CENTER);
-			document.add(name);
-			document.add(new Paragraph(" "));
-			Paragraph company = new Paragraph("Itemwise Grn/Gvn Report\n", f);
-			company.setAlignment(Element.ALIGN_CENTER);
-			document.add(company);
-			document.add(new Paragraph(" "));*/
-
-			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-			String reportDate = DF.format(new Date());
-
-			
-
 			int totalPages = writer.getPageNumber();
 
 			System.out.println("Page no " + totalPages);
