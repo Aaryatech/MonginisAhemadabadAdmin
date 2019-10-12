@@ -905,7 +905,7 @@ public class ManualBillController {
 
 						PostBillDetail billDetail = new PostBillDetail();
 
-						Float orderRate = Float.parseFloat(spGrand);
+						Float orderRate = floatBackEndRate;//backend rate
 						Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
 						baseRate = roundUp(baseRate);
 						Float taxableAmt = baseRate;
@@ -977,7 +977,7 @@ public class ManualBillController {
 							billDetail.setMrp(specialCake.getMrpRate3());
 						}
 						billDetail.setRateType(frDetails.getFrRateCat());
-						billDetail.setRate(Float.parseFloat(spGrand));
+						billDetail.setRate(floatBackEndRate);
 						billDetail.setBaseRate(roundUp(baseRate));
 						billDetail.setTaxableAmt(roundUp(taxableAmt));
 						billDetail.setDiscPer(discPer);// new
