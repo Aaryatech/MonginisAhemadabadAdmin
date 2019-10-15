@@ -227,7 +227,7 @@
 				ajax : 'true'
 
 			}, function(data) {
-
+				$('#loader').hide();
 				//alert("DATA ------------ " + JSON.stringify(data));
 				exportToExcel();
 

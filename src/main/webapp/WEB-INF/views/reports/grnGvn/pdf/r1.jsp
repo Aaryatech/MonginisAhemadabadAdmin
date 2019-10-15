@@ -47,7 +47,7 @@ th {
 </head>
 <body onload="myFunction()">
 	<h3 align="center">${FACTORYNAME}</h3>
-<p align="center">${FACTORYADDRESS}</p>
+	<p align="center">${FACTORYADDRESS}</p>
 
 	<div align="center">
 		<h5>GRN GVN Report (Date Wise) &nbsp;&nbsp;&nbsp;&nbsp; From
@@ -58,9 +58,9 @@ th {
 		<thead>
 			<tr class="bgpink">
 				<th>Sr.No.</th>
-				<th>GrnGvn Sr.No.</th>
-				<th>Type</th>
 				<th>Date</th>
+				<th>Type</th>
+				<th>GrnGvn Sr.No.</th>
 				<th>Party Name</th>
 				<th>Req Qty</th>
 				<th>Req Value</th>
@@ -84,18 +84,27 @@ th {
 							<c:set var="type" value="GRN" />
 						</c:when>
 					</c:choose>
-										<td width="120"><c:out value="${report.grngvnDate}" /></td>
-					
+					<td width="120" align="center"><c:out
+							value="${report.grngvnDate}" /></td>
+
 					<td width="100" align="center"><c:out value="${type}" /></td>
-					
-										<td width="120"><c:out value="${report.grngvnSrno}" /></td>
-					
-					<td width="120"><c:out value="${report.frName}" /></td>
-					<td width="100" align="center"><c:out value="${report.reqQty}" /></td>
-					<td width="100" align="right"><c:out
+
+					<td width="120" style="padding: 3px;"><c:out
+							value="${report.grngvnSrno}" /></td>
+
+					<td width="120" style="padding: 3px;"><c:out
+							value="${report.frName}" /></td>
+					<td width="100" align="right" style="padding: 3px;"><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${report.reqQty}" /></td>
+					<td width="100" align="right" style="padding: 3px;"><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${report.totalAmt}" /></td>
-					<td align="center" width="100"><c:out value="${report.aprQty}" /></td>
-					<td align="right" width="100"><c:out
+					<td align="right" width="100" style="padding: 3px;"><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${report.aprQty}" /></td>
+					<td align="right" width="100" style="padding: 3px;"><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${report.aprGrandTotal}" /></td>
 					<c:set var="reqQtySum" value="${reqQtySum + report.reqQty}" />
 					<c:set var="reqValSum" value="${reqValSum+report.totalAmt}" />
@@ -107,18 +116,18 @@ th {
 			</c:forEach>
 			<tr>
 
-				<td width="100" colspan='5' align="right"><b>Total</b></td>
-				<td width="100" align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="0" minFractionDigits="0"
+				<td width="100" colspan='5' align="left"><b>Total</b></td>
+				<td width="100" align="right" style="padding: 3px;"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${reqQtySum}" /></b></td>
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="100" align="right" style="padding: 3px;"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${reqValSum}" /></b></td>
-				<td width="100" align="right"><b><fmt:formatNumber
-							type="number" maxFractionDigits="0" minFractionDigits="0"
+				<td width="100" align="right" style="padding: 3px;"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${aprQtySum}" /></b></td>
 
-				<td width="100" align="right"><b><fmt:formatNumber
+				<td width="100" align="right" style="padding: 3px;"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${aprValSum}" /></b></td>
 			</tr>

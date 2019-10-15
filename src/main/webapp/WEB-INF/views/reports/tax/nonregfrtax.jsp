@@ -27,7 +27,7 @@
 
 	<!-- BEGIN Content -->
 	<div id="main-content">
-	
+
 		<div class="box">
 			<div class="box-title">
 				<h3>
@@ -37,7 +37,8 @@
 			</div>
 
 			<div class="box-content">
-				<form action="${pageContext.request.contextPath}/showNonRegisteredFrTaxReport"
+				<form
+					action="${pageContext.request.contextPath}/showNonRegisteredFrTaxReport"
 					class="form-horizontal" method="get" id="validation-form">
 					<div class="row">
 
@@ -45,8 +46,9 @@
 						<div class="form-group">
 							<label class="col-sm-3 col-lg-2	 control-label">From Date</label>
 							<div class="col-sm-6 col-lg-2 controls date_select">
-								<input class="form-control date-picker" id="fromDate" autocomplete="off"
-									name="fromDate" size="30" type="text" value="${fromDate}" />
+								<input class="form-control date-picker" id="fromDate"
+									autocomplete="off" name="fromDate" size="30" type="text"
+									value="${fromDate}" placeholder="From Date" />
 							</div>
 
 							<!-- </div>
@@ -55,8 +57,9 @@
 
 							<label class="col-sm-3 col-lg-2	 control-label">To Date</label>
 							<div class="col-sm-6 col-lg-2 controls date_select">
-								<input class="form-control date-picker" id="toDate"autocomplete="off"
-									name="toDate" size="30" type="text" value="${toDate}" />
+								<input class="form-control date-picker" id="toDate"
+									autocomplete="off" placeholder="To Date" name="toDate"
+									size="30" type="text" value="${toDate}" />
 							</div>
 							<!-- </div>
 
@@ -84,8 +87,8 @@
 
 			</div>
 		</div>
-<div class="box">
-	<div class=" box-content">
+		<div class="box">
+			<div class=" box-content">
 				<div class="row">
 					<div class="col-md-12 table-responsive">
 						<table class="table table-bordered table-striped fill-head "
@@ -103,7 +106,7 @@
 									<th>CRN SGST</th>
 									<th>CRN CGST</th>
 									<th>CRN Total</th>
-                                    <th>Tot.Taxable</th>
+									<th>Tot.Taxable</th>
 									<th>Tot.SGST</th>
 									<th>Tot.CGST</th>
 									<th>Tot.Total</th>
@@ -128,63 +131,73 @@
 								<c:forEach items="${taxReportList}" var="taxList"
 									varStatus="count">
 									<tr>
-									 <c:set var="actTaxableAmt"
+										<c:set var="actTaxableAmt"
 											value="${actTaxableAmt+(taxList.billTaxableAmt-taxList.crnTaxableAmt)}" />
 										<c:set var="actCgstAmt"
 											value="${actCgstAmt+(taxList.billCgstAmt-taxList.crnCgstAmt)}" />
 										<c:set var="actSgstAmt"
 											value="${actSgstAmt+(taxList.billSgstAmt-taxList.crnSgstAmt)}" />
-										<c:set var="actIgstAmt" value="${actIgstAmt+(taxList.billIgstAmt-taxList.crnIgstAmt)}" />
+										<c:set var="actIgstAmt"
+											value="${actIgstAmt+(taxList.billIgstAmt-taxList.crnIgstAmt)}" />
 										<c:set var="actGrandAmt"
 											value="${actGrandAmt+(taxList.billGrandAmt-taxList.crnGrandAmt)}" />
-									<td><c:out value="${count.index+1}" /></td>
+										<td><c:out value="${count.index+1}" /></td>
 										<td><c:out value="${taxList.frName}" /></td>
-										<td style="text-align: right;"><c:out value="${taxList.taxPer}" /></td>
-										<td style="text-align: right;"><c:out value="${taxList.billTaxableAmt}" /></td>
-										<td style="text-align: right;"><c:out value="${taxList.billSgstAmt}" /></td>
+										<td style="text-align: right;"><c:out
+												value="${taxList.taxPer}" /></td>
+										<td style="text-align: right;"><c:out
+												value="${taxList.billTaxableAmt}" /></td>
+										<td style="text-align: right;"><c:out
+												value="${taxList.billSgstAmt}" /></td>
 
-										<td style="text-align: right;"><c:out value="${taxList.billCgstAmt}" /></td>
+										<td style="text-align: right;"><c:out
+												value="${taxList.billCgstAmt}" /></td>
 										<td style="text-align: right;"><c:out
 												value="${taxList.billGrandAmt}" /></td>
-											<td style="text-align: right;"><c:out value="${taxList.crnTaxableAmt}" /></td>
-										<td style="text-align: right;"><c:out value="${taxList.crnSgstAmt}" /></td>
+										<td style="text-align: right;"><c:out
+												value="${taxList.crnTaxableAmt}" /></td>
+										<td style="text-align: right;"><c:out
+												value="${taxList.crnSgstAmt}" /></td>
 
-										<td style="text-align: right;"><c:out value="${taxList.crnCgstAmt}" /></td>
+										<td style="text-align: right;"><c:out
+												value="${taxList.crnCgstAmt}" /></td>
 										<td style="text-align: right;"><c:out
 												value="${taxList.crnGrandAmt}" /></td>
-												
-												<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${taxList.billTaxableAmt-taxList.crnTaxableAmt}" /></td>
-												
-												<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${taxList.billSgstAmt-taxList.crnSgstAmt}" /></td>
-												
-												<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${taxList.billCgstAmt-taxList.crnCgstAmt}" /></td>
-												
-												<td style="text-align: right;"><fmt:formatNumber
-											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${taxList.billGrandAmt-taxList.crnGrandAmt}" /></td>
-												
+
+										<td style="text-align: right;"><fmt:formatNumber
+												type="number" maxFractionDigits="2" minFractionDigits="2"
+												value="${taxList.billTaxableAmt-taxList.crnTaxableAmt}" /></td>
+
+										<td style="text-align: right;"><fmt:formatNumber
+												type="number" maxFractionDigits="2" minFractionDigits="2"
+												value="${taxList.billSgstAmt-taxList.crnSgstAmt}" /></td>
+
+										<td style="text-align: right;"><fmt:formatNumber
+												type="number" maxFractionDigits="2" minFractionDigits="2"
+												value="${taxList.billCgstAmt-taxList.crnCgstAmt}" /></td>
+
+										<td style="text-align: right;"><fmt:formatNumber
+												type="number" maxFractionDigits="2" minFractionDigits="2"
+												value="${taxList.billGrandAmt-taxList.crnGrandAmt}" /></td>
+
 										<c:set var="billTaxableAmt"
 											value="${billTaxableAmt+taxList.billTaxableAmt}" />
 										<c:set var="billCgstAmt"
 											value="${billCgstAmt+taxList.billCgstAmt}" />
 										<c:set var="billSgstAmt"
 											value="${billSgstAmt+taxList.billSgstAmt}" />
-										<c:set var="billIgstAmt" value="${billIgstAmt+taxList.billIgstAmt}" />
+										<c:set var="billIgstAmt"
+											value="${billIgstAmt+taxList.billIgstAmt}" />
 										<c:set var="billGrandAmt"
 											value="${billGrandAmt+taxList.billGrandAmt}" />
-	                                    <c:set var="crnTaxableAmt"
+										<c:set var="crnTaxableAmt"
 											value="${crnTaxableAmt+taxList.crnTaxableAmt}" />
 										<c:set var="crnCgstAmt"
 											value="${crnCgstAmt+taxList.crnCgstAmt}" />
 										<c:set var="crnSgstAmt"
 											value="${crnSgstAmt+taxList.crnSgstAmt}" />
-										<c:set var="crnIgstAmt" value="${crnIgstAmt+taxList.crnIgstAmt}" />
+										<c:set var="crnIgstAmt"
+											value="${crnIgstAmt+taxList.crnIgstAmt}" />
 										<c:set var="crnGrandAmt"
 											value="${crnGrandAmt+taxList.crnGrandAmt}" />
 
@@ -194,45 +207,45 @@
 								<tr>
 									<td></td>
 									<td></td>
-								
+
 
 									<td style="text-align: left;">Total</td>
 									<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
 											value="${billTaxableAmt}" /></td>
-								    <td style="text-align: right;"><fmt:formatNumber
+									<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
 											value="${billSgstAmt}" /></td>
 									<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${billCgstAmt}" /></td>	
-								    <td style="text-align: right;"><fmt:formatNumber
+											value="${billCgstAmt}" /></td>
+									<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${billGrandAmt}" /></td>	
-								   <td style="text-align: right;"><fmt:formatNumber
+											value="${billGrandAmt}" /></td>
+									<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
 											value="${crnTaxableAmt}" /></td>
-								    <td style="text-align: right;"><fmt:formatNumber
+									<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
 											value="${crnSgstAmt}" /></td>
 									<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${crnCgstAmt}" /></td>	
-								    <td style="text-align: right;"><fmt:formatNumber
+											value="${crnCgstAmt}" /></td>
+									<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${crnGrandAmt}" /></td>	
+											value="${crnGrandAmt}" /></td>
 									<td style="text-align: left;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
 											value="${actTaxableAmt}" /></td>
-							        <td style="text-align: left;"><fmt:formatNumber
+									<td style="text-align: left;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
 											value="${actSgstAmt}" /></td>
-							        <td style="text-align: left;"><fmt:formatNumber
+									<td style="text-align: left;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${actCgstAmt}" /></td>	
-							        <td style="text-align: left;"><fmt:formatNumber
+											value="${actCgstAmt}" /></td>
+									<td style="text-align: left;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
-											value="${actGrandAmt}" /></td>	
+											value="${actGrandAmt}" /></td>
 								</tr>
 
 							</tbody>
@@ -269,7 +282,6 @@
 				startDate : '-3d'
 			}
 		});
-
 	</script>
 
 	<script type="text/javascript">

@@ -482,7 +482,7 @@ public class SalesReportController2 {
 			map.add("toDate", toDate);
 			map.add("frIdList", selectedFr);
 			map.add("subCatIdList", selectedSubCatIdList);
-
+			System.out.println(map);
 			ParameterizedTypeReference<List<SubCatFrReport>> typeRef = new ParameterizedTypeReference<List<SubCatFrReport>>() {
 			};
 			ResponseEntity<List<SubCatFrReport>> responseEntity = restTemplate
@@ -666,25 +666,19 @@ public class SalesReportController2 {
 		List<AllFrIdName> frListFinal = new ArrayList<>();
 
 		try {
-
-			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
-			selectedFr = selectedFr.replaceAll("\"", "");
-
-			selectedSubCatIdList = selectedSubCatIdList.substring(1, selectedSubCatIdList.length() - 1);
-			selectedSubCatIdList = selectedSubCatIdList.replaceAll("\"", "");
-
-			System.out.println("selectedFrAfter------------------" + selectedFr);
-
+  
+			  
+			 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
 
-			System.out.println("Inside If all fr Selected ");
-
+			  
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
 			map.add("frIdList", selectedFr);
 			map.add("subCatIdList", selectedSubCatIdList);
 
+			System.out.println(map);
 			ParameterizedTypeReference<List<SubCatFrReport>> typeRef = new ParameterizedTypeReference<List<SubCatFrReport>>() {
 			};
 			ResponseEntity<List<SubCatFrReport>> responseEntity = restTemplate

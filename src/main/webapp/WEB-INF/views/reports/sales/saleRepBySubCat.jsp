@@ -108,13 +108,15 @@
 
 						</select>
 					</div>
-                 </div><br>
-                 <div class="row">
+				</div>
+				<br>
+				<div class="row">
 					<label class="col-sm-2 col-lg-2 control-label">Sub Category</label>
 					<div class="col-md-10">
 						<select data-placeholder="Select Sub Category" multiple="multiple"
 							class="form-control chosen " name="item_grp2" id="item_grp2"
-							tabindex="-1" data-rule-required="true" onchange="setAllSubSelected()">
+							tabindex="-1" data-rule-required="true"
+							onchange="setAllSubSelected()">
 
 							<%-- 	<c:forEach items="${subCatList}" var="subCatList"
 								varStatus="count">
@@ -157,16 +159,17 @@
 
 						</div>
 					</div>
-					
-				</div><br>
-					<div class="row">
-                   <div class="col-md-6" style="text-align: center;">
+
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-6" style="text-align: center;">
 						<button class="btn btn-info" onclick="searchReport()">Search
 							Report</button>
 						<button class="btn btn-primary" value="PDF" id="PDFButton"
 							onclick="genPdf()">PDF</button>
 					</div>
-					</div>
+				</div>
 				<br>
 
 
@@ -258,7 +261,7 @@
 
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
-            
+
 			$('#loader').show();
 
 			$
@@ -454,57 +457,57 @@
 																			"Total"));
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			totalSoldQty
 																					.toFixed(2)));
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			totalSoldAmt
 																					.toFixed(2)));
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			totalVarQty
 																					.toFixed(2)));
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			totalVarAmt
 																					.toFixed(2)));
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			totalRetQty
 																					.toFixed(2)));
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			totalRetAmt
 																					.toFixed(2)));
 
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			totalNetQty
 																					.toFixed(2)));
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			totalNetAmt
 																					.toFixed(2)));
 
 													tr
 															.append($(
-																	'<td style="text-align:right;"></td>')
+																	'<td style="text-align:right;font-weight:bold;"></td>')
 																	.html(
 																			retAmtPer
 																					.toFixed(2)));
@@ -551,7 +554,7 @@
 	<script type="text/javascript">
 		function getSubCategoriesByCatId() {
 			var catId = $("#item_grp1").val();
-		
+
 			$
 					.getJSON(
 							'${getGroup2ByCatId}',
@@ -585,39 +588,44 @@
 		}
 		function setAllSubSelected() {
 			var catId = $("#item_grp1").val();
-		   var subCatId=$("#item_grp2").val();
-		   if(subCatId==-1){
-			$
-					.getJSON(
-							'${getGroup2ByCatId}',
-							{
-								catId : JSON.stringify(catId),
-								ajax : 'true'
-							},
-							function(data) {
-								var html = '<option multiple="multiple" value="">Sub Category</option>';
+			var subCatId = $("#item_grp2").val();
+			if (subCatId == -1) {
+				$
+						.getJSON(
+								'${getGroup2ByCatId}',
+								{
+									catId : JSON.stringify(catId),
+									ajax : 'true'
+								},
+								function(data) {
+									var html = '<option multiple="multiple" value="">Sub Category</option>';
 
-								var len = data.length;
+									var len = data.length;
 
-								$('#item_grp2').find('option').remove().end()
+									$('#item_grp2').find('option').remove()
+											.end()
 
-								$("#item_grp2")
-										.append(
-												$("<option ></option>").attr(
-														"value", "").text(
-														"Select Sub Category"));
-								$("#item_grp2").append(
-										$("<option></option>")
-												.attr("value", -1).text("ALL"));
-								for (var i = 0; i < len; i++) {
 									$("#item_grp2").append(
-											$("<option selected></option>").attr(
-													"value", data[i].subCatId)
-													.text(data[i].subCatName));
-								}
-								$("#item_grp2").trigger("chosen:updated");
-							});
-		   }
+											$("<option ></option>").attr(
+													"value", "").text(
+													"Select Sub Category"));
+									$("#item_grp2").append(
+											$("<option></option>").attr(
+													"value", -1).text("ALL"));
+									for (var i = 0; i < len; i++) {
+										$("#item_grp2")
+												.append(
+														$(
+																"<option selected></option>")
+																.attr(
+																		"value",
+																		data[i].subCatId)
+																.text(
+																		data[i].subCatName));
+									}
+									$("#item_grp2").trigger("chosen:updated");
+								});
+			}
 		}
 	</script>
 
