@@ -100,7 +100,9 @@
 								onchange="disableFr()">
 								<option value="0">Select Route</option>
 								<c:forEach items="${routeList}" var="route" varStatus="count">
-									<option value="${route.routeId}"><c:out value="${route.routeName}"/> </option>
+									<option value="${route.routeId}"><c:out
+											value="${route.routeName}" />
+									</option>
 
 								</c:forEach>
 							</select>
@@ -115,11 +117,11 @@
 								class="form-control chosen" multiple="multiple" tabindex="6"
 								id="selectFr" name="selectFr" onchange="disableRoute()">
 
-								<option value="-1"><c:out value="All"/></option>
+								<option value="-1"><c:out value="All" /></option>
 
 								<c:forEach items="${unSelectedFrList}" var="fr"
 									varStatus="count">
-									<option value="${fr.frId}"><c:out value="${fr.frName}"/></option>
+									<option value="${fr.frId}"><c:out value="${fr.frName}" /></option>
 								</c:forEach>
 							</select>
 
@@ -138,21 +140,21 @@
 
 							<select data-placeholder="Choose Category"
 								class="form-control chosen" multiple="multiple" tabindex="6"
-								id="selectCat" name="selectCat" >
+								id="selectCat" name="selectCat">
 
-								<option value="-1"><c:out value="All"/></option>
+								<option value="-1"><c:out value="All" /></option>
 
 								<c:forEach items="${catList}" var="cat" varStatus="count">
-									<option value="${cat.catId}"><c:out value="${cat.catName}"/></option>
+									<option value="${cat.catId}"><c:out
+											value="${cat.catName}" /></option>
 								</c:forEach>
 							</select>
 						</div>
-<label class="col-sm-3 col-lg-1 control-label">By</label>
+						<label class="col-sm-3 col-lg-1 control-label">By</label>
 						<div class="col-sm-3 col-lg-2">
 
-							<select data-placeholder="Get By"
-								class="form-control chosen"  tabindex="6"
-								id="getBy" name="getBy" >
+							<select data-placeholder="Get By" class="form-control chosen"
+								tabindex="6" id="getBy" name="getBy">
 
 								<option value="1" selected>Taxable Amt</option>
 								<option value="2">Grand Total</option>
@@ -161,11 +163,10 @@
 						<label class="col-sm-3 col-lg-1 control-label">GRN/CRN</label>
 						<div class="col-sm-3 col-lg-2">
 
-							<select data-placeholder="GRN/CRN"
-								class="form-control chosen"  tabindex="6"
-								id="type" name="type" >
+							<select data-placeholder="GRN/CRN" class="form-control chosen"
+								tabindex="6" id="type" name="type">
 
-								<option value="1" >GRN</option>
+								<option value="1">GRN</option>
 								<option value="2">CRN</option>
 							</select>
 						</div>
@@ -236,43 +237,47 @@
 								</table>
 							</div>
 							<div class="form-group" style="display: none;" id="range">
-								 
-											 
-											 
-											<div class="col-sm-3  controls">
-											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" disabled="disabled">
-											</div>
-											</div>
-						</div><br>
-						<input 
-  type="button" onclick="tableToExcel('table_grid1', 'name', 'RoyaltySummaryReport.xls')" value="Export to Excel" >
-							<div class="col-md-12 table-responsive">
-								<table 
-									style="width: 100%; border: 1px;" id="table_grid1" border="1">
-									<thead style="background-color: #f3b5db;">
-										<tr>
-										<th>Sr.No.</th>
-											<th>Item Name</th>
-											<th>Sale Qty</th>
-											<th>Sale Value</th>
-											<th>GRN Qty</th>
-											<th>GRN Value</th>
-											<th>GVN Qty</th>
-											<th>GVN Value</th>
-											<th>Net Qty</th>
-											<th>Net Value</th>
-											<th>Royalty %</th>
-											<th>Royalty Amt</th>
-										</tr>
-									</thead>
-									<tbody>
 
-									</tbody>
-								</table>
+
+
+								<div class="col-sm-3  controls">
+									<input type="button" id="expExcel" class="btn btn-primary"
+										value="EXPORT TO Excel" onclick="exportToExcel();"
+										disabled="disabled">
+								</div>
 							</div>
+						</div>
+						<br> <input type="button"
+							onclick="tableToExcel('table_grid1', 'name', 'RoyaltySummaryReport.xls')"
+							value="Export to Excel">
+						<div class="col-md-12 table-responsive">
+							<table style="width: 100%; border: 1px;" id="table_grid1"
+								border="1">
+								<thead style="background-color: #f3b5db;">
+									<tr>
+										<th>Sr.No.</th>
+										<th>Item Name</th>
+										<th>Sale Qty</th>
+										<th>Sale Value</th>
+										<th>GRN Qty</th>
+										<th>GRN Value</th>
+										<th>GVN Qty</th>
+										<th>GVN Value</th>
+										<th>Net Qty</th>
+										<th>Net Value</th>
+										<th>Royalty %</th>
+										<th>Royalty Amt</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
 					</div>
 
-					<div id="chart_div" style="width: 100%; height: 700px;background-color: white;"></div>
+					<div id="chart_div"
+						style="width: 100%; height: 700px; background-color: white;"></div>
 					<div id="PieChart_div" style="width: 100%; height: 700px;"></div>
 
 				</form>
@@ -685,7 +690,7 @@
 			}
 		</script>
 
-	
+
 		<script type="text/javascript">
 			function showChart() {
 
@@ -887,7 +892,7 @@
 		</script>
 
 
-	<script type="text/javascript">
+		<script type="text/javascript">
 	function validate() {
 
 		var selectedFr = $("#selectFr").val();
@@ -972,11 +977,11 @@
 				var routeId = $("#selectRoute").val();
 				var isGraph = 0;
 				var selectedCat = $("#selectCat").val();
-
-				var selectedCat = $("#selectCat").val();
+				var getBy= $("#getBy").val();
+				var type= $("#type").val();
 
 				window.open('pdfForReport?url=pdf/getSaleReportRoyConsoByCatPdf/'
-						+ from_date + '/' + to_date+'/'+selectedFr+'/'+routeId+'/'+selectedCat);
+						+ from_date + '/' + to_date+'/'+selectedFr+'/'+routeId+'/'+selectedCat+'/'+isGraph+'/'+getBy+'/'+type);
 
 			}
 			function exportToExcel()
@@ -988,7 +993,7 @@
 			
 			
 		</script>
-				<script type="text/javascript">
+		<script type="text/javascript">
 function tableToExcel(table, name, filename) {
         let uri = 'data:application/vnd.ms-excel;base64,', 
         template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', 
@@ -1058,6 +1063,5 @@ function tableToExcel(table, name, filename) {
 		<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 		<script
 			src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
-	
 </body>
 </html>

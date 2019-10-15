@@ -3637,9 +3637,9 @@ public class SalesReportController {
 
 	// pdf for r8 to be done
 	// pdf for r8
-	@RequestMapping(value = "pdf/showSaleReportItemwisePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showSaleReportItemwisePdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{catId}", method = RequestMethod.GET)
 	public ModelAndView showSaleReportItemwisePdf(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, HttpServletRequest request,
+			@PathVariable String selectedFr, @PathVariable String routeId,@PathVariable int catId, HttpServletRequest request,
 			HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salesreportitemwisePdf");
@@ -3690,14 +3690,14 @@ public class SalesReportController {
 
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
-
+				map.add("catId", catId);
 			} else {
 				System.out.println("Inside else Few fr Selected ");
 
 				map.add("frIdList", selectedFr);
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
-
+				map.add("catId", catId);
 				ParameterizedTypeReference<List<SalesReportItemwise>> typeRef = new ParameterizedTypeReference<List<SalesReportItemwise>>() {
 				};
 				ResponseEntity<List<SalesReportItemwise>> responseEntity = restTemplate.exchange(
@@ -6003,9 +6003,9 @@ public class SalesReportController {
 
 	}
 
-	@RequestMapping(value = "pdf/getSaleReportRoyConsoByCatPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{selectedCat}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/getSaleReportRoyConsoByCatPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}/{selectedCat}/{isGraph}/{getBy}/{type}", method = RequestMethod.GET)
 	public ModelAndView getSaleReportRoyConsoByCat(@PathVariable String fromDate, @PathVariable String toDate,
-			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,
+			@PathVariable String selectedFr, @PathVariable String routeId, @PathVariable String selectedCat,@PathVariable int isGraph,@PathVariable int getBy,@PathVariable int type,
 			HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("reports/sales/pdf/salesconsbycatPdf");
 
@@ -6079,18 +6079,35 @@ public class SalesReportController {
 
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
+				map.add("getBy", getBy);
+				map.add("type", type);
+				if (isGraph == 0) {
+					ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
+					};
 
-				ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
-				};
+					ResponseEntity<List<SalesReportRoyalty>> responseEntity = restTemplate.exchange(
+							Constants.url + "getSaleReportRoyConsoByCatAllFr", HttpMethod.POST, new HttpEntity<>(map),
+							typeRef);
 
-				ResponseEntity<List<SalesReportRoyalty>> responseEntity = restTemplate.exchange(
-						Constants.url + "getSaleReportRoyConsoByCatAllFr", HttpMethod.POST, new HttpEntity<>(map),
-						typeRef);
+					royaltyList = responseEntity.getBody();
+					royaltyListForPdf = new ArrayList<>();
 
-				royaltyList = responseEntity.getBody();
-				royaltyListForPdf = new ArrayList<>();
+					royaltyListForPdf = royaltyList;
+				}
 
-				royaltyListForPdf = royaltyList;
+				/*
+				 * if (isGraph == 1) { ParameterizedTypeReference<List<SalesReportRoyalty>>
+				 * typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() { };
+				 * 
+				 * ResponseEntity<List<SalesReportRoyalty>> responseEntity =
+				 * restTemplate.exchange( Constants.url + "getSaleReportRoyConsoByCatForGraph",
+				 * HttpMethod.POST, new HttpEntity<>(map), typeRef);
+				 * 
+				 * royaltyList = responseEntity.getBody(); royaltyListForPdf = new
+				 * ArrayList<>();
+				 * 
+				 * royaltyListForPdf = royaltyList; }
+				 */
 
 			} // end of if all fr Selected
 			else {
@@ -6107,19 +6124,22 @@ public class SalesReportController {
 				map.add("toDate", toDate);
 
 				map.add("frIdList", selectedFr);
+				map.add("getBy", getBy);
+				map.add("type", type);
+				if (isGraph == 0) {
+					ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
+					};
 
-				ParameterizedTypeReference<List<SalesReportRoyalty>> typeRef = new ParameterizedTypeReference<List<SalesReportRoyalty>>() {
-				};
+					ResponseEntity<List<SalesReportRoyalty>> responseEntity = restTemplate.exchange(
+							Constants.url + "getSaleReportRoyConsoByCat", HttpMethod.POST, new HttpEntity<>(map),
+							typeRef);
 
-				ResponseEntity<List<SalesReportRoyalty>> responseEntity = restTemplate.exchange(
-						Constants.url + "getSaleReportRoyConsoByCat", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+					royaltyList = responseEntity.getBody();
+					royaltyListForPdf = new ArrayList<>();
 
-				royaltyList = responseEntity.getBody();
-				royaltyListForPdf = new ArrayList<>();
-
-				royaltyListForPdf = royaltyList;
-
-			} // end of else
+					royaltyListForPdf = royaltyList;
+				}
+			}
 
 			System.out.println("royaltyList List Bill Wise " + royaltyList.toString());
 
@@ -6740,6 +6760,8 @@ public class SalesReportController {
 		}
 		return spKgSummaryDaoResponse;
 	}
+	 
+	
 	// ---------------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/showNonRegisteredFrTaxReport", method = RequestMethod.GET)
 	public ModelAndView showNonRegisteredFrTaxReport(HttpServletRequest request, HttpServletResponse response) {

@@ -77,9 +77,9 @@
 							<input class="form-control date-picker" id="toDate" name="toDate"
 								size="30" type="text" value="${todaysDate}" />
 						</div>
-							<label class="col-sm-3 col-lg-1 control-label">Category</label>
+						<label class="col-sm-3 col-lg-1 control-label">Category</label>
 						<div class="col-sm-6 col-lg-3 controls">
-						<select data-placeholder="Select Route"
+							<select data-placeholder="Select Route"
 								class="form-control chosen" name="selectCat" id="selectCat">
 								<option value="0">Select Category</option>
 								<c:forEach items="${catList}" var="cat" varStatus="count">
@@ -239,7 +239,7 @@
 
 			var selectedFr = $("#selectFr").val();
 			var routeId = $("#selectRoute").val();
-			var catId =  $("#selectCat").val();
+			var catId = $("#selectCat").val();
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
 			$('#loader').show();
@@ -440,6 +440,8 @@
 			var to_date = $("#toDate").val();
 			var selectedFr = $("#selectFr").val();
 			var routeId = $("#selectRoute").val();
+			var catId = $("#selectCat").val();
+
 			window
 					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportItemwisePdf/'
 							+ from_date
@@ -447,7 +449,7 @@
 							+ to_date
 							+ '/'
 							+ selectedFr
-							+ '/' + routeId + '/');
+							+ '/' + routeId + '/' + catId + '/');
 
 			//window.open('${pageContext.request.contextPath}/pdfForReport?url=showSaleReportItemwisePdf/'+from_date+'/'+to_date);
 
@@ -514,6 +516,6 @@
 	<script src="${pageContext.request.contextPath}/resources/js/flaty.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/flaty-demo-codes.js"></script>
-		
+
 </body>
 </html>
