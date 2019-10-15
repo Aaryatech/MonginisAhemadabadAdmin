@@ -129,7 +129,7 @@
 
         // Enable transliteration in the textbox with id
         // 'transliterateTextarea'.
-        control.makeTransliteratable(['transliterateTextarea']);   showCtype();findFranchiseeData(frId)
+        control.makeTransliteratable(['transliterateTextarea']);   showCtype();findFranchiseeData(0)
       }
    
       google.setOnLoadCallback(onLoad);
@@ -144,7 +144,7 @@ select {
 
 
 </head>
-<body onload="findFranchiseeData()">
+<body onload="findFranchiseeData(${billNo})">
 
 	<c:url var="getFlavourBySpfId" value="/getFlavourBySpfId" />
 	<c:url var="findAddOnRate" value="/getAddOnRate" />
@@ -187,7 +187,7 @@ select {
 											<div class="col-md-3">
 												<select data-placeholder="Select Franchisee" name="fr_id"
 													class="form-control chosen" tabindex="-1" id="fr_id"
-													data-rule-required="true" onchange="findFranchiseeData()">
+													data-rule-required="true" onchange="findFranchiseeData(0)">
 													<option value=""> </option>
 													<!-- <optgroup label="All Franchisee"> -->
 													<option value="">Select Franchise</option>
@@ -631,7 +631,7 @@ select {
 
 			function spTypeChange(spType) {
 
-				findFranchiseeData();
+				findFranchiseeData(0);
 				$.getJSON('${getFlavourBySpfId}', {
 					spType : spType,
 					ajax : 'true'
@@ -1271,8 +1271,11 @@ function validate() {
 </script> 
 
 <script type="text/javascript">
-function findFranchiseeData()
+function findFranchiseeData(billNo)
 {
+	if(billNo>0)
+	showPdf(billNo);
+	
 	  var frId=document.getElementById("fr_id").value;
 	$.getJSON(
 					'${findFranchiseeData}',
@@ -1290,6 +1293,18 @@ function findFranchiseeData()
 						
 					});
 	
+}
+</script>
+<script type="text/javascript">
+function showPdf(billNo)
+{
+	if(billNo!=0)
+		{
+        window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillPdf/By-Road/0/'+billNo,'_blank');
+
+		}
+	
+
 }
 </script>
 <script type="text/javascript">

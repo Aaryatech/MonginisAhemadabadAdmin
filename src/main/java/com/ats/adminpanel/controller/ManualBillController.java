@@ -79,7 +79,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Scope("session")
 public class ManualBillController {
 	FlavourList flavourList;
-
+    int billNo=0;
 	public AllFrIdNameList allFrIdNameList = new AllFrIdNameList();
 	SpecialCake specialCake = new SpecialCake();
 	List<SpMessage> spMessageList;
@@ -151,6 +151,8 @@ public class ManualBillController {
 				e.printStackTrace();
 
 			}
+			model.addObject("billNo", billNo);
+			billNo = 0;
 		}
 
 		return model;
@@ -1043,10 +1045,14 @@ public class ManualBillController {
 
 						postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
 
-						List<PostBillHeader> infoRes = restTemplate.postForObject(Constants.url + "insertBillData",
-							postBillDataCommon, List.class);
+						PostBillHeader[] infoRes = restTemplate.postForObject(Constants.url + "insertBillData",
+							postBillDataCommon, PostBillHeader[].class);
 
 						System.out.println("Info Data insertBillData response " + infoRes.toString());
+						List<PostBillHeader> billRespList = new ArrayList<PostBillHeader>(Arrays.asList(infoRes));
+
+						billNo = billRespList.get(0).getBillNo();
+						System.out.println("Save Res Data " + infoRes.toString());
 					}catch (Exception e) {
 						e.printStackTrace();
 					}

@@ -1658,7 +1658,7 @@ public class GvnController {
 
 					String statusList = new String();
 
-					statusList = "4" + "," + "8";
+					statusList = "4";// + "," + "8";
 					// for Sending Current Date
 					java.util.Date date = new java.util.Date();
 

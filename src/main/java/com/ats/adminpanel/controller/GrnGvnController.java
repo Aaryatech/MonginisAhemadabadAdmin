@@ -883,7 +883,7 @@ public class GrnGvnController {
 
 					String statusList = new String();
 
-					statusList = "2" + "," + "8";
+					statusList = "2";// + "," + "8";
 					// for Sending Current Date
 					java.util.Date date = new java.util.Date();
 
