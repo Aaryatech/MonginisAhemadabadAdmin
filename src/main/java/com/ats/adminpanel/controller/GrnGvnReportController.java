@@ -1917,26 +1917,28 @@ public class GrnGvnReportController {
 
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.0f, 3.5f, 3.2f, 4.0f, 2.0f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
-			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+			table.setWidths(new float[] { 1.0f, 3.0f, 2.0f, 7.5f, 1.0f, 1.2f, 1.5f, 1.5f, 1.5f, 2.2f });
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
 
-			Font totalFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLACK);
+			Font totalFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, BaseColor.BLACK);
 
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
 
-			Paragraph name = new Paragraph("Siddarth Foods\n", f);
+			/*Paragraph name = new Paragraph("Siddarth Foods\n", f);
 			name.setAlignment(Element.ALIGN_CENTER);
-			document.add(name);
+			document.add(name);*/
 
-			Paragraph company = new Paragraph("Itemwise Grn/Gvn Report\n", f);
+			Paragraph company = new Paragraph("Itemwise Grn/Gvn Report Date : " + fromDate + " To " + toDate + " \n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 
-			Paragraph date = new Paragraph("Date : " + fromDate + " To " + toDate + "\n", f);
+			/*Paragraph date = new Paragraph("Date : " + fromDate + " To " + toDate + "\n", f);
 			date.setAlignment(Element.ALIGN_CENTER);
-			document.add(date);
+			document.add(date);*/
+			
+			 
 			if (list.size() > 0) {
 
 				String frnchiname = list.get(0).getFrName();
@@ -1948,64 +1950,68 @@ public class GrnGvnReportController {
 
 				PdfPCell hcell = new PdfPCell();
 
-				hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+				hcell = new PdfPCell(new Phrase("-", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				//hcell.setPadding(5);
+				hcell.setBorder(0);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("Doc No", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				//hcell.setPadding(5);
+				hcell.setBorder(0);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("Date", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				//hcell.setPadding(5);
+				hcell.setBorder(0);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("Item Description", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				//hcell.setPadding(5);
+				hcell.setBorder(0);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("UOM", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				hcell.setBorder(0);//hcell.setPadding(5);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("QTY", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				hcell.setBorder(0);//hcell.setPadding(5);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("Rate", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				hcell.setBorder(0);//hcell.setPadding(5);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("Penalty AMT", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				hcell.setBorder(0);//hcell.setPadding(5);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("Credit AMT", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				hcell.setBorder(0);//hcell.setPadding(5);
 				table.addCell(hcell);
 
 				hcell = new PdfPCell(new Phrase("Ref Inv No", headFont1));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(BaseColor.PINK);
-				hcell.setPadding(5);
+				hcell.setBorder(0);//hcell.setPadding(5);
 				table.addCell(hcell);
 
 				int index = 0;
@@ -2026,74 +2032,74 @@ public class GrnGvnReportController {
 
 					cell = new PdfPCell(new Phrase(String.valueOf(index), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPadding(3);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER); 
 					cell.setPaddingRight(2);
+					cell.setBorder(0);
 					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase("" + row.getCrnNo(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setPaddingRight(2); 
+					cell.setBorder(0);
 					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase("" + row.getCrnDate(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setPaddingRight(2); 
+					cell.setBorder(0);
 					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase("" + row.getItemName(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setPaddingRight(2); 
+					cell.setBorder(0);
 					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase(" "+row.getItemUom(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setBorder(0);
 					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase("" + row.getGrnGvnQty(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setPaddingRight(2); 
+					cell.setBorder(0);
 					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase("" + row.getBaseRate(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setPaddingRight(2); 
+					cell.setBorder(0);
 					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase("" + row.getPeneltyAmt(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setPaddingRight(2); 
+					cell.setBorder(0);
 					table.addCell(cell);
 					totalPanalty = totalPanalty + row.getPeneltyAmt();
 
 					cell = new PdfPCell(new Phrase("" + row.getGrnGvnAmt(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setPaddingRight(2); 
+					cell.setBorder(0);
 					table.addCell(cell);
 					totalCredit = totalCredit + row.getGrnGvnAmt();
 
 					cell = new PdfPCell(new Phrase("" + row.getRefInvoiceNo(), headFont));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setPaddingRight(2);
-					cell.setPadding(3);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					cell.setPaddingRight(2); 
+					cell.setBorder(0);
 					table.addCell(cell);
 
 					int istotal = 0;
@@ -2112,30 +2118,34 @@ public class GrnGvnReportController {
 						cell = new PdfPCell(new Phrase("Total ", totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						cell.setColspan(7);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("" + df.format(totalPanalty), totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("" + df.format(totalCredit), totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("-", totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 
 						finaltotalPanalty = finaltotalPanalty + totalPanalty;
@@ -2160,30 +2170,34 @@ public class GrnGvnReportController {
 						cell = new PdfPCell(new Phrase("Final Total ", totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						cell.setColspan(7);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("" + df.format(finaltotalPanalty), totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("" + df.format(finaltotalCredit), totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("-", totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 						document.add(table);
 						finaltotalPanalty = 0;
@@ -2196,30 +2210,34 @@ public class GrnGvnReportController {
 						cell = new PdfPCell(new Phrase("Final Total ", totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						cell.setColspan(7);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("" + df.format(finaltotalPanalty), totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("" + df.format(finaltotalCredit), totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 
 						cell = new PdfPCell(new Phrase("-", totalFont));
 						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-						cell.setPaddingRight(2);
-						cell.setPadding(3);
+						/*cell.setPaddingRight(2);
+						cell.setPadding(3);*/
+						cell.setBorder(0);
 						table.addCell(cell);
 						document.add(table);
 						finaltotalPanalty = 0;
@@ -2229,73 +2247,81 @@ public class GrnGvnReportController {
 						document.newPage();
 						table = new PdfPTable(10);
 						table.setWidthPercentage(100);
-						table.setWidths(new float[] { 2.0f, 3.5f, 3.2f, 4.0f, 2.0f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
-
+						table.setWidths(new float[] { 1.0f, 3.0f, 2.0f, 7.5f, 1.0f, 1.2f, 1.5f, 1.5f, 1.5f, 2.2f });
+						index=0;
 						hcell = new PdfPCell();
 
-						hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+						hcell = new PdfPCell(new Phrase("-", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						//hcell.setPadding(5);
+						hcell.setBorder(0);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("Doc No", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						hcell.setBorder(0);
+						//hcell.setPadding(5);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("Date", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						//hcell.setPadding(5);
+						hcell.setBorder(0);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("Item Description", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						//hcell.setPadding(5);
+						hcell.setBorder(0);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("UOM", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						//hcell.setPadding(5);
+						hcell.setBorder(0);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("QTY", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						hcell.setBorder(0);//hcell.setPadding(5);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("Rate", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						//hcell.setPadding(5);
+						hcell.setBorder(0);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("Penalty AMT", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						hcell.setBorder(0);//hcell.setPadding(5);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("Credit AMT", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						//hcell.setPadding(5);
+						hcell.setBorder(0);
 						table.addCell(hcell);
 
 						hcell = new PdfPCell(new Phrase("Ref Inv No", headFont1));
 						hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						hcell.setBackgroundColor(BaseColor.PINK);
-						hcell.setPadding(5);
+						//hcell.setPadding(5);
+						hcell.setBorder(0);
 						table.addCell(hcell);
 
-						document.add(name);
+						//document.add(name);
 						document.add(company);
-						document.add(date);
+						//document.add(date);
 						frName = new Paragraph(frnchiname + "\n", f);
 						frName.setAlignment(Element.ALIGN_RIGHT);
 						document.add(frName);
