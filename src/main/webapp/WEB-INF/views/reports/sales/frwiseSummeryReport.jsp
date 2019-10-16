@@ -234,6 +234,9 @@
 										.each(
 												data.frIdNamesList,
 												function(key, fr) {
+
+													index = 0;
+
 													var tr = $('<tr></tr>');
 
 													tr.append($('<td></td>')
@@ -310,27 +313,43 @@
 																				tr
 																						.append($(
 																								'<td style="text-align:right;"></td>')
-																								.html(report.grandTotal));
-																			} else {
+																								.html(
+																										(report.grandTotal)
+																												.toFixed(2)));
 																				tr
 																						.append($(
 																								'<td style="text-align:right;"></td>')
-																								.html(0));
+																								.html(
+																										(0)
+																												.toFixed(2)));
+																			} else {
+																				totalCrAmt = totalCrAmt
+																						+ report.grandTotal;
+																				tr
+																						.append($(
+																								'<td style="text-align:right;"></td>')
+																								.html(
+																										(0)
+																												.toFixed(2)));
+																				tr
+																						.append($(
+																								'<td style="text-align:right;"></td>')
+																								.html(
+																										(report.grandTotal)
+																												.toFixed(2)));
 																			}
 
-																			if (report.type == 'RET') {
-																				totalCrAmt = totalCrAmt+ report.grandTotal;
-																				tr.append($('<td style="text-align:right;"></td>').html(report.grandTotal));
-																			}else	if (report.type == 'VER') {
-																				totalCrAmt = totalCrAmt+ report.grandTotal;
-																		        tr.append($('<td style="text-align:right;"></td>').html(report.grandTotal));
-																	} else {
-																				tr.append($('<td style="text-align:right;"></td>').html(0));
-																			}
+																			tr
+																					.append($(
+																							'<td style="text-align:right;"></td>')
+																							.html(
+																									(totalArAmt - totalCrAmt)
+																											.toFixed(2)));
 
-																			tr.append($('<td></td>').html(""));
-
-																			$('#table_grid tbody').append(tr);
+																			$(
+																					'#table_grid tbody')
+																					.append(
+																							tr);
 																		}
 
 																	})

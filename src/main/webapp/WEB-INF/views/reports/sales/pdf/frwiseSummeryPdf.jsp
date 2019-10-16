@@ -17,132 +17,115 @@
 
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
- <style type="text/css">
- table {
+<style type="text/css">
+table {
 	border-collapse: collapse;
 	font-size: 10;
-	width:100%;
-page-break-inside: auto !important 
+	width: 100%;
+	page-break-inside: auto !important
+}
 
-} 
-p  {
-    color: black;
-    font-family: arial;
-    font-size: 60%;
+p {
+	color: black;
+	font-family: arial;
+	font-size: 60%;
 	margin-top: 0;
 	padding: 0;
-
 }
-h6  {
-    color: black;
-    font-family: arial;
-    font-size: 80%;
+
+h6 {
+	color: black;
+	font-family: arial;
+	font-size: 80%;
 }
 
 th {
 	background-color: #EA3291;
 	color: white;
-	
 }
 </style>
 </head>
 <body onload="myFunction()">
-	
-	
-	
 
-			<c:forEach items="${frList}" var="fr" varStatus="c1">
-			<h3 align="center">${FACTORYNAME}</h3>
-	<p align="center">${FACTORYADDRESS}</p>
-			<div align="center">
-		<h5>${fr.frName}
-			&nbsp;&nbsp;&nbsp;&nbsp; From &nbsp; ${fromDate} &nbsp;To &nbsp;
-			${toDate}</h5>
-	</div>
-				<c:set var="totalDrAMt" value="${0}" /><c:set var="sr" value="${0}" />
-				<c:set var="totalCrAMt" value="${0}" />
-				<table align="center" border="1" cellspacing="0" cellpadding="1"
-		id="table_grid" class="table table-bordered">
-		<thead>
-			<tr class="bgpink">
 
-				<th>Sr.No.</th>
-				<th>Date</th>
-				<th>Type</th>
-				<th>Document</th>
-				<th>Order Ref</th>
-				<th>Dr Amt</th>
-				<th>Cr Amt</th>
-				<th>Balance</th>
 
-			</tr>
-		</thead>
-		<tbody>
+
+	<c:forEach items="${frList}" var="fr" varStatus="c1">
+		<div align="center" style="font-size: 10px;">${FACTORYNAME}</div>
+		<%-- <p align="center">${FACTORYADDRESS}</p> --%>
+		<div align="center" style="font-size: 10px;">
+			${fr.frName}&nbsp;&nbsp;&nbsp;&nbsp;From&nbsp;${fromDate} &nbsp;To
+			&nbsp; ${toDate}</div>
+		<c:set var="totalDrAMt" value="${0}" />
+		<c:set var="sr" value="${0}" />
+		<c:set var="totalCrAMt" value="${0}" />
+		<table align="center" border="1" cellspacing="0" cellpadding="1"
+			id="table_grid" class="table table-bordered"
+			style="font-size: 8px; margin-left: 20px;">
+			<thead>
+				<tr class="bgpink">
+
+					<th>Sr.No.</th>
+					<th>Date</th>
+					<th>Type</th>
+					<th>Document</th>
+					<th>Order Ref</th>
+					<th>Dr Amt</th>
+					<th>Cr Amt</th>
+					<th>Balance</th>
+
+				</tr>
+			</thead>
+			<tbody>
 				<%-- <tr>
 					<td colspan='8' width="200"><c:out value="" /></td>
 
 				</tr> --%>
 				<c:forEach items="${salesRepFrList}" var="report" varStatus="count">
-					
+
 					<tr>
 
 						<c:choose>
 							<c:when test="${report.frId==fr.frId}">
-							<c:set var="sr" value="${sr+1}" />
-								<td width="10"><c:out value="${sr}" /></td>
-								<td width="100"><c:out value="${report.billDate}" /></td>
-								<td width="20"><c:out value="${report.type}" /></td>
-								<td width="20"><c:out value="${report.invoiceNo}" /></td>
-								<td width="20"><c:out value="${report.orderRef}" /></td>
+								<c:set var="sr" value="${sr+1}" />
+								<td><c:out value="${sr}" /></td>
+								<td style="text-align: center;"><c:out
+										value="${report.billDate}" /></td>
+								<td style="text-align: center;"><c:out
+										value="${report.type}" /></td>
+								<td style="text-align: center;"><c:out
+										value="${report.invoiceNo}" /></td>
+								<td style="text-align: center;"><c:out
+										value="${report.orderRef}" /></td>
 
 								<c:choose>
 									<c:when test="${report.type eq 'INV'}">
 
-										<td width="80" align="right"><fmt:formatNumber
-												type="number" maxFractionDigits="2" minFractionDigits="2"
+										<td align="right"><fmt:formatNumber type="number"
+												maxFractionDigits="2" minFractionDigits="2"
 												value="${report.grandTotal}" /></td>
-
-
+										<td align="right"><fmt:formatNumber type="number"
+												maxFractionDigits="2" minFractionDigits="2" value="${0}" /></td>
 										<c:set var="totalDrAMt"
 											value="${totalDrAMt + report.grandTotal }" />
+
 									</c:when>
-									<c:otherwise>
-										<td width="80" align="right"><fmt:formatNumber
-												type="number" maxFractionDigits="2" minFractionDigits="2"
-												value="${0}" /></td>
-									</c:otherwise>
-								</c:choose>
 
-								<c:choose>
-
-									<c:when test="${report.type eq 'RET'}">
-
-										<td width="80" align="right"><fmt:formatNumber
-												type="number" maxFractionDigits="2" minFractionDigits="2"
+									<c:when test="${report.type eq 'RET' || report.type eq 'VER'}">
+										<td align="right"><fmt:formatNumber type="number"
+												maxFractionDigits="2" minFractionDigits="2" value="${0}" /></td>
+										<td align="right"><fmt:formatNumber type="number"
+												maxFractionDigits="2" minFractionDigits="2"
 												value="${report.grandTotal}" /></td>
-	                                    <td  align="right"></td>
+
 
 										<c:set var="totalCrAMt"
 											value="${totalCrAMt + report.grandTotal }" />
 									</c:when>
-									<c:when test="${report.type eq 'VER'}">
-
-										<td width="80" align="right"><fmt:formatNumber
-												type="number" maxFractionDigits="2" minFractionDigits="2"
-												value="${report.grandTotal}" /></td>
-	                                    <td  align="right"></td>
-
-										<c:set var="totalCrAMt"
-											value="${totalCrAMt + report.grandTotal }" />
-									</c:when>
-									<c:otherwise>
-										<td width="80" align="right"><fmt:formatNumber
-												type="number" maxFractionDigits="2" minFractionDigits="2"
-												value="${0}" /></td>
-												<td  align="right"></td>
-									</c:otherwise>
 								</c:choose>
-
+								<td align="right"><fmt:formatNumber type="number"
+										maxFractionDigits="2" minFractionDigits="2"
+										value="${totalDrAMt-totalCrAMt}" /></td>
 							</c:when>
 						</c:choose>
 
@@ -151,30 +134,33 @@ th {
 
 				</c:forEach>
 
-				<tr >
-                    
-					<td colspan='1'><b>Total</b></td>
-					 <td></td> <td></td> <td></td> <td></td>
+				<tr>
 
-					<td width="20" align="right"><b><fmt:formatNumber
-								type="number" maxFractionDigits="2" minFractionDigits="2"
+					<td colspan='1'><b>Total</b></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+					<td align="right"><b><fmt:formatNumber type="number"
+								maxFractionDigits="2" minFractionDigits="2"
 								value="${totalDrAMt}" /></b></td>
 
-					<td width="20" align="right"><b><fmt:formatNumber
-								type="number" maxFractionDigits="2" minFractionDigits="2"
+					<td align="right"><b><fmt:formatNumber type="number"
+								maxFractionDigits="2" minFractionDigits="2"
 								value="${totalCrAMt}" /></b></td>
-					<td width="20" align="right"><b><fmt:formatNumber
-								type="number" maxFractionDigits="2" minFractionDigits="2"
+					<td align="right"><b><fmt:formatNumber type="number"
+								maxFractionDigits="2" minFractionDigits="2"
 								value="${totalDrAMt-totalCrAMt}" /></b></td>
 					<!--  <td><b>Total</b></td> -->
 				</tr>
-				</tbody>
-			</table>
-			<div style="page-break-after: always;"></div>
-			
-				
-			</c:forEach>		
-	
+			</tbody>
+		</table>
+		<div style="page-break-after: always;"></div>
+
+
+	</c:forEach>
+
 
 	<!-- END Main Content 			    <tr style=" page-break-after:always;"><td></td></tr>
 	-->
