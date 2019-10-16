@@ -1469,6 +1469,7 @@ public class SalesReportController {
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
 
+			System.out.println(map);
 			ParameterizedTypeReference<List<SalesReportDateMonth>> typeRef = new ParameterizedTypeReference<List<SalesReportDateMonth>>() {
 			};
 			ResponseEntity<List<SalesReportDateMonth>> responseEntity = restTemplate

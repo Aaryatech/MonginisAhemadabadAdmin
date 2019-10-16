@@ -389,9 +389,9 @@
 														totalGrnGrandTotal = totalGrnGrandTotal
 																+ report.grnGrandTotal;
 														totalGrnTaxableAmt = totalGrnTaxableAmt
-																+ report.grnGrandTotal;
+																+ report.grnTaxableAmt;
 														totalGrnTax = totalGrnTax
-																+ report.grnGrandTotal;
+																+ report.grnTotalTax;
 
 														totalGvnGrandTotal = totalGvnGrandTotal
 																+ report.gvnGrandTotal;
@@ -638,9 +638,9 @@
 														totalGrnGrandTotal = totalGrnGrandTotal
 																+ report.grnGrandTotal;
 														totalGrnTaxableAmt = totalGrnTaxableAmt
-																+ report.grnGrandTotal;
+																+ report.grnTaxableAmt;
 														totalGrnTax = totalGrnTax
-																+ report.grnGrandTotal;
+																+ report.grnTotalTax;
 
 														totalGvnGrandTotal = totalGvnGrandTotal
 																+ report.gvnGrandTotal;
