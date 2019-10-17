@@ -1877,7 +1877,7 @@ public class GrnGvnReportController {
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showPOReportPdf");
-		Document document = new Document(PageSize.A4.rotate(), 10f, 10f, 10f, 0f);
+		Document document = new Document(PageSize.A4);
 
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
