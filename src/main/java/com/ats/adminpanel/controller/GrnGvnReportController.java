@@ -1878,7 +1878,7 @@ public class GrnGvnReportController {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showPOReportPdf");
 		Document document = new Document(PageSize.A4);
-
+		document.setMargins(5, 5, 5, 5);
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 
@@ -1918,22 +1918,22 @@ public class GrnGvnReportController {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
 			table.setWidths(new float[] { 1.0f, 3.0f, 2.0f, 7.5f, 1.0f, 1.2f, 1.5f, 1.5f, 1.5f, 2.2f });
-			Font headFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 8, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 9, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
 
 			Font totalFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, BaseColor.BLACK);
 
-			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.UNDERLINE, BaseColor.BLUE);
 
 			/*Paragraph name = new Paragraph("Siddarth Foods\n", f);
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);*/
 
-			Paragraph company = new Paragraph("Itemwise Grn/Gvn Report Date : " + fromDate + " To " + toDate + " \n", f);
-			company.setAlignment(Element.ALIGN_CENTER);
+			Paragraph company = new Paragraph("Itemwise Grn/Gvn Report Date : " + fromDate + " To " + toDate , f);
+			company.setAlignment(Element.ALIGN_CENTER); 
 			document.add(company);
-
+			
 			/*Paragraph date = new Paragraph("Date : " + fromDate + " To " + toDate + "\n", f);
 			date.setAlignment(Element.ALIGN_CENTER);
 			document.add(date);*/
