@@ -51,9 +51,9 @@ th {
 
 
 	<c:forEach items="${frList}" var="fr" varStatus="c1">
-		<div align="center" style="font-size: 10px;">${FACTORYNAME}</div>
+		<div align="center" style="font-size: 12px;">${FACTORYNAME}</div>
 		<%-- <p align="center">${FACTORYADDRESS}</p> --%>
-		<div align="center" style="font-size: 10px;">
+		<div align="center" style="font-size: 12px;">
 			${fr.frName}&nbsp;&nbsp;&nbsp;&nbsp;From&nbsp;${fromDate} &nbsp;To
 			&nbsp; ${toDate}</div>
 		<c:set var="totalDrAMt" value="${0}" />
