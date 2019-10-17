@@ -488,7 +488,7 @@
 			var selectedFr = $("#selectFr").val();
 
 			window
-					.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSummeryFrByFrPdf/'
+					.open('${pageContext.request.contextPath}/pdfForDisReport?url=pdf/showSummeryFrByFrPdf/'
 							+ from_date + '/' + to_date + '/' + selectedFr);
 
 		}

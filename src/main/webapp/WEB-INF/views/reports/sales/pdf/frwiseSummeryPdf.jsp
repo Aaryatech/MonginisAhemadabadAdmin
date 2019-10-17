@@ -60,19 +60,18 @@ th {
 		<c:set var="sr" value="${0}" />
 		<c:set var="totalCrAMt" value="${0}" />
 		<table align="center" border="1" cellspacing="0" cellpadding="1"
-			id="table_grid" class="table table-bordered"
-			style="font-size: 8px; margin-left: 20px;">
+			id="table_grid" class="table table-bordered" style="font-size: 10px;">
 			<thead>
 				<tr class="bgpink">
 
-					<th>Sr.No.</th>
-					<th>Date</th>
-					<th>Type</th>
-					<th>Document</th>
+					<th width="7%">Sr.No.</th>
+					<th width="10%">Date</th>
+					<th width="10%">Type</th>
+					<th width="15%">Document</th>
 					<th>Order Ref</th>
-					<th>Dr Amt</th>
-					<th>Cr Amt</th>
-					<th>Balance</th>
+					<th width="10%">Dr Amt</th>
+					<th width="10%">Cr Amt</th>
+					<th width="10%">Balance</th>
 
 				</tr>
 			</thead>
