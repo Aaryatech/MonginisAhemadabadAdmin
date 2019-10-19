@@ -285,10 +285,24 @@
 									document.getElementById("expExcel").disabled = true;
 								}
 
+								var finalSoldQty=0;
+								var finalSoldAmt=0;
+								var finalVarQty=0;
+								var finalVarAmt=0;
+								var finalRetQty=0;
+								var finalRetAmt=0;
+								var finalNetQty=0;
+								var finalNetAmt=0;
+								var finalretAmtPer=0;
+								 
+								
+								
 								$
 										.each(
 												data.frList,
 												function(key, fr) {
+													
+													var index = 0;
 													var tr = $('<tr></tr>');
 
 													tr.append($('<td></td>')
@@ -461,7 +475,7 @@
 																											.getElementById("expExcel").disabled = false;
 																									document
 																											.getElementById('range').style.display = 'block';
-																									var index = key + 1;
+																									 index = index + 1;
 																									//var tr = "<tr>";
 
 																									var tr = $('<tr></tr>');
@@ -470,7 +484,7 @@
 																											.append($(
 																													'<td></td>')
 																													.html(
-																															key1 + 1));
+																															index));
 
 																									tr
 																											.append($(
@@ -625,6 +639,16 @@
 
 																	});
 
+													 finalSoldQty=finalSoldQty+totalSoldQty;
+													 finalSoldAmt=finalSoldAmt+totalSoldAmt;
+													 finalVarQty=finalVarQty+totalVarQty;
+													 finalVarAmt=finalVarAmt+totalVarAmt;
+													 finalRetQty=finalRetQty+totalRetQty;
+													 finalRetAmt=finalRetAmt+totalRetAmt;
+													 finalNetQty=finalNetQty+totalNetQty;
+													 finalNetAmt=finalNetAmt+totalNetAmt;
+													 finalretAmtPer=finalretAmtPer+retAmtPer;
+													
 													var tr = $('<tr></tr>');
 
 													tr.append($('<td  ></td>')
@@ -696,6 +720,77 @@
 															.append(tr);
 
 												})
+												
+												var tr = $('<tr></tr>');
+
+								 
+								tr.append($('<td  ></td>')
+										.html(" "));
+
+								tr
+										.append($(
+												'<td style="font-weight:bold;"></td>')
+												.html(
+														"Final Total"));
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalSoldQty
+																.toFixed(2)));
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalSoldAmt
+																.toFixed(2)));
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalVarQty
+																.toFixed(2)));
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalVarAmt
+																.toFixed(2)));
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalRetQty
+																.toFixed(2)));
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalRetAmt
+																.toFixed(2)));
+
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalNetQty
+																.toFixed(2)));
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalNetAmt
+																.toFixed(2)));
+
+								tr
+										.append($(
+												'<td style="text-align:right;"></td>')
+												.html(
+														finalretAmtPer
+																.toFixed(2)));
+
+								$('#table_grid tbody')
+										.append(tr);
 
 							});
 		}

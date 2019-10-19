@@ -82,6 +82,7 @@ th {
 				<c:set var="totalNetQty" value="${0}" />
 				<c:set var="totalNetAmt" value="${0}" />
 				<c:set var="retAmtPer" value="${0}" />
+				<c:set var="sr" value="${0}" />
 				<tr>
 					<td width="0"></td>
 					<td width="200"><c:out value="${fr.frName}" /></td>
@@ -118,8 +119,8 @@ th {
 
 									<c:choose>
 										<c:when test="${report.frId==fr.frId}">
-
-											<td width="0"><c:out value="${count.index+1}" /></td>
+											<c:set var="sr" value="${sr+1}" />
+											<td width="0"><c:out value="${sr}" /></td>
 
 											<td width="100"><c:out value="${report.itemName}" /></td>
 											<td width="10" align="right"><fmt:formatNumber

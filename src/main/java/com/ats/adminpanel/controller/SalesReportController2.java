@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -1102,7 +1104,7 @@ public class SalesReportController2 {
 			selectedSubCatIdList = selectedSubCatIdList.substring(1, selectedSubCatIdList.length() - 1);
 			selectedSubCatIdList = selectedSubCatIdList.replaceAll("\"", "");
 
-			System.out.println("selectedFrAfter------------------" + selectedFr);
+			
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			RestTemplate restTemplate = new RestTemplate();
@@ -1155,7 +1157,8 @@ public class SalesReportController2 {
 				for (int j = 0; j < allFrIdNameList.getFrIdNamesList().size(); j++) {
 					if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
 						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));
-
+						break;
+						
 					}
 				}
 			}
@@ -1169,7 +1172,7 @@ public class SalesReportController2 {
 					if (itemsList.get(j).getId() == itemId) {
 
 						itemListFinal.add(itemsList.get(j));
-
+						break;
 					}
 				}
 			}
@@ -1182,11 +1185,36 @@ public class SalesReportController2 {
 				for (int j = 0; j < subCatList.size(); j++) {
 					if (subCatList.get(j).getSubCatId() == subCatId) {
 						subCatListFinal.add(subCatList.get(j));
-
+						break;
 					}
 				}
 			}
 
+			Collections.sort(subCatListFinal, new Comparator<SubCategory>() {
+				public int compare(SubCategory c1, SubCategory c2) {
+				if (c1.getCatId() > c2.getCatId())
+				return 1;
+				if (c1.getCatId() < c2.getCatId())
+				return -1;
+				return 0;
+				}
+				});
+			//System.out.println("subCatListFinal------------------" + subCatListFinal);
+			
+			Collections.sort(frListFinal, new Comparator<AllFrIdName>() {
+				public int compare(AllFrIdName c1, AllFrIdName c2) {
+				return	c1.getFrName().compareTo(c2.getFrName());
+				}
+				});
+			
+			Collections.sort(itemListFinal, new Comparator<Item>() {
+				public int compare(Item c1, Item c2) {
+				return	c1.getItemName().compareTo(c2.getItemName());
+				}
+				});
+			
+			//System.out.println("frListFinal------------------" + frListFinal);
+			//System.out.println("itemListFinal------------------" + itemListFinal);
 			subCatFrReportListData.setSubCatList(subCatListFinal);
 
 			subCatFrReportListData.setFrList(frListFinal);
@@ -1452,6 +1480,7 @@ public class SalesReportController2 {
 				for (int j = 0; j < allFrIdNameList.getFrIdNamesList().size(); j++) {
 					if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
 						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));
+						break;
 
 					}
 				}
@@ -1466,7 +1495,7 @@ public class SalesReportController2 {
 					if (itemsList.get(j).getId() == itemId) {
 
 						itemListFinal.add(itemsList.get(j));
-
+						break;
 					}
 				}
 			}
@@ -1479,11 +1508,34 @@ public class SalesReportController2 {
 				for (int j = 0; j < subCatList.size(); j++) {
 					if (subCatList.get(j).getSubCatId() == subCatId) {
 						subCatListFinal.add(subCatList.get(j));
-
+						break;
 					}
 				}
 			}
 
+			Collections.sort(subCatListFinal, new Comparator<SubCategory>() {
+				public int compare(SubCategory c1, SubCategory c2) {
+				if (c1.getCatId() > c2.getCatId())
+				return 1;
+				if (c1.getCatId() < c2.getCatId())
+				return -1;
+				return 0;
+				}
+				});
+			//System.out.println("subCatListFinal------------------" + subCatListFinal);
+			
+			Collections.sort(frListFinal, new Comparator<AllFrIdName>() {
+				public int compare(AllFrIdName c1, AllFrIdName c2) {
+				return	c1.getFrName().compareTo(c2.getFrName());
+				}
+				});
+			
+			Collections.sort(itemListFinal, new Comparator<Item>() {
+				public int compare(Item c1, Item c2) {
+				return	c1.getItemName().compareTo(c2.getItemName());
+				}
+				});
+			
 			subCatFrReportListData.setSubCatList(subCatListFinal);
 
 			subCatFrReportListData.setFrList(frListFinal);
