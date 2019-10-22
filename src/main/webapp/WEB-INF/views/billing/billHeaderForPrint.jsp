@@ -144,27 +144,20 @@ td {
 							</div>
 
 
-
-
-
-
-
-
-
 								<div align="center" class="form-group"> 
 							<label for="textfield2" class="col-xs-3 col-lg-2 control-label">
 										Section </label>
 									<div class="col-sm-9 col-lg-3 controls">
 														
-<select id="section"  class='form-control'>
-<option value="-">All</option>
-	<c:forEach items="${sectionList}" var="sectionList">
-									<option value="${sectionList.sectionId}"><c:out
-											value="${sectionList.sectionName}" /></option>
-								</c:forEach>
-
-</select>
-</div>
+							<select id="section"  class='form-control'>
+							<option value="-">All</option>
+								<c:forEach items="${sectionList}" var="sectionList">
+																<option value="${sectionList.sectionId}"><c:out
+																		value="${sectionList.sectionName}" /></option>
+															</c:forEach>
+							
+							</select>
+							</div>
 								
 									<div
 										class="col-sm-1">
@@ -248,7 +241,8 @@ td {
 														<th class="col-md-2">Taxable Amt</th>
 														<th class="col-sm-1">Tax Amt</th>
 														<th class="col-md-1">Total</th>
-														<th class="col-md-2">Action</th>
+														<th class="col-md-1">Status</th>
+														<th class="col-md-1" align="left">Action</th>
 														
 
 														<!-- 	<th width="300" align="center">Action</th> -->
@@ -284,17 +278,37 @@ td {
 															
 															<fmt:formatNumber type="number" maxFractionDigits="2" value="${billHeadersList.taxableAmt + billHeadersList.totalTax}" /></td>
 															
+															<c:if test="${billHeadersList.status==1}">
+																
+																	<td align="left"><c:out
+																			value="Pending" /></td>
+																</c:if>
+																<c:if test="${billHeadersList.status==2}">
+																
+																	<td align="left"><c:out
+																			value="Received" /></td>
+																</c:if>
+																
 															<td class="col-md-2" align="center">
 															<div class="form-group">
 															
-															<input type="button"  id="btn_submit"
-															class="btn btn-primary" onclick="submitBill()"
-															value="BillDetail" />&nbsp;&nbsp;<input type="button"  id="btn_submit_pdf"
-															class="btn btn-primary"
-															value="PDF" onclick="submitBillPdf()" /></div></td>
-
+															<a href="#" onclick="submitBill()" title="Bill Detail"><i
+																class='fa fa-info  fa-lg'></i></a> 
 																
-
+															 <!-- <input type="button"  id="btn_submit"
+															class="btn btn-primary" onclick="submitBill()"
+															value="BillDetail" /> -->&nbsp;&nbsp;
+															
+															
+															<input type="button"  id="btn_submit_pdf"
+															class="btn btn-primary"
+															value="PDF" onclick="submitBillPdf()" style="padding: 0px 4px;font-size: 14px;">&nbsp;
+															
+															<c:if test="${billHeadersList.status==1}">
+															<a href="${pageContext.request.contextPath}/updateBillStatusAdmin?billNo=${billHeadersList.billNo}&stat=2" title="Received"><i
+																class='fa fa-check'></i></a> 
+															</c:if>
+															</div></td>
 														</tr>
 													</c:forEach>
 

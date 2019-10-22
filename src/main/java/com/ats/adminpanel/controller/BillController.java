@@ -65,6 +65,7 @@ import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.AllMenus;
 import com.ats.adminpanel.model.AllRoutesListResponse;
 import com.ats.adminpanel.model.ExportToExcel;
+import com.ats.adminpanel.model.Franchisee;
 import com.ats.adminpanel.model.GenerateBill;
 import com.ats.adminpanel.model.GenerateBillList;
 import com.ats.adminpanel.model.GetFranchiseeList;
@@ -1447,6 +1448,10 @@ public class BillController {
 	@RequestMapping(value = "/getBillDetailForPrintPdf", method = RequestMethod.GET)
 	public String getBillDetailForPrintPdf(HttpServletRequest request, HttpServletResponse response) {
 
+		HttpSession sess = request.getSession();
+		int user = (int) sess.getAttribute("userId");
+		System.err.println("User Session Found********************************"+user);
+		
 		ModelAndView model = new ModelAndView("billing/billDetailPdf");
 		billPrintList = new ArrayList<>();
 		String billList = new String();
@@ -1629,12 +1634,13 @@ public class BillController {
 			model.addObject("vehicleNo", vehicleNo);
 			model.addObject("transportMode", transportMode);
 			model.addObject("selectedBills", billList);
+			model.addObject("user", user);
 		} catch (Exception e) {
 			System.out.println("Exce in getting bill Detail for Print " + e.getMessage());
 			e.printStackTrace();
 
 		}
-		return "redirect:/pdf?url=pdf/showBillPdf/" + transportMode + "/" + vehicleNo + "/" + billList;
+		return "redirect:/pdf?url=pdf/showBillPdf/" + transportMode + "/" + vehicleNo + "/"+ user+ "/" + billList;
 
 	}
 
@@ -1826,8 +1832,8 @@ public class BillController {
 
 	}
 
-	@RequestMapping(value = "pdf/showBillPdf/{transportMode}/{vehicleNo}/{selectedBills}", method = RequestMethod.GET)
-	public ModelAndView showBillPdf(@PathVariable String transportMode, @PathVariable String vehicleNo,
+	@RequestMapping(value = "pdf/showBillPdf/{transportMode}/{vehicleNo}/{user}/{selectedBills}", method = RequestMethod.GET)
+	public ModelAndView showBillPdf(@PathVariable String transportMode, @PathVariable String vehicleNo, @PathVariable int user,
 			@PathVariable String[] selectedBills, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("IN Show bill PDF Method :/showBillPdf");
 		ModelAndView model = new ModelAndView("billing/pdf/frBillPdf");
@@ -2069,7 +2075,7 @@ public class BillController {
 			model.addObject("vehicleNo", vehicleNo);
 			model.addObject("transportMode", transportMode);
 			model.addObject("dateTime", dateFormat.format(cal.getTime()));
-
+			model.addObject("user", user);
 			// allFrIdNameList = new AllFrIdNameList();
 
 			// model.addObject("catList",filteredCatList);
@@ -2824,5 +2830,39 @@ public class BillController {
 //}
 
 		}
+	}
+	
+	@RequestMapping(value = "/updateBillStatusAdmin", method = RequestMethod.GET)
+	public String updateBillStatus(HttpServletRequest request,
+		HttpServletResponse response) {
+		
+		
+		String billNo=request.getParameter("billNo");
+		int stat = Integer.parseInt(request.getParameter("stat"));
+		System.out.println("Bill No----------------------- : "+ billNo+" "+stat);
+			
+		try {
+			
+		RestTemplate restTemplate = new RestTemplate();
+		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("billNo", billNo);
+		map.add("status", stat);
+		Info info = restTemplate.postForObject(Constants.url + "updateBillStatusAdm", map,
+					Info.class);
+
+			System.out.println("Message :   "+info.getMessage());
+			System.out.println("Error  :    "+info.getError());
+		
+		if(info.getError()==false) {
+			System.out.println("Update Sucess");
+		}
+		
+	}catch (Exception e) {
+		System.out.println("ex in update bill "+e.getMessage());
+		e.printStackTrace();
+	}
+		return "redirect:/showBillListForPrint";
+		
 	}
 }

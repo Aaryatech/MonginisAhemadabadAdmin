@@ -187,6 +187,7 @@ public class HomeController {
 					e.printStackTrace();
 				}
 				session.setAttribute("UserDetail", userObj);
+				session.setAttribute("userId", userObj.getUser().getId());
 				UserResponse userResponse =(UserResponse) session.getAttribute("UserDetail");
 				
 				System.out.println("new Field Dept Id = "+userResponse.getUser().getDeptId());

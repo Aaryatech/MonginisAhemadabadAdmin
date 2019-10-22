@@ -316,9 +316,21 @@
 																		value="${billHeadersList.totalTax}" /></td>
 																<td style="text-align:right;"><c:out
 																		value="${billHeadersList.grandTotal}" /></td>
-																<td align="left"><c:out
-																		value="${billHeadersList.status}" /></td>
-
+															
+															<c:choose>
+																<c:when test="${billHeadersList.status==1}">
+																	<td align="left"><c:out
+																			value="Pending" /></td>
+																</c:when>
+																
+																<c:when test="${billHeadersList.status==2}">
+																	<td align="left"><c:out
+																			value="Received" /></td>
+																</c:when>
+															</c:choose>
+															
+															
+															
 
 																<c:choose>
 																	<c:when test="${isEdit==1 and isDelete==1}">

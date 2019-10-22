@@ -886,7 +886,12 @@ page-break-inside: auto !important
 				<td colspan="8" width="60%"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 12px;"><p>
 						<b>Invoice Value in Rs.</b>  ${frDetails.amtInWords}
-					</p></td>
+					</p>
+					</br>
+					<p>
+						<b>User Id : </b>${user}
+					</p>
+					</td>
 				<td colspan="5" width="40%"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 8px; color: #000; font-size: 15px;">
 
