@@ -445,6 +445,8 @@ public class ManualBillController {
 	@RequestMapping(value = "/getAddOnRate", method = RequestMethod.GET)
 	public @ResponseBody FlavourConf getAddOnRate(@RequestParam(value = "spfId", required = true) int spfId,@RequestParam(value = "spId", required = true) int spId) {
 		FlavourConf flavourConf=new FlavourConf();
+		
+		System.err.println("Hi" +spfId + "spId  " +spId);
 		/*List<Flavour> flavoursList = new ArrayList<Flavour>();
 		Flavour filteredFlavour = new Flavour();
 		flavoursList = flavourList.getFlavour();
@@ -463,7 +465,7 @@ public class ManualBillController {
 		map.add("spId", spId);
 		map.add("spfId", spfId);
 		flavourConf = restTemplate.postForObject(Constants.url + "getFlConfByIds", map, FlavourConf.class);
-
+System.err.println("flavour is " +flavourConf.toString());
 		return flavourConf;
 	}
 
