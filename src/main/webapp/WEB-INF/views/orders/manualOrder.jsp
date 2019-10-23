@@ -281,6 +281,23 @@ select {
 
 												</select>
 											</div>
+											<label class="col-sm-3 col-lg-2	 control-label">Select
+							Section</label>
+						<div class="col-sm-6 col-lg-3 controls date_select">
+							<select data-placeholder="Choose Menu"
+								class="form-control chosen" id="sectionId" name="sectionId"
+								>
+
+								<option value="">Select Section</option>
+
+								<c:forEach items="${sectionList}" var="sectionList">
+									<option value="${sectionList.sectionId}"><c:out
+											value="${sectionList.sectionName}" /></option>
+								</c:forEach>
+
+
+							</select>
+						</div>
 										</div>
 										<div class="form-group">
 										<label class="col-sm-3 col-lg-2 control-label">Order</label>
@@ -697,7 +714,7 @@ function validation() {
 	var menuId = $('#menu').val();
 	//var itemId=$('#items').val();
 	//var qty=$("#qty").val();
-
+    var sectionId=$('#sectionId').val();
 	var isValid = true;
 	if (frId == ""||frId==0) { 
 		isValid = false;
@@ -705,6 +722,9 @@ function validation() {
 	} else if (menuId == ""||menuId ==0) {
 		isValid = false;
 		alert("Please Select Menu ");
+	}else if (sectionId == ""||sectionId ==0) {
+		isValid = false;
+		alert("Please Select Section ");
 	}
 	return isValid;
 }

@@ -126,7 +126,7 @@
 				</div>
 			</form>
 			<form action="${pageContext.request.contextPath}/insertCreditNote"
-				class="form-horizontal" method="post" id="validation-form" onsubmit="return confirm('Do you want to Generate Credit Note ?');">
+				class="form-horizontal" method="post" id="validation-form" onsubmit="submitCRNote.disabled = true;return confirm('Do you want to Generate Credit Note ?');">
 
 
 

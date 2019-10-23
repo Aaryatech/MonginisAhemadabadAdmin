@@ -35,6 +35,7 @@ import com.ats.adminpanel.model.GenerateBill;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.ItemForMOrder;
 import com.ats.adminpanel.model.Orders;
+import com.ats.adminpanel.model.SectionMaster;
 import com.ats.adminpanel.model.accessright.ModuleJson;
 import com.ats.adminpanel.model.billing.PostBillDataCommon;
 import com.ats.adminpanel.model.billing.PostBillDetail;
@@ -76,6 +77,11 @@ public class ManualOrderController {
 				model.addObject("allFranchiseeAndMenuList", franchiseeAndMenuList);
 				model.addObject("billNo", billNo);
 				billNo = 0;
+				
+				SectionMaster[] sectionMasterArray = restTemplate.getForObject(Constants.url + "/getSectionListOnly",
+						SectionMaster[].class);
+				List<SectionMaster> sectionList = new ArrayList<SectionMaster>(Arrays.asList(sectionMasterArray));
+				model.addObject("sectionList", sectionList);
 			} catch (Exception e) {
 				System.out.println("Franchisee Controller Exception " + e.getMessage());
 			}
@@ -413,6 +419,7 @@ public class ManualOrderController {
 		String submitorder = request.getParameter("submitorder");
 		String submitbill = request.getParameter("submitbill");
 		int frId = Integer.parseInt(request.getParameter("fr_id"));
+		String sectionId=request.getParameter("sectionId");
 		 Calendar calender = Calendar.getInstance();
 	     SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
 		try {
@@ -651,7 +658,7 @@ public class ManualOrderController {
 					
 					header.setBillTime(sdf1.format(calender.getTime()));
 					header.setVehNo("-");
-					header.setExVarchar1("-");
+					header.setExVarchar1(sectionId);
 					header.setExVarchar2("-");
 					postBillHeaderList.add(header);
 					postBillDataCommon.setPostBillHeadersList(postBillHeaderList);

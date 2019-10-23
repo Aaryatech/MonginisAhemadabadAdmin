@@ -515,12 +515,23 @@ select {
 										</div>
 
 										<div class="form-group">
-											<div class="col-md-2">
-												<!-- Franchise Name -->
-											</div>
-											<div class="col-md-3">
-												<!-- <input name="fr_name" id="fr_name" class="form-control" type="text"> -->
-											</div>
+										<div class="col-md-2">Select
+							Section</div>
+						<div class="col-sm-6 col-lg-3 controls date_select">
+							<select data-placeholder="Choose Menu"
+								class="form-control chosen" id="sectionId" name="sectionId"
+								>
+
+								<option value="">Select Section</option>
+
+								<c:forEach items="${sectionList}" var="sectionList">
+									<option value="${sectionList.sectionId}"><c:out
+											value="${sectionList.sectionName}" /></option>
+								</c:forEach>
+
+
+							</select>
+						</div>
 
 											<div class="col-md-1">
 												<!-- GST  No -->
@@ -1372,7 +1383,7 @@ function validate() {
 	
 	 var phoneNo = /^\d{10}$/;  
 	
-     var eventName,spId,spCustName,spPlace,spCustMob,spType,spFlavour,spCode,spWt,deliveryDate,spProdDate,custDob,frName,gstNo,custEmail,spMenuId,custGstNo;
+     var eventName,spId,spCustName,spPlace,spCustMob,spType,spFlavour,spCode,spWt,deliveryDate,spProdDate,custDob,frName,gstNo,custEmail,spMenuId,custGstNo,sectionId;
      eventName = document.getElementById("event_name").value;
      //spCustName=document.getElementById("sp_cust_name").value;
    //  spCustMob=document.getElementById("cust_mobile").value; 
@@ -1387,7 +1398,7 @@ function validate() {
    //  custEmail=document.getElementById("cust_email").value;
      spMenuId=document.getElementById("spMenuId").value;
    //  custGstNo=document.getElementById("cust_gst_no").value;
-     
+     sectionId=document.getElementById("sectionId").value;
      spWt=document.getElementById("spwt").value;
     var isValid=true; 
     
@@ -1465,6 +1476,10 @@ function validate() {
 	  }  else   if (custGstNo== "") {
 		  alert("Please Enter Customer GST No.");
 	        document.getElementById('custGstNo').focus();
+	        isValid= false;
+	  }   else   if (custGstNo== "") {
+		  alert("Please Select Section.");
+	        document.getElementById('sectionId').focus();
 	        isValid= false;
 	  }  
    

@@ -23,6 +23,29 @@ td {
 .selected{
     background:#ffffff;
 }
+root
+    {
+        display: block;
+    }
+
+    th.sortable
+    {
+        color: #666;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+        th.sortable:hover
+        {
+            color: black;
+        }
+
+    th.sorted-asc, th.sorted-desc
+    {
+        color: black;
+        background-color: cadetblue;
+    }
+
 </style>
 <body>
 
@@ -224,7 +247,7 @@ td {
 		<div class="col-md-9" ></div> 
 					<label for="search" class="col-md-3" id="search">
     
-									<input type="text"  id="myInput" onkeyup="myFunction()" autocomplete="off" style="border-radius: 60px;" placeholder="Search Shop Name & Invoice Number" title="Type in a name" width=60%>
+									<input type="text"  id="myInput" onkeyup="myFunction()" autocomplete="off" style="border-radius: 60px;" placeholder="Search Shop Name & Invoice Number" title="Type in a name" width=80%>
 										</label>   <br>
 
 										<!-- <div class="clearfix"></div> -->
@@ -235,9 +258,9 @@ td {
 													<th class="col-sm-1"><input type="checkbox" 
 													onClick="selectBillNo(this)" /> All<br /></th>
 														<th class="col-sm-1">Sr</th>
-														<th class="col-md-1">Inv No</th>
+														<th class="sortable">Inv No</th>
 														<th class="col-md-1">Date</th>
-														<th class="col-md-2">Franchise</th>
+														<th class="sortable">Franchise</th>
 														<th class="col-md-2">Taxable Amt</th>
 														<th class="col-sm-1">Tax Amt</th>
 														<th class="col-md-1">Total</th>
@@ -719,6 +742,65 @@ form.submit();
 			 
 			  
 			}
+	</script>
+	
+<script type="text/javascript">
+	$(document).ready(function () {
+
+        //grab all header rows
+        $('th').each(function (column) {
+            $(this).addClass('sortable').click(function () {
+                    var findSortKey = function ($cell) {
+                        return $cell.find('.sort-key').text().toUpperCase()+ ' ' + $cell.text().toUpperCase();
+
+                    };
+                    var sortDirection = $(this).is('.sorted-asc') ? -1 : 1;
+                    var $rows = $(this).parent().parent().parent().find('tbody tr').get();
+                    var bob = 0;
+                    //loop through all the rows and find
+                    $.each($rows, function (index, row) {
+                        row.sortKey = findSortKey($(row).children('td').eq(column));
+                    });
+
+                    //compare and sort the rows alphabetically or numerically
+                    $rows.sort(function (a, b) {                       
+                        if (a.sortKey.indexOf('-') == -1 && (!isNaN(a.sortKey) && !isNaN(a.sortKey))) {
+                             //Rough Numeracy check                          
+                                
+                                if (parseInt(a.sortKey) < parseInt(b.sortKey)) {
+                                    return -sortDirection;
+                                }
+                                if (parseInt(a.sortKey) > parseInt(b.sortKey)) {                                
+                                    return sortDirection;
+                                }
+
+                        } else {
+                            if (a.sortKey < b.sortKey) {
+                                return -sortDirection;
+                            }
+                            if (a.sortKey > b.sortKey) {
+                                return sortDirection;
+                            }
+                        }
+                        return 0;
+                    });
+
+                    //add the rows in the correct order to the bottom of the table
+                    $.each($rows, function (index, row) {
+                        $('tbody').append(row);
+                        row.sortKey = null;
+                    });
+
+                    //identify the collumn sort order
+                    $('th').removeClass('sorted-asc sorted-desc');
+                    var $sortHead = $('th').filter(':nth-child(' + (column + 1) + ')');
+                    sortDirection == 1 ? $sortHead.addClass('sorted-asc') : $sortHead.addClass('sorted-desc');
+
+                    //identify the collum to be sorted by
+                    $('td').removeClass('sorted').filter(':nth-child(' + (column + 1) + ')').addClass('sorted');
+                });
+            });
+        });
 	</script>
 	<!-- <script type="text/javascript">
 	$(document).ready(function () {

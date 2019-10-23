@@ -59,9 +59,9 @@
 </style>
 </head>
 <body>
-<div id="preloader">
+<!-- <div id="preloader">
   <div id="status"></div>
-</div>
+</div> -->
  
 <c:url var="setSubModId" value="/setSubModId" />
 

@@ -56,6 +56,7 @@ import com.ats.adminpanel.model.GenerateBillList;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.Main;
 import com.ats.adminpanel.model.SearchSpCakeResponse;
+import com.ats.adminpanel.model.SectionMaster;
 import com.ats.adminpanel.model.SpCakeOrder;
 import com.ats.adminpanel.model.SpCakeOrderRes;
 import com.ats.adminpanel.model.SpCakeResponse;
@@ -369,7 +370,12 @@ public class ManualBillController {
 			String currentDate =new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 			model.addObject("currentDate", currentDate);
 			model.addObject("date", currentDate);
+			model.addObject("date", currentDate);
 
+			SectionMaster[] sectionMasterArray = restTemplate.getForObject(Constants.url + "/getSectionListOnly",
+					SectionMaster[].class);
+			List<SectionMaster> sectionList = new ArrayList<SectionMaster>(Arrays.asList(sectionMasterArray));
+			model.addObject("sectionList", sectionList);
 			
 		} catch (Exception e) {
 			System.err.println("Exce in getSpCakeForManBill" + e.getMessage());
@@ -635,7 +641,7 @@ System.err.println("flavour is " +flavourConf.toString());
 
 			String curTimeStamp = new SimpleDateFormat("yyyy_MM_dd.HH_mm_ss").format(new Date());
 			logger.info("curTimeStamp" + curTimeStamp);
-
+			String sectionId=request.getParameter("sectionId");
 			String custChCk = "";
 			String orderPhoto1 = "";
 
@@ -1040,7 +1046,7 @@ System.err.println("flavour is " +flavourConf.toString());
 						header.setRemark(dateFormat1.format(cal.getTime()));
 						header.setTime(strtime);
 						header.setVehNo("-");
-						header.setExVarchar1("-");
+						header.setExVarchar1(sectionId);
 						header.setExVarchar2("-");
 						header.setPostBillDetailsList(postBillDetailsList);
 						postBillHeaderList.add(header);
