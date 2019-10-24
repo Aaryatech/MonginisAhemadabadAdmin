@@ -173,7 +173,7 @@ select {
 </style>
 
 </head>
-<body>
+<body onload="showPdf(${billNo})">
 
 	<c:url var="setAllItemSelected" value="/setAllItemSelected" />
 	<c:url var="findFranchiseeData" value="/findFranchiseeData" />

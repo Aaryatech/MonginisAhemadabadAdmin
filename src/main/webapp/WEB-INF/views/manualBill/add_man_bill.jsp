@@ -130,7 +130,7 @@
 
         // Enable transliteration in the textbox with id
         // 'transliterateTextarea'.
-        control.makeTransliteratable(['transliterateTextarea']);   showCtype();findFranchiseeData(0)
+        control.makeTransliteratable(['transliterateTextarea']);   showCtype();
       }
    
       google.setOnLoadCallback(onLoad);
