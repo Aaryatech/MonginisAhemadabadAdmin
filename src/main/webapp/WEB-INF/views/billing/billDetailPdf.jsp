@@ -61,7 +61,7 @@
              <input type="hidden" name="transport_mode" id="transport_mode" value="${transportMode}"/>
             <input type="hidden" name="select_to_print" id="select_to_print" value="${selectedBills}"/>
 			    <input type="hidden" name="vehicle_no" id="vehicle_no" value="${vehicleNo}"/>
-			     <input type="hidden" name="user" id="user" value="${user}"/>
+			   
 			    
 							<c:forEach items="${billDetails}" var="frDetails"
 								varStatus="count">
@@ -305,8 +305,8 @@ function genPdf()
 	var transport_mode = $("#transport_mode").val();
 	var select_to_print = $("#select_to_print").val();
 	var vehicle_no = $("#vehicle_no").val();
-	var user = $("#user").val();
-   window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillPdf/'+transport_mode+'/'+vehicle_no+'/'+user+'/'+select_to_print+'/');
+	
+   window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillPdf/'+transport_mode+'/'+vehicle_no+'/'+select_to_print+'/');
 
 	//window.open("${pageContext.request.contextPath}/pdfForReport?url=showSaleReportByDatePdf/"+from_date+"/"+to_date);
 	

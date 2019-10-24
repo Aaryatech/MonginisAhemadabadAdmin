@@ -196,7 +196,7 @@ public class BillController {
 		String vehNo = request.getParameter("vehNo");
 		String billTime = request.getParameter("time");
 		// ------------------------------------------------------------------------
-		String sectionId=request.getParameter("sectionId");
+		String sectionId = request.getParameter("sectionId");
 
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -305,10 +305,11 @@ public class BillController {
 
 						PostBillDetail billDetail = new PostBillDetail();
 
-						String billQty = request
-								.getParameter("" + "billQty" +tempGenerateBillList.get(j).getCatId()+""+tempGenerateBillList.get(j).getOrderId());
-						float discPer = Float.parseFloat(
-								request.getParameter("" + "discPer" +tempGenerateBillList.get(j).getCatId()+""+tempGenerateBillList.get(j).getOrderId()));
+						String billQty = request.getParameter("" + "billQty" + tempGenerateBillList.get(j).getCatId()
+								+ "" + tempGenerateBillList.get(j).getOrderId());
+						float discPer = Float
+								.parseFloat(request.getParameter("" + "discPer" + tempGenerateBillList.get(j).getCatId()
+										+ "" + tempGenerateBillList.get(j).getOrderId()));
 
 						// billQty = String.valueOf(gBill.getOrderQty());
 						Float orderRate = (float) gBill.getOrderRate();
@@ -455,7 +456,7 @@ public class BillController {
 						header.setPartyGstin(gBill.getPartyGstin());// new
 						header.setPartyAddress(gBill.getPartyAddress());// new
 						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
-                        header.setExVarchar1(sectionId);
+						header.setExVarchar1(sectionId);
 					}
 
 				}
@@ -632,9 +633,9 @@ public class BillController {
 				model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
 
 				model.addObject("routeList", routeList);
-				 Calendar cal = Calendar.getInstance();
-			     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-			     model.addObject("time",sdf.format(cal.getTime()));
+				Calendar cal = Calendar.getInstance();
+				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+				model.addObject("time", sdf.format(cal.getTime()));
 			} catch (Exception e) {
 
 				System.out.println("Exc in show generate bill " + e.getMessage());
@@ -1448,10 +1449,11 @@ public class BillController {
 	@RequestMapping(value = "/getBillDetailForPrintPdf", method = RequestMethod.GET)
 	public String getBillDetailForPrintPdf(HttpServletRequest request, HttpServletResponse response) {
 
-		HttpSession sess = request.getSession();
-		int user = (int) sess.getAttribute("userId");
-		System.err.println("User Session Found********************************"+user);
-		
+		// HttpSession sess = request.getSession();
+		// int user = (int) sess.getAttribute("userId");
+		// System.err.println("User Session
+		// Found********************************"+user);
+
 		ModelAndView model = new ModelAndView("billing/billDetailPdf");
 		billPrintList = new ArrayList<>();
 		String billList = new String();
@@ -1634,13 +1636,13 @@ public class BillController {
 			model.addObject("vehicleNo", vehicleNo);
 			model.addObject("transportMode", transportMode);
 			model.addObject("selectedBills", billList);
-			model.addObject("user", user);
+			// model.addObject("user", user);
 		} catch (Exception e) {
 			System.out.println("Exce in getting bill Detail for Print " + e.getMessage());
 			e.printStackTrace();
 
 		}
-		return "redirect:/pdf?url=pdf/showBillPdf/" + transportMode + "/" + vehicleNo + "/"+ user+ "/" + billList;
+		return "redirect:/pdf?url=pdf/showBillPdf/" + transportMode + "/" + vehicleNo + "/" + billList;
 
 	}
 
@@ -1832,8 +1834,8 @@ public class BillController {
 
 	}
 
-	@RequestMapping(value = "pdf/showBillPdf/{transportMode}/{vehicleNo}/{user}/{selectedBills}", method = RequestMethod.GET)
-	public ModelAndView showBillPdf(@PathVariable String transportMode, @PathVariable String vehicleNo, @PathVariable int user,
+	@RequestMapping(value = "pdf/showBillPdf/{transportMode}/{vehicleNo}/{selectedBills}", method = RequestMethod.GET)
+	public ModelAndView showBillPdf(@PathVariable String transportMode, @PathVariable String vehicleNo,
 			@PathVariable String[] selectedBills, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("IN Show bill PDF Method :/showBillPdf");
 		ModelAndView model = new ModelAndView("billing/pdf/frBillPdf");
@@ -2075,7 +2077,7 @@ public class BillController {
 			model.addObject("vehicleNo", vehicleNo);
 			model.addObject("transportMode", transportMode);
 			model.addObject("dateTime", dateFormat.format(cal.getTime()));
-			model.addObject("user", user);
+
 			// allFrIdNameList = new AllFrIdNameList();
 
 			// model.addObject("catList",filteredCatList);
@@ -2091,7 +2093,6 @@ public class BillController {
 
 	}
 
-	
 	// List<GetBillHeader> billHeadersList;
 	@RequestMapping(value = "/getBillListProcess", method = RequestMethod.GET)
 	public @ResponseBody List<GetBillHeader> getBillListProcess(HttpServletRequest request,
@@ -2809,60 +2810,87 @@ public class BillController {
 			pd4ml.setHtmlWidth(userSpaceWidth);
 
 			pd4ml.render(urlstring, fos);
-//			
-//if(!isTwice) {
-//	isTwice=true;
-//			try {
-//				Long no = (Long) pd4ml.getLastRenderInfo(PD4Constants.PD4ML_TOTAL_PAGES);
-//				System.out.println("####### Total Pages " + no);
-//
-//				footer.setHtmlTemplate(
-//						"<table width=\"100%\" border=\"0\"  cellpadding=\"0\" cellspacing=\"0\" style=\"border-top:1px solid #313131;border-right:1px solid #313131;\"><tr><td colspan=\"6\" width=\"50%\" style=\"border-left:1px solid #313131; padding:8px;color:#000; font-size:12px;\"><p style=\"color:#000; font-size:12px; text-align:left;margin:0px;\">After PDF Render: We hereby certify that food mentioned in the Tax Invoice is warranted to be of the nature and quality which it purpose to be. FDA Lic. No: 11515044000208</p></td><td colspan=\"5\" width=\"38%\" rowspan=\"2\" style=\"border-left:1px solid #313131; padding:8px;color:#000;font-size:15px;\">&nbsp;</td></tr><tr><td colspan=\"6\"width=\"50%\"style=\"border-top:1px solid #313131;border-left:1px solid #313131; padding:8px;color:#000; font-size:12px;\"><p>Certified that the particulars given above are true and correct.</p>&nbsp;</td></tr><tr><td colspan=\"6\" width=\"50%\"  style=\"border-top:1px solid #313131;border-left:1px solid #313131; padding:8px;color:#000; font-size:12px;\"><p><b>Invoice Value in Rs.</b><br></br> ${frDetails.amtInWords}</p>&nbsp;</td><td colspan=\"5\" width=\"38%\" style=\"border-top:1px solid #313131;border-left:1px solid #313131; padding:8px;color:#000;font-size:15px;\"><p style=\"color:#000; font-size:11px; text-align:left;margin:0px;\">Continue...</p></td></tr><tr><td colspan=\"6\"  width=\"50%\" style=\"border-bottom:1px solid #313131;border-top:1px solid #313131;border-left:1px solid #313131; padding:10px;color:#000; font-size:11px;\"><p style=\"color:#000; font-size:11px; text-align:left;margin:0px;\">Subject to Aurangabad Jurisdiction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receiver's Signature</p>"
-//								+ "</td><td  align=\"center\" colspan=\"5\" width=\"38%\" style=\"border-bottom:1px solid #313131;border-top:1px solid #313131;border-left:1px solid #313131; padding:10px;color:#000;font-size:11px;\">Authorised Signature</td></tr></table>");
-//				pd4ml.setPageFooter(footer);
-//				fos = new java.io.FileOutputStream(output);
-//runConverter(urlstring, output, request, response);				
-//
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//				e.printStackTrace();
-//			}
-//}
+			//
+			// if(!isTwice) {
+			// isTwice=true;
+			// try {
+			// Long no = (Long) pd4ml.getLastRenderInfo(PD4Constants.PD4ML_TOTAL_PAGES);
+			// System.out.println("####### Total Pages " + no);
+			//
+			// footer.setHtmlTemplate(
+			// "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"
+			// style=\"border-top:1px solid #313131;border-right:1px solid
+			// #313131;\"><tr><td colspan=\"6\" width=\"50%\" style=\"border-left:1px solid
+			// #313131; padding:8px;color:#000; font-size:12px;\"><p style=\"color:#000;
+			// font-size:12px; text-align:left;margin:0px;\">After PDF Render: We hereby
+			// certify that food mentioned in the Tax Invoice is warranted to be of the
+			// nature and quality which it purpose to be. FDA Lic. No:
+			// 11515044000208</p></td><td colspan=\"5\" width=\"38%\" rowspan=\"2\"
+			// style=\"border-left:1px solid #313131;
+			// padding:8px;color:#000;font-size:15px;\">&nbsp;</td></tr><tr><td
+			// colspan=\"6\"width=\"50%\"style=\"border-top:1px solid
+			// #313131;border-left:1px solid #313131; padding:8px;color:#000;
+			// font-size:12px;\"><p>Certified that the particulars given above are true and
+			// correct.</p>&nbsp;</td></tr><tr><td colspan=\"6\" width=\"50%\"
+			// style=\"border-top:1px solid #313131;border-left:1px solid #313131;
+			// padding:8px;color:#000; font-size:12px;\"><p><b>Invoice Value in
+			// Rs.</b><br></br> ${frDetails.amtInWords}</p>&nbsp;</td><td colspan=\"5\"
+			// width=\"38%\" style=\"border-top:1px solid #313131;border-left:1px solid
+			// #313131; padding:8px;color:#000;font-size:15px;\"><p style=\"color:#000;
+			// font-size:11px;
+			// text-align:left;margin:0px;\">Continue...</p></td></tr><tr><td colspan=\"6\"
+			// width=\"50%\" style=\"border-bottom:1px solid #313131;border-top:1px solid
+			// #313131;border-left:1px solid #313131; padding:10px;color:#000;
+			// font-size:11px;\"><p style=\"color:#000; font-size:11px;
+			// text-align:left;margin:0px;\">Subject to Aurangabad Jurisdiction
+			// &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receiver's
+			// Signature</p>"
+			// + "</td><td align=\"center\" colspan=\"5\" width=\"38%\"
+			// style=\"border-bottom:1px solid #313131;border-top:1px solid
+			// #313131;border-left:1px solid #313131;
+			// padding:10px;color:#000;font-size:11px;\">Authorised
+			// Signature</td></tr></table>");
+			// pd4ml.setPageFooter(footer);
+			// fos = new java.io.FileOutputStream(output);
+			// runConverter(urlstring, output, request, response);
+			//
+			// } catch (Exception e) {
+			// // TODO: handle exception
+			// e.printStackTrace();
+			// }
+			// }
 
 		}
 	}
-	
+
 	@RequestMapping(value = "/updateBillStatusAdmin", method = RequestMethod.GET)
-	public String updateBillStatus(HttpServletRequest request,
-		HttpServletResponse response) {
-		
-		
-		String billNo=request.getParameter("billNo");
-		int stat = Integer.parseInt(request.getParameter("stat"));
-		System.out.println("Bill No----------------------- : "+ billNo+" "+stat);
-			
-		try {
-			
-		RestTemplate restTemplate = new RestTemplate();
-		
-		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-		map.add("billNo", billNo);
-		map.add("status", stat);
-		Info info = restTemplate.postForObject(Constants.url + "updateBillStatusAdm", map,
-					Info.class);
+	public String updateBillStatus(HttpServletRequest request, HttpServletResponse response) {
 
-			System.out.println("Message :   "+info.getMessage());
-			System.out.println("Error  :    "+info.getError());
-		
-		if(info.getError()==false) {
-			System.out.println("Update Sucess");
+		String billNo = request.getParameter("billNo");
+		int stat = Integer.parseInt(request.getParameter("stat"));
+		System.out.println("Bill No----------------------- : " + billNo + " " + stat);
+
+		try {
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("billNo", billNo);
+			map.add("status", stat);
+			Info info = restTemplate.postForObject(Constants.url + "updateBillStatusAdm", map, Info.class);
+
+			System.out.println("Message :   " + info.getMessage());
+			System.out.println("Error  :    " + info.getError());
+
+			if (info.getError() == false) {
+				System.out.println("Update Sucess");
+			}
+
+		} catch (Exception e) {
+			System.out.println("ex in update bill " + e.getMessage());
+			e.printStackTrace();
 		}
-		
-	}catch (Exception e) {
-		System.out.println("ex in update bill "+e.getMessage());
-		e.printStackTrace();
-	}
 		return "redirect:/showBillListForPrint";
-		
+
 	}
 }

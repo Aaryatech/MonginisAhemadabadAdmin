@@ -888,9 +888,9 @@ page-break-inside: auto !important
 						<b>Invoice Value in Rs.</b>  ${frDetails.amtInWords}
 					</p>
 					</br>
-					<p>
+					<%-- <p>
 						<b>User Id : </b>${user}
-					</p>
+					</p> --%>
 					</td>
 				<td colspan="5" width="40%"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 8px; color: #000; font-size: 15px;">
