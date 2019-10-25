@@ -1393,7 +1393,7 @@ public class ViewProdController {
 
 			tempMx = new TempMixing();
 
-			tempMx.setQty(planMixing.getTotal() * planMixing.getMulFactor());
+			tempMx.setQty(planMixing.getTotal());
 
 			tempMx.setRmId(planMixing.getRmId());
 			tempMx.setSfId(0);
