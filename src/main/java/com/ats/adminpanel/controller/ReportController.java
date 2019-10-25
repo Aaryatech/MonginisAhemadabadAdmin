@@ -8,8 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -341,6 +343,8 @@ public class ReportController {
 			expoExcel1.setRowData(rowData1);
 			exportToExcelList1.add(expoExcel1);
 
+			DecimalFormat df = new DecimalFormat("#.00");
+			
 			for (int j = 0; j < headerList.size(); j++) {
 
 				expoExcel1 = new ExportToExcel();
@@ -357,7 +361,8 @@ public class ReportController {
 				rowData1.add("");
 				expoExcel1.setRowData(rowData1);
 				exportToExcelList1.add(expoExcel1);
-
+				double finalAmt =0;
+				
 				for (int i = 0; i < crNoteRegItemList.size(); i++) {
 
 					if (headerList.get(j).getCrnId() == crNoteRegItemList.get(i).getCrnId()) {
@@ -371,12 +376,21 @@ public class ReportController {
 								+ (crNoteRegItemList.get(i).getCgstPer() + crNoteRegItemList.get(i).getSgstPer())
 								+ "%");
 						rowData1.add(
-								"" + (crNoteRegItemList.get(i).getCrnTaxable()));
+								"" + (df.format(crNoteRegItemList.get(i).getCrnTaxable())));
 						rowData1.add("Dr");
 						rowData1.add("");
 						rowData1.add("");
 						expoExcel1.setRowData(rowData1);
 						exportToExcelList1.add(expoExcel1);
+						
+						BigDecimal bd = new BigDecimal(crNoteRegItemList.get(i).getCrnTaxable()).setScale(2, RoundingMode.HALF_UP);
+				        double taxable = bd.doubleValue();
+				        bd = new BigDecimal(crNoteRegItemList.get(i).getCgstAmt()).setScale(2, RoundingMode.HALF_UP);
+				        double cgsAmt = bd.doubleValue();
+				        bd = new BigDecimal(crNoteRegItemList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
+				        double sgsAmt = bd.doubleValue();
+				        
+						finalAmt = finalAmt+taxable+cgsAmt+sgsAmt;
 
 						expoExcel1 = new ExportToExcel();
 						rowData1 = new ArrayList<String>();
@@ -385,7 +399,7 @@ public class ReportController {
 						rowData1.add("");
 						rowData1.add("");
 						rowData1.add("CGST " + crNoteRegItemList.get(i).getCgstPer() + "%");
-						rowData1.add("" + crNoteRegItemList.get(i).getCgstAmt());
+						rowData1.add("" + df.format(crNoteRegItemList.get(i).getCgstAmt()));
 						rowData1.add("Dr");
 						rowData1.add("");
 						rowData1.add("");
@@ -400,7 +414,7 @@ public class ReportController {
 						rowData1.add("");
 						rowData1.add("");
 						rowData1.add("SGST " + crNoteRegItemList.get(i).getSgstPer() + "%");
-						rowData1.add(" " + crNoteRegItemList.get(i).getSgstAmt());
+						rowData1.add(" " + df.format(crNoteRegItemList.get(i).getSgstAmt()));
 						rowData1.add("Dr");
 						rowData1.add("");
 						rowData1.add("");
@@ -418,7 +432,7 @@ public class ReportController {
 				rowData1.add("");
 				rowData1.add("");
 				rowData1.add("kasar / vatav ");
-				rowData1.add(" " + ((int) Math.ceil(headerList.get(j).getCrnAmt()) - headerList.get(j).getCrnAmt()));
+				rowData1.add(" " + ((int) Math.ceil(headerList.get(j).getCrnAmt()) - finalAmt));
 				rowData1.add("Dr");
 				rowData1.add("");
 				rowData1.add("");

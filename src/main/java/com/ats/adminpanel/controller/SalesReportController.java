@@ -12,8 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -400,6 +402,8 @@ public class SalesReportController {
 				session.setAttribute("mergeUpto1", "$A$1:$N$1");
 				session.setAttribute("mergeUpto2", "$A$2:$N$2");
 
+				DecimalFormat df = new DecimalFormat("#.00");
+				
 				List<ExportToExcel> exportToExcelList1 = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel1 = new ExportToExcel();
@@ -434,6 +438,8 @@ public class SalesReportController {
 					expoExcel1.setRowData(rowData1);
 					exportToExcelList1.add(expoExcel1);
 
+					double finalAmt =0;
+					
 					for (int i = 0; i < taxReportList.size(); i++) {
 
 						if (headerList.get(j).getBillNo() == taxReportList.get(i).getBillNo()) {
@@ -444,12 +450,22 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("Sales Gst " + taxReportList.get(i).getTaxPer()+ "%");
-							rowData1.add(" " + taxReportList.get(i).getTaxableAmt());
+							rowData1.add(" " + df.format(taxReportList.get(i).getTaxableAmt()));
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
 							exportToExcelList1.add(expoExcel1);
-
+							
+							BigDecimal bd = new BigDecimal(taxReportList.get(i).getTaxableAmt()).setScale(2, RoundingMode.HALF_UP);
+					        double taxable = bd.doubleValue();
+					        bd = new BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2, RoundingMode.HALF_UP);
+					        double cgstAmt = bd.doubleValue();
+					        bd = new BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
+					        double sgstAmt = bd.doubleValue();
+					        
+							finalAmt = finalAmt+taxable+cgstAmt+sgstAmt;
+							
+							
 							expoExcel1 = new ExportToExcel();
 							rowData1 = new ArrayList<String>();
 							rowData1.add(headerList.get(j).getInvoiceNo());
@@ -457,7 +473,7 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("CGST " + taxReportList.get(i).getCgstPer() + "%");
-							rowData1.add(" " + taxReportList.get(i).getCgstAmt());
+							rowData1.add(" " + df.format(taxReportList.get(i).getCgstAmt()));
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
@@ -470,7 +486,7 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("SGST " + taxReportList.get(i).getSgstPer() + "%");
-							rowData1.add(" " + taxReportList.get(i).getSgstAmt());
+							rowData1.add(" " + df.format(taxReportList.get(i).getSgstAmt()));
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
@@ -487,7 +503,7 @@ public class SalesReportController {
 					rowData1.add("");
 					rowData1.add("kasar / vatav ");
 					rowData1.add(
-							" " + ((int) Math.ceil(headerList.get(j).getGrandTotal()) - headerList.get(j).getGrandTotal()));
+							" " + ((int) Math.ceil(headerList.get(j).getGrandTotal()) - finalAmt));
 					rowData1.add("Cr");
 					rowData1.add(" ");
 					expoExcel1.setRowData(rowData1);
