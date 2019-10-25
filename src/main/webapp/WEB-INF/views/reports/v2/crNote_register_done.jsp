@@ -108,8 +108,10 @@
 								Report</button>
 							<input type="button" id="expExcel" class="btn btn-primary"
 								value="EXPORT TO Excel" onclick="exportToExcel();"
-								disabled="disabled">
-
+								disabled="disabled"> <input type="button"
+								id="expExcelTally" class="btn btn-primary"
+								value="EXPORT TO Excel For Tally"
+								onclick="exportToExcelTally();" disabled>
 
 							<button class="btn btn-primary" value="PDF" id="PDFButton"
 								onclick="genPdf()" disabled="disabled">PDF</button>
@@ -242,7 +244,7 @@
 					alert("No records found !!");
 					document.getElementById("expExcel").disabled = true;
 					document.getElementById("PDFButton").disabled = true;
-
+					document.getElementById("expExcelTally").disabled = true;
 				}
 				var crnQty = 0;
 				var crnTaxable = 0;
@@ -253,7 +255,7 @@
 
 					document.getElementById("expExcel").disabled = false;
 					document.getElementById("PDFButton").disabled = false;
-
+					document.getElementById("expExcelTally").disabled = false;
 					document.getElementById('range').style.display = 'block';
 
 					var index = key + 1;
@@ -575,6 +577,12 @@
 
 			window.open("${pageContext.request.contextPath}/exportToExcelNew");
 			document.getElementById("expExcel").disabled = true;
+		}
+		function exportToExcelTally() {
+
+			window
+					.open("${pageContext.request.contextPath}/exportToExcelTally");
+			document.getElementById("expExcelTally").disabled = true;
 		}
 	</script>
 

@@ -210,6 +210,12 @@
 							<input type="button" id="expExcel" class="btn btn-primary"
 								value="EXPORT TO Excel" onclick="exportToExcel();">
 						</div>
+
+						<div class="col-sm-3  controls">
+							<input type="button" id="expExcelTally" class="btn btn-primary"
+								value="EXPORT TO Excel For Tally"
+								onclick="exportToExcelTally();">
+						</div>
 					</div>
 				</div>
 
@@ -422,6 +428,11 @@
 
 			window.open("${pageContext.request.contextPath}/exportToExcelNew");
 			document.getElementById("expExcel").disabled = true;
+		}
+		function exportToExcelTally() {
+
+			window.open("${pageContext.request.contextPath}/exportToExcelTally");
+			document.getElementById("expExcelTally").disabled = true;
 		}
 	</script>
 

@@ -47,6 +47,8 @@ import com.ats.adminpanel.model.AllFrIdName;
 import com.ats.adminpanel.model.AllFrIdNameList;
 import com.ats.adminpanel.model.AllRoutesListResponse;
 import com.ats.adminpanel.model.ExportToExcel;
+import com.ats.adminpanel.model.GrandTotalBillWise;
+import com.ats.adminpanel.model.GrandTotalCreditnoteWise;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.ItemReport;
 import com.ats.adminpanel.model.ItemReportDetail;
@@ -254,7 +256,7 @@ public class ReportController {
 				rowData.add("" + crNoteRegItemList.get(i).getFrCode());
 				rowData.add("" + crNoteRegItemList.get(i).getCrnDate());
 				rowData.add(" ");
-				rowData.add(""+Constants.STATE);
+				rowData.add("" + Constants.STATE);
 				rowData.add("" + roundUp(crnTotal));
 				rowData.add(" ");
 				rowData.add("" + (crNoteRegItemList.get(i).getCgstPer() + crNoteRegItemList.get(i).getSgstPer()));
@@ -309,6 +311,128 @@ public class ReportController {
 			session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: " + toDate + " ");
 			session.setAttribute("mergeUpto1", "$A$1:$M$1");
 			session.setAttribute("mergeUpto2", "$A$2:$M$2");
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+			GrandTotalCreditnoteWise[] grandTotalCreditnoteWise = restTemplate.postForObject(
+					Constants.url + "getGrandTotalCreditnotewise", map, GrandTotalCreditnoteWise[].class);
+			List<GrandTotalCreditnoteWise> headerList = new ArrayList<GrandTotalCreditnoteWise>(
+					Arrays.asList(grandTotalCreditnoteWise));
+
+			List<ExportToExcel> exportToExcelList1 = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel1 = new ExportToExcel();
+			List<String> rowData1 = new ArrayList<String>();
+
+			expoExcel1 = new ExportToExcel();
+			rowData1 = new ArrayList<String>();
+			rowData1.add("Id");
+			rowData1.add("DATE");
+			rowData1.add("VOUCHER TYPE");
+			rowData1.add("VOUCHER NUMBER");
+			rowData1.add("LEDGER NAME");
+			rowData1.add("LEDGER AMT");
+			rowData1.add("AMT TYPE");
+			rowData1.add("INVOICE NO");
+			rowData1.add("INVOICE DATE");
+			rowData1.add("NARRATION");
+
+			expoExcel1.setRowData(rowData1);
+			exportToExcelList1.add(expoExcel1);
+
+			for (int j = 0; j < headerList.size(); j++) {
+
+				expoExcel1 = new ExportToExcel();
+				rowData1 = new ArrayList<String>();
+				rowData1.add(headerList.get(j).getFrCode());
+				rowData1.add(" " + headerList.get(j).getCrnDate());
+				rowData1.add("Credit Note");
+				rowData1.add(headerList.get(j).getFrCode());
+				rowData1.add(headerList.get(j).getFrName());
+				rowData1.add(" " + (int) Math.ceil(headerList.get(j).getCrnAmt()));
+				rowData1.add("Cr");
+				rowData1.add(headerList.get(j).getInvoiceNo());
+				rowData1.add("" + headerList.get(j).getBillDate());
+				rowData1.add("");
+				expoExcel1.setRowData(rowData1);
+				exportToExcelList1.add(expoExcel1);
+
+				for (int i = 0; i < crNoteRegItemList.size(); i++) {
+
+					if (headerList.get(j).getCrnId() == crNoteRegItemList.get(i).getCrnId()) {
+						expoExcel1 = new ExportToExcel();
+						rowData1 = new ArrayList<String>();
+						rowData1.add(headerList.get(j).getFrCode());
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("Sales Gst "
+								+ (crNoteRegItemList.get(i).getCgstPer() + crNoteRegItemList.get(i).getSgstPer())
+								+ "%");
+						rowData1.add(
+								"" + (crNoteRegItemList.get(i).getCrnTaxable()));
+						rowData1.add("Dr");
+						rowData1.add("");
+						rowData1.add("");
+						expoExcel1.setRowData(rowData1);
+						exportToExcelList1.add(expoExcel1);
+
+						expoExcel1 = new ExportToExcel();
+						rowData1 = new ArrayList<String>();
+						rowData1.add(headerList.get(j).getFrCode());
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("CGST " + crNoteRegItemList.get(i).getCgstPer() + "%");
+						rowData1.add("" + crNoteRegItemList.get(i).getCgstAmt());
+						rowData1.add("Dr");
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("");
+						expoExcel1.setRowData(rowData1);
+						exportToExcelList1.add(expoExcel1);
+
+						expoExcel1 = new ExportToExcel();
+						rowData1 = new ArrayList<String>();
+						rowData1.add(headerList.get(j).getFrCode());
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("SGST " + crNoteRegItemList.get(i).getSgstPer() + "%");
+						rowData1.add(" " + crNoteRegItemList.get(i).getSgstAmt());
+						rowData1.add("Dr");
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("");
+						expoExcel1.setRowData(rowData1);
+						exportToExcelList1.add(expoExcel1);
+					}
+
+				}
+
+				expoExcel1 = new ExportToExcel();
+				rowData1 = new ArrayList<String>();
+				rowData1.add(headerList.get(j).getFrCode());
+				rowData1.add("");
+				rowData1.add("");
+				rowData1.add("");
+				rowData1.add("kasar / vatav ");
+				rowData1.add(" " + ((int) Math.ceil(headerList.get(j).getCrnAmt()) - headerList.get(j).getCrnAmt()));
+				rowData1.add("Dr");
+				rowData1.add("");
+				rowData1.add("");
+				rowData1.add("");
+				expoExcel1.setRowData(rowData1);
+				exportToExcelList1.add(expoExcel1);
+			}
+
+			session.setAttribute("exportToExcelTally", exportToExcelList1);
+			session.setAttribute("excelNameNewTally", "TaxCreditNoteReportTally");
+			session.setAttribute("reportNameNewTally", "Tax Credit Note Report Tally");
+			session.setAttribute("searchByNewTally", "From Date: " + fromDate + "  To Date: " + toDate + " ");
+			session.setAttribute("mergeUpto1Tally", "$A$1:$J$1");
+			session.setAttribute("mergeUpto2Tally", "$A$2:$J$2");
 
 		} catch (Exception e) {
 

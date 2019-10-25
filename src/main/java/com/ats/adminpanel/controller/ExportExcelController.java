@@ -53,7 +53,8 @@ public class ExportExcelController {
 	List<ExportToExcel> exportToExcelListNew = new ArrayList<ExportToExcel>();
 	List<ExportToExcel> exportToExcelList1 = new ArrayList<ExportToExcel>();
 	List<ExportToExcel> exportToExcelList2 = new ArrayList<ExportToExcel>();
-
+	List<ExportToExcel> exportToExcelTally = new ArrayList<ExportToExcel>();
+	
 	@RequestMapping(value = "/exportToExcel", method = RequestMethod.GET)
 	@ResponseBody
 	public void downloadSpreadsheet(HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -336,7 +337,7 @@ public class ExportExcelController {
 		session.removeAttribute("exportExcelListNew");
 		System.out.println("Session List" + session.getAttribute("exportExcelListNew"));
 	}
-
+	 
 	private XSSFWorkbook createWorkbookNew(String reportName, String searchBy, String mergeUpto1, String mergeUpto2)
 			throws IOException {
 		XSSFWorkbook wb = new XSSFWorkbook();
@@ -583,6 +584,121 @@ public class ExportExcelController {
 			}
 			if (rowIndex == 0)
 				row.setRowStyle(createHeaderStyle(wb));
+		}
+		return wb;
+	}
+	
+	
+	@RequestMapping(value = "/exportToExcelTally", method = RequestMethod.GET)
+	@ResponseBody
+	public void exportToExcelTally(HttpServletResponse response, HttpServletRequest request) throws Exception {
+		XSSFWorkbook wb = null;
+		HttpSession session = request.getSession();
+		try {
+
+			exportToExcelTally = (List) session.getAttribute("exportToExcelTally"); 
+
+			String excelName = (String) session.getAttribute("excelNameNewTally");
+			String reportName = (String) session.getAttribute("reportNameNewTally");
+			String searchBy = (String) session.getAttribute("searchByNewTally");
+			String mergeUpto1 = (String) session.getAttribute("mergeUpto1Tally");
+			String mergeUpto2 = (String) session.getAttribute("mergeUpto2Tally");
+			wb = createWorkbookNewTally(reportName, searchBy, mergeUpto1, mergeUpto2);
+			autoSizeColumns(wb, 2);
+			response.setContentType("application/vnd.ms-excel");
+			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			response.setHeader("Content-disposition", "attachment; filename=" + excelName + "-" + date + ".xlsx");
+			wb.write(response.getOutputStream());
+
+		} catch (IOException ioe) {
+			throw new RuntimeException("Error writing spreadsheet to output stream");
+		} finally {
+			if (wb != null) {
+				wb.close();
+			}
+		}
+		session.removeAttribute("exportToExcelTally");
+		System.out.println("Session List" + session.getAttribute("exportToExcelTally"));
+	}
+	 
+	private XSSFWorkbook createWorkbookNewTally(String reportName, String searchBy, String mergeUpto1, String mergeUpto2)
+			throws IOException {
+		XSSFWorkbook wb = new XSSFWorkbook();
+		XSSFSheet sheet = wb.createSheet("Sheet1");
+		sheet.createFreezePane(0, 3);
+
+		CellStyle style = wb.createCellStyle(); 
+		style.setAlignment(CellStyle.ALIGN_CENTER);
+
+		Row titleRow = sheet.createRow(0);
+		titleRow.setHeightInPoints(25);
+		titleRow.setRowStyle(style);
+		Cell titleCell = titleRow.createCell(0);
+
+		// titleCell.setAlignment(CellStyle.ALIGN_CENTER);
+
+		titleCell.setCellValue("" + reportName);
+		titleCell.setCellStyle(createHeaderStyleHeaderFont(wb, 255, 243, 235, 0));
+		sheet.addMergedRegion(CellRangeAddress.valueOf(mergeUpto1));
+
+		Row searchByRow = sheet.createRow(1);
+		searchByRow.setHeightInPoints(25);
+		searchByRow.setRowStyle(style);
+		Cell searchByCell = searchByRow.createCell(0);
+
+		// titleCell.setAlignment(CellStyle.ALIGN_CENTER);
+
+		searchByCell.setCellValue("Search By.." + searchBy);
+		searchByCell.setCellStyle(createHeaderStyleHeaderFont(wb, 255, 243, 235, 0));
+		// titleCell.setCellStyle(styles.get("title"));
+		sheet.addMergedRegion(CellRangeAddress.valueOf(mergeUpto2));
+		/*
+		 * writeHeaders(wb, sheet); writeHeaders(wb, sheet); writeHeaders(wb, sheet);
+		 */
+		 XSSFCellStyle cellStyle = wb.createCellStyle();
+
+		for (int rowIndex = 0; rowIndex < exportToExcelTally.size(); rowIndex++) {
+			XSSFRow row = sheet.createRow(rowIndex + 2);
+			for (int j = 0; j < exportToExcelTally.get(rowIndex).getRowData().size(); j++) {
+
+				XSSFCell cell = row.createCell(j);
+
+				try 
+		        { 
+		            // checking valid integer using parseInt() method 
+		           int value=Integer.parseInt(exportToExcelTally.get(rowIndex).getRowData().get(j)); 
+		            cell.setCellValue(value);
+		        }  
+		        catch (NumberFormatException e)  
+		        { 
+		        	 try
+		             { 
+		                 // checking valid float using parseInt() method
+		        		 XSSFDataFormat xssfDataFormat = wb.createDataFormat(); 
+
+		                double value=Double.parseDouble(exportToExcelTally.get(rowIndex).getRowData().get(j)); 
+		                
+		                cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
+		                cell.setCellStyle(cellStyle);
+		                cell.setCellValue(value);
+		                
+		             }  
+		             catch (NumberFormatException e1) 
+		             { 
+		            	 cell.setCellValue(exportToExcelTally.get(rowIndex).getRowData().get(j));
+		             } 
+		               
+		        } 
+				
+
+				// if((rowIndex+1)==1)
+				// cell.setCellStyle(createHeaderStyleHeaderFont(wb,242, 242, 242,1));
+				if ((rowIndex + 2) == 2)
+					cell.setCellStyle(createHeaderStyleNew(wb));
+
+			}
+			// if((rowIndex+1)==1)
+			// row.setRowStyle(createHeaderStyleNew(wb));
 		}
 		return wb;
 	}
