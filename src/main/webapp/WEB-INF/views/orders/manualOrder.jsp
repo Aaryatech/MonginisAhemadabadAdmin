@@ -245,13 +245,17 @@ select {
 <label class="col-sm-3 col-lg-2 control-label">
     <input type="radio" name="ordertype" class="order" value="1" id="or2" onchange="checkCheckedStatus()">
    <label for="or2"> Manual Bill </label>
-  </label>									    
+  </label>		
+  <label class="col-sm-3 col-lg-2 control-label">
+    <input type="radio" name="ordertype" class="order" value="2" id="or3" onchange="checkCheckedStatus()">
+   <label for="or3"> Multiple FR Bill </label>
+  </label>								    
   </div>
 
 
 
 
-										<div class="form-group">
+										<div class="form-group" id="singleFr">
 											<label class="col-sm-3 col-lg-2 control-label">Franchisee</label>
 											<div class="col-sm-9 col-lg-5 controls">
 												<select data-placeholder="Select Franchisee" name="fr_id"
@@ -269,7 +273,26 @@ select {
 												</select>
 											</div>
 										</div>
+<div class="form-group" style="display: none;" id="mulFr">
+											<label class="col-sm-3 col-lg-2 control-label">Franchisee</label>
+											<div class="col-sm-9 col-lg-5 controls">
+												<select data-placeholder="Select Franchisee" name="fr_id"
+													class="form-control chosen" tabindex="-1" id="fr_id" multiple="multiple"
+													data-rule-required="true" onchange="findFranchiseeData(this.value)">
+													<option value="0">Select Franchisee </option>
+														<c:forEach
+															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
+															var="franchiseeList">
+															<c:if test="${franchiseeList.frRateCat==1}">
+																<option value="${franchiseeList.frId}">${franchiseeList.frName}</option>
+															</c:if>
 
+														</c:forEach>
+												
+
+												</select>
+											</div>
+										</div>
 										<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Menu</label>
 											<div class="col-sm-9 col-lg-5 controls">
@@ -804,6 +827,8 @@ function generateBill()
 <script type="text/javascript">
 function findFranchiseeData(frId)
 {
+	
+	 if($('#or3').is(':checked')==false) { 
 	$.getJSON(
 					'${findFranchiseeData}',
 					{
@@ -819,7 +844,7 @@ function findFranchiseeData(frId)
 							}
 						
 					});
-	
+	 }
 }
 
 
@@ -845,6 +870,11 @@ function checkCheckedStatus()
 		   	 $("#submitorder").show();
 
    		document.getElementById("submitorder").style.backgroundColor = "blue";
+   	 $("#mulFr").hide();
+	   $("#singleFr").show();
+	   
+	  // document.getElementById("fr_id").selectedIndex = "0";
+	   //	$("#fr_id").trigger("chosen:updated");
    	// document.getElementById("submitbill").style.backgroundColor = "#ffeadd";
 	   }else
 	   if($('#or2').is(':checked')) { 
@@ -854,9 +884,26 @@ function checkCheckedStatus()
 		   document.getElementById("submitbill").style.backgroundColor = "blue";
 		  // document.getElementById("submitorder").style.backgroundColor = "#ffeadd";
 		   document.getElementById("submitorder").style.display = "none";
+		   $("#mulFr").hide();
+		   $("#singleFr").show();
+		   //document.getElementById("fr_id").selectedIndex = "0";
+		   //	$("#fr_id").trigger("chosen:updated");
+	   }else
+		   if($('#or3').is(':checked')) { 
+			   document.getElementById("searchBtn").disabled = false;
+			   $("#submitbill").show();
 
-
-	   }
+			   document.getElementById("submitbill").style.backgroundColor = "blue";
+			  // document.getElementById("submitorder").style.backgroundColor = "#ffeadd";
+			   document.getElementById("submitorder").style.display = "none";
+			   $("#singleFr").hide();
+			   $("#mulFr").show();
+			   //document.getElementById("fr_id").selectedIndex = "0";
+			   //	$("#fr_id").trigger("chosen:updated");
+			   document.getElementById("frName").value="-";
+               document.getElementById("gstin").value="-";
+               document.getElementById("address").value="-";
+		   }
 	   
 	
 }
@@ -894,9 +941,6 @@ function myFunction() {
       }
     }       
   }//end of for
-  
- 
-  
 }
 </script>
 </body>

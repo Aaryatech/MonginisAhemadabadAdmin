@@ -134,7 +134,6 @@ public class ManualOrderController {
 			@RequestParam(value = "ordertype", required = true) int ordertype) throws ParseException {
 
 		try {
-			// System.out.println("menuId " + menuId);
 			orderList = new ArrayList<Orders>();
 			RestTemplate restTemplate = new RestTemplate();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -179,7 +178,6 @@ public class ManualOrderController {
 					franchiseeList = franchiseeListRes.getAllFranchisee().get(i);
 				}
 			}
-
 			for (ItemForMOrder item : itemList) {
 
 				Orders order = new Orders();
@@ -191,7 +189,6 @@ public class ManualOrderController {
 						order.setOrderRate(item.getItemRate3());
 						order.setOrderMrp(item.getItemMrp3());
 					}
-
 				} else {
 
 					if (franchiseeList.getFrRateCat() == 1) {
@@ -211,7 +208,6 @@ public class ManualOrderController {
 
 				int frGrnTwo = franchiseeList.getGrnTwo();
 				System.err.println("frGrnTwo" + frGrnTwo + "item.getGrnTwo()" + item.getGrnTwo());
-				/*if (item.getGrnTwo() == 1) {*/
 					if (frGrnTwo == 1) {
 
 						order.setGrnType(item.getGrnTwo());
@@ -220,31 +216,6 @@ public class ManualOrderController {
 
 						order.setGrnType(2);
 					}
-				/*} // end of if
-
-				else {
-					if (item.getGrnTwo() == 2) {
-						order.setGrnType(2);
-
-					} else {
-						order.setGrnType(0);
-					}
-				}*/ // end of else
-				/*
-				 * if (menuId == 29 || menuId == 30 || menuId == 42 || menuId == 43 || menuId ==
-				 * 44 || menuId == 47) {
-				 * 
-				 * order.setGrnType(3);
-				 * 
-				 * }
-				 */
-				// for push grn
-				/*
-				 * if (menuId == 48) {
-				 * 
-				 * order.setGrnType(4); }
-				 */
-
 				order.setOrderId(0);
 				order.setItemId(String.valueOf(item.getId()));
 				order.setItemName(item.getItemName() + "--[" + franchiseeList.getFrCode() + "]");
@@ -268,7 +239,119 @@ public class ManualOrderController {
 				order.setOrderSubType(item.getItemGrp2());
 				order.setProductionDate(sqlCurrDate);
 				// order.setRefId(item.getId());
+				orderList.add(order);
 
+			}
+			System.out.println("------------------------" + orderList.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return orderList;
+	}
+	@RequestMapping(value = "/getItemsOfMenuIdForMulFr", method = RequestMethod.GET)
+	public @ResponseBody List<Orders> getItemsOfMenuIdForMulFr(@RequestParam(value = "menuId", required = true) int menuId,
+			@RequestParam(value = "frId", required = true) String[] frId,
+			@RequestParam(value = "by", required = true) int by,
+			@RequestParam(value = "ordertype", required = true) int ordertype) throws ParseException {
+
+		try {
+			orderList = new ArrayList<Orders>();
+			RestTemplate restTemplate = new RestTemplate();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+			Date today = new Date();
+			Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+			java.sql.Date sqlCurrDate = new java.sql.Date(today.getTime());
+			java.sql.Date sqlTommDate = new java.sql.Date(tomorrow.getTime());
+
+			List<Menu> menuList = franchiseeAndMenuList.getAllMenu();
+			Menu frMenu = new Menu();
+			for (Menu menu : menuList) {
+				if (menu.getMenuId() == menuId) {
+					frMenu = menu;
+					break;
+				}
+			}
+			int selectedCatId = frMenu.getMainCatId();
+
+			System.out.println("Finding Item List for Selected CatId=" + selectedCatId);
+
+			java.util.Date utilDate = new java.util.Date(sqlCurrDate.getTime());
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("itemGrp1", selectedCatId);
+			map.add("menuId", menuId);
+			map.add("frId", frId[0]);
+			map.add("prodDate", formatter.format(utilDate));
+			map.add("ordertype", ordertype);
+			ItemForMOrder[] itemRes = restTemplate.postForObject(Constants.url + "getItemListForMOrder", map,
+					ItemForMOrder[].class);
+			ArrayList<ItemForMOrder> itemList = new ArrayList<ItemForMOrder>(Arrays.asList(itemRes));
+			System.out.println("Filter Item List " + itemList.toString());
+
+			FranchiseeAndMenuList franchiseeListRes = restTemplate.getForObject(Constants.url + "getFranchiseeAndMenu",
+					FranchiseeAndMenuList.class);
+			System.out.println("franchiseeList" + franchiseeListRes.toString());
+			FranchiseeList franchiseeList = null;
+
+			for (int i = 0; i < franchiseeListRes.getAllFranchisee().size(); i++) {
+				if (franchiseeListRes.getAllFranchisee().get(i).getFrId() == Integer.parseInt(frId[0])) {
+					franchiseeList = franchiseeListRes.getAllFranchisee().get(i);
+				}
+			}
+			for (ItemForMOrder item : itemList) {
+
+				Orders order = new Orders();
+				if (by == 0) {
+					if (franchiseeList.getFrRateCat() == 1) {
+						order.setOrderRate(item.getItemRate1());
+						order.setOrderMrp(item.getItemMrp1());
+					} else {
+						order.setOrderRate(item.getItemRate3());
+						order.setOrderMrp(item.getItemMrp3());
+					}
+				} else {
+
+					if (franchiseeList.getFrRateCat() == 1) {
+						order.setOrderRate(item.getItemMrp1());
+						order.setOrderMrp(item.getItemMrp1());
+					} else {
+						order.setOrderRate(item.getItemMrp3());
+						order.setOrderMrp(item.getItemMrp3());
+					}
+
+				}
+				if (ordertype == 0) {
+					order.setRefId(0);
+				} else {
+					order.setRefId(1);
+				}
+			
+				order.setGrnType(0);//hardcoded
+				order.setOrderId(0);
+				order.setItemId(String.valueOf(item.getId()));
+				order.setItemName(item.getItemName());
+				order.setFrId(0);//hardcoded
+				if (menuId == 29 || menuId == 86 || menuId == 87 || menuId == 68 || menuId == 75 ) {
+					order.setDeliveryDate(sqlCurrDate);
+				} else {
+					order.setDeliveryDate(sqlTommDate);
+				}
+				order.setMinQty(item.getMinQty());
+				order.setIsEdit(0);
+				order.setEditQty(0);/// set order qty on submit
+				order.setIsPositive(0);//hardcoded
+				order.setMenuId(menuId);
+				order.setOrderDate(sqlCurrDate);
+				order.setOrderDatetime("" + sqlCurrDate);
+				order.setUserId(0);
+				order.setOrderQty(item.getOrderQty());
+				order.setOrderStatus(0);
+				order.setOrderType(item.getItemGrp1());
+				order.setOrderSubType(item.getItemGrp2());
+				order.setProductionDate(sqlCurrDate);
+				// order.setRefId(item.getId());
 				orderList.add(order);
 
 			}
