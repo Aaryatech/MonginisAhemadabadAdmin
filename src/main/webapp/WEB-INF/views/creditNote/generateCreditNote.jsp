@@ -237,7 +237,7 @@
 										class="col-sm-25 col-sm-offset-3 col-lg-30 col-lg-offset-2">
 										<label class=" col-md-1 control-label franchisee_label">Date</label>
 						<div class="col-sm-3 col-lg-2 controls">
-										<input class="form-control date-picker" id="date" size="19" placeholder="dd-mm-yyyy" value="${fromDate}"
+										<input class="form-control date-picker" id="date" size="19" placeholder="dd-mm-yyyy" value="${toDate}"
 											type="text" name="date" autocomplete="off" required/>
 									</div>
 										<input type="submit" class="btn btn-primary"
