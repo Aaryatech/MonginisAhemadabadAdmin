@@ -221,8 +221,8 @@
 															<td  style="text-align:right;"><c:out value="${postProdPlanHeaderDetailed.curClosingQty}" /></td> 
 															
 															<%--  <td><c:out value="${postProdPlanHeaderDetailed.curClosingQty}" /></td> --%>
-															 <td  style="text-align:right;"><c:out value="${postProdPlanHeaderDetailed.planQty}" /></td>
-															  <td  style="text-align:right;"><c:out value="${postProdPlanHeaderDetailed.curClosingQty+postProdPlanHeaderDetailed.planQty}" /></td>
+															 <td  style="text-align:right;"><c:out value="${postProdPlanHeaderDetailed.productionQty}" /></td>
+															  <td  style="text-align:right;"><c:out value="${postProdPlanHeaderDetailed.curClosingQty+postProdPlanHeaderDetailed.productionQty}" /></td>
 <%-- 															<td><c:out value="${postProdPlanHeaderDetailed.productionQty}" /></td>
  --%>															<td  style="text-align:right;"><c:out value="${postProdPlanHeaderDetailed.orderQty}" /></td>
 <%-- 															<td><c:out value="${postProdPlanHeaderDetailed.rejectedQty}" /></td>

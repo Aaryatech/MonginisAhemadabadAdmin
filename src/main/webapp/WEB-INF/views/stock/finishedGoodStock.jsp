@@ -505,7 +505,7 @@ if(option==1){
 																	ajax : 'true'
 																},
 																function(data) {
-																	var html = '<option value="" selected >Select Group 2</option><option value="0"  >All</option>';
+																	var html = '<option value="" selected >Select Group 2</option>item_grp2';
 
 																	var len = data.length;
 																	for (var i = 0; i < len; i++) {

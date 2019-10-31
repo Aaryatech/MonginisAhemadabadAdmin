@@ -187,13 +187,13 @@ select {
 
 
 										<div class="form-group">
-											<div class="col-md-1">
-												Franchisee <font size="5" color="red">*</font>
+											<div class="col-md-2">
+												Franchise Name: <font size="3" color="red">*</font>
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<select data-placeholder="Select Franchisee" name="fr_id"
 													class="form-control chosen" tabindex="-1" id="fr_id"
-													data-rule-required="true" onchange="findFranchiseeData(0)">
+													data-rule-required="true" onchange="findFranchiseeData(0)" >
 													<option value=""></option>
 													<!-- <optgroup label="All Franchisee"> -->
 													<option value="">Select Franchise</option>
@@ -209,25 +209,42 @@ select {
 													</c:forEach>
 												</select>
 											</div>
-											<div class="col-md-2">
-												<c:choose>
-													<c:when test="${billBy==0}">
-											By Rate &nbsp;&nbsp;<input type="radio" name="sel_rate"
-															id="sel_rate" value="1">
-											By MRP  &nbsp;&nbsp;<input type="radio" name="sel_rate"
-															id="sel_rate" checked value="0">
-													</c:when>
-													<c:otherwise>
-											By Rate<input type="radio" name="sel_rate" id="sel_rate"
-															checked value="1">
-											By MRP <input type="radio" name="sel_rate" id="sel_rate"
-															value="0">
-													</c:otherwise>
-												</c:choose>
-											</div>
 											
-														<div class="col-md-1">
-												Delivery<font size="5" color="red">*</font>
+												
+											<!-- By Rate --><input type="radio" name="sel_rate" id="sel_rate"
+															checked value="1" hidden="true">
+											<!-- By MRP  --><input type="radio" name="sel_rate" id="sel_rate"
+															value="0" hidden="true">
+													
+											<label class=" col-md-2 control-label menu_label">Select Menu:<font size="3" color="red">*</font></label>
+						<div class=" col-md-4 controls menu_select">
+
+							<select data-placeholder="Choose Menu"
+								class="form-control chosen" tabindex="6" id="selectMenu"
+								name="selectMenu">
+
+								<option value="-1"><c:out value=""/></option>
+
+								<c:forEach items="${unSelectedMenuList}" var="unSelectedMenu"
+									varStatus="count">
+									<option value="${unSelectedMenu.menuId}"><c:out value="${unSelectedMenu.menuTitle}"/></option>
+								</c:forEach>
+
+							</select>
+						</div>
+											
+											
+											
+											
+											
+														
+											
+
+										</div>
+											<div class="form-group">
+											
+											<div class="col-md-2" style="text-align:right;">
+												Delivery Date: <font size="3" color="red" >*</font>
 											</div>
 											<div class="col-md-2">
 												<c:choose>
@@ -246,34 +263,16 @@ select {
 													</c:otherwise>
 												</c:choose>
 											</div>
-											<div class="col-md-1">Prod Date:</div>
-											<div class="col-md-2">
+											
+										
+											<div class="col-md-1" align="left">Production Date:</div>
+											<div class="col-md-2" align="left">
 												<input id="spProdDate" readonly
 													data-date-format="dd-mm-yyyy" value="${date}"
 													autocomplete="off" class="form-control date-picker"
-													placeholder="" name="spProdDate" type="text" required>
+													placeholder="" name="spProdDate"  type="text" required >
 											</div>
-											
-
-										</div>
-											<div class="form-group">
-										
-										<label class=" col-md-1 control-label menu_label">Menu</label>
-						<div class=" col-md-3 controls menu_select">
-
-							<select data-placeholder="Choose Menu"
-								class="form-control chosen" tabindex="6" id="selectMenu"
-								name="selectMenu">
-
-								<option value="-1"><c:out value=""/></option>
-
-								<c:forEach items="${unSelectedMenuList}" var="unSelectedMenu"
-									varStatus="count">
-									<option value="${unSelectedMenu.menuId}"><c:out value="${unSelectedMenu.menuTitle}"/></option>
-								</c:forEach>
-
-							</select>
-						</div>
+						
 						</div>
 									<%-- Sac Comment </form>
 									<hr>

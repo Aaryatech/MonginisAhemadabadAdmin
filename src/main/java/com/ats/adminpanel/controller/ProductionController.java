@@ -1636,9 +1636,9 @@ public class ProductionController {
 								.setOrderQty(getVarianceorderlistforsort.get(j).getOrderQty());
 						float remainingProQty = postProductionPlanDetaillist.get(i).getOrderQty()
 								- (postProductionPlanDetaillist.get(i).getCurClosingQty()
-										+ postProductionPlanDetaillist.get(i).getPlanQty());
+										+ postProductionPlanDetaillist.get(i).getProductionQty());
 
-						if (remainingProQty > 0) {
+						if (remainingProQty >= 0) {
 							postProductionPlanDetaillist.get(i).setInt4((int) remainingProQty);
 						} else {
 							postProductionPlanDetaillist.get(i).setInt4(0);
