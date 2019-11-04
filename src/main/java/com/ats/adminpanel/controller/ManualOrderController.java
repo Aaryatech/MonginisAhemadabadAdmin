@@ -43,13 +43,14 @@ import com.ats.adminpanel.model.billing.PostBillHeader;
 import com.ats.adminpanel.model.franchisee.FranchiseeAndMenuList;
 import com.ats.adminpanel.model.franchisee.FranchiseeList;
 import com.ats.adminpanel.model.franchisee.Menu;
+import com.ats.adminpanel.model.item.AllItemsListResponse;
 import com.ats.adminpanel.model.item.Item;
 
 @Controller
 @Scope("session")
 public class ManualOrderController {
 	List<Orders> orderList = new ArrayList<Orders>();
-	int billNo = 0;
+	String billNo = "0";
 	FranchiseeAndMenuList franchiseeAndMenuList;
 
 	@RequestMapping(value = "/showManualOrder", method = RequestMethod.GET)
@@ -76,12 +77,13 @@ public class ManualOrderController {
 
 				model.addObject("allFranchiseeAndMenuList", franchiseeAndMenuList);
 				model.addObject("billNo", billNo);
-				billNo = 0;
+				billNo = "0";
 				
 				SectionMaster[] sectionMasterArray = restTemplate.getForObject(Constants.url + "/getSectionListOnly",
 						SectionMaster[].class);
 				List<SectionMaster> sectionList = new ArrayList<SectionMaster>(Arrays.asList(sectionMasterArray));
 				model.addObject("sectionList", sectionList);
+				
 			} catch (Exception e) {
 				System.out.println("Franchisee Controller Exception " + e.getMessage());
 			}
@@ -168,7 +170,7 @@ public class ManualOrderController {
 			ArrayList<ItemForMOrder> itemList = new ArrayList<ItemForMOrder>(Arrays.asList(itemRes));
 			System.out.println("Filter Item List " + itemList.toString());
 
-			FranchiseeAndMenuList franchiseeListRes = restTemplate.getForObject(Constants.url + "getFranchiseeAndMenu",
+			franchiseeListRes = restTemplate.getForObject(Constants.url + "getFranchiseeAndMenu",
 					FranchiseeAndMenuList.class);
 			System.out.println("franchiseeList" + franchiseeListRes.toString());
 			FranchiseeList franchiseeList = null;
@@ -249,14 +251,66 @@ public class ManualOrderController {
 
 		return orderList;
 	}
+	@RequestMapping(value = "/getItemsByCatIdManOrder", method = RequestMethod.GET)
+	public @ResponseBody List<ItemForMOrder> getItemsByCatIdManOrder(HttpServletRequest request, HttpServletResponse response) {
+
+		ArrayList<ItemForMOrder> itemsList = new ArrayList<ItemForMOrder>();
+		try {
+			int menuId = Integer.parseInt(request.getParameter("menuId"));
+			RestTemplate restTemplate = new RestTemplate();
+			List<Menu> menuList = franchiseeAndMenuList.getAllMenu();
+			Menu frMenu = new Menu();
+			for (Menu menu : menuList) {
+				if (menu.getMenuId() == menuId) {
+					frMenu = menu;
+					break;
+				}
+			}
+			int catId = frMenu.getMainCatId();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date today = new Date();
+			java.sql.Date sqlCurrDate = new java.sql.Date(today.getTime());
+			java.util.Date utilDate = new java.util.Date(sqlCurrDate.getTime());
+			
+			map.add("itemGrp1", catId);
+			map.add("menuId", menuId);
+			map.add("frId", 0);
+			map.add("prodDate", formatter.format(utilDate));
+			map.add("ordertype", 2);
+			ItemForMOrder[] itemRes = restTemplate.postForObject(Constants.url + "getItemListForMOrder", map,
+					ItemForMOrder[].class);
+			itemsList = new ArrayList<ItemForMOrder>(Arrays.asList(itemRes));
+		} catch (Exception e) {
+			System.out.println("Exception in /AJAX getItemsByCatId");
+		}
+		return itemsList;
+	}
+	FranchiseeAndMenuList franchiseeListRes=null;
 	@RequestMapping(value = "/getItemsOfMenuIdForMulFr", method = RequestMethod.GET)
-	public @ResponseBody List<Orders> getItemsOfMenuIdForMulFr(@RequestParam(value = "menuId", required = true) int menuId,
-			@RequestParam(value = "frId", required = true) String[] frId,
-			@RequestParam(value = "by", required = true) int by,
-			@RequestParam(value = "ordertype", required = true) int ordertype) throws ParseException {
+	public @ResponseBody List<Orders> getItemsOfMenuIdForMulFr(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-			orderList = new ArrayList<Orders>();
+			String frIdString=request.getParameter("frIdStr");
+			int  menuId=Integer.parseInt(request.getParameter("menuId"));
+			int  by=Integer.parseInt(request.getParameter("by"));
+			int  ordertype=Integer.parseInt(request.getParameter("ordertype"));
+			int flagRate=Integer.parseInt(request.getParameter("flagRate"));
+			if(flagRate==1)
+			{
+				orderList = new ArrayList<Orders>();
+			}
+			System.err.println(ordertype+"ordertype");
+			int itemId=Integer.parseInt(request.getParameter("itemId"));
+			int qty=Integer.parseInt(request.getParameter("qty"));
+			frIdString = frIdString.substring(1, frIdString.length() - 1);
+			frIdString = frIdString.replaceAll("\"", "");
+			List<String> frId = Arrays.asList(frIdString.split(","));
+
+			
+			
 			RestTemplate restTemplate = new RestTemplate();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -282,7 +336,7 @@ public class ManualOrderController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("itemGrp1", selectedCatId);
 			map.add("menuId", menuId);
-			map.add("frId", frId[0]);
+			map.add("frId", frId.get(0));
 			map.add("prodDate", formatter.format(utilDate));
 			map.add("ordertype", ordertype);
 			ItemForMOrder[] itemRes = restTemplate.postForObject(Constants.url + "getItemListForMOrder", map,
@@ -290,18 +344,32 @@ public class ManualOrderController {
 			ArrayList<ItemForMOrder> itemList = new ArrayList<ItemForMOrder>(Arrays.asList(itemRes));
 			System.out.println("Filter Item List " + itemList.toString());
 
-			FranchiseeAndMenuList franchiseeListRes = restTemplate.getForObject(Constants.url + "getFranchiseeAndMenu",
+			 franchiseeListRes = restTemplate.getForObject(Constants.url + "getFranchiseeAndMenu",
 					FranchiseeAndMenuList.class);
 			System.out.println("franchiseeList" + franchiseeListRes.toString());
-			FranchiseeList franchiseeList = null;
-
-			for (int i = 0; i < franchiseeListRes.getAllFranchisee().size(); i++) {
-				if (franchiseeListRes.getAllFranchisee().get(i).getFrId() == Integer.parseInt(frId[0])) {
-					franchiseeList = franchiseeListRes.getAllFranchisee().get(i);
+			
+			ItemForMOrder item=null;
+			
+			for (ItemForMOrder itemResp : itemList) {
+				if(itemResp.getId()==itemId)
+				{
+					item=itemResp;
 				}
 			}
-			for (ItemForMOrder item : itemList) {
-
+			for (String fr : frId) {
+				int flagForItem=0;
+				if(orderList.size()>0) {
+					 flagForItem=isItemPresent(Integer.parseInt(fr),item.getId(),qty);
+				}
+				
+				FranchiseeList franchiseeList = null;
+				for (int i = 0; i < franchiseeListRes.getAllFranchisee().size(); i++) {
+					if (franchiseeListRes.getAllFranchisee().get(i).getFrId() == Integer.parseInt(fr)) {
+						franchiseeList = franchiseeListRes.getAllFranchisee().get(i);
+					}
+				}
+				
+				
 				Orders order = new Orders();
 				if (by == 0) {
 					if (franchiseeList.getFrRateCat() == 1) {
@@ -328,11 +396,22 @@ public class ManualOrderController {
 					order.setRefId(1);
 				}
 			
-				order.setGrnType(0);//hardcoded
+
+				int frGrnTwo = franchiseeList.getGrnTwo();
+				System.err.println("frGrnTwo" + frGrnTwo + "item.getGrnTwo()" + item.getGrnTwo());
+					if (frGrnTwo == 1) {
+
+						order.setGrnType(item.getGrnTwo());
+
+					} else {
+
+						order.setGrnType(2);
+					}
 				order.setOrderId(0);
 				order.setItemId(String.valueOf(item.getId()));
-				order.setItemName(item.getItemName());
-				order.setFrId(0);//hardcoded
+				order.setItemName(item.getItemName() + "--[" + franchiseeList.getFrName() + "]");
+				order.setFrId(franchiseeList.getFrId());
+				
 				if (menuId == 29 || menuId == 86 || menuId == 87 || menuId == 68 || menuId == 75 ) {
 					order.setDeliveryDate(sqlCurrDate);
 				} else {
@@ -340,19 +419,22 @@ public class ManualOrderController {
 				}
 				order.setMinQty(item.getMinQty());
 				order.setIsEdit(0);
-				order.setEditQty(0);/// set order qty on submit
-				order.setIsPositive(0);//hardcoded
+				order.setEditQty(qty);//Order Qty
+				order.setIsPositive(item.getDiscPer());
 				order.setMenuId(menuId);
 				order.setOrderDate(sqlCurrDate);
 				order.setOrderDatetime("" + sqlCurrDate);
 				order.setUserId(0);
-				order.setOrderQty(item.getOrderQty());
+				order.setOrderQty(qty);
 				order.setOrderStatus(0);
 				order.setOrderType(item.getItemGrp1());
 				order.setOrderSubType(item.getItemGrp2());
 				order.setProductionDate(sqlCurrDate);
 				// order.setRefId(item.getId());
+				System.err.println("flagForItem"+flagForItem);
+				if(flagForItem==0) {
 				orderList.add(order);
+				}
 
 			}
 			System.out.println("------------------------" + orderList.toString());
@@ -361,6 +443,19 @@ public class ManualOrderController {
 		}
 
 		return orderList;
+	}
+
+	private int isItemPresent(int frId, int id,int qty) {
+		int flag=0;
+		for(int i=0;i<orderList.size();i++)
+		{
+			if(frId==orderList.get(i).getFrId() && orderList.get(i).getItemId().equals(id+"")) {
+				flag=1;
+				orderList.get(i).setEditQty(qty);
+				orderList.get(i).setOrderQty(qty);
+			}
+		}
+		return flag;
 	}
 
 	@RequestMapping(value = "/insertItem", method = RequestMethod.GET)
@@ -480,41 +575,73 @@ public class ManualOrderController {
 		return orderList;
 	}
 
-	/*
-	 * @RequestMapping(value = "/deleteItems", method = RequestMethod.GET)
-	 * public @ResponseBody List<Orders> deleteItemDetail(HttpServletRequest
-	 * request, HttpServletResponse response) { ResponseEntity<String>
-	 * orderListResponse=null; try {
-	 * 
-	 * int index=Integer.parseInt(request.getParameter("key"));
-	 * orderList.remove(index);
-	 * 
-	 * System.out.println("OrderList :"+orderList.toString()); } catch (Exception e)
-	 * { e.printStackTrace();
-	 * 
-	 * } return orderList; }
-	 */
 	@RequestMapping(value = "/generateManualBill", method = RequestMethod.POST)
 	public String generateManualBill(HttpServletRequest request, HttpServletResponse response) {
 
 		GenerateBill[] orderListResponse = null;
-		List<Orders> orderListSave = new ArrayList<>();
+		String partyName ="";
+		String partyGstin ="";
+		String partyAddress ="";
 		String submitorder = request.getParameter("submitorder");
 		String submitbill = request.getParameter("submitbill");
-		int frId = Integer.parseInt(request.getParameter("fr_id"));
-		String sectionId=request.getParameter("sectionId");
+		
+		int ordertype= Integer.parseInt(request.getParameter("ordertype"));
+		
+		List<String> frIdList=new ArrayList<>();
+		if(ordertype==0 || ordertype==1) 
+		{
+		   int frId = Integer.parseInt(request.getParameter("fr_id"));
+		   frIdList.add(""+frId);
+		   partyName = request.getParameter("frName");
+		   partyGstin = request.getParameter("gstin");
+		   partyAddress = request.getParameter("address");
+		}else
+		{
+		  String	frIdStr="";
+		  String[] frIdString=request.getParameterValues("fr_id1");
+		  System.err.println("frIdString"+frIdString.toString());
+		
+		  for (int i = 0; i < frIdString.length; i++) {
+			frIdStr = frIdString[i] + "," + frIdStr;
+		  }
+
+		  frIdStr = frIdStr.substring(0, frIdStr.length() - 1);
+		  frIdList = Arrays.asList(frIdStr.split(","));
+		  System.err.println("frIdList"+frIdList.toString());
+
+		}
+		
+		 String sectionId=request.getParameter("sectionId");
 		 Calendar calender = Calendar.getInstance();
 	     SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
-		try {
-			RestTemplate restTemplate = new RestTemplate();
+		
+	     RestTemplate restTemplate = new RestTemplate();
+         for(String frId:frIdList) {
+        
+        	 System.err.println("frId"+frId);
+           	 FranchiseeList franchiseeList = null;
+				for (int i = 0; i < franchiseeListRes.getAllFranchisee().size(); i++) {
+					if (franchiseeListRes.getAllFranchisee().get(i).getFrId() == Integer.parseInt(frId)) {
+						franchiseeList = franchiseeListRes.getAllFranchisee().get(i);
+					}
+				}	 
+				if(ordertype==2)
+				{
+					 partyName = franchiseeList.getFrName();
+					 partyGstin = franchiseeList.getFrGstNo();
+					 partyAddress = franchiseeList.getFrAddress();
+				}
+         List<Orders> orderListSave = new ArrayList<>();
+	     try {
 			if (orderList != null || !orderList.isEmpty()) {
-
+             
 				for (int i = 0; i < orderList.size(); i++) {
-					int qty = Integer.parseInt(request.getParameter("qty" + orderList.get(i).getItemId()));
+					
+					int qty = Integer.parseInt(request.getParameter("qty" + orderList.get(i).getItemId()+""+frId));
 					if (submitorder == null) {
 						System.err.println("submitorder");
 						float discPer = Float
-								.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId()));// new on 15
+								.parseFloat(request.getParameter("discper" + orderList.get(i).getItemId()+""+frId));// new on 15
 																											// feb for
 																											// dis on
 																											// bill
@@ -523,10 +650,12 @@ public class ManualOrderController {
 					}
 					orderList.get(i).setEditQty(qty);
 					orderList.get(i).setOrderQty(qty);
-					if (qty > 0) {
+					if (qty > 0 && orderList.get(i).getFrId()==Integer.parseInt(frId)) {
 						orderListSave.add(orderList.get(i));
+						System.err.println(frId+"frId"+orderList.get(i));
 					}
 				}
+           
 				if (submitorder != null) {
 					orderListResponse = restTemplate.postForObject(Constants.url + "placeManualOrder", orderListSave,
 							GenerateBill[].class);
@@ -536,14 +665,13 @@ public class ManualOrderController {
 							GenerateBill[].class);
 
 				}
-				orderList = new ArrayList<Orders>();// LIST CLEARED
+				System.err.println("orderListResponse"+orderListResponse.toString());
+			
 				List<GenerateBill> tempGenerateBillList = new ArrayList<GenerateBill>(Arrays.asList(orderListResponse));
 
 				if (submitbill != null) {
 
-					String partyName = request.getParameter("frName");
-					String partyGstin = request.getParameter("gstin");
-					String partyAddress = request.getParameter("address");
+				
 					// System.out.println("Place Order Response" + orderListResponse.toString());
 
 					PostBillDataCommon postBillDataCommon = new PostBillDataCommon();
@@ -551,7 +679,7 @@ public class ManualOrderController {
 					List<PostBillDetail> postBillDetailsList = new ArrayList<PostBillDetail>();
 
 					PostBillHeader header = new PostBillHeader();
-					header.setFrId(frId);
+					header.setFrId(Integer.parseInt(frId));
 
 					float sumTaxableAmt = 0, sumTotalTax = 0, sumGrandTotal = 0;
 					float sumDiscAmt = 0;
@@ -753,7 +881,7 @@ public class ManualOrderController {
 
 					List<PostBillHeader> billRespList = new ArrayList<PostBillHeader>(Arrays.asList(respList));
 
-					billNo = billRespList.get(0).getBillNo();
+					billNo =billNo+","+ billRespList.get(0).getBillNo();
 					System.out.println("Save Res Data " + respList.toString());
 
 				}
@@ -762,6 +890,8 @@ public class ManualOrderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+         }//fr for
+     	orderList = new ArrayList<Orders>();// LIST CLEARED
 		return "redirect:/showManualOrder";
 	}
 

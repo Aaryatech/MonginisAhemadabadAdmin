@@ -173,15 +173,18 @@ select {
 </style>
 
 </head>
-<body onload="showPdf(${billNo})">
+<body onload="showPdf('${billNo}')">
 
 	<c:url var="setAllItemSelected" value="/setAllItemSelected" />
 	<c:url var="findFranchiseeData" value="/findFranchiseeData" />
 	<c:url var="findItemsByCatId" value="/getItemsOfMenuId" />
+	<c:url var="findItemsByCatIdForMulFr" value="/getItemsOfMenuIdForMulFr" />
 	<c:url var="findAllMenus" value="/getMenuForOrder" />
+	<c:url var="getAllMenu" value="/getAllMenu" />
 	<c:url var="insertItem" value="/insertItem" />
 	<c:url var="deleteItems" value="/deleteItems" />
 	<c:url var="generateManualBill" value="/generateManualBill" />
+	<c:url var="getItemsByCatIdManOrder" value="/getItemsByCatIdManOrder" />
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 
@@ -252,7 +255,7 @@ select {
   </label>								    
   </div>
 
-
+	<input type="hidden" name="flagRate" value="0"	id="flagRate"/>
 
 
 										<div class="form-group" id="singleFr">
@@ -260,7 +263,7 @@ select {
 											<div class="col-sm-9 col-lg-5 controls">
 												<select data-placeholder="Select Franchisee" name="fr_id"
 													class="form-control chosen" tabindex="-1" id="fr_id"
-													data-rule-required="true" onchange="findFranchiseeData(this.value)">
+													onchange="findFranchiseeData(this.value)">
 													<option value="0">Select Franchisee </option>
 														<c:forEach
 															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
@@ -276,9 +279,9 @@ select {
 <div class="form-group" style="display: none;" id="mulFr">
 											<label class="col-sm-3 col-lg-2 control-label">Franchisee</label>
 											<div class="col-sm-9 col-lg-5 controls">
-												<select data-placeholder="Select Franchisee" name="fr_id"
-													class="form-control chosen" tabindex="-1" id="fr_id" multiple="multiple"
-													data-rule-required="true" onchange="findFranchiseeData(this.value)">
+												<select data-placeholder="Select Franchisee" name="fr_id1"
+													class="form-control chosen" tabindex="-1" id="fr_id1" multiple="multiple"
+													 >
 													<option value="0">Select Franchisee </option>
 														<c:forEach
 															items="${allFranchiseeAndMenuList.getAllFranchisee()}"
@@ -298,7 +301,7 @@ select {
 											<div class="col-sm-9 col-lg-5 controls">
 												<select data-placeholder="Select Menu" name="menu"
 													class="form-control chosen" tabindex="-1" id="menu"
-													data-rule-required="true">
+													data-rule-required="true" onchange="onCatIdChangeForManOrder(this.value)">
 	                                            	<option value="0">Select Menu </option>                                                     
 
 
@@ -334,6 +337,7 @@ select {
   </label>									    
   </div>
 		<div class="form-group">
+		<div id="singleOrder">
 											<label class="col-sm-3 col-lg-2 control-label">Party Name</label>
 											<div class="col-sm-9 col-lg-2 controls">
 				<input type="text" name="frName" value="-"	id="frName" class="form-control"/>
@@ -347,7 +351,35 @@ select {
 											<div class="col-sm-9 col-lg-2 controls">
 				<input type="text" name="address" value="-"	id="address" class="form-control"/>						
 											</div>
-		  <input type="button" class="btn btn-primary" id="searchBtn" value="Search" onclick="onSearch()"  >
+											 <input type="button" class="btn btn-primary" id="searchBtn" value="Search" onclick="onSearch()"  >
+		</div>
+		<div style="display: none;" id="mulOrder">
+											<label class="col-sm-3 col-lg-2 control-label">Item</label>
+											<div class="col-sm-9 col-lg-5 controls">
+							<select data-placeholder="Choose Item"
+								class="form-control chosen" id="itemId" name="itemId"
+								>
+
+								<option value="">Select Item</option>
+
+								<c:forEach items="${itemList}" var="itemList">
+									<option value="${itemList.id}"><c:out
+											value="${itemList.itemName}" /></option>
+								</c:forEach>
+
+
+							</select>
+						
+											
+				</div>
+				<label class="col-sm-3 col-lg-1 control-label">Qty</label>
+											<div class="col-sm-9 col-lg-2 controls">
+				<input type="text" name="qty" value="0"	id="qty" class="form-control"/>						
+											</div>		
+				 <input type="button" class="btn btn-primary" id="searchBtn" value="Add" onclick="onSearchMulFr()"  >					
+											
+		</div>
+		 
 											
 		</div>								
 									<!-- 	<div class="form-group">
@@ -499,14 +531,14 @@ $(function() {
              		  	tr.append($('<td></td>').html(key+1));
 
              		  	tr.append($('<td></td>').html(item.itemName));
-             		  	tr.append($('<td></td>').html(item.minQty+'<input type="hidden" value='+item.minQty+'	id=minqty'+item.itemId+'  />'));
+             		  	tr.append($('<td></td>').html(item.minQty+'<input type="hidden" value='+item.minQty+'	id=minqty'+item.itemId+""+item.frId+'  />'));
              		  	if(ordertype==1){
-                 		tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChangeBill('+item.orderRate+','+item.itemId+')"   width=20px;  name=qty'+item.itemId+' id=qty'+item.itemId+' value='+item.orderQty+' > '));
-             		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control"  min="0"  width=20px; onchange="onChangeBill('+item.orderRate+','+item.itemId+')"  name=discper'+item.itemId+' id=discper'+item.itemId+' value='+item.isPositive+' > '));
+                 		tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChangeBill('+item.orderRate+','+item.itemId+','+item.frId+')"   width=20px;  name=qty'+item.itemId+""+item.frId+' id=qty'+item.itemId+""+item.frId+' value='+item.orderQty+' > '));
+             		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control"  min="0"  width=20px; onchange="onChangeBill('+item.orderRate+','+item.itemId+','+item.frId+')"  name=discper'+item.itemId+""+item.frId+' id=discper'+item.itemId+""+item.frId+' value='+item.isPositive+' > '));
              		  	}
              		  	else
              		  		{
-                 		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChange('+item.orderRate+','+item.itemId+')"   width=20px;  name=qty'+item.itemId+' id=qty'+item.itemId+' value='+item.orderQty+' > '));
+                 		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChange('+item.orderRate+','+item.itemId+','+item.frId+')"   width=20px;  name=qty'+item.itemId+""+item.frId+' id=qty'+item.itemId+""+item.frId+' value='+item.orderQty+' > '));
 
                  		     if(item.isPositive>0){
              		  		    tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('Y'));
@@ -520,63 +552,132 @@ $(function() {
              		  	
              		  	tr.append($('<td style="text-align:right;"></td>').html(item.orderRate.toFixed(2)));
              		  	var total=item.orderQty*item.orderRate;
-             		  	tr.append($('<td style="text-align:right;" id=total'+item.itemId+' ></td>').html(total.toFixed(2)));
+             		  	tr.append($('<td style="text-align:right;" id=total'+item.itemId+""+item.frId+' ></td>').html(total.toFixed(2)));
              		  	
              		  
              			$('#table_grid tbody').append(tr);
              		}); });
     	}
+    	  document.getElementById("flagRate").value=1;
+            }
+  function onSearchMulFr() {
+    	
+    	var isValid=validation1();
+    	if(isValid){
+    		
+    	var flagRate = $('#flagRate').val();
+    	var type = $('.type:checked').val();
+    	var ordertype = $('.order:checked').val();//alert(ordertype);
+    	var itemId = $('#itemId').val();
+    	var qty = $('#qty').val();
+    	var frId =$('#fr_id1').val();
+    
+    
+          	 $('#loader').show();
+          
+                $.getJSON('${findItemsByCatIdForMulFr}', {
+                    menuId:$('#menu').val(),
+                    frIdStr:JSON.stringify(frId),
+                    by:type,
+                    ordertype:ordertype,
+                    itemId:itemId,
+                    qty:qty,
+                    flagRate:flagRate,
+                    ajax : 'true'
+                }, function(data) {
+                	$('#loader').hide();
+             		var len = data.length;
+             		document.getElementById("submitorder").disabled = false;
+             		document.getElementById("submitbill").disabled = false;
+             		$('#table_grid td').remove();
+
+             		$.each(data,function(key, item) {
+
+
+             			var tr = $('<tr></tr>');
+
+             		  	tr.append($('<td></td>').html(key+1));
+
+             		  	tr.append($('<td></td>').html(item.itemName));
+             		  	tr.append($('<td></td>').html(item.minQty+'<input type="hidden" value='+item.minQty+'	id=minqty'+item.itemId+""+item.frId+'  />'));
+             		  	if(ordertype==1 || ordertype==2){
+                 		tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChangeBill('+item.orderRate+','+item.itemId+','+item.frId+')"   width=20px;  name=qty'+item.itemId+""+item.frId+' id=qty'+item.itemId+""+item.frId+' value='+item.orderQty+'  > '));
+             		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control"  min="0"  width=20px; onchange="onChangeBill('+item.orderRate+','+item.itemId+','+item.frId+')"  name=discper'+item.itemId+""+item.frId+' id=discper'+item.itemId+""+item.frId+' value='+item.isPositive+'  > '));
+             		  	}
+             		  	else
+             		  		{
+                 		  	tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('<input type="number" class="form-control" onchange="onChange('+item.orderRate+','+item.itemId+','+item.frId+')"   width=20px;  name=qty'+item.itemId+""+item.frId+' id=qty'+item.itemId+""+item.frId+' value='+item.orderQty+'   > '));
+
+                 		     if(item.isPositive>0){
+             		  		    tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('Y'));
+                 		     }else
+                 		     {
+                 		        tr.append($('<td style="text-align:right;" class="col-md-1"></td>').html('N'));
+                 		     }
+
+             		  		}
+             		  	tr.append($('<td style="text-align:right;"></td>').html(item.orderMrp.toFixed(2)));
+             		  	
+             		  	tr.append($('<td style="text-align:right;"></td>').html(item.orderRate.toFixed(2)));
+             		  	var total=item.orderQty*item.orderRate;
+             		  	tr.append($('<td style="text-align:right;" id=total'+item.itemId+""+item.frId+' ></td>').html(total.toFixed(2)));
+             		  	
+             		  
+             			$('#table_grid tbody').append(tr);
+             		}); });
+    	}
+    	  document.getElementById("flagRate").value=0;
             }
 </script> 
 
 <script type="text/javascript">
-		function onChange(rate,id) {
+		function onChange(rate,id,frId) {
 
 			//calculate total value  
-			var qty = $('#qty'+id).val();
+			var qty = $('#qty'+id+''+frId).val();
 			
 			
-			var minqty = $('#minqty'+id).val();
+			var minqty = $('#minqty'+id+''+frId).val();
 			
 			if(qty % minqty==0){
 			    var total = rate * qty;
 			
-			   $('#total'+id).html(total);
+			   $('#total'+id+''+frId).html(total);
 			}else
 			{
 				 var total =0;
 				 
 				alert("Please Enter Qty Multiple of Minimum Qty");
-				$('#qty'+id).val(0);
+				$('#qty'+id+''+frId).val(0);
 				
-				$('#total'+id).html(total);
-				$('#qty'+id).focus();
+				$('#total'+id+''+frId).html(total);
+				$('#qty'+id+''+frId).focus();
 			}
 		}
 	</script>
 	<script type="text/javascript">
-		function onChangeBill(rate,id) {
+		function onChangeBill(rate,id,frId) {
 
 			//calculate total value  
-			var qty = $('#qty'+id).val();
-			var discper = $('#discper'+id).val();
+			var qty = $('#qty'+id+''+frId).val();
+			var discper = $('#discper'+id+''+frId).val();
 			
-			var minqty = $('#minqty'+id).val();
+			var minqty = $('#minqty'+id+''+frId).val();
 			
 			if(qty % minqty==0){
 			    var total = rate * qty;
 			    var disc=(total*discper)/100; 
 			    total=total-disc;
-			   $('#total'+id).html(total.toFixed(2));
+			   $('#total'+id+''+frId).html(total.toFixed(2));
 			}else
 			{
 				 var total =0;
 				 
 				alert("Please Enter Qty Multiple of Minimum Qty");
-				$('#qty'+id).val(0);
+				$('#qty'+id+''+frId).val(0);
 				
-				$('#total'+id).html(total);
-				$('#qty'+id).focus();
+				$('#total'+id+''+frId).html(total);
+				$('#qty'+id+''+frId).focus();
 			}
 		}
 	</script>
@@ -751,6 +852,34 @@ function validation() {
 	}
 	return isValid;
 }
+function validation1() {
+	
+	var frId = $('#fr_id1').val();
+	var menuId = $('#menu').val();
+	var itemId=$('#itemId').val();
+	var qty=$("#qty").val();
+    var sectionId=$('#sectionId').val();
+	var isValid = true;
+	if (frId == ""||frId==0) { 
+		isValid = false;
+		alert("Please Select Franchisee");
+	} else if (menuId == ""||menuId ==0) {
+		isValid = false;
+		alert("Please Select Menu ");
+	}else if (sectionId == ""||sectionId ==0) {
+		isValid = false;
+		alert("Please Select Section ");
+	}
+	else if (itemId == ""||itemId ==0) {
+		isValid = false;
+		alert("Please Select Item ");
+	}
+	else if (qty == ""||qty ==0) {
+		isValid = false;
+		alert("Please Enter valid Qty ");
+	}
+	return isValid;
+}
 </script>
 <script type="text/javascript">
 function deleteItem(key){
@@ -852,6 +981,7 @@ function findFranchiseeData(frId)
 <script type="text/javascript">
 function showPdf(billNo)
 {
+	
 	if(billNo!=0)
 		{
         window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillPdf/By-Road/0/'+billNo,'_blank');
@@ -867,42 +997,95 @@ function checkCheckedStatus()
 	   if($('#or1').is(':checked')) { 
 		   document.getElementById("searchBtn").disabled = false;
 		   document.getElementById("submitbill").style.display = "none";
+		   document.getElementById("submitorder").disabled = true;
 		   	 $("#submitorder").show();
-
+		     document.getElementById("flagRate").value=1;
    		document.getElementById("submitorder").style.backgroundColor = "blue";
    	 $("#mulFr").hide();
 	   $("#singleFr").show();
-	   
+	   $("#mulOrder").hide();
+	   $("#singleOrder").show();
+		$('#table_grid td').remove();
+		var frId=document.getElementById("fr_id").value;
+		if (frId != ""&&frId!=0) { 
+		findFranchiseeData(frId);
+		}
 	  // document.getElementById("fr_id").selectedIndex = "0";
 	   //	$("#fr_id").trigger("chosen:updated");
    	// document.getElementById("submitbill").style.backgroundColor = "#ffeadd";
 	   }else
 	   if($('#or2').is(':checked')) { 
 		   document.getElementById("searchBtn").disabled = false;
+		   document.getElementById("submitbill").disabled = true;
 		   $("#submitbill").show();
-
+		   document.getElementById("flagRate").value=1;
 		   document.getElementById("submitbill").style.backgroundColor = "blue";
 		  // document.getElementById("submitorder").style.backgroundColor = "#ffeadd";
 		   document.getElementById("submitorder").style.display = "none";
 		   $("#mulFr").hide();
 		   $("#singleFr").show();
+		   $("#mulOrder").hide();
+		   $("#singleOrder").show();
+			$('#table_grid td').remove();
+			var frId=document.getElementById("fr_id").value;
+			if (frId != ""&&frId!=0) { 
+			findFranchiseeData(frId);
+			}
 		   //document.getElementById("fr_id").selectedIndex = "0";
 		   //	$("#fr_id").trigger("chosen:updated");
 	   }else
 		   if($('#or3').is(':checked')) { 
 			   document.getElementById("searchBtn").disabled = false;
+			   document.getElementById("submitbill").disabled = true;
 			   $("#submitbill").show();
-
+				$('#table_grid td').remove();
+				 document.getElementById("flagRate").value=1;
+				  document.getElementById("qty").value=0;
+				  $('#itemId')
+				    .find('option')
+				    .remove()
+				    .end()
+				  $("#itemId").trigger("chosen:updated");
+				 
 			   document.getElementById("submitbill").style.backgroundColor = "blue";
 			  // document.getElementById("submitorder").style.backgroundColor = "#ffeadd";
 			   document.getElementById("submitorder").style.display = "none";
 			   $("#singleFr").hide();
 			   $("#mulFr").show();
+			   $("#mulOrder").show();
+			   $("#singleOrder").hide();
 			   //document.getElementById("fr_id").selectedIndex = "0";
 			   //	$("#fr_id").trigger("chosen:updated");
 			   document.getElementById("frName").value="-";
                document.getElementById("gstin").value="-";
                document.getElementById("address").value="-";
+               
+               
+           	$.getJSON('${getAllMenu}', {
+				ajax : 'true'
+			}, function(data) {
+				var html = '<option value="0">Menu</option>';
+			
+				var len = data.length;
+				
+				$('#menu')
+			    .find('option')
+			    .remove()
+			    .end()
+			    
+			 $("#menu").append(
+                            $("<option></option>").attr(
+                                "value", "0").text("Select Menu")
+                        );
+				
+				for ( var i = 0; i < len; i++) {
+                    $("#menu").append(
+                            $("<option></option>").attr(
+                                "value", data[i].menuId).text(data[i].menuTitle)
+                        );
+				}
+				   $("#menu").trigger("chosen:updated");
+			});
 		   }
 	   
 	
@@ -910,15 +1093,56 @@ function checkCheckedStatus()
 function checkOrderByStatus()
 {
 	    var isConfirm=confirm('Do you want to change order By ?');
-
+		var ordertype = $('.order:checked').val();
 	 if(isConfirm){
 	   if($('#t1').is(':checked')) { 
+		   
+	       if(ordertype==2){
+	    	   document.getElementById("flagRate").value=1;
+	    	   onSearchMulFr();
+	    	   document.getElementById("flagRate").value=0;
+	       }else{
 		   onSearch();
+	       }
 	   }else
 	   if($('#t2').is(':checked')) { 
+ if(ordertype==2){
+	 document.getElementById("flagRate").value=1;
+	 onSearchMulFr();
+	 document.getElementById("flagRate").value=0;
+	       }else{
 		   onSearch();
+	       }
 	   }
       }
+}
+function onCatIdChangeForManOrder(menuId) {
+	
+	$.getJSON('${getItemsByCatIdManOrder}', {
+		menuId : menuId,
+		ajax : 'true'
+	}, function(data) {
+		var len = data.length;
+		$('#itemId')
+	    .find('option')
+	    .remove()
+	    .end()
+	    
+	 $("#itemId").append(
+                    $("<option></option>").attr(
+                        "value", "0").text("Select Item")
+                );
+		
+		for ( var i = 0; i < len; i++) {
+            $("#itemId").append(
+                    $("<option></option>").attr(
+                        "value", data[i].id).text(data[i].itemName+"--MinQty: "+data[i].minQty)
+                );
+		}
+		   $("#itemId").trigger("chosen:updated");
+
+	});
+	
 }
 </script>
 <script>
