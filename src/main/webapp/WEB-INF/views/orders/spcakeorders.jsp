@@ -552,7 +552,7 @@ table {
 																			'<td class="col-sm-1"></td>')
 																			.html(
 																					(key + 1)
-																							+ "<input type='checkbox' name='selorder' class='selorder' id="+spCakeOrder.spOrderNo+"   value="+spCakeOrder.spOrderNo+">   "));
+																							+ "<input type='checkbox' name='selorder' class='selorder' id="+spCakeOrder.spOrderNo+"   value="+spCakeOrder.spOrderNo+"-"+(key + 1)+">   "));
 														} else {
 															tr
 																	.append($(
@@ -1023,25 +1023,36 @@ table {
 		function updateBillGenStatusToProd() {
 
 			var checkedVals = $('.selorder:checkbox:checked').map(function() {
+				
+				var id = (this.value).split("-");
+				return id[0];
+			}).get();
+			
+			var srvalues = $('.selorder:checkbox:checked').map(function() {
+				 
 				return this.value;
 			}).get();
+			
 			var spOrderNo=checkedVals.join(",");
-			if (checkedVals != "" && checkedVals != null) {
+			var srvaluesNo=srvalues.join(",");
+			//alert(srvaluesNo);
+			     if (checkedVals != "" && checkedVals != null) {
 				$.getJSON('${updateBillStatusForSp}', {
 					spOrderNo : spOrderNo,
+					srvalues : srvaluesNo,
 					ajax : 'true',
 				}, function(data) {
 
 					if (data.error == false) {
 						alert("Special Cake Taken for Production");
 						callSearch();
-						window.open("${pageContext.request.contextPath}/showSpcakeOrderPdfByOrderNo/"+spOrderNo, '_blank');
+						window.open("${pageContext.request.contextPath}/showSpcakeOrderPdfByOrderNo/"+spOrderNo+"/"+srvalues, '_blank');
 					}
 
 				});
 			} else {
 				alert("Select atleast 1 Sp Order !!")
-			}
+			}   
 		}
 	</script>
 	<script>

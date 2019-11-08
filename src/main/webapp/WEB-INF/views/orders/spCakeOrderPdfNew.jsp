@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -12,7 +12,7 @@
 
 <body
 	style="margin: 0px; padding: 0px; font-family: Verdana, Geneva, sans-serif; font-size: 18px; line-height: 23px; text-transform: uppercase;">
-<c:set var="srNo" value="${from}"></c:set>
+	<c:set var="srNo" value="${from}"></c:set>
 	<table width="96%" border="0" cellspacing="12" cellpadding="12"
 		align="center">
 		<tr>
@@ -22,9 +22,13 @@
 
 
 				<td width="48%" style="width: 48%; float: left;">
-					<table width="100%" border="0" cellspacing="6" cellpadding="6"style="border: 1px solid black;border-bottom: 0px solid black;">
+					<table width="100%" border="0" cellspacing="6" cellpadding="6"
+						style="border: 1px solid black; border-bottom: 0px solid black;">
 						<tr>
-							<td width="100%">SLIP.No : &nbsp; ${srNo}</td>
+							<td width="100%">SLIP.No : &nbsp; <c:forEach items="${list}"
+									var="list">
+									<c:if test="${list.id==spCakeOrder.spOrderNo}">${list.sr}</c:if>
+								</c:forEach></td>
 							<c:set var="srNo" value="${srNo+1}"></c:set>
 							<%-- <td width="66.333%" align="center"><strong><b><c:choose>
 											<c:when test="${spCakeOrder.frRType==1}">A</c:when>
@@ -61,7 +65,7 @@
 							<c:set var="frName" value="${fn:toUpperCase(spCakeOrder.frName)}" />
 							<c:set var="frCity" value="${fn:toUpperCase(spCakeOrder.frCity)}" />
 							<td width="70%"
-								style="padding: 8px 10px; height: 78px; float: left;font-size: 22px;">
+								style="padding: 8px 10px; height: 78px; float: left; font-size: 22px;">
 								<strong>${frName}</strong>&nbsp;&nbsp;<%-- ${frCity} --%>
 							</td>
 						</tr>
@@ -79,7 +83,7 @@
 								style="padding: 8px 10px; height: 78px; border-right: 1px solid black; float: left;">ITEM
 								:</td>
 							<td width="70%"
-								style="padding: 8px 10px; height: 78px; float: left;font-size: 22px;"><strong>${spName}.--${spCakeOrder.itemId}--${spCakeOrder.exVar1}</strong></td>
+								style="padding: 8px 10px; height: 78px; float: left; font-size: 22px;"><strong>${spName}.--${spCakeOrder.itemId}--${spCakeOrder.exVar1}</strong></td>
 						</tr>
 						<c:set var="spSelectedWeight"
 							value="${fn:toUpperCase(spCakeOrder.spSelectedWeight)}" />
@@ -108,10 +112,11 @@
 								:</td>
 							<c:set var="spEvents"
 								value="${fn:toUpperCase(spCakeOrder.spEvents)}" />
-								<c:set var = "spEventsName" value = "${fn:toUpperCase(spCakeOrder.spEventsName)}" />
+							<c:set var="spEventsName"
+								value="${fn:toUpperCase(spCakeOrder.spEventsName)}" />
 							<td width="70%"
 								style="padding: 8px 10px; float: left; height: 78px;"><strong>
-									${spEvents}</strong>- <b> ${spEventsName} </b> </td>
+									${spEvents}</strong>- <b> ${spEventsName} </b></td>
 						</tr>
 						<tr
 							style="border-bottom: 1px solid black; display: inline-block; width: 100%; height: 125px;">
@@ -142,7 +147,7 @@
 						</tr>
 					</table>
 				</td>
- 
+
 			</c:forEach>
 
 

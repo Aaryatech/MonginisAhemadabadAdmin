@@ -44,6 +44,7 @@ import com.ats.adminpanel.model.SpCakeOrders;
 import com.ats.adminpanel.model.SpCakeOrdersBean;
 import com.ats.adminpanel.model.SpCakeOrdersBeanResponse;
 import com.ats.adminpanel.model.SplitOrderData;
+import com.ats.adminpanel.model.SrWithIds;
 import com.ats.adminpanel.model.accessright.ModuleJson;
 import com.ats.adminpanel.model.franchisee.AllFranchiseeList;
 import com.ats.adminpanel.model.franchisee.AllMenuResponse;
@@ -1327,8 +1328,15 @@ public class OrderController {
 		RestTemplate restTemp = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		StringBuffer orderId = new StringBuffer("0,");
+		
+		List<SrWithIds> list = new ArrayList<>();
+		
 		for (int i = from - 1; i < to && i < spCakeOrderList.size(); i++) {
 			orderId.append(Integer.toString(spCakeOrderList.get(i).getSpOrderNo()) + ",");
+			SrWithIds srWithIds = new SrWithIds();
+			srWithIds.setId( spCakeOrderList.get(i).getSpOrderNo() );
+			srWithIds.setSr(i+1);
+			list.add(srWithIds);
 		}
 
 		orderId.setLength(orderId.length() - 1);
@@ -1339,15 +1347,17 @@ public class OrderController {
 		System.out.println("SpOrder" + orderListResponse.toString());
 		model.addObject("spCakeOrder", orderListResponse);
 		model.addObject("from", from);
+		model.addObject("list", list);
 		model.addObject("imgUrl", Constants.SP_CAKE_FOLDER);
 		model.addObject("imgUrl2", Constants.CUST_CHOICE_PHOTO_CAKE_FOLDER);
 		return model;
 	}
-	@RequestMapping(value = "/showSpcakeOrderPdfByOrderNo/{orderNo}", method = RequestMethod.GET)
-	public ModelAndView showSpcakeOrderPdfInRange(@PathVariable("orderNo")String orderNo,
+	@RequestMapping(value = "/showSpcakeOrderPdfByOrderNo/{orderNo}/{srvalues}", method = RequestMethod.GET)
+	public ModelAndView showSpcakeOrderPdfInRange(@PathVariable("orderNo")String orderNo,@PathVariable("srvalues")String srvalues,
 			HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("orders/spCakeOrderPdfNew");
 
+		try {
 		RestTemplate restTemp = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		
@@ -1355,10 +1365,29 @@ public class OrderController {
 		List<GetSpCkOrder> orderListResponse = restTemp.postForObject(Constants.url + "getSpCKOrderBySpOrderNo", map,
 				List.class);
 
+		String[] sr = srvalues.split(",");
+		System.err.println(Arrays.asList(sr));
+		List<SrWithIds> list = new ArrayList<>();		
+		
+		for(int i = 0 ; i<sr.length ; i++) { 
+			
+			System.out.println(sr[i]);
+			String[] id = sr[i].split("-");
+			SrWithIds srWithIds = new SrWithIds();
+			srWithIds.setId(Integer.parseInt(id[0]));
+			srWithIds.setSr(Integer.parseInt(id[1]));
+			list.add(srWithIds); 
+			
+		}
+		
 		model.addObject("spCakeOrder", orderListResponse);
 		model.addObject("from", 0);
+		model.addObject("list", list);
 		model.addObject("imgUrl", Constants.SP_CAKE_FOLDER);
 		model.addObject("imgUrl2", Constants.CUST_CHOICE_PHOTO_CAKE_FOLDER);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return model;
 	}
 	@RequestMapping(value = "/showSpcakeOrderPdfInRangeForDotMatrix/{from}/{to}", method = RequestMethod.GET)
