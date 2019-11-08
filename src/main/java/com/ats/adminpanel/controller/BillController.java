@@ -2242,6 +2242,7 @@ public class BillController {
 
 	}
 
+	GetBillHeader getBillHeader1 = new GetBillHeader();
 	@RequestMapping(value = "/updateBillDetails/{billNo}/{frName}", method = RequestMethod.GET)
 	public ModelAndView updateBillDetails(@PathVariable int billNo, @PathVariable String frName) {
 
@@ -2261,8 +2262,14 @@ public class BillController {
 			billDetailsList = new ArrayList<GetBillDetail>();
 			billDetailsList = billDetailsResponse.getGetBillDetails();
 
-			System.out.println(" *** get Bill response  " + billDetailsResponse.getGetBillDetails().toString());
-
+			 
+			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName",
+					AllFrIdNameList.class);
+			
+			getBillHeader1 = restTemplate.postForObject(Constants.url + "getBillHeaderByBillNo",
+					map, GetBillHeader.class);
+			model.addObject("getBillHeader", getBillHeader1);
+			model.addObject("frList", allFrIdNameList.getFrIdNamesList());
 			model.addObject("frName", frName);
 			model.addObject("billNo", billDetailsList.get(0).getBillNo());
 			model.addObject("billDate", billDetailsList.get(0).getBillDate());
@@ -2286,6 +2293,9 @@ public class BillController {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 
+			int frId = Integer.parseInt(request.getParameter("frId"));
+			int billNo = Integer.parseInt(request.getParameter("bill_no"));
+			
 			PostBillDataCommon postBillDataCommon = new PostBillDataCommon();
 			List<PostBillHeader> postBillHeadersList = new ArrayList<>();
 
@@ -2438,6 +2448,15 @@ public class BillController {
 			postBillDataCommon.setPostBillHeadersList(postBillHeadersList);
 
 			Info info = restTemplate.postForObject(Constants.url + "updateBillData", postBillDataCommon, Info.class);
+			
+			if(getBillHeader1.getFrId()!=frId) {
+				
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				 map.add("frId", frId);
+				 map.add("billNo", billNo);
+				 System.out.println(map);
+				 Info updatebillheader = restTemplate.postForObject(Constants.url + "updateFrInformationinbillheader", map, Info.class);
+			}
 
 		} catch (Exception e) {
 

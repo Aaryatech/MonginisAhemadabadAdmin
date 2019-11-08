@@ -2,11 +2,11 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-	 
 
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-	<body>
-	
+
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<body>
+
 	<jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include>
 
 
@@ -86,16 +86,30 @@
 									</div>
 								</div>
 
-
+								<input type="hidden" name="fr_name" id="fr_name"
+									placeholder="Franchisee Name" class="form-control"
+									data-rule-required="true" readonly="readonly" value="${frName}" />
 
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label">Franchisee
 										Name</label>
 									<div class="col-sm-9 col-lg-10 controls">
-										<input type="text" name="fr_name" id="fr_name"
-											placeholder="Franchisee Name" class="form-control"
-											data-rule-required="true" readonly="readonly"
-											value="${frName}" />
+										<select name="frId" id="frId" class="form-control chosen"
+											required>
+											<c:forEach items="${frList}" var="frList">
+
+												<c:choose>
+													<c:when test="${frList.frId==getBillHeader.frId}">
+														<option value="${frList.frId}" selected>${frList.frName}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${frList.frId}">${frList.frName}</option>
+													</c:otherwise>
+												</c:choose>
+
+											</c:forEach>
+
+										</select>
 									</div>
 								</div>
 
@@ -105,8 +119,10 @@
 
 									<div class="clearfix"></div>
 									<div class="table-responsive" style="border: 0">
-										<table width="100%" class="table table-bordered table-striped fill-head" id="table1"  border="1">
-											<thead style="background-color: #f3b5db; ">
+										<table width="100%"
+											class="table table-bordered table-striped fill-head"
+											id="table1" border="1">
+											<thead style="background-color: #f3b5db;">
 												<tr>
 
 													<th width="140" style="width: 30px" align="left">Sr No</th>
@@ -118,12 +134,12 @@
 													<th width="100" align="left">Rate</th>
 													<th width="105" align="left">SGST %</th>
 													<th width="105" align="left">CGST %</th>
-														<th width="105" align="left">Disc %</th>
-															<th width="105" align="left">Disc Amt</th>
+													<th width="105" align="left">Disc %</th>
+													<th width="105" align="left">Disc Amt</th>
 													<th width="130" align="left">Taxable Amt</th>
 													<th width="130" align="left">Tax Amt</th>
 													<th width="105" align="left">Grand Total</th>
-													 
+
 													<th width="159" align="left">Remark</th>
 
 												</tr>
@@ -136,65 +152,74 @@
 													varStatus="count">
 
 													<tr>
-													
-														<td><c:out value="${count.index+1}"/></td>
+
+														<td><c:out value="${count.index+1}" /></td>
 
 														<td align="left"><c:out
-																value="${billDetails.itemName}"/></td>
+																value="${billDetails.itemName}" /></td>
 
 
-														<td align="left"><c:out	value="${billDetails.catName}"/></td>
+														<td align="left"><c:out
+																value="${billDetails.catName}" /></td>
 
-														<td align="center"><c:out value="${billDetails.orderQty}"/></td>
+														<td align="center"><c:out
+																value="${billDetails.orderQty}" /></td>
 
-														<td align="left"><input type="text"class="form-control"
-															data-rule-number="true"
+														<td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
 															name="billQty${billDetails.billDetailNo}"
-															id="billQty${billDetails.billDetailNo}" style="width: 60px"
-															value="${billDetails.billQty}" onkeyup="changeValues(${billDetails.billDetailNo})"/></td>
+															id="billQty${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.billQty}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
 
-														<td align="left"><c:out value="${billDetails.mrp}"/></td>
+														<td align="left"><c:out value="${billDetails.mrp}" /></td>
 
-														<td align="left"><input type="text"class="form-control"
-															data-rule-number="true"
+														<td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
 															name="billRate${billDetails.billDetailNo}"
-															id="billRate${billDetails.billDetailNo}" style="width: 60px"
-															value="${billDetails.rate}" onkeyup="changeValues(${billDetails.billDetailNo})"/>
-
-											
-</td><input type="hidden"class="form-control"	name="discPer${billDetails.billDetailNo}"	id="discPer${billDetails.billDetailNo}" value="${billDetails.discPer}"/> 	
-														<td align="left" >
-														<input type="text"class="form-control"
-															data-rule-number="true"
+															id="billRate${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.rate}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
+														<input type="hidden" class="form-control"
+															name="discPer${billDetails.billDetailNo}"
+															id="discPer${billDetails.billDetailNo}"
+															value="${billDetails.discPer}" />
+														<td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
 															name="sgstPer${billDetails.billDetailNo}"
-															id="sgstPer${billDetails.billDetailNo}" style="width: 60px"
-															value="${billDetails.sgstPer}" onkeyup="changeValues(${billDetails.billDetailNo})"/></td>
-													 		
-														<td align="left" > 
-														<input type="text"class="form-control"
-															data-rule-number="true"
-															name="cgstPer${billDetails.billDetailNo}"
-															id="cgstPer${billDetails.billDetailNo}" style="width: 60px"
-															value="${billDetails.cgstPer}" onkeyup="changeValues(${billDetails.billDetailNo})"/></td>
+															id="sgstPer${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.sgstPer}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
 
-														<c:set var="billQty" value="${billDetails.billQty}"/>
-														<c:set var="rate" value="${billDetails.rate}"/>
- 															 <td align="center"  >
-															<c:out value="${billDetails.discPer}"/></td> 
-															 <td align="center" id="discAmt${billDetails.billDetailNo}"  >
-																			<c:out value="${billDetails.remark}"/></td> 
-														 <td align="center" id="taxableAmt${billDetails.billDetailNo}"  >
-															<c:out value="${billDetails.taxableAmt}"/></td> 
-																
-														<td align="left" id="totalTax${billDetails.billDetailNo}"  ><c:out
-																value="${billDetails.totalTax}"/></td>
-																
-														<td align="left" id="grandTotal${billDetails.billDetailNo}"><c:out value="${billDetails.grandTotal}"/></td>
+														<td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
+															name="cgstPer${billDetails.billDetailNo}"
+															id="cgstPer${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.cgstPer}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
+
+														<c:set var="billQty" value="${billDetails.billQty}" />
+														<c:set var="rate" value="${billDetails.rate}" />
+														<td align="center"><c:out
+																value="${billDetails.discPer}" /></td>
+														<td align="center" id="discAmt${billDetails.billDetailNo}">
+															<c:out value="${billDetails.remark}" />
+														</td>
+														<td align="center"
+															id="taxableAmt${billDetails.billDetailNo}"><c:out
+																value="${billDetails.taxableAmt}" /></td>
+
+														<td align="left" id="totalTax${billDetails.billDetailNo}"><c:out
+																value="${billDetails.totalTax}" /></td>
+
+														<td align="left"
+															id="grandTotal${billDetails.billDetailNo}"><c:out
+																value="${billDetails.grandTotal}" /></td>
 
 														<td align="left"><c:out value="${billDetails.remark}" /></td>
 
 													</tr>
-													
+
 												</c:forEach>
 
 											</tbody>
@@ -220,7 +245,7 @@
 			</div>
 			<!-- END Main Content -->
 			<footer>
-			<p>2017 © MONGINIS.</p>
+				<p>2017 © MONGINIS.</p>
 			</footer>
 
 			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i

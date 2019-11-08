@@ -148,8 +148,8 @@
 
 						<div class="col-md-3" style="text-align: center;">
 							<!-- <input class="btn btn-info" value="Search Report" type="submit"> -->
-							<button class="btn btn-primary" value="PDF" id="PDFButton"
-								onclick="genPdf()">PDF</button>
+							<input type="button" class="btn btn-primary" value="PDF"
+								id="PDFButton" onclick="genPdf()">
 
 						</div>
 
@@ -170,74 +170,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="box-content" style="background-color: white;">
 
-			<div class="">
-				<!-- <div class="box-title">
-				<h3>
-					<i class="fa fa-list-alt"></i>Grn Gvn Report
-				</h3>
-
-			</div> -->
-
-				<form id="submitBillForm" method="post">
-
-					<div class="col-md-12 table-responsive">
-						<table class="table table-bordered table-striped fill-head "
-							style="width: 100%" id="table_grid">
-							<thead style="background-color: #f3b5db;">
-								<tr>
-									<th>Sr.No.</th>
-									<th>Doc No.</th>
-									<th>Date</th>
-									<th>QTY</th>
-									<th>UOM</th>
-									<th>Rate</th>
-									<th>Penalty AMT</th>
-									<th>Credit AMT</th>
-
-								</tr>
-							</thead>
-							<tbody>
-
-							</tbody>
-						</table>
-						<div class="form-group" id="range">
-
-
-
-							<div class="col-sm-3  controls">
-								<!-- <input type="button" id="expExcel" class="btn btn-primary"
-									value="EXPORT TO Excel" onclick="exportToExcel();"
-									disabled="disabled"> -->
-							</div>
-						</div>
-						<div align="center" id="showchart" style="display: none"></div>
-					</div>
-
-
-
-					<div id="chart"">
-						<br> <br> <br>
-						<hr>
-
-						<!-- <table class="columns">
-      <tr>
-        <td><div id="chart_div" style="width: 50%" ></div></td>
-        <td><div id="PieChart_div" style="width: 50%"></div></td>
-      </tr>
-    </table> -->
-
-						<div id="chart_div" style="width: 100%; height: 100%;"></div>
-
-
-						<div id="PieChart_div" style="width: 100%; height: 100%;"></div>
-
-
-					</div>
-				</form>
-			</div>
-		</div>
 	</div>
 	<!-- END Main Content -->
 
@@ -558,7 +491,11 @@
 
 			window
 					.open('${pageContext.request.contextPath}/creditNoteReportBetweenDatePdf?fromDate='
-							+ from_date + '&toDate=' + to_date + '&selectedFr='+selectedFr);
+							+ from_date
+							+ '&toDate='
+							+ to_date
+							+ '&selectedFr='
+							+ selectedFr);
 
 		}
 		function exportToExcel() {
