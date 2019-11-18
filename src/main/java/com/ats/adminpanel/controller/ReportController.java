@@ -130,6 +130,7 @@ public class ReportController {
 
 		String fromDate = request.getParameter("fromDate");
 		String toDate = request.getParameter("toDate");
+		String CreditNoteType = request.getParameter("Credittype");
 		try {
 
 			/*
@@ -149,6 +150,8 @@ public class ReportController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("CreditNoteType", CreditNoteType);
+			System.out.println("CreditNoteType"+CreditNoteType);
 
 			CrNoteRegisterList crnArray = restTemplate.postForObject(Constants.url + "getCrNoteRegisterDone", map,
 					CrNoteRegisterList.class);

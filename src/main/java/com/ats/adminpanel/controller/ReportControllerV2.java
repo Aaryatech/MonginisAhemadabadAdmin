@@ -1055,6 +1055,7 @@ public class ReportControllerV2 {
 
 		String fromDate = request.getParameter("fromDate");
 		String toDate = request.getParameter("toDate");
+		
 		try {
 
 			/*
@@ -1074,6 +1075,8 @@ public class ReportControllerV2 {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			
+			
 
 			CrNoteRegisterList crnArray = restTemplate.postForObject(Constants.url + "getCrNoteRegister", map,
 					CrNoteRegisterList.class);

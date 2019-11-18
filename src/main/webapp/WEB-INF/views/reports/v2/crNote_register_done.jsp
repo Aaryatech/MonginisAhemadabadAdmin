@@ -62,8 +62,8 @@
 
 
 					<div class="form-group">
-						<label class="col-sm-3 col-lg-1	 control-label">From Date</label>
-						<div class="col-sm-6 col-lg-2 controls date_select">
+						<label class="col-sm-1 col-lg-1	 control-label">From Date:</label>
+						<div class="col-sm-2 col-lg-1 controls date_select">
 							<input class="form-control date-picker" id="fromDate"
 								name="fromDate" size="30" type="text" value="${todaysDate}" />
 						</div>
@@ -72,11 +72,24 @@
 
 					<div class="form-group  "> -->
 
-						<label class="col-sm-3 col-lg-1	 control-label">To Date</label>
-						<div class="col-sm-6 col-lg-2 controls date_select">
+						<label class="col-sm-1 col-lg-1	 control-label">To Date</label>
+						<div class="col-sm-2 col-lg-1 controls date_select">
 							<input class="form-control date-picker" id="toDate" name="toDate"
 								size="30" type="text" value="${todaysDate}" />
+								
 						</div>
+						<label class="col-sm-1 col-lg-1	 control-label">Credit Note Type</label>
+						<div class="col-sm-6 col-lg-2  controls">
+
+							<select data-placeholder="Select Type"
+								class="form-control chosen" id="Credittype" name="Credittype" required>
+								<option value="">Select Credit Note Type</option>
+								
+								<option value="1">GRN</option>
+								<option value="0">GVN</option>
+							</select>
+						</div>
+						
 						<!-- 	</div>
 
 				</div>
@@ -225,6 +238,9 @@
 
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
+			var credit_note_type = $("#Credittype").val();
+			
+			
 
 			$('#loader').show();
 
@@ -233,6 +249,7 @@
 			{
 				fromDate : from_date,
 				toDate : to_date,
+				Credittype : credit_note_type,
 				ajax : 'true'
 
 			}, function(data) {
