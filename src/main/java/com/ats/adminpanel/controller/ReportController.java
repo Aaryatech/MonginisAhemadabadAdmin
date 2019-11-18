@@ -322,6 +322,7 @@ public class ReportController {
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("fromDate", fromDate);
 			map.add("toDate", toDate);
+			map.add("creditNoteType", CreditNoteType);
 			GrandTotalCreditnoteWise[] grandTotalCreditnoteWise = restTemplate.postForObject(
 					Constants.url + "getGrandTotalCreditnotewise", map, GrandTotalCreditnoteWise[].class);
 			List<GrandTotalCreditnoteWise> headerList = new ArrayList<GrandTotalCreditnoteWise>(
