@@ -76,6 +76,8 @@ import com.ats.adminpanel.model.PDispatchReport;
 import com.ats.adminpanel.model.PDispatchReportList;
 import com.ats.adminpanel.model.POrder;
 import com.ats.adminpanel.model.Route;
+import com.ats.adminpanel.model.SpFlavourSummaryDao;
+import com.ats.adminpanel.model.SpFlavourSummaryDaoResponse;
 import com.ats.adminpanel.model.SpKgSummaryDao;
 import com.ats.adminpanel.model.SpKgSummaryDaoResponse;
 import com.ats.adminpanel.model.Tax1Report;
@@ -403,7 +405,7 @@ public class SalesReportController {
 				session.setAttribute("mergeUpto2", "$A$2:$N$2");
 
 				DecimalFormat df = new DecimalFormat("#.00");
-				
+
 				List<ExportToExcel> exportToExcelList1 = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel1 = new ExportToExcel();
@@ -438,8 +440,8 @@ public class SalesReportController {
 					expoExcel1.setRowData(rowData1);
 					exportToExcelList1.add(expoExcel1);
 
-					double finalAmt =0;
-					
+					double finalAmt = 0;
+
 					for (int i = 0; i < taxReportList.size(); i++) {
 
 						if (headerList.get(j).getBillNo() == taxReportList.get(i).getBillNo()) {
@@ -449,23 +451,23 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("");
-							rowData1.add("Sales Gst " + taxReportList.get(i).getTaxPer()+ "%");
+							rowData1.add("Sales Gst " + taxReportList.get(i).getTaxPer() + "%");
 							rowData1.add(" " + df.format(taxReportList.get(i).getTaxableAmt()));
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
 							exportToExcelList1.add(expoExcel1);
-							
-							BigDecimal bd = new BigDecimal(taxReportList.get(i).getTaxableAmt()).setScale(2, RoundingMode.HALF_UP);
-					        double taxable = bd.doubleValue();
-					        bd = new BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2, RoundingMode.HALF_UP);
-					        double cgstAmt = bd.doubleValue();
-					        bd = new BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
-					        double sgstAmt = bd.doubleValue();
-					        
-							finalAmt = finalAmt+taxable+cgstAmt+sgstAmt;
-							
-							
+
+							BigDecimal bd = new BigDecimal(taxReportList.get(i).getTaxableAmt()).setScale(2,
+									RoundingMode.HALF_UP);
+							double taxable = bd.doubleValue();
+							bd = new BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2, RoundingMode.HALF_UP);
+							double cgstAmt = bd.doubleValue();
+							bd = new BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
+							double sgstAmt = bd.doubleValue();
+
+							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt;
+
 							expoExcel1 = new ExportToExcel();
 							rowData1 = new ArrayList<String>();
 							rowData1.add(headerList.get(j).getInvoiceNo());
@@ -502,8 +504,7 @@ public class SalesReportController {
 					rowData1.add("");
 					rowData1.add("");
 					rowData1.add("kasar / vatav ");
-					rowData1.add(
-							" " + ((int) Math.ceil(headerList.get(j).getGrandTotal()) - finalAmt));
+					rowData1.add(" " + ((int) Math.ceil(headerList.get(j).getGrandTotal()) - finalAmt));
 					rowData1.add("Cr");
 					rowData1.add(" ");
 					expoExcel1.setRowData(rowData1);
@@ -2097,7 +2098,7 @@ public class SalesReportController {
 		return model;
 	}
 
-// getSaleReportBillwiseByMonth
+	// getSaleReportBillwiseByMonth
 
 	@RequestMapping(value = "/showSaleReportByMonth", method = RequestMethod.GET)
 	public ModelAndView showSaleReportByMonth(HttpServletRequest request, HttpServletResponse response) {
@@ -2740,8 +2741,8 @@ public class SalesReportController {
 	 * model.addObject("report", saleListForPdf); return model; }
 	 */
 
-// *******************************************************************//
-// Royalty Sale
+	// *******************************************************************//
+	// Royalty Sale
 
 	@RequestMapping(value = "/showSaleRoyaltyByCat", method = RequestMethod.GET)
 	public ModelAndView showSaleRoyaltyByCat(HttpServletRequest request, HttpServletResponse response) {
@@ -3118,7 +3119,7 @@ public class SalesReportController {
 		return model;
 	}
 
-// royalty FR wise
+	// royalty FR wise
 
 	@RequestMapping(value = "/showSaleRoyaltyByFr", method = RequestMethod.GET)
 	public ModelAndView showSaleRoyaltyByFr(HttpServletRequest request, HttpServletResponse response) {
@@ -3377,9 +3378,9 @@ public class SalesReportController {
 
 	}
 
-// royalty fr pdf is not done
+	// royalty fr pdf is not done
 
-// done pdf
+	// done pdf
 	@RequestMapping(value = "pdf/showSaleRoyaltyByFrPdf/{fromDate}/{toDate}/{selectedFr}/{routeId}", method = RequestMethod.GET)
 	public ModelAndView showSaleRoyaltyByFrPdf(@PathVariable String fromDate, @PathVariable String toDate,
 			@PathVariable String selectedFr, @PathVariable String routeId, HttpServletRequest request,
@@ -5751,7 +5752,7 @@ public class SalesReportController {
 
 	}
 
-// --------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/getSaleReportRoyConsoByCat", method = RequestMethod.GET)
 	public @ResponseBody RoyaltyListBean getSaleReportRoyConsoByCat(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -7311,5 +7312,101 @@ public class SalesReportController {
 			pd4ml.render(urlstring, fos);
 		}
 	}
+
+	
+	// Anmol-->26-11-2019--->SP_FLAVOUR_WISE_REPORT
+	@RequestMapping(value = "/showFlavourWiseSPReport", method = RequestMethod.GET)
+	public ModelAndView showFlavourWiseSPReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+
+		model = new ModelAndView("reports/flavourWiseSpReport");
+
+		try {
+			ZoneId z = ZoneId.of("Asia/Calcutta");
+			LocalDate date = LocalDate.now(z);
+			DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
+			todaysDate = date.format(formatters);
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			allFrIdNameList = new AllFrIdNameList();
+			try {
+
+				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
+
+			} catch (Exception e) {
+				System.out.println("Exception in getAllFrIdName" + e.getMessage());
+				e.printStackTrace();
+
+			}
+			StringBuilder sbFrId = new StringBuilder();
+			for (int i = 0; i < allFrIdNameList.getFrIdNamesList().size(); i++) {
+
+				sbFrId = sbFrId.append(allFrIdNameList.getFrIdNamesList().get(i).getFrId() + ",");
+
+			}
+
+			String strFrId = sbFrId.toString();
+			strFrId = strFrId.substring(0, strFrId.length() - 1);
+			System.out.println("fr Id  = " + strFrId);
+			model.addObject("todaysDate", todaysDate);
+			model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
+			model.addObject("frId", strFrId);
+
+		} catch (Exception e) {
+
+			System.out.println("Exc in Flavour wise SP Report" + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	//Anmol-->26-11-2019--->Ajax_Flavour_wise_Report_search--------------
+		@RequestMapping(value = "/getFlavourWiseList", method = RequestMethod.GET)
+		public @ResponseBody SpFlavourSummaryDaoResponse getFlavourWiseList(HttpServletRequest request,
+				HttpServletResponse response) {
+
+			String fromDate = "";
+			String toDate = "";
+			SpFlavourSummaryDaoResponse spFlavourSummaryDaoResponse = new SpFlavourSummaryDaoResponse();
+			List<SpFlavourSummaryDao> spFlavourSummaryDaoList = null;
+			try {
+				String selectedFr = request.getParameter("fr_id_list");
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
+				selectedFr = selectedFr.replaceAll("\"", "");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				RestTemplate restTemplate = new RestTemplate();
+				map.add("frId", selectedFr);
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				
+				System.err.println("FR IDS ---------------- "+selectedFr);
+				System.err.println("DATE ---------------- "+DateConvertor.convertToYMD(fromDate)+"   to    "+ DateConvertor.convertToYMD(toDate));
+
+				SpFlavourSummaryDao[] spFlavourSummaryDaoRes = restTemplate.postForObject(Constants.url + "getSpFlavourSummaryReport", map,
+						SpFlavourSummaryDao[].class);
+
+				spFlavourSummaryDaoList = new ArrayList<SpFlavourSummaryDao>(Arrays.asList(spFlavourSummaryDaoRes));
+				
+				System.err.println("FLAVOUR WISE REPORT --------  "+spFlavourSummaryDaoList);
+				
+				
+				TreeSet<Integer> flavourIdList = new TreeSet<Integer>();
+				for (SpFlavourSummaryDao spFlvrSummaryDao : spFlavourSummaryDaoList) {
+					flavourIdList.add(spFlvrSummaryDao.getSpFlavourId());
+				}
+				spFlavourSummaryDaoResponse.setFlavourIdList(flavourIdList);
+				spFlavourSummaryDaoResponse.setSummaryDaoList(spFlavourSummaryDaoList);
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			return spFlavourSummaryDaoResponse;
+		}
 
 }

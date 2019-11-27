@@ -637,8 +637,8 @@ public class SalesReportController3 {
 		HttpSession session = request.getSession();
 
 		model = new ModelAndView("reports/sales/yearlyFrSubCatSale");
-		
-		String yearStartDate="";
+
+		String yearStartDate = "";
 
 		try {
 			ZoneId z = ZoneId.of("Asia/Calcutta");
@@ -646,8 +646,9 @@ public class SalesReportController3 {
 			LocalDate date = LocalDate.now(z);
 			DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
 			todaysDate = date.format(formatters);
-			yearStartDate= date.format(formatters);;
-			
+			yearStartDate = date.format(formatters);
+			;
+
 			RestTemplate restTemplate = new RestTemplate();
 
 			allFrIdNameList = new AllFrIdNameList();
@@ -660,16 +661,14 @@ public class SalesReportController3 {
 				e.printStackTrace();
 
 			}
-			
-			
+
 			try {
-				Company company= restTemplate.getForObject(Constants.url+"/getCompany",Company.class);
-				yearStartDate=DateConvertor.convertToDMY(company.getFromDate());
-			}catch (Exception e) {
+				Company company = restTemplate.getForObject(Constants.url + "/getCompany", Company.class);
+				yearStartDate = DateConvertor.convertToDMY(company.getFromDate());
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			
+
 			model.addObject("yearStartDate", yearStartDate);
 			model.addObject("todaysDate", todaysDate);
 			model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
@@ -1305,16 +1304,16 @@ public class SalesReportController3 {
 
 											} else if (selectedType.equalsIgnoreCase("4")) {
 
-												rowData.add("" + (int)scData1.getSoldQty());
+												rowData.add("" + (int) scData1.getSoldQty());
 												rowData.add("" + scData1.getTaxableAmt());
 
-												rowData.add("" + (int)scData1.getVarQty());
+												rowData.add("" + (int) scData1.getVarQty());
 												rowData.add("" + scData1.getVarTaxableAmt());
 
-												rowData.add("" + (int)scData1.getRetQty());
+												rowData.add("" + (int) scData1.getRetQty());
 												rowData.add("" + scData1.getRetTaxableAmt());
 
-												rowData.add("" + (int)(scData1.getSoldQty()
+												rowData.add("" + (int) (scData1.getSoldQty()
 														- (scData1.getVarQty() + scData1.getRetQty())));
 												rowData.add("" + (scData1.getTaxableAmt()
 														- (scData1.getVarTaxableAmt() + scData1.getRetTaxableAmt())));
@@ -1356,32 +1355,32 @@ public class SalesReportController3 {
 
 								if (selectedType.equalsIgnoreCase("1")) {
 
-									rowData.add("" + (int)fr.getFrTotalSoldQty());
+									rowData.add("" + (int) fr.getFrTotalSoldQty());
 									rowData.add("" + fr.getFrTotalSoldAmt());
 
-									rowData.add("" + (int)fr.getFrTotalVarQty());
+									rowData.add("" + (int) fr.getFrTotalVarQty());
 									rowData.add("" + fr.getFrTotalVarAmt());
 
-									rowData.add("" + (int)fr.getFrTotalRetQty());
+									rowData.add("" + (int) fr.getFrTotalRetQty());
 									rowData.add("" + fr.getFrTotalRetAmt());
 
-									rowData.add("" + (int)fr.getFrTotalNetQty());
+									rowData.add("" + (int) fr.getFrTotalNetQty());
 									rowData.add("" + fr.getFrTotalNetAmt());
 
 									rowData.add("" + fr.getFrTotalRetAmtPer() + "%");
 
 								} else if (selectedType.equalsIgnoreCase("2")) {
 
-									rowData.add("" + (int)fr.getFrTotalSoldQty());
+									rowData.add("" + (int) fr.getFrTotalSoldQty());
 									rowData.add("");
 
-									rowData.add("" + (int)fr.getFrTotalVarQty());
+									rowData.add("" + (int) fr.getFrTotalVarQty());
 									rowData.add("");
 
-									rowData.add("" + (int)fr.getFrTotalRetQty());
+									rowData.add("" + (int) fr.getFrTotalRetQty());
 									rowData.add("");
 
-									rowData.add("" + (int)fr.getFrTotalNetQty());
+									rowData.add("" + (int) fr.getFrTotalNetQty());
 									rowData.add("");
 
 									rowData.add("");
@@ -1404,16 +1403,16 @@ public class SalesReportController3 {
 
 								} else if (selectedType.equalsIgnoreCase("4")) {
 
-									rowData.add("" + (int)fr.getFrTotalSoldQty());
+									rowData.add("" + (int) fr.getFrTotalSoldQty());
 									rowData.add("" + fr.getFrTotalSoldTaxableAmt());
 
-									rowData.add("" + (int)fr.getFrTotalVarQty());
+									rowData.add("" + (int) fr.getFrTotalVarQty());
 									rowData.add("" + fr.getFrTotalVarTaxableAmt());
 
-									rowData.add("" + (int)fr.getFrTotalRetQty());
+									rowData.add("" + (int) fr.getFrTotalRetQty());
 									rowData.add("" + fr.getFrTotalRetTaxableAmt());
 
-									rowData.add("" + (int)fr.getFrTotalNetQty());
+									rowData.add("" + (int) fr.getFrTotalNetQty());
 									rowData.add("" + fr.getFrTotalNetTaxableAmt());
 
 									rowData.add("" + fr.getFrTotalRetTaxableAmtPer() + "%");
@@ -1443,32 +1442,32 @@ public class SalesReportController3 {
 
 				if (selectedType.equalsIgnoreCase("1")) {
 
-					rowData.add("" + (int)data.getMonthTotalSoldQty());
+					rowData.add("" + (int) data.getMonthTotalSoldQty());
 					rowData.add("" + data.getMonthTotalSoldAmt());
 
-					rowData.add("" + (int)data.getMonthTotalVarQty());
+					rowData.add("" + (int) data.getMonthTotalVarQty());
 					rowData.add("" + data.getMonthTotalVarAmt());
 
-					rowData.add("" + (int)data.getMonthTotalRetQty());
+					rowData.add("" + (int) data.getMonthTotalRetQty());
 					rowData.add("" + data.getMonthTotalRetAmt());
 
-					rowData.add("" + (int)data.getMonthTotalNetQty());
+					rowData.add("" + (int) data.getMonthTotalNetQty());
 					rowData.add("" + data.getMonthTotalNetAmt());
 
-					rowData.add("" + data.getMonthTotalRetAmtPer()+"%");
+					rowData.add("" + data.getMonthTotalRetAmtPer() + "%");
 
 				} else if (selectedType.equalsIgnoreCase("2")) {
 
-					rowData.add("" +(int) data.getMonthTotalSoldQty());
+					rowData.add("" + (int) data.getMonthTotalSoldQty());
 					rowData.add("");
 
-					rowData.add("" + (int)data.getMonthTotalVarQty());
+					rowData.add("" + (int) data.getMonthTotalVarQty());
 					rowData.add("");
 
-					rowData.add("" + (int)data.getMonthTotalRetQty());
+					rowData.add("" + (int) data.getMonthTotalRetQty());
 					rowData.add("");
 
-					rowData.add("" + (int)data.getMonthTotalNetQty());
+					rowData.add("" + (int) data.getMonthTotalNetQty());
 					rowData.add("");
 
 					rowData.add("");
@@ -1491,16 +1490,16 @@ public class SalesReportController3 {
 
 				} else if (selectedType.equalsIgnoreCase("4")) {
 
-					rowData.add("" + (int)data.getMonthTotalSoldQty());
+					rowData.add("" + (int) data.getMonthTotalSoldQty());
 					rowData.add("" + data.getMonthTotalSoldTaxableAmt());
 
-					rowData.add("" + (int)data.getMonthTotalVarQty());
+					rowData.add("" + (int) data.getMonthTotalVarQty());
 					rowData.add("" + data.getMonthTotalVarTaxableAmt());
 
-					rowData.add("" + (int)data.getMonthTotalRetQty());
+					rowData.add("" + (int) data.getMonthTotalRetQty());
 					rowData.add("" + data.getMonthTotalRetTaxableAmt());
 
-					rowData.add("" + (int)data.getMonthTotalNetQty());
+					rowData.add("" + (int) data.getMonthTotalNetQty());
 					rowData.add("" + data.getMonthTotalNetTaxableAmt());
 
 					rowData.add("" + data.getMonthTotalRetTaxableAmtPer() + "%");
