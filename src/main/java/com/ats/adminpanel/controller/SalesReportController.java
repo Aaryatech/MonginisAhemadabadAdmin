@@ -7363,6 +7363,56 @@ public class SalesReportController {
 		return model;
 	}
 	
+	
+	// Anmol-->26-11-2019--->SP_FLAVOUR_WISE_REPORT_2
+		@RequestMapping(value = "/showFlavourWiseSPReportFlvrSort", method = RequestMethod.GET)
+		public ModelAndView showFlavourWiseSPReportFlvrSort(HttpServletRequest request, HttpServletResponse response) {
+
+			ModelAndView model = null;
+
+			model = new ModelAndView("reports/flavourWiseSpReport2");
+
+			try {
+				ZoneId z = ZoneId.of("Asia/Calcutta");
+				LocalDate date = LocalDate.now(z);
+				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
+				todaysDate = date.format(formatters);
+
+				RestTemplate restTemplate = new RestTemplate();
+
+				allFrIdNameList = new AllFrIdNameList();
+				try {
+
+					allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
+
+				} catch (Exception e) {
+					System.out.println("Exception in getAllFrIdName" + e.getMessage());
+					e.printStackTrace();
+
+				}
+				StringBuilder sbFrId = new StringBuilder();
+				for (int i = 0; i < allFrIdNameList.getFrIdNamesList().size(); i++) {
+
+					sbFrId = sbFrId.append(allFrIdNameList.getFrIdNamesList().get(i).getFrId() + ",");
+
+				}
+
+				String strFrId = sbFrId.toString();
+				strFrId = strFrId.substring(0, strFrId.length() - 1);
+				System.out.println("fr Id  = " + strFrId);
+				model.addObject("todaysDate", todaysDate);
+				model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
+				model.addObject("frId", strFrId);
+
+			} catch (Exception e) {
+
+				System.out.println("Exc in Flavour wise SP Report" + e.getMessage());
+				e.printStackTrace();
+			}
+
+			return model;
+		}
+	
 	//Anmol-->26-11-2019--->Ajax_Flavour_wise_Report_search--------------
 		@RequestMapping(value = "/getFlavourWiseList", method = RequestMethod.GET)
 		public @ResponseBody SpFlavourSummaryDaoResponse getFlavourWiseList(HttpServletRequest request,
