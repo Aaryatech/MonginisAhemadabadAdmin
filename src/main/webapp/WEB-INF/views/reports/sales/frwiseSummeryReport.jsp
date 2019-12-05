@@ -239,7 +239,7 @@
 
 													var tr = $('<tr></tr>');
 
-													tr.append($('<td></td>')
+													tr.append($('<td style="text-align:center;"></td>')
 															.html(fr.frName));
 													tr.append($('<td></td>')
 															.html(""));
@@ -283,7 +283,7 @@
 
 																			tr
 																					.append($(
-																							'<td></td>')
+																							'<td style="text-align:center;"></td>')
 																							.html(
 																									index));
 																			tr
