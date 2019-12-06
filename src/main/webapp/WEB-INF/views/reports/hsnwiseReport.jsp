@@ -36,7 +36,7 @@
 				</h1>
 				<h4></h4>
 			</div>
-			
+
 		</div>
 		<!-- END Page Title -->
 
@@ -86,12 +86,15 @@
 				<br>
 				<div class="row">
 					<div class="form-group">
+
+
 						<label class="col-sm-3 col-lg-2	 control-label">Select
 							Type</label>
-						<div class="col-sm-10 col-lg-4  controls">
+						<div class="col-sm-10 col-lg-2  controls">
 
 							<select data-placeholder="Select Type"
-								class="form-control chosen" id="type" name="type" required>
+								class="form-control chosen" id="type" name="type"
+								onchange="dropdownTypeChange()" required>
 								<option value="">Select Type</option>
 								<option value="1">Bill wise</option>
 								<option value="2">Credit Note Wise</option>
@@ -99,9 +102,23 @@
 							</select>
 						</div>
 
+						<label class="col-sm-3 col-lg-2	 control-label"
+							style="text-align: right; display: none;" id="grngvnLabel">Select
+							GRN/GVN</label>
+						<div class="col-sm-10 col-lg-2  controls" id="grngvnDiv"
+							style="display: none;">
+
+							<select data-placeholder="Select GRN/GVN"
+								class="form-control chosen" id="grngvn" name="grngvn" required>
+								<option value="-1">All</option>
+								<option value="1">GRN</option>
+								<option value="0">GVN</option>
+							</select>
+						</div>
 
 
-						<div class="col-md-4">
+
+						<div class="col-md-4" style="text-align: center;">
 							<button class="btn btn-info" onclick="searchReport()">Search
 								Report</button>
 							<button class="btn btn-primary" value="PDF" id="PDFButton"
@@ -145,8 +162,9 @@
 				<div class=" box-content">
 					<div class="row">
 						<div class="col-md-12 table-responsive">
-						<input 
-  type="button" onclick="tableToExcel('table_grid', 'name', 'HsnReport.xls')" value="Export to Excel" >
+							<input type="button"
+								onclick="tableToExcel('table_grid', 'name', 'HsnReport.xls')"
+								value="Export to Excel">
 							<table class="table table-bordered table-striped fill-head "
 								style="width: 100%" id="table_grid">
 								<thead style="background-color: #f3b5db;">
@@ -204,107 +222,387 @@
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
 			var type = $("#type").val();
+			var grngvn = $("#grngvn").val();
 
 			$('#loader').show();
 
-			$.getJSON('${getBillList}',
+			$
+					.getJSON(
+							'${getBillList}',
 
-			{
+							{
 
-				fromDate : from_date,
-				toDate : to_date,
-				type : type,
-				ajax : 'true'
+								fromDate : from_date,
+								toDate : to_date,
+								type : type,
+								grngvn : grngvn,
+								ajax : 'true'
 
-			}, function(data) {
+							},
+							function(data) {
 
-				$('#table_grid td').remove();
-				$('#loader').hide();
+								$('#table_grid td').remove();
+								$('#loader').hide();
 
-				if (data == "") {
-					alert("No records found !!");
-					document.getElementById("expExcel").disabled = true;
-				}
+								if (data == "") {
+									alert("No records found !!");
+									document.getElementById("expExcel").disabled = true;
+								}
 
-				var totalTaxableAmt = 0;
-				var totalSgst = 0;
-				var totalCgst = 0;
-				var totalFinal = 0;
+								var totalTaxableAmt = 0;
+								var totalSgst = 0;
+								var totalCgst = 0;
+								var totalFinal = 0;
 
-				$.each(data, function(key, report) {
+								if (type == 1) {
 
-					document.getElementById("expExcel").disabled = false;
-					document.getElementById('range').style.display = 'block';
-					var index = key + 1;
-					//var tr = "<tr>";
+									$
+											.each(
+													data,
+													function(key, report) {
 
-					var tr = $('<tr></tr>');
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+														var index = key + 1;
+														//var tr = "<tr>";
 
-					tr.append($('<td></td>').html(key + 1));
+														var tr = $('<tr></tr>');
 
-					tr.append($('<td></td>').html(report.itemHsncd));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				key + 1));
 
-					tr.append($('<td></td>').html(
-							report.itemTax1 + report.itemTax2));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.itemHsncd));
 
-					tr.append($('<td  style="text-align:right;"></td>').html(
-							report.billQty));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.itemTax1
+																						+ report.itemTax2));
 
-					tr.append($('<td  style="text-align:right;"></td>').html(
-							report.grnGvnQty));
-					tr.append($('<td  style="text-align:right;"></td>').html(
-							report.billQty - report.grnGvnQty));
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(report.billQty));
 
-					totalTaxableAmt = totalTaxableAmt + report.taxableAmt;
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(
+																				report.grnGvnQty));
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(
+																				report.billQty
+																						- report.grnGvnQty));
 
-					totalSgst = totalSgst + report.sgstRs;
-					totalCgst = totalCgst + report.cgstRs;
+														totalTaxableAmt = totalTaxableAmt
+																+ report.taxableAmt;
 
-					totalFinal = totalFinal + report.cgstRs + report.sgstRs
-							+ report.taxableAmt;
+														totalSgst = totalSgst
+																+ report.sgstRs;
+														totalCgst = totalCgst
+																+ report.cgstRs;
 
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.taxableAmt.toFixed(2)));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.itemTax1));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.cgstRs.toFixed(2)));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.itemTax2));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							report.sgstRs.toFixed(2)));
-					tr.append($('<td style="text-align:right;"></td>').html(
-							(report.cgstRs + report.sgstRs + report.taxableAmt)
-									.toFixed(2)));
+														totalFinal = totalFinal
+																+ report.cgstRs
+																+ report.sgstRs
+																+ report.taxableAmt;
 
-					$('#table_grid tbody').append(tr);
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.taxableAmt
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.itemTax1));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.cgstRs
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.itemTax2));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.sgstRs
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				(report.cgstRs
+																						+ report.sgstRs + report.taxableAmt)
+																						.toFixed(2)));
 
-				})
+														$('#table_grid tbody')
+																.append(tr);
 
-				var tr = $('<tr></tr>');
+													})
 
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td style="font-weight:bold;"></td>')
-						.html("Total"));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalTaxableAmt.toFixed(2)));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalCgst.toFixed(2)));
-				tr.append($('<td></td>').html(""));
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalSgst.toFixed(2)));
+								} else if (type == 2) {
 
-				tr.append($('<td style="text-align:right;"></td>').html(
-						totalFinal.toFixed(2)));
+									$
+											.each(
+													data,
+													function(key, report) {
 
-				$('#table_grid tbody').append(tr);
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+														var index = key + 1;
+														//var tr = "<tr>";
 
-			});
+														var tr = $('<tr></tr>');
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				key + 1));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.itemHsncd));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.itemTax1
+																						+ report.itemTax2));
+
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(0));
+
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(
+																				report.billQty));
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(
+																				report.billQty
+																						- report.grnGvnQty));
+
+														totalTaxableAmt = totalTaxableAmt
+																+ report.taxableAmt;
+
+														totalSgst = totalSgst
+																+ report.sgstRs;
+														totalCgst = totalCgst
+																+ report.cgstRs;
+
+														totalFinal = totalFinal
+																+ report.cgstRs
+																+ report.sgstRs
+																+ report.taxableAmt;
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.taxableAmt
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.itemTax1));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.cgstRs
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.itemTax2));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.sgstRs
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				(report.cgstRs
+																						+ report.sgstRs + report.taxableAmt)
+																						.toFixed(2)));
+
+														$('#table_grid tbody')
+																.append(tr);
+
+													})
+
+								}else if (type == 3) {
+
+									$
+											.each(
+													data,
+													function(key, report) {
+
+														document
+																.getElementById("expExcel").disabled = false;
+														document
+																.getElementById('range').style.display = 'block';
+														var index = key + 1;
+														//var tr = "<tr>";
+
+														var tr = $('<tr></tr>');
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				key + 1));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.itemHsncd));
+
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				report.itemTax1
+																						+ report.itemTax2));
+
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(report.billQty));
+
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(
+																				report.grnGvnQty));
+														tr
+																.append($(
+																		'<td  style="text-align:right;"></td>')
+																		.html(
+																				report.billQty
+																						- report.grnGvnQty));
+
+														totalTaxableAmt = totalTaxableAmt
+																+ report.taxableAmt;
+
+														totalSgst = totalSgst
+																+ report.sgstRs;
+														totalCgst = totalCgst
+																+ report.cgstRs;
+
+														totalFinal = totalFinal
+																+ report.cgstRs
+																+ report.sgstRs
+																+ report.taxableAmt;
+
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.taxableAmt
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.itemTax1));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.cgstRs
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.itemTax2));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				report.sgstRs
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td style="text-align:right;"></td>')
+																		.html(
+																				(report.cgstRs
+																						+ report.sgstRs + report.taxableAmt)
+																						.toFixed(2)));
+
+														$('#table_grid tbody')
+																.append(tr);
+
+													})
+
+								}
+
+								var tr = $('<tr></tr>');
+
+								tr.append($('<td></td>').html(""));
+								tr.append($('<td></td>').html(""));
+								tr.append($('<td></td>').html(""));
+								tr.append($('<td></td>').html(""));
+								tr.append($('<td></td>').html(""));
+								tr.append($(
+										'<td style="font-weight:bold;"></td>')
+										.html("Total"));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(totalTaxableAmt.toFixed(2)));
+								tr.append($('<td></td>').html(""));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(totalCgst.toFixed(2)));
+								tr.append($('<td></td>').html(""));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(totalSgst.toFixed(2)));
+
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(totalFinal.toFixed(2)));
+
+								$('#table_grid tbody').append(tr);
+
+							});
 
 		}
 	</script>
@@ -365,13 +663,15 @@
 		function genPdf() {
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
-
+			var type = $("#type").val();
+			var grngvn = $("#grngvn").val();
+			
 			/* 	window
 						.open('${pageContext.request.contextPath}/pdfForReport?url=pdf/showSaleReportByDatePdf/'
 								+ from_date + '/' + to_date);
 			 */
 			window.open("${pageContext.request.contextPath}/getHsnWisePdf/"
-					+ from_date + "/" + to_date);
+					+ from_date + "/" + to_date+"/"+type+"/"+grngvn);
 
 		}
 	</script>
@@ -404,21 +704,58 @@
 			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
-<script type="text/javascript">
-function tableToExcel(table, name, filename) {
-        let uri = 'data:application/vnd.ms-excel;base64,', 
-        template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', 
-        base64 = function(s) { return window.btoa(decodeURIComponent(encodeURIComponent(s))) },         format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; })}
-        
-        if (!table.nodeType) table = document.getElementById(table)
-        var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+	<script type="text/javascript">
+		function tableToExcel(table, name, filename) {
+			let uri = 'data:application/vnd.ms-excel;base64,', template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', base64 = function(
+					s) {
+				return window.btoa(decodeURIComponent(encodeURIComponent(s)))
+			}, format = function(s, c) {
+				return s.replace(/{(\w+)}/g, function(m, p) {
+					return c[p];
+				})
+			}
 
-        var link = document.createElement('a');
-        link.download = filename;
-        link.href = uri + base64(format(template, ctx));
-        link.click();
-}
-</script>
+			if (!table.nodeType)
+				table = document.getElementById(table)
+			var ctx = {
+				worksheet : name || 'Worksheet',
+				table : table.innerHTML
+			}
+
+			var link = document.createElement('a');
+			link.download = filename;
+			link.href = uri + base64(format(template, ctx));
+			link.click();
+		}
+	</script>
+
+	<script type="text/javascript">
+		function dropdownTypeChange() {
+
+			//alert("selected - "+document.getElementById("type").value);
+
+			if (document.getElementById("type").value == 1) {
+
+				document.getElementById("grngvnLabel").style.display = "none";
+				document.getElementById("grngvnDiv").style.display = "none";
+
+			} else {
+
+				document.getElementById("grngvnLabel").style.display = "block";
+				document.getElementById("grngvnDiv").style.display = "block";
+			}
+
+		}
+	</script>
+
+
+
+
+
+
+
+
+
 	<!--basic scripts-->
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
