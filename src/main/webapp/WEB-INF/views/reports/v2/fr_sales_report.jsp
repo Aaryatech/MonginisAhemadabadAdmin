@@ -265,7 +265,7 @@
 														var inLac=(parseFloat(netVal2)/100000);
 														var retPer=0;
 														 if(report.grnValue>0){
-															  retPer=(report.grnValue)/(report.saleValue/100);
+															  retPer=(report.grnValue)/((report.saleValue)/100);
 														 }
 													  	totalSaleValue=totalSaleValue+report.saleValue;
 													  	totalGvnValue=totalGvnValue+report.gvnValue;
@@ -273,7 +273,7 @@
 													  	totalGrnValue=totalGrnValue+report.grnValue;
 													  	totalNetVal2=totalNetVal2+netVal2;
 													  	totalInLac=totalInLac+inLac;
-													  	totalRetPer=totalRetPer+retPer;
+													  	//totalRetPer=totalRetPer+retPer;
 													  	
 													  	tr.append($('<td style="text-align:right;"></td>').html(report.saleValue.toFixed(2)));
 													  	tr.append($('<td style="text-align:right;"></td>').html(report.gvnValue.toFixed(2)));
@@ -316,6 +316,9 @@
 									tr.append($('<td style="text-align:right;font-weight:bold;"></td>').html(""+totalGrnValue.toFixed(2)));
 									tr.append($('<td style="text-align:right;font-weight:bold;"></td>').html(""+totalNetVal2.toFixed(2)));
 									tr.append($('<td style="text-align:right;font-weight:bold;"></td>').html(""+totalInLac.toFixed(2)));
+									
+									totalRetPer=(totalGrnValue)/(totalSaleValue/100);
+									
 									tr.append($('<td style="text-align:right;font-weight:bold;"></td>').html(""+totalRetPer.toFixed(2)));
 									$('#table_grid tbody')
 									.append(
