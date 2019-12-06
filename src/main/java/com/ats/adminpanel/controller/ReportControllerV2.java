@@ -207,7 +207,8 @@ public class ReportControllerV2 {
 				grn = grn + saleReportList.get(i).getGrnValue();
 				grnNetValue = grnNetValue + netVal2;
 				inLaskTotal = inLaskTotal + inLac;
-				returnTotal = returnTotal + retPer;
+				
+				//returnTotal = returnTotal + retPer;
 
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
@@ -227,6 +228,8 @@ public class ReportControllerV2 {
 			rowData.add("" + roundUp(grn));
 			rowData.add("" + roundUp(grnNetValue));
 			rowData.add("" + roundUp(inLaskTotal));
+			
+			returnTotal=(grn*100)/salesValue;
 			rowData.add("" + roundUp(returnTotal));
 
 			expoExcel.setRowData(rowData);
@@ -363,7 +366,7 @@ public class ReportControllerV2 {
 				totalGrnValue = totalGrnValue + saleReportList.get(j).getGrnValue();
 				totalNetVal2 = totalNetVal2 + netVal2;
 				totalInLac = totalInLac + inLac;
-				totalRetPer = totalRetPer + retPer;
+				//totalRetPer = totalRetPer + retPer;
 
 				cell = new PdfPCell(new Phrase(String.valueOf(saleReportList.get(j).getFrName()), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -395,7 +398,7 @@ public class ReportControllerV2 {
 				cell.setPaddingRight(8);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase(String.valueOf(roundUp(netVal1)), headFont));
+				cell = new PdfPCell(new Phrase(String.valueOf(roundUp(netVal2)), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(8);
@@ -428,7 +431,7 @@ public class ReportControllerV2 {
 			table.addCell(cell);
 
 			double d = Double.parseDouble("" + totalSaleValue);
-			String strTotalSaleValue = String.format("%f", d);
+			String strTotalSaleValue = String.format("%.2f", d);
 
 			cell = new PdfPCell(new Phrase("" + strTotalSaleValue, headFont1));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -436,7 +439,7 @@ public class ReportControllerV2 {
 			table.addCell(cell);
 
 			double d1 = Double.parseDouble("" + totalGvnValue);
-			String strTotalGvnValue = String.format("%f", d1);
+			String strTotalGvnValue = String.format("%.2f", d1);
 
 			cell = new PdfPCell(new Phrase("" + strTotalGvnValue, headFont1));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -444,7 +447,7 @@ public class ReportControllerV2 {
 			table.addCell(cell);
 
 			double d2 = Double.parseDouble("" + totalNetVal1);
-			String strTotalNetVal1 = String.format("%f", d2);
+			String strTotalNetVal1 = String.format("%.2f", d2);
 
 			cell = new PdfPCell(new Phrase("" + strTotalNetVal1, headFont1));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -452,7 +455,7 @@ public class ReportControllerV2 {
 			table.addCell(cell);
 
 			double d3 = Double.parseDouble("" + totalGrnValue);
-			String strTotalGrnValue = String.format("%f", d3);
+			String strTotalGrnValue = String.format("%.2f", d3);
 
 			cell = new PdfPCell(new Phrase("" + strTotalGrnValue, headFont1));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -460,7 +463,7 @@ public class ReportControllerV2 {
 			table.addCell(cell);
 
 			double d4 = Double.parseDouble("" + totalNetVal2);
-			String strTotalNetVal2 = String.format("%f", d4);
+			String strTotalNetVal2 = String.format("%.2f", d4);
 
 			cell = new PdfPCell(new Phrase("" + strTotalNetVal2, headFont1));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -468,15 +471,17 @@ public class ReportControllerV2 {
 			table.addCell(cell);
 
 			double d5 = Double.parseDouble("" + totalInLac);
-			String strTotalInLac = String.format("%f", d5);
+			String strTotalInLac = String.format("%.2f", d5);
 
 			cell = new PdfPCell(new Phrase("" + strTotalInLac, headFont1));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 			table.addCell(cell);
+			
+			totalRetPer=(totalGrnValue*100)/totalSaleValue;
 
 			double d6 = Double.parseDouble("" + totalRetPer);
-			String strTotalRetPer = String.format("%f", d6);
+			String strTotalRetPer = String.format("%.2f", d6);
 
 			cell = new PdfPCell(new Phrase("" + strTotalRetPer, headFont1));
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
