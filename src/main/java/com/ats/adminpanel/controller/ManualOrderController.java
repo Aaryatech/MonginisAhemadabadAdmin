@@ -744,6 +744,8 @@ public class ManualOrderController {
 
 		String prodDate = request.getParameter("prodDate");
 		String delDate = request.getParameter("deliveryDate");
+		
+		System.err.println("PROD --------------------------- "+prodDate+"               DELIVERY - "+delDate);
 
 		int ordertype = Integer.parseInt(request.getParameter("ordertype"));
 
@@ -757,7 +759,7 @@ public class ManualOrderController {
 		} else {
 			String frIdStr = "";
 			String[] frIdString = request.getParameterValues("fr_id1");
-			System.err.println("frIdString" + frIdString.toString());
+			//System.err.println("frIdString" + frIdString.toString());
 
 			for (int i = 0; i < frIdString.length; i++) {
 				frIdStr = frIdString[i] + "," + frIdStr;
@@ -765,9 +767,11 @@ public class ManualOrderController {
 
 			frIdStr = frIdStr.substring(0, frIdStr.length() - 1);
 			frIdList = Arrays.asList(frIdStr.split(","));
-			System.err.println("frIdList" + frIdList.toString());
+		//	System.err.println("frIdList" + frIdList.toString());
 
 		}
+		
+		
 
 		String sectionId = request.getParameter("sectionId");
 		Calendar calender = Calendar.getInstance();
@@ -776,7 +780,7 @@ public class ManualOrderController {
 		RestTemplate restTemplate = new RestTemplate();
 		for (String frId : frIdList) {
 
-			System.err.println("frId" + frId);
+			//System.err.println("frId" + frId);
 			FranchiseeList franchiseeList = null;
 			for (int i = 0; i < franchiseeListRes.getAllFranchisee().size(); i++) {
 				if (franchiseeListRes.getAllFranchisee().get(i).getFrId() == Integer.parseInt(frId)) {
@@ -797,7 +801,7 @@ public class ManualOrderController {
 						int qty = Integer
 								.parseInt(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId));
 						if (submitorder == null) {
-							System.err.println("submitorder");
+							//System.err.println("submitorder");
 							float discPer = Float.parseFloat(
 									request.getParameter("discper" + orderList.get(i).getItemId() + "" + frId));// new
 																												// on 15
@@ -805,7 +809,7 @@ public class ManualOrderController {
 							// dis on
 							// bill
 							orderList.get(i).setIsPositive(discPer);// new on 15 feb for dis on bill
-							System.err.println("discPer==" + discPer);
+						//	System.err.println("discPer==" + discPer);
 						}
 						orderList.get(i).setEditQty(qty);
 						orderList.get(i).setOrderQty(qty);
@@ -816,7 +820,7 @@ public class ManualOrderController {
 
 						if (qty > 0 && orderList.get(i).getFrId() == Integer.parseInt(frId)) {
 							orderListSave.add(orderList.get(i));
-							System.err.println(frId + "frId" + orderList.get(i));
+							//System.err.println(frId + "frId" + orderList.get(i));
 						}
 					}
 
@@ -829,6 +833,9 @@ public class ManualOrderController {
 								orderListSave, GenerateBill[].class);
 
 					}
+					
+					System.err.println("PROD --------------------------- "+prodDate+"               DELIVERY - "+delDate);
+					
 					System.err.println("orderListResponse" + orderListResponse.toString());
 
 					List<GenerateBill> tempGenerateBillList = new ArrayList<GenerateBill>(
