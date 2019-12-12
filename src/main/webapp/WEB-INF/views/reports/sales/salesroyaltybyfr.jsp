@@ -107,7 +107,7 @@
 
 						</div>
 
-						<label class="col-sm-3 col-lg-2 control-label"><b>OR</b>Select
+						<label class="col-sm-3 col-lg-2 control-label"><b>OR</b> &nbsp;Select
 							Franchisee</label>
 						<div class="col-sm-6 col-lg-4">
 

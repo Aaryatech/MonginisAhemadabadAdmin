@@ -108,7 +108,8 @@
 
 						</select>
 					</div>
-                </div><br>
+				</div>
+				<br>
 
 
 
@@ -117,7 +118,8 @@
 					<div class="col-md-10">
 						<select data-placeholder="Select Sub Category" multiple="multiple"
 							class="form-control chosen " name="item_grp2" id="item_grp2"
-							tabindex="-1" data-rule-required="true" onchange="setAllSubSelected()">
+							tabindex="-1" data-rule-required="true"
+							onchange="setAllSubSelected()">
 
 							<%-- 	<c:forEach items="${subCatList}" var="subCatList"
 								varStatus="count">
@@ -160,18 +162,19 @@
 
 						</div>
 					</div>
-					
+
 				</div>
 
 				<br>
-               	<div class="row"><div class="col-md-6" style="text-align: center;">
+				<div class="row">
+					<div class="col-md-6" style="text-align: center;">
 						<button class="btn btn-info" onclick="searchReport()">Search
 							Report</button>
 						<button class="btn btn-primary" value="PDF" id="PDFButton"
 							onclick="genPdf()">PDF</button>
 					</div>
-            </div>
-            <br>
+				</div>
+				<br>
 				<div align="center" id="loader" style="display: none">
 
 					<span>
@@ -285,23 +288,21 @@
 									document.getElementById("expExcel").disabled = true;
 								}
 
-								var finalSoldQty=0;
-								var finalSoldAmt=0;
-								var finalVarQty=0;
-								var finalVarAmt=0;
-								var finalRetQty=0;
-								var finalRetAmt=0;
-								var finalNetQty=0;
-								var finalNetAmt=0;
-								var finalretAmtPer=0;
-								 
-								
-								
+								var finalSoldQty = 0;
+								var finalSoldAmt = 0;
+								var finalVarQty = 0;
+								var finalVarAmt = 0;
+								var finalRetQty = 0;
+								var finalRetAmt = 0;
+								var finalNetQty = 0;
+								var finalNetAmt = 0;
+								var finalretAmtPer = 0;
+
 								$
 										.each(
 												data.frList,
 												function(key, fr) {
-													
+
 													var index = 0;
 													var tr = $('<tr></tr>');
 
@@ -468,14 +469,14 @@
 																											+ report.netQty;
 																									totalNetAmt = totalNetAmt
 																											+ report.netAmt;
-																									AmtPer = AmtPer
+																									retAmtPer = retAmtPer
 																											+ report.retAmtPer;
 
 																									document
 																											.getElementById("expExcel").disabled = false;
 																									document
 																											.getElementById('range').style.display = 'block';
-																									 index = index + 1;
+																									index = index + 1;
 																									//var tr = "<tr>";
 
 																									var tr = $('<tr></tr>');
@@ -639,16 +640,25 @@
 
 																	});
 
-													 finalSoldQty=finalSoldQty+totalSoldQty;
-													 finalSoldAmt=finalSoldAmt+totalSoldAmt;
-													 finalVarQty=finalVarQty+totalVarQty;
-													 finalVarAmt=finalVarAmt+totalVarAmt;
-													 finalRetQty=finalRetQty+totalRetQty;
-													 finalRetAmt=finalRetAmt+totalRetAmt;
-													 finalNetQty=finalNetQty+totalNetQty;
-													 finalNetAmt=finalNetAmt+totalNetAmt;
-													 finalretAmtPer=finalretAmtPer+retAmtPer;
-													
+													finalSoldQty = finalSoldQty
+															+ totalSoldQty;
+													finalSoldAmt = finalSoldAmt
+															+ totalSoldAmt;
+													finalVarQty = finalVarQty
+															+ totalVarQty;
+													finalVarAmt = finalVarAmt
+															+ totalVarAmt;
+													finalRetQty = finalRetQty
+															+ totalRetQty;
+													finalRetAmt = finalRetAmt
+															+ totalRetAmt;
+													finalNetQty = finalNetQty
+															+ totalNetQty;
+													finalNetAmt = finalNetAmt
+															+ totalNetAmt;
+													finalretAmtPer = finalretAmtPer
+															+ retAmtPer;
+
 													var tr = $('<tr></tr>');
 
 													tr.append($('<td  ></td>')
@@ -720,77 +730,45 @@
 															.append(tr);
 
 												})
-												
-												var tr = $('<tr></tr>');
 
-								 
-								tr.append($('<td  ></td>')
-										.html(" "));
+								var tr = $('<tr></tr>');
 
-								tr
-										.append($(
-												'<td style="font-weight:bold;"></td>')
-												.html(
-														"Final Total"));
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalSoldQty
-																.toFixed(2)));
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalSoldAmt
-																.toFixed(2)));
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalVarQty
-																.toFixed(2)));
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalVarAmt
-																.toFixed(2)));
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalRetQty
-																.toFixed(2)));
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalRetAmt
-																.toFixed(2)));
+								tr.append($('<td  ></td>').html(" "));
 
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalNetQty
-																.toFixed(2)));
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalNetAmt
-																.toFixed(2)));
+								tr.append($(
+										'<td style="font-weight:bold;"></td>')
+										.html("Final Total"));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalSoldQty.toFixed(2)));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalSoldAmt.toFixed(2)));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalVarQty.toFixed(2)));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalVarAmt.toFixed(2)));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalRetQty.toFixed(2)));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalRetAmt.toFixed(2)));
 
-								tr
-										.append($(
-												'<td style="text-align:right;"></td>')
-												.html(
-														finalretAmtPer
-																.toFixed(2)));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalNetQty.toFixed(2)));
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalNetAmt.toFixed(2)));
 
-								$('#table_grid tbody')
-										.append(tr);
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(finalretAmtPer.toFixed(2)));
+
+								$('#table_grid tbody').append(tr);
 
 							});
 		}
@@ -829,7 +807,7 @@
 	<script type="text/javascript">
 		function getSubCategoriesByCatId() {
 			var catId = $("#item_grp1").val();
-		
+
 			$
 					.getJSON(
 							'${getGroup2ByCatId}',
@@ -863,39 +841,44 @@
 		}
 		function setAllSubSelected() {
 			var catId = $("#item_grp1").val();
-		   var subCatId=$("#item_grp2").val();
-		   if(subCatId==-1){
-			$
-					.getJSON(
-							'${getGroup2ByCatId}',
-							{
-								catId : JSON.stringify(catId),
-								ajax : 'true'
-							},
-							function(data) {
-								var html = '<option multiple="multiple" value="">Sub Category</option>';
+			var subCatId = $("#item_grp2").val();
+			if (subCatId == -1) {
+				$
+						.getJSON(
+								'${getGroup2ByCatId}',
+								{
+									catId : JSON.stringify(catId),
+									ajax : 'true'
+								},
+								function(data) {
+									var html = '<option multiple="multiple" value="">Sub Category</option>';
 
-								var len = data.length;
+									var len = data.length;
 
-								$('#item_grp2').find('option').remove().end()
+									$('#item_grp2').find('option').remove()
+											.end()
 
-								$("#item_grp2")
-										.append(
-												$("<option ></option>").attr(
-														"value", "").text(
-														"Select Sub Category"));
-								$("#item_grp2").append(
-										$("<option></option>")
-												.attr("value", -1).text("ALL"));
-								for (var i = 0; i < len; i++) {
 									$("#item_grp2").append(
-											$("<option selected></option>").attr(
-													"value", data[i].subCatId)
-													.text(data[i].subCatName));
-								}
-								$("#item_grp2").trigger("chosen:updated");
-							});
-		   }
+											$("<option ></option>").attr(
+													"value", "").text(
+													"Select Sub Category"));
+									$("#item_grp2").append(
+											$("<option></option>").attr(
+													"value", -1).text("ALL"));
+									for (var i = 0; i < len; i++) {
+										$("#item_grp2")
+												.append(
+														$(
+																"<option selected></option>")
+																.attr(
+																		"value",
+																		data[i].subCatId)
+																.text(
+																		data[i].subCatName));
+									}
+									$("#item_grp2").trigger("chosen:updated");
+								});
+			}
 		}
 	</script>
 

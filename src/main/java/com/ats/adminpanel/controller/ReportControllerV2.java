@@ -490,7 +490,7 @@ public class ReportControllerV2 {
 
 			document.open();
 
-			Paragraph heading = new Paragraph("Sales Report");
+			Paragraph heading = new Paragraph("Sales Report by Franchisee");
 			heading.setAlignment(Element.ALIGN_CENTER);
 			document.add(heading);
 
@@ -1377,6 +1377,10 @@ public class ReportControllerV2 {
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
+			
+			
+			
+			float totTaxableAmt=0,totBillQty=0,totCgstAmt=0,totSgstAmt=0,totCrnAmt=0,totAmt=0;
 
 			int index = 0;
 			for (int j = 0; j < crNoteRegItemList.size(); j++) {
@@ -1492,8 +1496,118 @@ public class ReportControllerV2 {
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(8);
 				table.addCell(cell);
+				
+				
+				 totTaxableAmt=totTaxableAmt+crNoteRegItemList.get(j).getCrnTaxable();
+				 totBillQty=totBillQty+crNoteRegItemList.get(j).getCrnQty();
+				 totCgstAmt=totCgstAmt+crNoteRegItemList.get(j).getCgstAmt();
+				 totSgstAmt=totSgstAmt+crNoteRegItemList.get(j).getSgstAmt();
+				 totCrnAmt=totCrnAmt+crNoteRegItemList.get(j).getCrnAmt();
+				 totAmt=totAmt+crnTotalAmt;
 
 			}
+			
+			PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("TOTAL", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(String.valueOf(roundUp(totBillQty)), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(String.valueOf(roundUp(totTaxableAmt)), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(String.valueOf(roundUp(totCgstAmt)), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(" ", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(String.valueOf(roundUp(totSgstAmt)), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(String.valueOf(roundUp(totAmt)), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(String.valueOf(roundUp(totCrnAmt)), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(8);
+			table.addCell(cell);
+			
+			
+			
+			
 			document.open();
 
 			Paragraph heading = new Paragraph(

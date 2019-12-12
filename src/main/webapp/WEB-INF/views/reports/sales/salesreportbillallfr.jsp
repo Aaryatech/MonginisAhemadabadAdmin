@@ -198,6 +198,8 @@
 										<th>CGST</th>
 										<th>SGST</th>
 										<th>IGST</th>
+										<th>Tax Amt</th>
+										<th>Total Amt</th>
 
 									</tr>
 								</thead>
@@ -270,6 +272,9 @@
 				}
 
 				$.each(data, function(key, report) {
+					
+					//alert("OP - "+JSON.stringify(report));
+					
 					document.getElementById("expExcel").disabled = false;
 					document.getElementById('range').style.display = 'block';
 					var index = key + 1;
@@ -311,6 +316,15 @@
 							report.sgstRsSum.toFixed(2)));
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.igstRsSum.toFixed(2)));
+					
+					var tax_amt=report.cgstRsSum+report.sgstRsSum;
+					var tot_amt=report.taxableAmtSum+report.cgstRsSum+report.sgstRsSum;
+					
+					tr.append($('<td style="text-align:right;"></td>').html(
+							tax_amt.toFixed(2)));
+					
+					tr.append($('<td style="text-align:right;"></td>').html(
+							tot_amt.toFixed(2)));
 
 					$('#table_grid tbody').append(tr);
 

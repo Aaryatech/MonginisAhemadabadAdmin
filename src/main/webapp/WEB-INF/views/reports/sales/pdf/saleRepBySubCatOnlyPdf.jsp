@@ -50,7 +50,7 @@ th {
 	<h3 align="center">${FACTORYNAME}</h3>
 	<p align="center">${FACTORYADDRESS}</p>
 	<div align="center">
-		<h5>Sales Report (Franchisee Wise) &nbsp;&nbsp;&nbsp;&nbsp; From
+		<h5>Sales Report (Sub Category Wise) &nbsp;&nbsp;&nbsp;&nbsp; From
 			&nbsp; ${fromDate} &nbsp;To &nbsp; ${toDate}</h5>
 	</div>
 	<table align="center" border="1" cellspacing="0" cellpadding="1"
@@ -67,7 +67,7 @@ th {
 				<th>Ret Amt</th>
 				<th>Net Qty</th>
 				<th>Net Amt</th>
-				<th>Ret Amt</th>
+				<th>Ret Amt %</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -88,7 +88,7 @@ th {
 			<c:forEach items="${subCatReportList}" var="report" varStatus="count">
 				<tr>
 
-					<td width="0"><c:out value="${count.index+1}" /></td>
+					<td width="10"><c:out value="${count.index+1}" /></td>
 					<td width="200"><c:out value="${report.subCatName}" /></td>
 					<td width="10" align="right"><fmt:formatNumber type="number"
 							maxFractionDigits="2" minFractionDigits="2"

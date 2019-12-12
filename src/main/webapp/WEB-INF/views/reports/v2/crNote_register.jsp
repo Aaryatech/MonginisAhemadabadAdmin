@@ -175,6 +175,9 @@
 									<th>Sgst %</th>
 									<th>Sgst Amt</th>
 									<th>Crn Amt</th>
+									
+									<th>Tax Amt</th>
+									<th>Total Amt</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -250,6 +253,9 @@
 				var cgstAmt = 0;
 				var sgstAmt = 0;
 				var crnAmt = 0;
+				var taxAmtFinal = 0;
+				var totAmtFinal = 0;
+				
 				$.each(data, function(key, report) {
 
 					document.getElementById("expExcel").disabled = false;
@@ -291,6 +297,18 @@
 							report.sgstAmt.toFixed(2)));
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.crnAmt.toFixed(2)));
+					
+					var tax_amt=report.cgstAmt+report.sgstAmt;
+					var tot_amt=report.crnTaxable+report.cgstAmt+report.sgstAmt;
+					
+					tr.append($('<td style="text-align:right;"></td>').html(
+							tax_amt.toFixed(2)));
+					
+					tr.append($('<td style="text-align:right;"></td>').html(
+							tot_amt.toFixed(2)));
+					
+					taxAmtFinal=taxAmtFinal+tax_amt;
+					totAmtFinal=totAmtFinal+tot_amt;
 
 					$('#table_grid tbody').append(tr);
 
@@ -316,6 +334,13 @@
 						"" + sgstAmt.toFixed(2)));
 				tr.append($('<td style="font-weight:12px;"></td>').html(
 						"" + crnAmt.toFixed(0)));
+				
+				tr.append($('<td style="font-weight:12px;"></td>').html(
+						"" + taxAmtFinal.toFixed(0)));
+				
+				tr.append($('<td style="font-weight:12px;"></td>').html(
+						"" + totAmtFinal.toFixed(0)));
+				
 				$('#table_grid tbody').append(tr);
 
 			});

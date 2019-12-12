@@ -128,7 +128,7 @@
 									<th>Ret Amt</th>
 									<th>Net Qty</th>
 									<th>Net Amt</th>
-									<th>Ret Amt</th>
+									<th>Ret Amt %</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -247,7 +247,7 @@
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.netAmt.toFixed(2)));
 					tr.append($('<td style="text-align:right;"></td>').html(
-							report.retAmtPer.toFixed(2)));
+							report.retAmtPer.toFixed(2)+"%"));
 
 					$('#table_grid tbody').append(tr);
 
@@ -278,7 +278,7 @@
 						totalNetAmt.toFixed(2)));
 
 				tr.append($('<td style="text-align:right;"></td>').html(
-						retAmtPer.toFixed(2)));
+						retAmtPer.toFixed(2)+"%"));
 
 				$('#table_grid tbody').append(tr);
 

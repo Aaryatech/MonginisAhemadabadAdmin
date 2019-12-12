@@ -109,8 +109,8 @@
 
 						</div>
 
-						<label class="col-sm-3 col-lg-2 control-label"><b>OR</b>Select
-							Franchisee</label>
+						<label class="col-sm-3 col-lg-2 control-label"><b>OR</b>
+							&nbsp;Select Franchisee</label>
 						<div class="col-sm-6 col-lg-4">
 
 							<select data-placeholder="Choose Franchisee"
@@ -513,6 +513,10 @@
 
 																		})
 													})
+													
+													
+var finalNetQtyTotal=0.0;var finalNetValueTotal=0.0;var finalRAmtTotal=0.0;var finalBillQtyTotal=0.0;var finalBillTaxableAmtTotal=0.0;var finalGrnQtyTotal=0.0;var finalGvnQtyTotal=0.0;var finalGvnTaxableAmtTotal=0.0;var finalGrnTaxableAmtTotal=0.0;													
+													
 									$.each(data.categoryList,function(key, cat) {
 										var netQtySum=0.0;var netValueSum=0.0;var rAmtSum=0.0;var billQtySum=0.0;var billTaxableAmtSum=0.0;var grnQtySum=0.0;var gvnQtySum=0.0;var gvnTaxableAmtSum=0.0;var grnTaxableAmtSum=0.0;
 											var tr = $('<tr style="background-color:pink;"></tr>');tr.append($('<td></td>').html(""));
@@ -651,6 +655,9 @@
 																		gvnQtySum=gvnQtySum+gvnQtyTotal;
 																		gvnTaxableAmtSum=gvnTaxableAmtSum+gvnTaxableAmtTotal;
 																		grnTaxableAmtSum=grnTaxableAmtSum+grnTaxableAmtTotal;
+																		
+																		
+																		
 											
 											var tr = $('<tr style="background-color:lightgrey;"></tr>');tr.append($('<td></td>').html(" "));
 											tr.append($('<td></td>').html(subcat.subCatName+" Total"));
@@ -669,6 +676,19 @@
 											$('#table_grid1 tbody').append(tr);
 											
 						})
+						
+						
+						finalNetQtyTotal=finalNetQtyTotal+netQtySum;
+						finalNetValueTotal=finalNetValueTotal+netValueSum;
+						finalRAmtTotal=finalRAmtTotal+rAmtSum;
+						finalBillQtyTotal=finalBillQtyTotal+billQtySum;
+						finalBillTaxableAmtTotal=finalBillTaxableAmtTotal+billTaxableAmtSum;
+						finalGrnQtyTotal=finalGrnQtyTotal+grnQtySum;
+						finalGvnQtyTotal=finalGvnQtyTotal+gvnQtySum;
+						finalGvnTaxableAmtTotal=finalGvnTaxableAmtTotal+gvnTaxableAmtSum;
+						finalGrnTaxableAmtTotal=finalGrnTaxableAmtTotal+grnTaxableAmtSum;
+						
+						
 						var tr = $('<tr style="background-color:lightgrey; font-weight:bold;"></tr>');tr.append($('<td></td>').html(" "));
 											tr.append($('<td></td>').html("Total"));
 											tr.append($('<td  style="text-align:right;"></td>').html(billQtySum.toFixed(2)));
@@ -685,6 +705,25 @@
 											tr.append($('<td style="text-align:right;"></td>').html(rAmtSum.toFixed(2)));
 											$('#table_grid1 tbody').append(tr);
 									})
+									
+									
+									var tr = $('<tr style="background-color:lightgrey; font-weight:bold;"></tr>');tr.append($('<td></td>').html(" "));
+									tr.append($('<td></td>').html("All Category Total"));
+									tr.append($('<td  style="text-align:right;"></td>').html(finalBillQtyTotal.toFixed(2)));
+									tr.append($('<td  style="text-align:right;"></td>').html((finalBillTaxableAmtTotal.toFixed(2))));
+
+									tr.append($('<td  style="text-align:right;"></td>').html(finalGrnQtyTotal.toFixed(2)));
+									tr.append($('<td  style="text-align:right;"></td>').html(finalGrnTaxableAmtTotal.toFixed(2)));
+									tr.append($('<td  style="text-align:right;"></td>').html(finalGvnQtyTotal.toFixed(2)));
+									tr.append($('<td  style="text-align:right;"></td>').html(finalGvnTaxableAmtTotal.toFixed(2)));
+
+									tr.append($('<td  style="text-align:right;"></td>').html(finalNetQtyTotal.toFixed(2)));
+									tr.append($('<td  style="text-align:right;"></td>').html(finalNetValueTotal.toFixed(2)));
+									tr.append($('<td style="text-align:right;"></td>').html(royPer.toFixed(2)));
+									tr.append($('<td style="text-align:right;"></td>').html(finalRAmtTotal.toFixed(2)));
+									$('#table_grid1 tbody').append(tr);
+									
+									
 								});
                 }
 			}

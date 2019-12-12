@@ -3682,6 +3682,7 @@ public class SalesReportController {
 		expoExcel.setRowData(rowData);
 		exportToExcelList.add(expoExcel);
 
+		int billQtyAmt = 0;
 		float taxableAmt = 0.0f;
 		float tax1 = 0.0f;
 		float tax2 = 0.0f;
@@ -3696,6 +3697,7 @@ public class SalesReportController {
 			rowData = new ArrayList<String>();
 			rowData.add((i + 1) + "");
 
+			billQtyAmt = billQtyAmt + saleList.get(i).getBillQtySum();
 			taxableAmt = taxableAmt + saleList.get(i).getTaxableAmtSum();
 			cgstSum = cgstSum + saleList.get(i).getCgstRsSum();
 			sgstSum = sgstSum + saleList.get(i).getSgstRsSum();
@@ -3734,7 +3736,7 @@ public class SalesReportController {
 		rowData.add("Total");
 
 		rowData.add("");
-		rowData.add("");
+		rowData.add("" + billQtyAmt);
 		rowData.add("" + roundUp(taxableAmt));
 		rowData.add("" + roundUp(tax1));
 		rowData.add("" + roundUp(tax2));
@@ -4015,14 +4017,14 @@ public class SalesReportController {
 		ExportToExcel expoExcel = new ExportToExcel();
 		List<String> rowData = new ArrayList<String>();
 		rowData.add("Sr.");
-		rowData.add("Bill No");
+		//rowData.add("Bill No");
 		rowData.add("Invoice No");
 		rowData.add("Bill Date");
 
 		rowData.add("Franchisee");
 		rowData.add("City");
 		rowData.add("Fr Gst No");
-		rowData.add("Item Name");
+		//rowData.add("Item Name");
 		rowData.add("Item Hsn");
 		rowData.add("SGST %");
 		rowData.add("CGST %");
@@ -4046,7 +4048,7 @@ public class SalesReportController {
 			expoExcel = new ExportToExcel();
 			rowData = new ArrayList<String>();
 			rowData.add("" + (i + 1));
-			rowData.add("" + saleList.get(i).getBillNo());
+			//rowData.add("" + saleList.get(i).getBillNo());
 			rowData.add(saleList.get(i).getInvoiceNo());
 			rowData.add(saleList.get(i).getBillDate());
 
@@ -4054,7 +4056,7 @@ public class SalesReportController {
 
 			rowData.add(saleList.get(i).getFrCity());
 			rowData.add(saleList.get(i).getFrGstNo());
-			rowData.add("" + saleList.get(i).getItemName());
+			//rowData.add("" + saleList.get(i).getItemName());
 			rowData.add("" + saleList.get(i).getItemHsncd());
 			rowData.add("" + saleList.get(i).getItemTax1());
 
@@ -4082,10 +4084,10 @@ public class SalesReportController {
 		expoExcel = new ExportToExcel();
 		rowData = new ArrayList<String>();
 
-		rowData.add("");
+		//rowData.add("");
 		rowData.add("");
 		rowData.add("Total");
-		rowData.add("");
+		//rowData.add("");
 		rowData.add("");
 		rowData.add("");
 		rowData.add("");
@@ -5779,13 +5781,18 @@ public class SalesReportController {
 			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
 			selectedFr = selectedFr.replaceAll("\"", "");
 
+			// frList = new ArrayList<>();
+			// frList = Arrays.asList(selectedFr);
+
+			frList = Stream.of(selectedFr.split(",")).collect(Collectors.toList());
+
 			selectedCat = selectedCat.substring(1, selectedCat.length() - 1);
 			selectedCat = selectedCat.replaceAll("\"", "");
 
-			List<String> catList = new ArrayList<>();
-			catList = Arrays.asList(selectedCat);
-			frList = new ArrayList<>();
-			frList = Arrays.asList(selectedFr);
+			List<String> catList = Stream.of(selectedCat.split(",")).collect(Collectors.toList());
+
+			// List<String> catList = new ArrayList<>();
+			// catList = Arrays.asList(selectedCat);
 
 			if (!routeId.equalsIgnoreCase("0")) {
 
@@ -5875,6 +5882,7 @@ public class SalesReportController {
 				// few fr Selected
 
 				if (isAllCatSelected) {
+					System.err.println("-1 present -------------------------------------------------- ");
 					map.add("catIdList", 0);
 				} else {
 					map.add("catIdList", selectedCat);
@@ -6464,7 +6472,7 @@ public class SalesReportController {
 					rowData.add("" + roundUp(salesReturnQtyReport.get(i).getTotGvnQty()));
 					rowData.add("" + roundUp(salesReturnQtyReport.get(i).getTotGrnQty()));
 					rowData.add(roundUp(
-							(salesReturnQtyReport.get(i).getTotBillQty() - (salesReturnQtyReport.get(i).getTotGrnQty()
+							(salesReturnQtyReport.get(i).getTotBillQty() - (salesReturnQtyReport.get(i).getTotGvnQty()
 									+ salesReturnQtyReport.get(i).getTotGrnQty())))
 							+ "");
 				}
@@ -6526,8 +6534,11 @@ public class SalesReportController {
 					float totGrnValue = 0;
 					float totGvnValue = 0;
 					for (int k = 0; k < salesReturnValueReportList.get(i).getSalesReturnQtyValueList().size(); k++) {
+						
+						float temp=salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGrandTotal()-(salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGrnQty()+salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGvnQty());
+						
 						totBillAmt = totBillAmt
-								+ salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGrandTotal();
+								+ temp;
 						totGrnValue = totGrnValue
 								+ salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGrnQty();
 						totGvnValue = totGvnValue
@@ -6602,6 +6613,9 @@ public class SalesReportController {
 					rowData.add("" + salesReturnValueReport.get(i).getTotBillAmt());
 					rowData.add("0.00");
 				}
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
 
 				System.err.println("exportToExcelList" + exportToExcelList.toString());
 				HttpSession session = request.getSession();
@@ -7313,7 +7327,6 @@ public class SalesReportController {
 		}
 	}
 
-	
 	// Anmol-->26-11-2019--->SP_FLAVOUR_WISE_REPORT
 	@RequestMapping(value = "/showFlavourWiseSPReport", method = RequestMethod.GET)
 	public ModelAndView showFlavourWiseSPReport(HttpServletRequest request, HttpServletResponse response) {
@@ -7362,101 +7375,100 @@ public class SalesReportController {
 
 		return model;
 	}
-	
-	
+
 	// Anmol-->26-11-2019--->SP_FLAVOUR_WISE_REPORT_2
-		@RequestMapping(value = "/showFlavourWiseSPReportFlvrSort", method = RequestMethod.GET)
-		public ModelAndView showFlavourWiseSPReportFlvrSort(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/showFlavourWiseSPReportFlvrSort", method = RequestMethod.GET)
+	public ModelAndView showFlavourWiseSPReportFlvrSort(HttpServletRequest request, HttpServletResponse response) {
 
-			ModelAndView model = null;
+		ModelAndView model = null;
 
-			model = new ModelAndView("reports/flavourWiseSpReport2");
+		model = new ModelAndView("reports/flavourWiseSpReport2");
 
+		try {
+			ZoneId z = ZoneId.of("Asia/Calcutta");
+			LocalDate date = LocalDate.now(z);
+			DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
+			todaysDate = date.format(formatters);
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			allFrIdNameList = new AllFrIdNameList();
 			try {
-				ZoneId z = ZoneId.of("Asia/Calcutta");
-				LocalDate date = LocalDate.now(z);
-				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
-				todaysDate = date.format(formatters);
 
-				RestTemplate restTemplate = new RestTemplate();
-
-				allFrIdNameList = new AllFrIdNameList();
-				try {
-
-					allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
-
-				} catch (Exception e) {
-					System.out.println("Exception in getAllFrIdName" + e.getMessage());
-					e.printStackTrace();
-
-				}
-				StringBuilder sbFrId = new StringBuilder();
-				for (int i = 0; i < allFrIdNameList.getFrIdNamesList().size(); i++) {
-
-					sbFrId = sbFrId.append(allFrIdNameList.getFrIdNamesList().get(i).getFrId() + ",");
-
-				}
-
-				String strFrId = sbFrId.toString();
-				strFrId = strFrId.substring(0, strFrId.length() - 1);
-				System.out.println("fr Id  = " + strFrId);
-				model.addObject("todaysDate", todaysDate);
-				model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
-				model.addObject("frId", strFrId);
+				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
 
 			} catch (Exception e) {
-
-				System.out.println("Exc in Flavour wise SP Report" + e.getMessage());
-				e.printStackTrace();
-			}
-
-			return model;
-		}
-	
-	//Anmol-->26-11-2019--->Ajax_Flavour_wise_Report_search--------------
-		@RequestMapping(value = "/getFlavourWiseList", method = RequestMethod.GET)
-		public @ResponseBody SpFlavourSummaryDaoResponse getFlavourWiseList(HttpServletRequest request,
-				HttpServletResponse response) {
-
-			String fromDate = "";
-			String toDate = "";
-			SpFlavourSummaryDaoResponse spFlavourSummaryDaoResponse = new SpFlavourSummaryDaoResponse();
-			List<SpFlavourSummaryDao> spFlavourSummaryDaoList = null;
-			try {
-				String selectedFr = request.getParameter("fr_id_list");
-				fromDate = request.getParameter("fromDate");
-				toDate = request.getParameter("toDate");
-				selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
-				selectedFr = selectedFr.replaceAll("\"", "");
-
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				RestTemplate restTemplate = new RestTemplate();
-				map.add("frId", selectedFr);
-				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-				map.add("toDate", DateConvertor.convertToYMD(toDate));
-				
-				System.err.println("FR IDS ---------------- "+selectedFr);
-				System.err.println("DATE ---------------- "+DateConvertor.convertToYMD(fromDate)+"   to    "+ DateConvertor.convertToYMD(toDate));
-
-				SpFlavourSummaryDao[] spFlavourSummaryDaoRes = restTemplate.postForObject(Constants.url + "getSpFlavourSummaryReport", map,
-						SpFlavourSummaryDao[].class);
-
-				spFlavourSummaryDaoList = new ArrayList<SpFlavourSummaryDao>(Arrays.asList(spFlavourSummaryDaoRes));
-				
-				System.err.println("FLAVOUR WISE REPORT --------  "+spFlavourSummaryDaoList);
-				
-				
-				TreeSet<Integer> flavourIdList = new TreeSet<Integer>();
-				for (SpFlavourSummaryDao spFlvrSummaryDao : spFlavourSummaryDaoList) {
-					flavourIdList.add(spFlvrSummaryDao.getSpFlavourId());
-				}
-				spFlavourSummaryDaoResponse.setFlavourIdList(flavourIdList);
-				spFlavourSummaryDaoResponse.setSummaryDaoList(spFlavourSummaryDaoList);
-			} catch (Exception e) {
+				System.out.println("Exception in getAllFrIdName" + e.getMessage());
 				e.printStackTrace();
 
 			}
-			return spFlavourSummaryDaoResponse;
+			StringBuilder sbFrId = new StringBuilder();
+			for (int i = 0; i < allFrIdNameList.getFrIdNamesList().size(); i++) {
+
+				sbFrId = sbFrId.append(allFrIdNameList.getFrIdNamesList().get(i).getFrId() + ",");
+
+			}
+
+			String strFrId = sbFrId.toString();
+			strFrId = strFrId.substring(0, strFrId.length() - 1);
+			System.out.println("fr Id  = " + strFrId);
+			model.addObject("todaysDate", todaysDate);
+			model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
+			model.addObject("frId", strFrId);
+
+		} catch (Exception e) {
+
+			System.out.println("Exc in Flavour wise SP Report" + e.getMessage());
+			e.printStackTrace();
 		}
+
+		return model;
+	}
+
+	// Anmol-->26-11-2019--->Ajax_Flavour_wise_Report_search--------------
+	@RequestMapping(value = "/getFlavourWiseList", method = RequestMethod.GET)
+	public @ResponseBody SpFlavourSummaryDaoResponse getFlavourWiseList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		String fromDate = "";
+		String toDate = "";
+		SpFlavourSummaryDaoResponse spFlavourSummaryDaoResponse = new SpFlavourSummaryDaoResponse();
+		List<SpFlavourSummaryDao> spFlavourSummaryDaoList = null;
+		try {
+			String selectedFr = request.getParameter("fr_id_list");
+			fromDate = request.getParameter("fromDate");
+			toDate = request.getParameter("toDate");
+			selectedFr = selectedFr.substring(1, selectedFr.length() - 1);
+			selectedFr = selectedFr.replaceAll("\"", "");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			RestTemplate restTemplate = new RestTemplate();
+			map.add("frId", selectedFr);
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+			System.err.println("FR IDS ---------------- " + selectedFr);
+			System.err.println("DATE ---------------- " + DateConvertor.convertToYMD(fromDate) + "   to    "
+					+ DateConvertor.convertToYMD(toDate));
+
+			SpFlavourSummaryDao[] spFlavourSummaryDaoRes = restTemplate
+					.postForObject(Constants.url + "getSpFlavourSummaryReport", map, SpFlavourSummaryDao[].class);
+
+			spFlavourSummaryDaoList = new ArrayList<SpFlavourSummaryDao>(Arrays.asList(spFlavourSummaryDaoRes));
+
+			System.err.println("FLAVOUR WISE REPORT --------  " + spFlavourSummaryDaoList);
+
+			TreeSet<Integer> flavourIdList = new TreeSet<Integer>();
+			for (SpFlavourSummaryDao spFlvrSummaryDao : spFlavourSummaryDaoList) {
+				flavourIdList.add(spFlvrSummaryDao.getSpFlavourId());
+			}
+			spFlavourSummaryDaoResponse.setFlavourIdList(flavourIdList);
+			spFlavourSummaryDaoResponse.setSummaryDaoList(spFlavourSummaryDaoList);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return spFlavourSummaryDaoResponse;
+	}
 
 }

@@ -53,6 +53,89 @@
 		<!-- END Breadcrumb -->
 
 
+		<div class="box-content">
+			<div class="row">
+
+
+				<div class="form-group">
+					<label class="col-sm-3 col-lg-2	 control-label">From Date</label>
+					<div class="col-sm-6 col-lg-4 controls date_select">
+						<input class="form-control " id="fromDate" name="fromDate"
+							size="30" type="text" value="${fromDate}" readonly="readonly" />
+					</div>
+
+					<!-- </div>
+
+					<div class="form-group  "> -->
+
+					<label class="col-sm-3 col-lg-2	 control-label">To Date</label>
+					<div class="col-sm-6 col-lg-4 controls date_select">
+						<input class="form-control " id="toDate" name="toDate" size="30"
+							type="text" value="${toDate}" readonly="readonly" />
+					</div>
+				</div>
+
+			</div>
+			
+			<br>
+
+			<div class="row">
+
+				<div class="col-md-2">Sub Category</div>
+				<div class="col-md-4">
+					<select data-placeholder="Select Sub Category" multiple="multiple"
+						class="form-control chosen " name="item_grp2" id="item_grp2"
+						tabindex="-1" data-rule-required="true" disabled="disabled">
+
+
+						<c:forEach items="${subCategoryList}" var="subCat">
+
+							<c:forEach items="${selectedSubCat}" var="selSubCat">
+
+								<c:if test="${subCat.subCatId==selSubCat}">
+									<option value="${subCat.subCatId}" selected><c:out
+											value="${subCat.subCatName}"></c:out></option>
+								</c:if>
+
+							</c:forEach>
+
+
+						</c:forEach>
+
+					</select>
+				</div>
+
+				<div class="col-md-2">Franchisee</div>
+				<div class="col-md-4">
+
+					<select data-placeholder="Choose Franchisee" disabled="disabled"
+						class="form-control chosen" multiple="multiple" tabindex="6"
+						id="selectFr" name="selectFr"
+						onchange="setAllFrSelected(this.value)">
+
+						<option value="-1"><c:out value="All" /></option>
+
+						<c:forEach items="${unSelectedFrList}" var="fr" varStatus="count">
+
+							<c:forEach items="${selectedFr}" var="selFr">
+
+								<c:if test="${fr.frId==selFr}">
+									<option value="${fr.frId}" selected><c:out
+											value="${fr.frName}"></c:out></option>
+								</c:if>
+
+							</c:forEach>
+
+
+						</c:forEach>
+					</select>
+
+				</div>
+
+			</div>
+
+
+		</div>
 
 
 
@@ -69,9 +152,11 @@
 		</div>
 
 
+
+
+
 		<input type="button" id="expExcel" name="expExcel"
-			onclick="exportToExcel();"
-			value="Export to Excel">
+			onclick="exportToExcel();" value="Export to Excel">
 
 
 		<div class="box">
@@ -288,7 +373,7 @@
 
 										</c:forEach>
 										<tr>
-											<td style='font-weight:bold'>Total</td>
+											<td style='font-weight: bold'>Total</td>
 
 											<c:forEach items="${reportList}" var="month2"
 												varStatus="count">
@@ -300,40 +385,40 @@
 
 														<c:if test="${reportType==1}">
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalSoldQty}" /></td>
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalSoldAmt}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalSoldQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalSoldAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalVarQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalVarQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalVarAmt}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalVarAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalRetQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalRetQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalRetAmt}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalRetAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalNetQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalNetQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalNetAmt}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalNetAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalRetAmtPer}" />%</td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalRetAmtPer}" />%</td>
 
 
 														</c:if>
@@ -341,108 +426,122 @@
 
 														<c:if test="${reportType==2}">
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalSoldQty}" /></td>
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalSoldQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalVarQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalVarQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalRetQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalRetQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalNetQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalNetQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="" /></td>
 
 														</c:if>
 
 														<c:if test="${reportType==3}">
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0" value="" /></td>
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalSoldAmt}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalSoldAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalVarAmt}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalVarAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalRetAmt}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalRetAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0" value="" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalNetAmt}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalNetAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${fr2.frTotalRetAmtPer}" />%</td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2" value="${fr2.frTotalRetAmtPer}" />%</td>
 
 														</c:if>
 
 														<c:if test="${reportType==4}">
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalSoldQty}" /></td>
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalSoldQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2"
 																	value="${fr2.frTotalSoldTaxableAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalVarQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalVarQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2"
 																	value="${fr2.frTotalVarTaxableAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalRetQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalRetQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2"
 																	value="${fr2.frTotalRetTaxableAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="0" maxFractionDigits="0"
-																	value="${fr2.frTotalNetQty}" /></td>
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="0"
+																	maxFractionDigits="0" value="${fr2.frTotalNetQty}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2"
 																	value="${fr2.frTotalNetTaxableAmt}" /></td>
 
-															<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
+															<td align="right" style='font-weight: bold'><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2"
 																	value="${fr2.frTotalRetTaxableAmtPer}" />%</td>
 
 														</c:if>
@@ -459,7 +558,7 @@
 									</c:forEach>
 
 									<tr>
-										<td style='font-weight:bold'>TOTAL---</td>
+										<td style='font-weight: bold'>TOTAL---</td>
 
 
 										<c:forEach items="${reportList}" var="month3"
@@ -470,39 +569,39 @@
 
 											<c:if test="${reportType==1}">
 
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="0" maxFractionDigits="0"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="0" maxFractionDigits="0"
 														value="${month3.monthTotalSoldQty}" /></td>
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="2" maxFractionDigits="2"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="2" maxFractionDigits="2"
 														value="${month3.monthTotalSoldAmt}" /></td>
 
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="0" maxFractionDigits="0"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="0" maxFractionDigits="0"
 														value="${month3.monthTotalVarQty}" /></td>
 
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="2" maxFractionDigits="2"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="2" maxFractionDigits="2"
 														value="${month3.monthTotalVarAmt}" /></td>
 
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="0" maxFractionDigits="0"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="0" maxFractionDigits="0"
 														value="${month3.monthTotalRetQty}" /></td>
 
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="2" maxFractionDigits="2"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="2" maxFractionDigits="2"
 														value="${month3.monthTotalRetAmt}" /></td>
 
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="0" maxFractionDigits="0"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="0" maxFractionDigits="0"
 														value="${month3.monthTotalNetQty}" /></td>
 
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="2" maxFractionDigits="2"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="2" maxFractionDigits="2"
 														value="${month3.monthTotalNetAmt}" /></td>
 
-												<td align="right" style='font-weight:bold'><fmt:formatNumber type="number"
-														minFractionDigits="2" maxFractionDigits="2"
+												<td align="right" style='font-weight: bold'><fmt:formatNumber
+														type="number" minFractionDigits="2" maxFractionDigits="2"
 														value="${month3.monthTotalRetAmtPer}" />%</td>
 
 
@@ -534,13 +633,13 @@
 		class="fa fa-chevron-up"></i></a>
 
 
-<script>
-function exportToExcel() {
+	<script>
+		function exportToExcel() {
 
-	window.open("${pageContext.request.contextPath}/exportToExcelNew");
-	document.getElementById("expExcel").disabled = true;
-}
-</script>
+			window.open("${pageContext.request.contextPath}/exportToExcelNew");
+			document.getElementById("expExcel").disabled = true;
+		}
+	</script>
 
 
 	<!--basic scripts-->

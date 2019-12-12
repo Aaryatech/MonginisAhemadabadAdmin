@@ -61,7 +61,7 @@
 								<select id="year" name="year" class="form-control">
 
 									<option value="2019-2020">2019-2020</option>
-								    <option value="2020-2021">2020-2021</option>
+									<option value="2020-2021">2020-2021</option>
 								</select>
 							</div>
 							<input type="submit" id="submit" class="btn btn-primary"
@@ -130,22 +130,21 @@
 														<c:when test="${rep.subCatId==subCatList.subCatId}">
 
 
-															<td style="text-align: right;"><fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
+															<td style="text-align: right;"><fmt:formatNumber
+																	type="number" minFractionDigits="2"
+																	maxFractionDigits="2"
 																	value="${rep.grandTotal-(rep.gvnQty+rep.grnQty)}" />
-															<td style="text-align: right;">
-															<c:choose>
-															<c:when test="${report.value.totBillAmt>0}">
-															<fmt:formatNumber type="number"
-																	minFractionDigits="2" maxFractionDigits="2"
-																	value="${(rep.grandTotal-(rep.gvnQty+rep.grnQty))*100/report.value.totBillAmt}" />
-															
-															</c:when>
-															<c:otherwise>
+															<td style="text-align: right;"><c:choose>
+																	<c:when test="${report.value.totBillAmt>0}">
+																		<fmt:formatNumber type="number" minFractionDigits="2"
+																			maxFractionDigits="2"
+																			value="${(rep.grandTotal-(rep.gvnQty+rep.grnQty))*100/report.value.totBillAmt}" />
+
+																	</c:when>
+																	<c:otherwise>
 															0.00
 															</c:otherwise>
-															</c:choose>
-															</td>
+																</c:choose></td>
 														</c:when>
 														<c:otherwise>
 
@@ -157,14 +156,32 @@
 
 										</tr>
 									</c:forEach>
-									 <tr>
-                                        <th rowspan="2"></th>
+									<tr>
+										<th rowspan="2"></th>
 										<th rowspan="2">Total</th>
-										<c:forEach var="report" items="${salesReturnValueReport}" varStatus="cnt">
-										<th style="text-align: right;"> <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"  groupingUsed="false"  value="${report.value.totBillAmt}" /></th>
-										
-										<th style="text-align: right;"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"  groupingUsed="false"  value="0.00" /></th>
-												
+										<c:forEach var="report" items="${salesReturnValueReport}"
+											varStatus="cnt">
+											<th style="text-align: right;"><fmt:formatNumber
+													type="number" maxFractionDigits="2" minFractionDigits="2"
+													groupingUsed="false" value="${report.value.totBillAmt}" /></th>
+
+
+											<c:choose>
+												<c:when test="${report.value.totBillAmt==0}">
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false" value="0.00" /></th>
+												</c:when>
+												<c:otherwise>
+													<th style="text-align: right;"><fmt:formatNumber
+															type="number" maxFractionDigits="2" minFractionDigits="2"
+															groupingUsed="false" value="100.00" /></th>
+												</c:otherwise>
+
+											</c:choose>
+
+
+
 										</c:forEach>
 									</tr>
 								</tbody>

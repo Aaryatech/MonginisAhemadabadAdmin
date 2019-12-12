@@ -875,7 +875,7 @@ public class SalesReportController2 {
 			rowData.add("Net Qty");
 			rowData.add("Net Amt");
 
-			rowData.add("Ret Per Amt");
+			rowData.add("Ret Per Amt%");
 
 			expoExcel.setRowData(rowData);
 			int srno = 1;
@@ -918,7 +918,7 @@ public class SalesReportController2 {
 				rowData.add("" + roundUp(saleList.get(i).getRetAmt()));
 				rowData.add("" + roundUp(saleList.get(i).getNetQty()));
 				rowData.add("" + roundUp(saleList.get(i).getNetAmt()));
-				rowData.add("" + roundUp(saleList.get(i).getRetAmtPer()));
+				rowData.add("" + roundUp(saleList.get(i).getRetAmtPer())+"%");
 
 				srno = srno + 1;
 
@@ -940,7 +940,7 @@ public class SalesReportController2 {
 
 			rowData.add("" + roundUp(totalNetQty));
 			rowData.add("" + roundUp(totalNetAmt));
-			rowData.add("" + roundUp(retAmtPer));
+			rowData.add("" + roundUp(retAmtPer)+"%");
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -1250,6 +1250,18 @@ public class SalesReportController2 {
 		expoExcel.setRowData(rowData);
 		int srno = 1;
 		exportToExcelList.add(expoExcel);
+		
+		
+		float grandTotalSoldQty = 0;
+		float grandTotalSoldAmt = 0;
+		float grandTotalVarQty = 0;
+		float grandTotalVarAmt = 0;
+		float grandTotalRetQty = 0;
+		float grandTotalRetAmt = 0;
+		float grandTotalNetQty = 0;
+		float grandTotalNetAmt = 0;
+		float grandRetAmtPer = 0;
+		
 
 		for (int j = 0; j < frListFinal.size(); j++) {
 
@@ -1339,6 +1351,16 @@ public class SalesReportController2 {
 							totalNetQty = totalNetQty + subCatFrReportList.get(i).getNetQty();
 							totalNetAmt = totalNetAmt + subCatFrReportList.get(i).getNetAmt();
 							retAmtPer = retAmtPer + subCatFrReportList.get(i).getRetAmtPer();
+							
+							grandTotalSoldQty = grandTotalSoldQty + subCatFrReportList.get(i).getSoldQty();
+							grandTotalSoldAmt = grandTotalSoldAmt + subCatFrReportList.get(i).getSoldAmt();
+							grandTotalVarQty = grandTotalVarQty + subCatFrReportList.get(i).getVarQty();
+							grandTotalVarAmt = grandTotalVarAmt + subCatFrReportList.get(i).getVarAmt();
+							grandTotalRetQty = grandTotalRetQty + subCatFrReportList.get(i).getRetQty();
+							grandTotalRetAmt = grandTotalRetAmt + subCatFrReportList.get(i).getRetAmt();
+							grandTotalNetQty = grandTotalNetQty + subCatFrReportList.get(i).getNetQty();
+							grandTotalNetAmt = grandTotalNetAmt + subCatFrReportList.get(i).getNetAmt();
+							grandRetAmtPer = grandRetAmtPer + subCatFrReportList.get(i).getRetAmtPer();
 
 							rowData.add("" + srno);
 							rowData.add(subCatFrReportList.get(i).getItemName());
@@ -1400,6 +1422,25 @@ public class SalesReportController2 {
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
 		}
+		
+		expoExcel = new ExportToExcel();
+		rowData = new ArrayList<String>();
+		rowData.add(" ");
+		rowData.add("FINAL TOTAL");
+
+		rowData.add("" + roundUp(grandTotalSoldQty));
+		rowData.add("" + roundUp(grandTotalSoldAmt));
+		rowData.add("" + roundUp(grandTotalVarQty));
+		rowData.add("" + roundUp(grandTotalVarAmt));
+		rowData.add("" + roundUp(grandTotalRetQty));
+		rowData.add("" + roundUp(grandTotalRetAmt));
+
+		rowData.add("" + roundUp(grandTotalNetQty));
+		rowData.add("" + roundUp(grandTotalNetAmt));
+		rowData.add("" + roundUp(grandRetAmtPer));
+
+		expoExcel.setRowData(rowData);
+		exportToExcelList.add(expoExcel);
 
 		HttpSession session = request.getSession();
 		session.setAttribute("exportExcelListNew", exportToExcelList);

@@ -1146,6 +1146,31 @@ public class SalesReportController3 {
 
 			model.addObject("reportList", reportList);
 			model.addObject("reportType", selectedType);
+			
+			model.addObject("fromDate", fromDate);
+			model.addObject("toDate", toDate);
+			model.addObject("selectedFr", selectedFrArray);
+			model.addObject("selectedSubCat", selectedSubCatIdArray);
+			
+			allFrIdNameList = new AllFrIdNameList();
+			try {
+
+				allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
+
+			} catch (Exception e) {
+				System.out.println("Exception in getAllFrIdName" + e.getMessage());
+				e.printStackTrace();
+			}
+			model.addObject("unSelectedFrList", allFrIdNameList.getFrIdNamesList());
+
+			SubCategory[] subCatList = restTemplate.getForObject(Constants.url + "getAllSubCatList",
+					SubCategory[].class);
+
+			subCatAList = new ArrayList<SubCategory>(Arrays.asList(subCatList));
+			
+			model.addObject("subCategoryList", subCatAList);
+			
+			
 
 		} catch (Exception e) {
 

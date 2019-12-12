@@ -135,7 +135,7 @@ public class YearlyReportController {
 		String selectedType = "";
 		try {
 			RestTemplate restTemplate = new RestTemplate();
-			
+
 			System.err.println("Inside get Sale Bill Wise");
 			String selectedFr = request.getParameter("fr_id_list");
 			String selectedCatIdList = request.getParameter("cat_id_list");
@@ -152,8 +152,8 @@ public class YearlyReportController {
 			selectedCatIdList = selectedCatIdList.replaceAll("\"", "");
 
 			System.out.println("selectedFrAfter------------------" + selectedFr);
-			
-			System.err.println("CAT ---------1----------- "+selectedCatIdList);
+
+			System.err.println("CAT ---------1----------- " + selectedCatIdList);
 
 			if (selectedCatIdList.equalsIgnoreCase("-1")) {
 
@@ -178,11 +178,10 @@ public class YearlyReportController {
 				selectedCatIdList = selectedCatIdList.replaceAll(" ", "");
 
 			}
-			
-			System.err.println("CAT -------------------- "+selectedCatIdList);
+
+			System.err.println("CAT -------------------- " + selectedCatIdList);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			
 
 			System.out.println("Inside If all fr Selected ");
 
@@ -540,11 +539,20 @@ public class YearlyReportController {
 															rowData.add("" + (itemData1.getSoldQty()
 																	- (itemData1.getVarQty() + itemData1.getRetQty())));
 															rowData.add("" + (itemData1.getSoldAmt()
-																	- (itemData1.getVarAmt() + itemData.getRetAmt())));
+																	- (itemData1.getVarAmt() + itemData1.getRetAmt())));
 
 															if (itemData1.getSoldAmt() == 0) {
 																rowData.add("0.00%");
 															} else {
+
+																/*System.err.println("% -----  var+ret = "
+																		+ itemData1.getVarAmt() + itemData1.getRetAmt()
+																		+ "      SOLD = " + itemData1.getSoldAmt()
+																		+ "         RESULT = "
+																		+ (((itemData1.getVarAmt()
+																				+ itemData1.getRetAmt()) * 100)
+																				/ itemData1.getSoldAmt()));*/
+
 																rowData.add("" + (((itemData1.getVarAmt()
 																		+ itemData1.getRetAmt()) * 100)
 																		/ itemData1.getSoldAmt()) + "%");
@@ -666,6 +674,9 @@ public class YearlyReportController {
 												rowData.add("" + (int) sc.getScTotalNetQty());
 												rowData.add("" + sc.getScTotalNetAmt());
 
+												
+												
+												
 												rowData.add("" + sc.getScTotalRetAmtPer() + "%");
 
 											} else if (selectedType.equalsIgnoreCase("2")) {

@@ -50,7 +50,7 @@ th {
 	<h3 align="center">${FACTORYNAME}</h3>
 	<p align="center">${FACTORYADDRESS}</p>
 	<div align="center">
-		<h5>Sales Report (Franchisee Wise) &nbsp;&nbsp;&nbsp;&nbsp; From
+		<h5>Sales Report (Franchisee Sub Category - Item Wise) &nbsp;&nbsp;&nbsp;&nbsp; From
 			&nbsp; ${fromDate} &nbsp;To &nbsp; ${toDate}</h5>
 	</div>
 	<table align="center" border="1" cellspacing="0" cellpadding="1"
@@ -71,6 +71,16 @@ th {
 			</tr>
 		</thead>
 		<tbody>
+
+			<c:set var="grandTotalSoldQty" value="${0}" />
+			<c:set var="grandTotalSoldAmt" value="${0}" />
+			<c:set var="grandTotalVarQty" value="${0}" />
+			<c:set var="grandTotalVarAmt" value="${0}" />
+			<c:set var="grandTotalRetQty" value="${0}" />
+			<c:set var="grandTotalRetAmt" value="${0}" />
+			<c:set var="grandTotalNetQty" value="${0}" />
+			<c:set var="grandTotalNetAmt" value="${0}" />
+			<c:set var="grandRetAmtPer" value="${0}" />
 
 			<c:forEach items="${frList}" var="fr" varStatus="c1">
 				<c:set var="totalSoldQty" value="${0}" />
@@ -120,7 +130,7 @@ th {
 									<c:choose>
 										<c:when test="${report.frId==fr.frId}">
 											<c:set var="sr" value="${sr+1}" />
-											<td width="0"><c:out value="${sr}" /></td>
+											<td width="20"><c:out value="${sr}" /></td>
 
 											<td width="100"><c:out value="${report.itemName}" /></td>
 											<td width="10" align="right"><fmt:formatNumber
@@ -251,6 +261,28 @@ th {
 									value="${AmtPer}" /></b></td>
 					</tr>
 				</c:forEach>
+
+
+
+				<c:set var="grandTotalSoldQty"
+					value="${grandTotalSoldQty+totalSoldQty}" />
+				<c:set var="grandTotalSoldAmt"
+					value="${grandTotalSoldAmt+totalSoldAmt}" />
+				<c:set var="grandTotalVarQty"
+					value="${grandTotalVarQty+totalVarQty}" />
+				<c:set var="grandTotalVarAmt"
+					value="${grandTotalVarAmt+totalVarAmt}" />
+				<c:set var="grandTotalRetQty"
+					value="${grandTotalRetQty+totalRetQty}" />
+				<c:set var="grandTotalRetAmt"
+					value="${grandTotalRetAmt+totalRetAmt}" />
+				<c:set var="grandTotalNetQty"
+					value="${grandTotalNetQty+totalNetQty}" />
+				<c:set var="grandTotalNetAmt"
+					value="${grandTotalNetAmt+totalNetAmt}" />
+				<c:set var="grandRetAmtPer" value="${grandRetAmtPer+retAmtPer}" />
+
+
 				<tr>
 
 					<td colspan='2'><b>Franchisee Total</b></td>
@@ -298,6 +330,54 @@ th {
 				</tr>
 			</c:forEach>
 
+
+
+
+			<tr>
+
+				<td colspan='2'><b>GRAND TOTAL</b></td>
+
+
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandTotalSoldQty}" /></b></td>
+
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandTotalSoldAmt}" /></b></td>
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandTotalVarQty}" /></b></td>
+
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandTotalVarAmt}" /></b></td>
+
+
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandTotalRetQty}" /></b></td>
+
+
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandTotalRetAmt}" /></b></td>
+
+
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandTotalNetQty}" /></b></td>
+
+
+
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandTotalNetAmt}" /></b></td>
+
+				<td width="10" align="right"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${grandRetAmtPer}" /></b></td>
+			</tr>
 
 		</tbody>
 	</table>

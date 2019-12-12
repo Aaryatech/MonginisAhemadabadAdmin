@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class SalesReportBillwiseAllFr {
 	
+	private String id;
 	
 	private int billNo;
 	
@@ -147,10 +148,21 @@ public class SalesReportBillwiseAllFr {
 	public void setIgstRsSum(float igstRsSum) {
 		this.igstRsSum = igstRsSum;
 	}
+	
+	
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "SalesReportBillwiseAllFr [billNo=" + billNo + ", invoiceNo=" + invoiceNo + ", frName=" + frName
-				+ ", billDate=" + billDate + ", frId=" + frId + ", frCode=" + frCode + ", frCity=" + frCity
+		return "SalesReportBillwiseAllFr [id=" + id + ", billNo=" + billNo + ", invoiceNo=" + invoiceNo + ", frName="
+				+ frName + ", billDate=" + billDate + ", frId=" + frId + ", frCode=" + frCode + ", frCity=" + frCity
 				+ ", frGstNo=" + frGstNo + ", isSameState=" + isSameState + ", itemHsncd=" + itemHsncd + ", itemTax1="
 				+ itemTax1 + ", itemTax2=" + itemTax2 + ", itemTax3=" + itemTax3 + ", itemName=" + itemName
 				+ ", taxableAmtSum=" + taxableAmtSum + ", sgstRsSum=" + sgstRsSum + ", cgstRsSum=" + cgstRsSum
