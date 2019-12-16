@@ -2265,7 +2265,7 @@ public class ProductionController {
 
 			document.open();
 			Paragraph company = new Paragraph(
-					"DEVOUR FOODS LLP\n" + "Village-Fatehpur,Dist-Patna  Email: bihar.monginis@gmail.com", f);
+					"SIDDHARTH FOODS\n" + "Address:C-2, A/8, Plot No. 183/1, Phase - 1 ,GIDC Naroda, Ahmedabad - 382330 ,Phone:079-22815523", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			document.add(new Paragraph(" "));
@@ -2548,7 +2548,7 @@ public class ProductionController {
 
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			postProdPlanHeadernewplan.setProductionStatus(2);
+			postProdPlanHeadernewplan.setProductionStatus(3);
 			postProdPlanHeadernewplan.setItemGrp1(postProdPlanHeader.getItemGrp1());
 			postProdPlanHeadernewplan.setProductionDate(postProdPlanHeader.getProductionDate());
 			postProdPlanHeadernewplan.setTimeSlot(postProdPlanHeader.getTimeSlot());

@@ -35,6 +35,24 @@ type
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :checked
 ,
 [
@@ -48,11 +66,47 @@ type
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :not
 
 
 
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
 
 
 
@@ -61,7 +115,25 @@ type
 
 
 
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
 
 
 
@@ -74,7 +146,34 @@ position
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
 
 
 
@@ -82,7 +181,34 @@ position
 
 
 
+
+
+
+
+
+
+
+
+
 absolute
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -97,7 +223,34 @@ left
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
 
 
 
@@ -105,8 +258,35 @@ left
 
 
 
+
+
+
+
+
+
+
+
+
 -9999
 px
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -164,6 +344,103 @@ px
 }
 </style>
 
+
+
+<style>
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+	width: auto;
+	padding: 10px 18px;
+	background-color: #f44336;
+}
+
+.container1 {
+	padding: 16px;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto 15% auto;
+	/* 5% from the top, 15% from the bottom and centered */
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+	position: absolute;
+	right: 25px;
+	top: 0;
+	color: #000;
+	font-size: 35px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: red;
+	cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+	-webkit-animation: animatezoom 0.6s;
+	animation: animatezoom 0.6s
+}
+
+@
+-webkit-keyframes animatezoom {
+	from {-webkit-transform: scale(0)
+}
+
+to {
+	-webkit-transform: scale(1)
+}
+
+}
+@
+keyframes animatezoom {
+	from {transform: scale(0)
+}
+
+to {
+	transform: scale(1)
+}
+
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+	span.psw {
+		display: block;
+		float: none;
+	}
+	.cancelbtn {
+		width: 100%;
+	}
+}
+</style>
+
+
+
 </head>
 <body onload="showPdf('${billNo}')">
 
@@ -178,6 +455,9 @@ px
 	<c:url var="generateManualBill" value="/generateManualBill" />
 	<c:url var="getItemsByCatIdManOrder" value="/getItemsByCatIdManOrder" />
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
+	<c:url var="getFrListofAllFr" value="/getFrListofAllFrManualOrder"></c:url>
+	<c:url var="getPreviewManualOrder" value="/getPreviewManualOrder"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -227,7 +507,7 @@ px
 
 								<form
 									action="${pageContext.request.contextPath}/generateManualBill"
-									class="form-horizontal" id="validation-form" method="post">
+									class="form-horizontal" method="post" id="formId">
 
 
 									<div class="box-content">
@@ -276,8 +556,8 @@ px
 											<div class="col-sm-9 col-lg-5 controls">
 												<select data-placeholder="Select Franchisee" name="fr_id1"
 													class="form-control chosen" tabindex="-1" id="fr_id1"
-													multiple="multiple">
-													<option value="0">Select Franchisee</option>
+													multiple="multiple" onchange="setAllFrSelected(this.value)">
+													<option value="-1"><c:out value="All" /></option>
 													<c:forEach
 														items="${allFranchiseeAndMenuList.getAllFranchisee()}"
 														var="franchiseeList">
@@ -464,20 +744,29 @@ px
 														Date</label>
 													<div class="col-md-2 controls">
 														<input class="form-control date-picker" id="prodDate"
-															name="prodDate" size="30" type="text" />
+															name="prodDate" size="30" type="text" required="required" />
 
 													</div>
 													<label class="col-md-2  control-label">Delivery
 														Date</label>
 													<div class="col-md-2  controls">
 														<input class="form-control date-picker" id="deliveryDate"
-															name="deliveryDate" size="30" type="text" />
+															name="deliveryDate" size="30" type="text"
+															required="required" />
 													</div>
 
+
+
 													<div class="col-md-4" style="text-align: center">
-														<input type="submit" class="btn btn-info" value="ORDER"
-															name="submitorder" id="submitorder" disabled> <input
-															type="submit" class="btn btn-info" value="ORDER_&_BILL"
+
+														<input type="button" class="btn btn-info"
+															value="Preview Order" name="preview" id="preview"
+															style="display: none;"
+															onclick="showPreviewOrder();document.getElementById('id01').style.display='block'"
+															> <input type="submit"
+															class="btn btn-info" value="ORDER" name="submitorder"
+															id="submitorder" disabled> <input type="submit"
+															class="btn btn-info" value="ORDER_&_BILL"
 															name="submitbill" id="submitbill" style="display: none;"
 															disabled>
 													</div>
@@ -490,7 +779,7 @@ px
 
 									</div>
 								</form>
-								<!-- <div align="center" id="loader1" style="display: none">
+								<!-- <div align="center" id="loader1" style="display: none">	
 
 					<span>
 						<h4>
@@ -500,6 +789,49 @@ px
 						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
 					<span class="l-6"></span>
 				</div>	 -->
+
+
+								<div id="id01" class="modal">
+
+									<div class="container1" style="background-color: #ffffff">
+										<h1>
+											<i class="fa fa-file-o"></i> Order Preview
+										</h1>
+									</div>
+
+									<div class="container1" style="background-color: #ffffff">
+
+										<div class="col-md-12 table-responsive">
+											<table class="table table-bordered table-striped fill-head "
+												style="width: 100%" id="table_grid11">
+												<thead style="background-color: #f3b5db;">
+													<tr>
+														<th style="text-align: center;">SR.NO.</th>
+														<th style="text-align: center;">ITEM NAME</th>
+														<th style="text-align: center;">Qty</th>
+														<th style="text-align: center;">MRP</th>
+														<th style="text-align: center;">RATE</th>
+														<th style="text-align: center;">TOTAL</th>
+
+													</tr>
+												</thead>
+												<tbody>
+
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+
+									<div class="container1" style="background-color: #ffffff">
+										<button type="button"
+											onclick="document.getElementById('id01').style.display='none'"
+											class="btn btn-info">Cancel</button>
+									</div>
+								</div>
+
+
+
 							</div>
 						</div>
 					</div>
@@ -554,6 +886,9 @@ px
 									ajax : 'true'
 								},
 								function(data) {
+
+									$('#preview').show();
+
 									$('#loader').hide();
 									var len = data.length;
 									document.getElementById("submitorder").disabled = false;
@@ -727,6 +1062,7 @@ px
 									ajax : 'true'
 								},
 								function(data) {
+
 									$('#loader').hide();
 									var len = data.length;
 									document.getElementById("submitorder").disabled = false;
@@ -1338,6 +1674,9 @@ $(document).ready(function() {
 	</script>
 	<script type="text/javascript">
 		function checkCheckedStatus() {
+
+			$('#preview').hide();
+
 			if ($('#or1').is(':checked')) {
 				document.getElementById("searchBtn").disabled = false;
 				document.getElementById("submitbill").style.display = "none";
@@ -1498,6 +1837,86 @@ $(document).ready(function() {
 	</script>
 
 
+
+	<script>
+		function setAllFrSelected(frId) {
+			//alert("frId" + frId);
+			//alert("hii")
+			if (frId == -1) {
+
+				$.getJSON('${getFrListofAllFr}', {
+
+					ajax : 'true'
+				}, function(data) {
+
+					var len = data.length;
+
+					//alert(len);
+
+					$('#fr_id1').find('option').remove().end()
+					$("#fr_id1").append($("<option value='-1'>All</option>"));
+					for (var i = 0; i < len; i++) {
+						$("#fr_id1").append(
+								$("<option selected ></option>").attr("value",
+										data[i].frId).text(data[i].frName));
+					}
+					$("#fr_id1").trigger("chosen:updated");
+				});
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		function showPreviewOrder() {
+			//alert("hi");
+
+			$
+					.ajax({
+						type : "POST",
+						url : "${pageContext.request.contextPath}/generateManualBillPreview",
+						data : $("#formId").serialize(),
+						dataType : 'json',
+						success : function(data) {
+
+							//alert(data);
+
+							$('#table_grid11 td').remove();
+
+							$.each(data, function(key, item) {
+
+								var tr = $('<tr></tr>');
+
+								tr.append($('<td></td>').html(key + 1));
+
+								tr.append($('<td></td>').html(item.itemName));
+
+								tr.append($(
+										'<td style="text-align:right;"></td>')
+										.html(item.orderQty));
+								
+								tr.append($(
+								'<td style="text-align:right;"></td>')
+								.html(item.orderMrp));
+								
+								tr.append($(
+								'<td style="text-align:right;"></td>')
+								.html(item.orderRate));
+								
+								var tot=item.orderQty*item.orderRate;
+								
+								tr.append($(
+								'<td style="text-align:right;"></td>')
+								.html(tot.toFixed(2)));
+
+								$('#table_grid11 tbody').append(tr);
+
+							});
+
+						}
+
+					});
+		}
+	</script>
 
 
 	<script>

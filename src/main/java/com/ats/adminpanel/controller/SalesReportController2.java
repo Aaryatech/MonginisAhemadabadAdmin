@@ -863,8 +863,8 @@ public class SalesReportController2 {
 
 			rowData.add("Sr");
 			rowData.add("Sub Category Name");
-			rowData.add("Sold Qty");
-			rowData.add("Sold Amt");
+			rowData.add("Pur Qty");
+			rowData.add("Pur Amt");
 
 			rowData.add("Var Qty");
 			rowData.add("Var Amt");
@@ -947,7 +947,7 @@ public class SalesReportController2 {
 
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelListNew", exportToExcelList);
-			session.setAttribute("excelNameNew", "SaleBillWiseDate");
+			session.setAttribute("excelNameNew", "PurchaseBillWiseDate");
 			session.setAttribute("reportNameNew", "Bill-wise Report");
 			session.setAttribute("searchByNew", "From Date: " + fromDate + "  To Date: " + toDate + " ");
 			session.setAttribute("mergeUpto1", "$A$1:$K$1");

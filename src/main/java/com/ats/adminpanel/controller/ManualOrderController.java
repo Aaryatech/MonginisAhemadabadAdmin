@@ -32,10 +32,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.adminpanel.commons.AccessControll;
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
+import com.ats.adminpanel.model.AllFrIdName;
 import com.ats.adminpanel.model.GenerateBill;
 import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.ItemForMOrder;
 import com.ats.adminpanel.model.ManualOrderMenuAndDate;
+import com.ats.adminpanel.model.Order;
 import com.ats.adminpanel.model.Orders;
 import com.ats.adminpanel.model.SectionMaster;
 import com.ats.adminpanel.model.accessright.ModuleJson;
@@ -55,6 +57,14 @@ public class ManualOrderController {
 	List<Orders> orderList = new ArrayList<Orders>();
 	String billNo = "0";
 	FranchiseeAndMenuList franchiseeAndMenuList;
+	List<AllFrIdName> allFrIdNameList = new ArrayList<>();
+
+	@RequestMapping(value = "/getFrListofAllFrManualOrder", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AllFrIdName> getFrListofAllFr(HttpServletRequest request, HttpServletResponse response) {
+
+		return allFrIdNameList;
+	}
 
 	@RequestMapping(value = "/showManualOrder", method = RequestMethod.GET)
 	public ModelAndView showManualOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -75,6 +85,16 @@ public class ManualOrderController {
 				RestTemplate restTemplate = new RestTemplate();
 				franchiseeAndMenuList = restTemplate.getForObject(Constants.url + "getFranchiseeAndMenu",
 						FranchiseeAndMenuList.class);
+
+				allFrIdNameList.clear();
+				for (int i = 0; i < franchiseeAndMenuList.getAllFranchisee().size(); i++) {
+
+					AllFrIdName fr = new AllFrIdName();
+					fr.setFrId(franchiseeAndMenuList.getAllFranchisee().get(i).getFrId());
+					fr.setFrName(franchiseeAndMenuList.getAllFranchisee().get(i).getFrName());
+					allFrIdNameList.add(fr);
+				}
+
 				orderList = new ArrayList<Orders>();
 				System.out.println("Franchisee Response " + franchiseeAndMenuList.getAllFranchisee());
 
@@ -89,6 +109,7 @@ public class ManualOrderController {
 
 			} catch (Exception e) {
 				System.out.println("Franchisee Controller Exception " + e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return model;
@@ -744,8 +765,8 @@ public class ManualOrderController {
 
 		String prodDate = request.getParameter("prodDate");
 		String delDate = request.getParameter("deliveryDate");
-		
-		System.err.println("PROD --------------------------- "+prodDate+"               DELIVERY - "+delDate);
+
+		System.err.println("PROD --------------------------- " + prodDate + "               DELIVERY - " + delDate);
 
 		int ordertype = Integer.parseInt(request.getParameter("ordertype"));
 
@@ -759,7 +780,7 @@ public class ManualOrderController {
 		} else {
 			String frIdStr = "";
 			String[] frIdString = request.getParameterValues("fr_id1");
-			//System.err.println("frIdString" + frIdString.toString());
+			// System.err.println("frIdString" + frIdString.toString());
 
 			for (int i = 0; i < frIdString.length; i++) {
 				frIdStr = frIdString[i] + "," + frIdStr;
@@ -767,20 +788,21 @@ public class ManualOrderController {
 
 			frIdStr = frIdStr.substring(0, frIdStr.length() - 1);
 			frIdList = Arrays.asList(frIdStr.split(","));
-		//	System.err.println("frIdList" + frIdList.toString());
+			// System.err.println("frIdList" + frIdList.toString());
 
 		}
-		
-		
 
 		String sectionId = request.getParameter("sectionId");
 		Calendar calender = Calendar.getInstance();
 		SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
 
 		RestTemplate restTemplate = new RestTemplate();
+
+		System.err.println("FR LIST -------------- " + frIdList);
+
 		for (String frId : frIdList) {
 
-			//System.err.println("frId" + frId);
+			// System.err.println("frId" + frId);
 			FranchiseeList franchiseeList = null;
 			for (int i = 0; i < franchiseeListRes.getAllFranchisee().size(); i++) {
 				if (franchiseeListRes.getAllFranchisee().get(i).getFrId() == Integer.parseInt(frId)) {
@@ -801,7 +823,7 @@ public class ManualOrderController {
 						int qty = Integer
 								.parseInt(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId));
 						if (submitorder == null) {
-							//System.err.println("submitorder");
+							// System.err.println("submitorder");
 							float discPer = Float.parseFloat(
 									request.getParameter("discper" + orderList.get(i).getItemId() + "" + frId));// new
 																												// on 15
@@ -809,7 +831,7 @@ public class ManualOrderController {
 							// dis on
 							// bill
 							orderList.get(i).setIsPositive(discPer);// new on 15 feb for dis on bill
-						//	System.err.println("discPer==" + discPer);
+							// System.err.println("discPer==" + discPer);
 						}
 						orderList.get(i).setEditQty(qty);
 						orderList.get(i).setOrderQty(qty);
@@ -820,9 +842,12 @@ public class ManualOrderController {
 
 						if (qty > 0 && orderList.get(i).getFrId() == Integer.parseInt(frId)) {
 							orderListSave.add(orderList.get(i));
-							//System.err.println(frId + "frId" + orderList.get(i));
+							// System.err.println(frId + "frId" + orderList.get(i));
 						}
 					}
+
+					System.err.println("FR LIST -------------- " + frIdList);
+					System.err.println("ORDER LIST SAVE -------------------- " + orderListSave);
 
 					if (submitorder != null) {
 						orderListResponse = restTemplate.postForObject(Constants.url + "placeManualOrder",
@@ -833,9 +858,10 @@ public class ManualOrderController {
 								orderListSave, GenerateBill[].class);
 
 					}
-					
-					System.err.println("PROD --------------------------- "+prodDate+"               DELIVERY - "+delDate);
-					
+
+					System.err.println(
+							"PROD --------------------------- " + prodDate + "               DELIVERY - " + delDate);
+
 					System.err.println("orderListResponse" + orderListResponse.toString());
 
 					List<GenerateBill> tempGenerateBillList = new ArrayList<GenerateBill>(
@@ -1065,6 +1091,62 @@ public class ManualOrderController {
 		orderList = new ArrayList<Orders>();// LIST CLEARED
 		return "redirect:/showManualOrder";
 	}
+
+	// --------ORDER PREVIEW--------------------------------------------
+
+	@RequestMapping(value = "/generateManualBillPreview", method = RequestMethod.POST)
+	public @ResponseBody List<Orders> generateManualBillPreview(HttpServletRequest request, HttpServletResponse response) {
+
+		System.err.println("---------------generateManualBillPreview-------------");
+
+		List<Orders> orderListSave = new ArrayList<>();
+
+		try {
+
+			String submitorder = request.getParameter("submitorder");
+
+			System.err.println("ordertype --------------------------- " + request.getParameter("ordertype"));
+
+			List<String> frIdList = new ArrayList<>();
+			int frId = Integer.parseInt(request.getParameter("fr_id"));
+			frIdList.add("" + frId);
+
+		
+
+			System.err.println("FR LIST -------------- " + frIdList);
+
+			try {
+				if (orderList != null || !orderList.isEmpty()) {
+
+					for (int i = 0; i < orderList.size(); i++) {
+
+						int qty = Integer
+								.parseInt(request.getParameter("qty" + orderList.get(i).getItemId() + "" + frId));
+						
+						orderList.get(i).setEditQty(qty);
+						orderList.get(i).setOrderQty(qty);
+
+						if (qty > 0 && orderList.get(i).getFrId() == frId) {
+							orderListSave.add(orderList.get(i));
+						}
+					}
+
+					System.err.println("FR LIST -------------- " + frIdList);
+					System.err.println("ORDER LIST SAVE -------------------- " + orderListSave);
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return orderListSave;
+	}
+
+	// ---------END ORDER PREVIEW----------------------------------------
 
 	/*
 	 * @RequestMapping(value = "/showManualOrder", method = RequestMethod.GET)
