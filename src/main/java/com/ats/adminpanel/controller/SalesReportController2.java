@@ -512,14 +512,18 @@ public class SalesReportController2 {
 			for (int j = 0; j < subCatFrReportList.size(); j++) {
 				frIdListFinal.add(subCatFrReportList.get(j).getFrId());
 			}
-			for (int frId : frIdListFinal) {
+			//for (int frId : frIdListFinal) {
 				for (int j = 0; j < allFrIdNameList.getFrIdNamesList().size(); j++) {
-					if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
+					/*if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
+						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));
+
+					}*/
+					if (frIdListFinal.contains(allFrIdNameList.getFrIdNamesList().get(j).getFrId())) {
 						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));
 
 					}
 				}
-			}
+			//}
 
 			subCatFrReportListData.setFrList(frListFinal);
 			subCatFrReportListData.setSubCatFrReportList(subCatFrReportList);
@@ -708,14 +712,19 @@ public class SalesReportController2 {
 			for (int j = 0; j < subCatFrReportList.size(); j++) {
 				frIdListFinal.add(subCatFrReportList.get(j).getFrId());
 			}
-			for (int frId : frIdListFinal) {
+			//for (int frId : frIdListFinal) {
 				for (int j = 0; j < allFrIdNameList.getFrIdNamesList().size(); j++) {
-					if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
+					/*if (allFrIdNameList.getFrIdNamesList().get(j).getFrId() == frId) {
+						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));
+
+					}*/
+					
+					if (frIdListFinal.contains(allFrIdNameList.getFrIdNamesList().get(j).getFrId())) {
 						frListFinal.add(allFrIdNameList.getFrIdNamesList().get(j));
 
 					}
 				}
-			}
+			//}
 
 			subCatFrReportListData.setFrList(frListFinal);
 			subCatFrReportListData.setSubCatFrReportList(subCatFrReportList);

@@ -636,15 +636,24 @@ table {
 																						+ (key + 1)
 																						+ '" target="blank"><i class="fa fa-file-pdf-o" style="font-size:15px;"></i></a>'));
 
-														tr
-																.append($(
-																		'<td></td>')
-																		.html(
-																				'<a href=# class=action_btn onclick=saveSpOrder('
-																						+ spCakeOrder.spOrderNo
-																						+ '); title=Save><i class="fa fa-save" style="font-size:17px;"></i></a>&nbsp;&nbsp;&nbsp;<a href=# class=action_btn onclick=deleteSpOrder('
-																						+ spCakeOrder.spOrderNo
-																						+ '); title=Delete><i class="glyphicon glyphicon-remove" style="font-size:17px;"></i></a>'));
+														if(spCakeOrder.isBillGenerated==2){
+															tr
+															.append($(
+																	'<td></td>')
+																	.html( ));
+														}else{
+															tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			'<a href=# class=action_btn onclick=saveSpOrder('
+																					+ spCakeOrder.spOrderNo
+																					+ '); title=Save><i class="fa fa-save" style="font-size:17px;"></i></a>&nbsp;&nbsp;&nbsp;<a href=# class=action_btn onclick=deleteSpOrder('
+																					+ spCakeOrder.spOrderNo
+																					+ '); title=Delete><i class="glyphicon glyphicon-remove" style="font-size:17px;"></i></a>'));
+														}
+														
+														
 
 														$('#table1 tbody')
 																.append(tr);

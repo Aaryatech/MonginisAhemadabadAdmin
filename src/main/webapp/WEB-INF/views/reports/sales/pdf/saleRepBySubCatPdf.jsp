@@ -95,7 +95,7 @@ th {
 						<c:choose>
 							<c:when test="${report.frId==fr.frId}">
 
-								<td width="0"><c:out value="${count.index+1}" /></td>
+								<td width="10"><c:out value="${count.index+1}" /></td>
 
 								<td width="100"><c:out value="${report.subCatName}" /></td>
 								<td width="10" align="right"><fmt:formatNumber
