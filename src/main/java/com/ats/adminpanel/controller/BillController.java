@@ -2434,7 +2434,7 @@ public class BillController {
 					postBillHeader.setVehNo(billHeadersList.get(j).getVehNo());// ex on 2 july
 					postBillHeader.setBillTime(billHeadersList.get(j).getBillTime());// ex on 2 july
 					postBillHeader.setExVarchar1(billHeadersList.get(j).getExVarchar1());// ex on 2 july
-					postBillHeader.setExVarchar2(billHeadersList.get(j).getExVarchar2());// ex on 2 july
+					//postBillHeader.setExVarchar2(billHeadersList.get(j).getExVarchar2());// ex on 2 july
 					postBillHeader.setBillNo(billHeadersList.get(j).getBillNo());
 					postBillHeader.setDelStatus(0);
 					postBillHeader.setFrCode(billHeadersList.get(j).getFrCode());

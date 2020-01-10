@@ -1047,7 +1047,7 @@ System.err.println("flavour is " +flavourConf.toString());
 						header.setTime(strtime);
 						header.setVehNo("-");
 						header.setExVarchar1(sectionId);
-						header.setExVarchar2("-");
+						header.setExVarchar2("0");
 						header.setPostBillDetailsList(postBillDetailsList);
 						postBillHeaderList.add(header);
 

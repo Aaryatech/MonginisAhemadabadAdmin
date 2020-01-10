@@ -1067,7 +1067,7 @@ public class ManualOrderController {
 						header.setBillTime(sdf1.format(calender.getTime()));
 						header.setVehNo("-");
 						header.setExVarchar1(sectionId);
-						header.setExVarchar2("-");
+						header.setExVarchar2("0");
 						postBillHeaderList.add(header);
 						postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
 
