@@ -172,6 +172,8 @@ page-break-inside: auto !important
 					CGST</td>
 				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">SGST</td>
+				<td align="center" width="10%" colspan="2"
+					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">CESS</td>	
 				<td align="center" width="10%" rowspan="2"
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Total</td>
 			</tr>
@@ -186,6 +188,10 @@ page-break-inside: auto !important
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+		   <td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
+				<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
 			</tr>
 
 			<c:set var="totalQty" value="0" />
@@ -193,7 +199,7 @@ page-break-inside: auto !important
 			<c:set var="totalAmt" value="0" />
 			<c:set var="totalCgst" value="0" />
 				<c:set var="totalDisc" value="0" />
-			<c:set var="totalSgst" value="0" />
+			<c:set var="totalSgst" value="0" /><c:set var="totalCess" value="0" />
 			<c:set var="acttotal" value="0" />
 			
 			<c:forEach items="${frDetails.subCatList}" var="category">
@@ -223,7 +229,10 @@ page-break-inside: auto !important
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 <td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
-
+<td
+						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+<td
+						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 				</tr>	
 				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
 					varStatus="count">
@@ -457,6 +466,8 @@ page-break-inside: auto !important
 					CGST</td>
 				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">SGST</td>
+		<td align="center" width="10%" colspan="2"
+					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">CESS</td>				
 						<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">Total</td>
 			</tr>
@@ -471,6 +482,11 @@ page-break-inside: auto !important
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+					<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
+				<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+		
 			</tr>
 						
 							
@@ -575,11 +591,21 @@ page-break-inside: auto !important
 										value="${billDetails.sgstRs}" /></td>
 								<c:set var="totalSgst" value="${totalSgst+billDetails.sgstRs}" />
 								
+									<td align="right"
+									style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${billDetails.cessPer}" /></td>
 								<td align="right"
 									style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.taxableAmt)}" /></td>
-											<c:set var="acttotal" value="${acttotal+(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.taxableAmt)}" />
+										value="${billDetails.cessRs}" /></td>
+								<c:set var="totalCess" value="${totalCess+billDetails.cessRs}" />
+								
+								<td align="right"
+									style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.cessRs)+(billDetails.taxableAmt)}" /></td>
+											<c:set var="acttotal" value="${acttotal+(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.cessRs)+(billDetails.taxableAmt)}" />
 							</tr>
 						</c:when>
 					</c:choose>
@@ -623,6 +649,12 @@ page-break-inside: auto !important
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalSgst}" /></b></td>
+					<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+				<td align="right"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${totalCess}" /></b></td>		
 					<td align="right"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
@@ -631,7 +663,7 @@ page-break-inside: auto !important
 			<tr>
 			
    <fmt:formatNumber type="number"
-							minFractionDigits="0" 	  groupingUsed = "false" maxFractionDigits="0" value="${totalAmt+totalCgst+totalSgst}" var="totAmt"/>
+							minFractionDigits="0" 	  groupingUsed = "false" maxFractionDigits="0" value="${totalAmt+totalCgst+totalSgst+totalCess}" var="totAmt"/>
 		
 				<td align="right"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
@@ -647,16 +679,18 @@ page-break-inside: auto !important
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td><td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td><td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				
 				<td style="border-bottom: 1px solid #313131; font-size: 12px;"><b>&nbsp;Round off:</b></td>
 				<td align="right"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b>
 							<fmt:formatNumber type="number"
-							minFractionDigits="2" 	maxFractionDigits="2"   groupingUsed = "false" value="${totAmt-(totalAmt+totalCgst+totalSgst)}"/>
+							minFractionDigits="2" 	maxFractionDigits="2"   groupingUsed = "false" value="${totAmt-(totalAmt+totalCgst+totalSgst+totalCess)}"/>
 				
 				</b></td>
 			</tr>
 			<tr>
-				<c:set var="finalAmt" value="${totalAmt+totalCgst+totalSgst}"></c:set>
+				<c:set var="finalAmt" value="${totalAmt+totalCgst+totalSgst+totalCess}"></c:set>
 				<%
 					double fAmt = 0;// (Double)pageContext.getAttribute("finalAmt");
 						fAmt = Math.round(fAmt);
@@ -677,10 +711,12 @@ page-break-inside: auto !important
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td><td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td><td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+			
 				<td style="border-bottom: 1px solid #313131; font-size: 12px;"><b>&nbsp;Total:</b></td>
 				<td align="right"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b>
-						<fmt:formatNumber type="number" value="${frDetails.grandTotal}" />
+						<fmt:formatNumber type="number" value="${totAmt}" />
 				</b></td>
 			</tr>
 		</table>
@@ -810,6 +846,9 @@ page-break-inside: auto !important
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">SGST
 					Amount</td>
 				<td align="center" width="9%" colspan="2"
+					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">CESS
+					Amount</td>
+				<td align="center" width="9%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">Total
 					Tax</td>
 				<td align="center" width="9%" colspan="2"
@@ -846,6 +885,10 @@ page-break-inside: auto !important
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${slabwiseBill.sgstAmt}" /></td>
+								<td align="right" width="9%" colspan="2"
+									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${slabwiseBill.cessAmt}" /></td>
 								<td align="right" width="9%" colspan="2"
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
@@ -901,7 +944,7 @@ page-break-inside: auto !important
 							<td align="center" width="9%" colspan="2"
 								style="border-top: 0px solid #313131; padding: 2px; color: #000; font-size: 13px; text-align: center;"><b>Grand
 									Total: Rs. </b>&nbsp;&nbsp;<b><fmt:formatNumber type="number"
-										value="${frDetails.grandTotal}" /></b></td>
+										value="${totAmt}" /></b></td>
 						</tr>
 
 					</table>

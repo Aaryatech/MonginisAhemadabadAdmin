@@ -2,10 +2,8 @@ package com.ats.adminpanel.model.billing;
 
 import java.util.Date;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-
-
 
 public class PostBillDetail {
 	
@@ -84,9 +82,23 @@ public class PostBillDetail {
   
 	private String hsnCode;//new for hsn
 
+	private float cessPer;//new 
+	
+	private float cessRs;//new 
 	
 	
-	
+	public float getCessPer() {
+		return cessPer;
+	}
+	public void setCessPer(float cessPer) {
+		this.cessPer = cessPer;
+	}
+	public float getCessRs() {
+		return cessRs;
+	}
+	public void setCessRs(float cessRs) {
+		this.cessRs = cessRs;
+	}
 	public String getHsnCode() {
 		return hsnCode;
 	}
@@ -375,8 +387,9 @@ public class PostBillDetail {
 				+ ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", taxableAmt=" + taxableAmt + ", remark=" + remark
 				+ ", delStatus=" + delStatus + ", baseRate=" + baseRate + ", totalTax=" + totalTax + ", grnType="
 				+ grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied + ", discPer="
-				+ discPer + ", hsnCode=" + hsnCode + "]";
+				+ discPer + ", hsnCode=" + hsnCode + ", cessPer=" + cessPer + ", cessRs=" + cessRs + "]";
 	}
+	
 
 
 	

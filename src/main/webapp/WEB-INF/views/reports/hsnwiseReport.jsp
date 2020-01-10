@@ -180,6 +180,8 @@
 										<th>CGST AMT</th>
 										<th>SGST</th>
 										<th>SGST AMT</th>
+										<th>CESS</th>
+										<th>CESS AMT</th>
 										<th>Total</th>
 
 									</tr>
@@ -241,7 +243,9 @@
 							},
 							function(data) {
 
-								$('#table_grid td').remove();
+								$('#table_grid tbody').html('');
+
+
 								$('#loader').hide();
 
 								if (data == "") {
@@ -252,6 +256,7 @@
 								var totalTaxableAmt = 0;
 								var totalSgst = 0;
 								var totalCgst = 0;
+								var totalCess = 0;
 								var totalFinal = 0;
 
 								if (type == 1) {
@@ -313,10 +318,10 @@
 																+ report.sgstRs;
 														totalCgst = totalCgst
 																+ report.cgstRs;
-
+														totalCess=totalCess+report.cessRs;
 														totalFinal = totalFinal
 																+ report.cgstRs
-																+ report.sgstRs
+																+ report.sgstRs+ report.cessRs
 																+ report.taxableAmt;
 
 														tr
@@ -348,11 +353,22 @@
 																				report.sgstRs
 																						.toFixed(2)));
 														tr
+														.append($(
+																'<td style="text-align:right;"></td>')
+																.html(
+																		report.cessPer));
+												tr
+														.append($(
+																'<td style="text-align:right;"></td>')
+																.html(
+																		report.cessRs
+																				.toFixed(2)));
+														tr
 																.append($(
 																		'<td style="text-align:right;"></td>')
 																		.html(
 																				(report.cgstRs
-																						+ report.sgstRs + report.taxableAmt)
+																						+ report.sgstRs+ report.cessRs + report.taxableAmt)
 																						.toFixed(2)));
 
 														$('#table_grid tbody')
@@ -419,10 +435,10 @@
 																+ report.sgstRs;
 														totalCgst = totalCgst
 																+ report.cgstRs;
-
+														totalCess=totalCess+report.cessRs;
 														totalFinal = totalFinal
 																+ report.cgstRs
-																+ report.sgstRs
+																+ report.sgstRs+ report.cessRs
 																+ report.taxableAmt;
 
 														tr
@@ -454,11 +470,22 @@
 																				report.sgstRs
 																						.toFixed(2)));
 														tr
+														.append($(
+																'<td style="text-align:right;"></td>')
+																.html(
+																		report.cessPer));
+												tr
+														.append($(
+																'<td style="text-align:right;"></td>')
+																.html(
+																		report.cessRs
+																				.toFixed(2)));
+														tr
 																.append($(
 																		'<td style="text-align:right;"></td>')
 																		.html(
 																				(report.cgstRs
-																						+ report.sgstRs + report.taxableAmt)
+																						+ report.sgstRs+ report.cessRs + report.taxableAmt)
 																						.toFixed(2)));
 
 														$('#table_grid tbody')
@@ -525,10 +552,10 @@
 																+ report.sgstRs;
 														totalCgst = totalCgst
 																+ report.cgstRs;
-
+														totalCess=totalCess+report.cessRs;
 														totalFinal = totalFinal
 																+ report.cgstRs
-																+ report.sgstRs
+																+ report.sgstRs+report.cessRs
 																+ report.taxableAmt;
 
 														tr
@@ -560,11 +587,22 @@
 																				report.sgstRs
 																						.toFixed(2)));
 														tr
+														.append($(
+																'<td style="text-align:right;"></td>')
+																.html(
+																		report.cessPer));
+												tr
+														.append($(
+																'<td style="text-align:right;"></td>')
+																.html(
+																		report.cessRs
+																				.toFixed(2)));
+														tr
 																.append($(
 																		'<td style="text-align:right;"></td>')
 																		.html(
 																				(report.cgstRs
-																						+ report.sgstRs + report.taxableAmt)
+																						+ report.sgstRs+report.cessRs + report.taxableAmt)
 																						.toFixed(2)));
 
 														$('#table_grid tbody')
@@ -594,7 +632,10 @@
 								tr.append($('<td></td>').html(""));
 								tr.append($(
 										'<td style="text-align:right;"></td>')
-										.html(totalSgst.toFixed(2)));
+										.html(totalSgst.toFixed(2)));	tr.append($('<td></td>').html(""));
+								tr.append($(
+								'<td style="text-align:right;"></td>')
+								.html(totalCess.toFixed(2)));
 
 								tr.append($(
 										'<td style="text-align:right;"></td>')

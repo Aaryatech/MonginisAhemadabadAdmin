@@ -33,7 +33,6 @@ public class PostCreditNoteHeader {
 	
 	//new field 23 FEB
 	String grnGvnSrNoList;//comma seperated unique;
-	
 	//new field 23 FEB
 	int isDeposited; //default 0 when actually deposited in bank set value
 	
@@ -42,6 +41,17 @@ public class PostCreditNoteHeader {
 	int exInt1;//new for pune billno of bill
 	
 	String exVarchar1;//new for pune  invno of bill
+	
+	float exFloat1;//for cess rs
+	
+	
+	public float getExFloat1() {
+		return exFloat1;
+	}
+
+	public void setExFloat1(float exFloat1) {
+		this.exFloat1 = exFloat1;
+	}
 
 	public int getExInt1() {
 		return exInt1;
@@ -196,8 +206,11 @@ public class PostCreditNoteHeader {
 				+ ", crnTaxableAmt=" + crnTaxableAmt + ", crnTotalTax=" + crnTotalTax + ", crnGrandTotal="
 				+ crnGrandTotal + ", crnFinalAmt=" + crnFinalAmt + ", roundOff=" + roundOff + ", userId=" + userId
 				+ ", createdDateTime=" + createdDateTime + ", isTallySync=" + isTallySync + ", grnGvnSrNoList="
-				+ grnGvnSrNoList + ", isDeposited=" + isDeposited + ", isGrn=" + isGrn + ", postCreditNoteDetails="
+				+ grnGvnSrNoList + ", isDeposited=" + isDeposited + ", isGrn=" + isGrn + ", exInt1=" + exInt1
+				+ ", exVarchar1=" + exVarchar1 + ", exFloat1=" + exFloat1 + ", postCreditNoteDetails="
 				+ postCreditNoteDetails + "]";
 	}
+
+	
 
 }

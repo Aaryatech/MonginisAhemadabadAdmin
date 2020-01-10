@@ -408,6 +408,10 @@ public class BillController {
 						billDetail.setCgstRs(cgstRs);
 						billDetail.setIgstPer(tax3);
 						billDetail.setIgstRs(igstRs);
+
+						billDetail.setCessPer(0);// hardcoded--change Reqrd while add bill
+						billDetail.setCessRs(0);// hardcoded--change Reqrd while add bill
+
 						billDetail.setTotalTax(totalTax);
 						billDetail.setGrandTotal(grandTotal);
 						billDetail.setDelStatus(0);
@@ -460,7 +464,7 @@ public class BillController {
 					}
 
 				}
-
+				header.setExVarchar2("0");// for cessAmt change
 				// header.setTaxApplicable((int)sumT1+(int)sumT2+(int)sumT3);
 				// header.setSgstSum(sumT1);
 				// header.setCgstSum(sumT2);
@@ -2243,6 +2247,7 @@ public class BillController {
 	}
 
 	GetBillHeader getBillHeader1 = new GetBillHeader();
+
 	@RequestMapping(value = "/updateBillDetails/{billNo}/{frName}", method = RequestMethod.GET)
 	public ModelAndView updateBillDetails(@PathVariable int billNo, @PathVariable String frName) {
 
@@ -2262,12 +2267,10 @@ public class BillController {
 			billDetailsList = new ArrayList<GetBillDetail>();
 			billDetailsList = billDetailsResponse.getGetBillDetails();
 
-			 
-			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName",
-					AllFrIdNameList.class);
-			
-			getBillHeader1 = restTemplate.postForObject(Constants.url + "getBillHeaderByBillNo",
-					map, GetBillHeader.class);
+			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
+
+			getBillHeader1 = restTemplate.postForObject(Constants.url + "getBillHeaderByBillNo", map,
+					GetBillHeader.class);
 			model.addObject("getBillHeader", getBillHeader1);
 			model.addObject("frList", allFrIdNameList.getFrIdNamesList());
 			model.addObject("frName", frName);
@@ -2295,14 +2298,14 @@ public class BillController {
 
 			int frId = Integer.parseInt(request.getParameter("frId"));
 			int billNo = Integer.parseInt(request.getParameter("bill_no"));
-			
+
 			PostBillDataCommon postBillDataCommon = new PostBillDataCommon();
 			List<PostBillHeader> postBillHeadersList = new ArrayList<>();
 
 			List<PostBillDetail> postBillDetailsList = new ArrayList<>();
 
 			float sumTaxableAmt = 0, sumTotalTax = 0, sumGrandTotal = 0, sumTotalCgst = 0, sumTotalSgst = 0,
-					sumDiscAmt = 0;
+					 sumTotalCess = 0,sumDiscAmt = 0;
 
 			PostBillDetail postBillDetail = new PostBillDetail();
 			PostBillHeader postBillHeader = new PostBillHeader();
@@ -2316,11 +2319,14 @@ public class BillController {
 						.parseFloat(request.getParameter("sgstPer" + billDetailsList.get(i).getBillDetailNo()));
 				float newCgstPer = Float
 						.parseFloat(request.getParameter("cgstPer" + billDetailsList.get(i).getBillDetailNo()));
+				float newCessPer = Float
+						.parseFloat(request.getParameter("cessPer" + billDetailsList.get(i).getBillDetailNo()));
 
 				System.out.println("new bill qty = " + newBillQty);
 				System.out.println("new BillRate = " + newBillRate);
 				System.out.println("new  SgstPer = " + newSgstPer);
 				System.out.println("new  CgstPer = " + newCgstPer);
+				System.out.println("new  Cess % = " + newCessPer);
 
 				GetBillDetail getBillDetail = billDetailsList.get(i);
 
@@ -2329,12 +2335,15 @@ public class BillController {
 				postBillDetail.setBillNo(getBillDetail.getBillNo());
 				postBillDetail.setRate(newBillRate);
 				postBillDetail.setBillQty(newBillQty);
-				float newBaserate = Float.valueOf(df.format((newBillRate * 100) / (100 + newSgstPer + newCgstPer)));
+				float newBaserate = Float.valueOf(df.format((newBillRate * 100) / (100 + newSgstPer + newCgstPer+newCessPer)));
 				postBillDetail.setBaseRate(roundUp(newBaserate));
 				postBillDetail.setCatId(getBillDetail.getCatId());
 				postBillDetail.setSgstPer(newSgstPer);
 				postBillDetail.setCgstPer(newCgstPer);
 				postBillDetail.setIgstPer(newSgstPer + newCgstPer);
+				
+				postBillDetail.setCessPer(newCessPer);
+				
 				postBillDetail.setDelStatus(0);
 				postBillDetail.setItemId(getBillDetail.getItemId());
 				postBillDetail.setMenuId(getBillDetail.getMenuId());
@@ -2363,15 +2372,18 @@ public class BillController {
 				float sgstRs = (taxableAmt * postBillDetail.getSgstPer()) / 100;
 				float cgstRs = (taxableAmt * postBillDetail.getCgstPer()) / 100;
 				float igstRs = (taxableAmt * getBillDetail.getIgstPer()) / 100;
+				float cessRs = (taxableAmt * postBillDetail.getCessPer()) / 100;
 
 				sgstRs = roundUp(sgstRs);
 				cgstRs = roundUp(cgstRs);
 				igstRs = 0;
+				cessRs = roundUp(cessRs);
 
 				sumTotalSgst = sumTotalSgst + sgstRs;
 				sumTotalCgst = sumTotalCgst + cgstRs;
-
-				float totalTax = sgstRs + cgstRs;
+				sumTotalCess = sumTotalCess + cessRs;
+						
+				float totalTax = sgstRs + cgstRs+cessRs;
 				totalTax = roundUp(totalTax);
 
 				float grandTotal = totalTax + taxableAmt;
@@ -2387,6 +2399,7 @@ public class BillController {
 				postBillDetail.setSgstRs(Float.valueOf(df.format(sgstRs)));
 				postBillDetail.setCgstRs(Float.valueOf(df.format(cgstRs)));
 				postBillDetail.setIgstRs(igstRs);
+				postBillDetail.setCessRs(Float.valueOf(df.format(cessRs)));///
 				postBillDetail.setTaxableAmt(Float.valueOf(df.format(taxableAmt)));
 				postBillDetail.setTotalTax(Float.valueOf(df.format(totalTax)));
 				postBillDetail.setGrandTotal(Float.valueOf(df.format(grandTotal)));
@@ -2436,6 +2449,7 @@ public class BillController {
 					postBillHeader.setRemark(billHeadersList.get(j).getRemark());
 					postBillHeader.setSgstSum(sumTotalSgst);
 					postBillHeader.setCgstSum(sumTotalCgst);
+					postBillHeader.setExVarchar2(""+sumTotalCess);//new1 for cess amt
 					postBillHeader.setDiscAmt(roundUp(sumDiscAmt));// new
 					postBillHeader.setTime(billHeadersList.get(j).getTime());
 					break;
@@ -2448,14 +2462,15 @@ public class BillController {
 			postBillDataCommon.setPostBillHeadersList(postBillHeadersList);
 
 			Info info = restTemplate.postForObject(Constants.url + "updateBillData", postBillDataCommon, Info.class);
-			
-			if(getBillHeader1.getFrId()!=frId) {
-				
-				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				 map.add("frId", frId);
-				 map.add("billNo", billNo);
-				 System.out.println(map);
-				 Info updatebillheader = restTemplate.postForObject(Constants.url + "updateFrInformationinbillheader", map, Info.class);
+
+			if (getBillHeader1.getFrId() != frId) {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("frId", frId);
+				map.add("billNo", billNo);
+				System.out.println(map);
+				Info updatebillheader = restTemplate.postForObject(Constants.url + "updateFrInformationinbillheader",
+						map, Info.class);
 			}
 
 		} catch (Exception e) {

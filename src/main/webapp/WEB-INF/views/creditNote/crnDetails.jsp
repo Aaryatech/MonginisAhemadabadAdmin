@@ -133,6 +133,7 @@
 														<th>GrnBaseRate</th>
 														<th>Quantity</th>
 														<th>Tax %</th>
+														<th>CESS %</th>
 														<th>Taxable Amt</th>
 														<th>Tax Amt</th>
 														<th>Amount</th>
@@ -206,7 +207,7 @@
 															</c:choose>
 															</c:when>
 															<c:otherwise>
-															 <fmt:formatNumber type = "number"       maxFractionDigits = "2" minFractionDigits = "2" value = "${crnDetail.taxableAmt/crnDetail.grnGvnQty}" var="grnBaseRate"  groupingUsed="false" />
+															 <fmt:formatNumber type = "number"       maxFractionDigits = "2" minFractionDigits = "2" value = "${crnDetail.grnGvnAmt/crnDetail.grnGvnQty}" var="grnBaseRate"  groupingUsed="false" />
 															</c:otherwise>
 															</c:choose>
                                                          
@@ -214,15 +215,16 @@
                                                             <td align="left">${grnBaseRate}
                                                             <input type="hidden" name="grnBaseRate${crnDetail.crndId}" id="grnBaseRate${crnDetail.crndId}" value="${grnBaseRate}" />
                                                             </td>
-															<td align="left"><input type="text" class="form-control"  style="width:80px;" name="grnGvnQty${crnDetail.crndId}" id="grnGvnQty${crnDetail.crndId}"  value="${crnDetail.grnGvnQty}"      onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate})"/>
+															<td align="left"><input type="text" class="form-control"  style="width:80px;" name="grnGvnQty${crnDetail.crndId}" id="grnGvnQty${crnDetail.crndId}"  value="${crnDetail.grnGvnQty}"      onblur="calCrnValues(${crnDetail.crndId},${grnBaseRate},${crnDetail.cgstPer+crnDetail.sgstPer})"/>
 																</td>
-                                                            	<td align="left"><input type="text" class="form-control"  style="width:80px;" name="totalTaxPer${crnDetail.crndId}" id="totalTaxPer${crnDetail.crndId}"  value="${crnDetail.cgstPer+crnDetail.sgstPer}" onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate})"/> </td>
+                                                            	<td align="left"><input type="text" class="form-control"  style="width:80px;" name="totalTaxPer${crnDetail.crndId}" id="totalTaxPer${crnDetail.crndId}"  value="${crnDetail.cgstPer+crnDetail.sgstPer}" onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate},${crnDetail.cgstPer+crnDetail.sgstPer})"/> </td>
+															<td align="left"><input type="text" class="form-control"  style="width:80px;" name="cessPer${crnDetail.crndId}" id="cessPer${crnDetail.crndId}"  value="${crnDetail.cessPer}" onchange="calCrnValues(${crnDetail.crndId},${grnBaseRate},${crnDetail.cgstPer+crnDetail.sgstPer})"/> </td>
 															<td align="left" id="taxableAmt${crnDetail.crndId}"><c:out
 																	value="${crnDetail.taxableAmt}"></c:out></td>
 
 															<td align="left" id="totalTax${crnDetail.crndId}"><c:out
 																	value="${crnDetail.totalTax}"></c:out></td>
-
+                                                            
 															<td align="left"  id="grnGvnAmt${crnDetail.crndId}"><c:out
 																	value="${crnDetail.grnGvnAmt}"></c:out></td>
 														</tr>
@@ -334,16 +336,19 @@ function myFunction() {
 }
 </script>
 <script type="text/javascript">
-function calCrnValues(crndId,grnBaseRate)
+function calCrnValues(crndId,grnBaseRate,prevTotTax)
 {
 	
     var grnGvnQty=parseFloat(document.getElementById("grnGvnQty"+crndId).value);
     var totalTaxPer=parseFloat(document.getElementById("totalTaxPer"+crndId).value);
+    var cessPer=parseFloat(document.getElementById("cessPer"+crndId).value);
+
     var grnBaseRate=parseFloat(document.getElementById("grnBaseRate"+crndId).value);
    
+    grnBaseRate=(grnBaseRate*100)/(100+totalTaxPer+cessPer)
 	var taxableAmt=grnGvnQty*grnBaseRate;
 	
-	var taxAmt=(taxableAmt * totalTaxPer) / 100;
+	var taxAmt=(taxableAmt * (totalTaxPer+cessPer)) / 100;
 	
 	var grandAmt=taxableAmt+taxAmt;
 	 $('#taxableAmt'+crndId).html(taxableAmt.toFixed(2));

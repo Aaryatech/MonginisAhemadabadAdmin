@@ -134,6 +134,7 @@
 													<th width="100" align="left">Rate</th>
 													<th width="105" align="left">SGST %</th>
 													<th width="105" align="left">CGST %</th>
+													<th width="105" align="left">CESS %</th>
 													<th width="105" align="left">Disc %</th>
 													<th width="105" align="left">Disc Amt</th>
 													<th width="130" align="left">Taxable Amt</th>
@@ -197,7 +198,14 @@
 															id="cgstPer${billDetails.billDetailNo}"
 															style="width: 60px" value="${billDetails.cgstPer}"
 															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
-
+                                                      
+                                                        <td align="left"><input type="text"
+															class="form-control" data-rule-number="true"
+															name="cessPer${billDetails.billDetailNo}"
+															id="cessPer${billDetails.billDetailNo}"
+															style="width: 60px" value="${billDetails.cessPer}"
+															onkeyup="changeValues(${billDetails.billDetailNo})" /></td>
+															
 														<c:set var="billQty" value="${billDetails.billQty}" />
 														<c:set var="rate" value="${billDetails.rate}" />
 														<td align="center"><c:out
@@ -327,9 +335,10 @@
 			var billRate=parseFloat($("#billRate"+detailNo).val()); 
 			var sgstPer=parseFloat($("#sgstPer"+detailNo).val()); 
 			var cgstPer=parseFloat($("#cgstPer"+detailNo).val());  
+			var cessPer=parseFloat($("#cessPer"+detailNo).val()); // new1
 			var discPer=parseFloat($("#discPer"+detailNo).val());  
 			
-			var baseRate=((billRate*100)/(100+sgstPer+cgstPer)).toFixed(2); 
+			var baseRate=((billRate*100)/(100+sgstPer+cgstPer+cessPer)).toFixed(2); 
 			var taxableAmt=(billQty*baseRate).toFixed(2); 
 			
 			 var discAmt=((parseFloat(taxableAmt) * parseFloat(discPer)) /100);//alert(discAmt+"discAmt");
@@ -339,7 +348,9 @@
           	  
 			var sgstRs=((taxableAmt*sgstPer)/100).toFixed(2); 
 			var cgstRs=((taxableAmt*cgstPer)/100).toFixed(2); 
-			var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs); 
+			var cessRs=((taxableAmt*cessPer)/100).toFixed(2); 
+
+			var totalTax=parseFloat(sgstRs)+parseFloat(cgstRs)+parseFloat(cessRs); 
 			var grandTotal=parseFloat(totalTax)+parseFloat(taxableAmt); 
 			$("#taxableAmt"+detailNo).html(taxableAmt);
 			$("#totalTax"+detailNo).html(totalTax.toFixed(2)); 

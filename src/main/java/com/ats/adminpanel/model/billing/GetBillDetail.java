@@ -23,6 +23,8 @@ public class GetBillDetail {
     private float cgstRs;
     private float igstPer;
     private float igstRs;
+    private float cessPer;//new1
+    private float cessRs;//new1
     private float taxableAmt;
     private String remark;
     private Integer delStatus;
@@ -42,6 +44,18 @@ public class GetBillDetail {
     
     
     
+	public float getCessPer() {
+		return cessPer;
+	}
+	public void setCessPer(float cessPer) {
+		this.cessPer = cessPer;
+	}
+	public float getCessRs() {
+		return cessRs;
+	}
+	public void setCessRs(float cessRs) {
+		this.cessRs = cessRs;
+	}
 	public String getHsnCode() {
 		return hsnCode;
 	}
@@ -237,11 +251,11 @@ public class GetBillDetail {
 				+ catId + ", itemId=" + itemId + ", orderQty=" + orderQty + ", billQty=" + billQty + ", orderId="
 				+ orderId + ", rateType=" + rateType + ", rate=" + rate + ", mrp=" + mrp + ", grandTotal=" + grandTotal
 				+ ", sgstPer=" + sgstPer + ", sgstRs=" + sgstRs + ", cgstPer=" + cgstPer + ", cgstRs=" + cgstRs
-				+ ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", taxableAmt=" + taxableAmt + ", remark=" + remark
-				+ ", delStatus=" + delStatus + ", itemName=" + itemName + ", catName=" + catName + ", billDate="
-				+ billDate + ", baseRate=" + baseRate + ", totalTax=" + totalTax + ", grnType=" + grnType
-				+ ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied + ", discPer=" + discPer
-				+ ", hsnCode=" + hsnCode + "]";
+				+ ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", cessPer=" + cessPer + ", cessRs=" + cessRs
+				+ ", taxableAmt=" + taxableAmt + ", remark=" + remark + ", delStatus=" + delStatus + ", itemName="
+				+ itemName + ", catName=" + catName + ", billDate=" + billDate + ", baseRate=" + baseRate
+				+ ", totalTax=" + totalTax + ", grnType=" + grnType + ", expiryDate=" + expiryDate
+				+ ", isGrngvnApplied=" + isGrngvnApplied + ", discPer=" + discPer + ", hsnCode=" + hsnCode + "]";
 	}
-	
+
 }

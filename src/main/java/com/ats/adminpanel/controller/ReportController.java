@@ -972,12 +972,12 @@ public class ReportController {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(12);
+		PdfPTable table = new PdfPTable(14);
 		table.setHeaderRows(1);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 0.7f, 1.1f, 0.9f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 0.9f, 1.2f });
+			table.setWidths(new float[] { 0.7f, 1.1f, 0.9f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f,1.2f, 1.2f, 0.9f, 1.2f });
 			Font headFont = new Font(FontFamily.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 10.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -1034,6 +1034,16 @@ public class ReportController {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("SGST AMT", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CESS %", headFont1)); // Varience title replaced with P2 Production
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("CESS AMT", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
@@ -1157,9 +1167,21 @@ public class ReportController {
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(1);
 				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + roundUp(hsnListBill.get(j).getCessPer()), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(1);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + roundUp(hsnListBill.get(j).getCessRs()), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(1);
+				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + roundUp(hsnListBill.get(j).getSgstRs()
-						+ hsnListBill.get(j).getTaxableAmt() + hsnListBill.get(j).getCgstRs()), headFont));
+						+ hsnListBill.get(j).getTaxableAmt() + hsnListBill.get(j).getCgstRs()+hsnListBill.get(j).getCessRs()), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(1);

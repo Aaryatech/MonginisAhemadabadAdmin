@@ -1111,22 +1111,24 @@ public class CreditNoteController {
 			//Calendar cal = Calendar.getInstance();//prev 
 
 			postCreditHeader.setCrnDate(creditNoteDate);
-			float finalAmt =0.0f;float totalRoundUpAmt =0.0f;float totalCrnTax=0.0f;float totTaxableAmt=0.0f;float totGrandAmt=0.0f;
+			float finalAmt =0.0f;float totalRoundUpAmt =0.0f;float totalCrnTax=0.0f;float totalCessRs=0.0f;float totTaxableAmt=0.0f;float totGrandAmt=0.0f;
 			
 			for (int i = 0;i < crnDetailListMap.size(); i++) {
 					
 				int grnGvnQty = Integer.parseInt(request.getParameter("grnGvnQty"+crnDetailListMap.get(i).getCrndId()));
 				float totalTaxPer = Float.parseFloat(request.getParameter("totalTaxPer"+crnDetailListMap.get(i).getCrndId()));
 				float grnBaseRate = Float.parseFloat(request.getParameter("grnBaseRate"+crnDetailListMap.get(i).getCrndId()));
+				float cessPer = Float.parseFloat(request.getParameter("cessPer"+crnDetailListMap.get(i).getCrndId()));
 
 				float cgstPer=totalTaxPer/2;
 				float sgstPer=totalTaxPer/2;
-				
+				grnBaseRate=(grnBaseRate*100)/(100+totalTaxPer+cessPer);
+					
 				PostCreditNoteDetails creditNoteDetail = new PostCreditNoteDetails();
                 float grnBaseRateTaxable=roundUp(grnBaseRate*grnGvnQty);
 				System.err.println("grnBaseRateTaxable"+grnBaseRateTaxable);
                 
-				float aprTotalTax = (grnBaseRateTaxable * (sgstPer + cgstPer)) / 100;
+				float aprTotalTax = (grnBaseRateTaxable * (sgstPer + cgstPer+cessPer)) / 100;
 				System.err.println("aprTotalTax"+aprTotalTax);
 				
 				float grandTotal = grnBaseRateTaxable + aprTotalTax;
@@ -1142,7 +1144,6 @@ public class CreditNoteController {
 				System.err.println("totalCrnTax"+totalCrnTax);
 				
 				creditNoteDetail.setBillNo(crnDetailListMap.get(i).getBillNo());
-				creditNoteDetail.setCessRs(00);
 				creditNoteDetail.setCgstPer(cgstPer);
 				float cgstRs = (cgstPer * grnBaseRateTaxable) / 100;
 				System.err.println("cgstRs"+cgstRs);
@@ -1158,6 +1159,13 @@ public class CreditNoteController {
 				System.err.println("igstRs"+igstRs);
 				
 				creditNoteDetail.setIgstRs(roundUp(igstRs));
+				
+				creditNoteDetail.setCessPer(cessPer);//new1
+				float cessRs = (cessPer * grnBaseRateTaxable) / 100;
+				System.err.println("cessRs"+cessRs);
+				totalCessRs=totalCessRs+cessRs;//new1
+				creditNoteDetail.setCessRs(roundUp(cessRs));//new1
+				System.err.println("totalCessRs"+totalCessRs);
 				creditNoteDetail.setDelStatus(0);
 				creditNoteDetail.setGrnGvnAmt(roundUp(grandTotal));
 				String pattern = "dd-MM-yyyy";
@@ -1172,7 +1180,6 @@ public class CreditNoteController {
 				creditNoteDetail.setTaxableAmt(roundUp(grnBaseRateTaxable));
 				creditNoteDetail.setTotalTax(roundUp(aprTotalTax));
                 creditNoteDetail.setBaseRate(roundUp(crnDetailListMap.get(i).getBaseRate()));
-				creditNoteDetail.setCessPer(00);
 
 				creditNoteDetail.setCrndId(crnDetailListMap.get(i).getCrndId());
 				creditNoteDetail.setCrnId(crnDetailListMap.get(i).getCrnId());
@@ -1202,7 +1209,7 @@ public class CreditNoteController {
 			postCreditHeader.setIsDeposited(crnHeaderMap.getIsDeposited());
 			postCreditHeader.setIsGrn(crnHeaderMap.getIsGrn());
 			postCreditHeader.setIsTallySync(crnHeaderMap.getIsTallySync());
-			
+			postCreditHeader.setExFloat1(roundUp(totalCessRs));//new1
 			
 				postCreditHeader.setPostCreditNoteDetails(postCreditNoteDetailsList);
 
