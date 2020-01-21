@@ -109,7 +109,7 @@ import com.sun.org.apache.bcel.internal.generic.INVOKEINTERFACE;
 public class BillController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BillController.class);
-
+	String todaysDate=null;
 	public AllFrIdNameList allFrIdNameList = new AllFrIdNameList();
 	public List<Menu> menuList = new ArrayList<Menu>();
 	public String selectedFrArray;
@@ -595,7 +595,7 @@ public class BillController {
 
 				LocalDate date = LocalDate.now(z);
 				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
-				String todaysDate = date.format(formatters);
+				 todaysDate = date.format(formatters);
 
 				RestTemplate restTemplate = new RestTemplate();
 
@@ -885,7 +885,8 @@ public class BillController {
 
 				LocalDate date = LocalDate.now(z);
 				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d-MM-uuuu");
-				String todaysDate = date.format(formatters);
+				if(todaysDate==null)
+				 todaysDate = date.format(formatters);
 
 				AllMenuResponse allMenuResponse = restTemplate.getForObject(Constants.url + "getAllMenu",
 						AllMenuResponse.class);
@@ -2281,7 +2282,7 @@ public class BillController {
 			model.addObject("billNo", billDetailsList.get(0).getBillNo());
 			model.addObject("billDate", billDetailsList.get(0).getBillDate());
 			model.addObject("billDetails", billDetailsList);
-
+			todaysDate=billDetailsList.get(0).getBillDate();
 		} catch (Exception e) {
 
 			System.out.println("exce in showing  Bill update page " + e.getMessage());
