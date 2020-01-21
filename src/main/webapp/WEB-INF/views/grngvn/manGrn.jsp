@@ -289,7 +289,7 @@
 						  	
 						  //	tr.append($('<td></td>').html(bill.rate));
 
-						 	tr.append($('<td></td>').html("<input type=text  onkeyup='return calcGrn("+bill.billQty+","+bill.grnType+","+bill.rate+","+bill.itemId+","+bill.sgstPer+","+bill.cgstPer+","+bill.billDetailNo+","+bill.discPer+")' ondrop='return false;' onpaste='return false;' style='text-align: center;' class='form-control' min=0 id=qty"+bill.billDetailNo+" name=qty"+bill.billDetailNo+" Value="+0+" >"));
+						 	tr.append($('<td></td>').html("<input type=text  onkeyup='return calcGrn("+bill.billQty+","+bill.grnType+","+bill.rate+","+bill.itemId+","+bill.sgstPer+","+bill.cgstPer+","+bill.cessPer+","+bill.billDetailNo+","+bill.discPer+")' ondrop='return false;' onpaste='return false;' style='text-align: center;' class='form-control' min=0 id=qty"+bill.billDetailNo+" name=qty"+bill.billDetailNo+" Value="+0+" >"));
 						  	tr.append($('<td></td>').html(bill.igstPer));
 						  	tr.append($('<td id=taxable_amt'+bill.billDetailNo+'></td>').html(""));
 						  	tr.append($('<td id=tax_amt'+bill.billDetailNo+'></td>').html(""));
@@ -336,7 +336,7 @@
 
 				}
 				
-				function calcGrn(billQty,grnType,rate,itemId,cgstPer,sgstPer,dNo,discPer) {
+				function calcGrn(billQty,grnType,rate,itemId,sgstPer,cgstPer,cessPer,dNo,discPer) {
 				
 					document.getElementById("check"+dNo).checked = false;
 				    var grnQty =document.getElementById("qty"+dNo).value;
@@ -390,7 +390,7 @@
 							grnRate=rate;
 							
 							}
-						var totTaxPer=parseFloat(sgstPer)+parseFloat(cgstPer);
+						var totTaxPer=parseFloat(sgstPer)+parseFloat(cgstPer)+parseFloat(cessPer);
 						var taxableAmt=grnBaseRate*grnQty;
 						//alert("prev taxableAmt " +taxableAmt)
 
@@ -400,7 +400,7 @@
 						taxableAmt=taxableAmt-discAmt;
 						//alert("new  taxableAmt " +taxableAmt)
 
-						var totalTax=taxableAmt*(cgstPer+sgstPer)/100;
+						var totalTax=taxableAmt*(cgstPer+sgstPer+cessPer)/100;
 						var grandTotal=taxableAmt+totalTax;
 						//alert("taxable " +taxableAmt);
 						//alert("totalTax " +totalTax);

@@ -2,10 +2,8 @@ package com.ats.adminpanel.model.creditnote;
 
 import java.sql.Date;
 
-
 public class GetGrnGvnForCreditNote {
-	
-	
+
 	int grnGvnId;
 
 	Date grnGvnDate;
@@ -15,9 +13,9 @@ public class GetGrnGvnForCreditNote {
 	private int frId;
 
 	private int itemId;
-	
+
 	private float itemRate;
-	
+
 	private float itemMrp;
 
 	private int aprQtyAcc;
@@ -25,83 +23,62 @@ public class GetGrnGvnForCreditNote {
 	private float aprGrandTotal;
 
 	private int grnType;
-	
+
 	private int isGrn;
-	
+
 	private int isGrnEdit;
-	
-	
 
 	private String frGrnGvnRemark;
 
-	
-
 	private int grnGvnStatus;
-
-	
 
 	private String grnApprovedDateTimeAcc;
 
-
 	private int delStatus;
-	
+
 	private int grnGvnQtyAuto;
-	
-	
-	
-//newly added 04/11/17
-	
+
+	// newly added 04/11/17
+
 	private int isTallySync;
-	
-	
+
 	private float baseRate;
-	
+
 	private float sgstPer;
-	
+
 	private float cgstPer;
-	
+
+	private float cessPer;// new1
+
 	private float igstPer;
-	
+
 	private float aprTaxableAmt;
-	
+
 	private float aprTotalTax;
-	
-	
-	
+
 	private float aprROff;
-	
-	
+
 	private String itemName;
 
 	private String frName;
 
-	
-	
 	private int isCreditNote;
-	
-	
-	
+
 	private int menuId;
-	
 
 	private int catId;
-	
 
 	private String invoiceNo;
-	
 
 	private Date refInvoiceDate;
-	
-	
-	//new column 23 FEB
+
+	// new column 23 FEB
 	private String grngvnSrno;
-	
-	//new column 23 FEB
+
+	// new column 23 FEB
 	private int grnGvnHeaderId;
-	//new column 4june19
+	// new column 4june19
 	private String hsnCode;
-	
-	
 
 	public String getHsnCode() {
 		return hsnCode;
@@ -383,6 +360,14 @@ public class GetGrnGvnForCreditNote {
 		this.grnGvnHeaderId = grnGvnHeaderId;
 	}
 
+	public float getCessPer() {
+		return cessPer;
+	}
+
+	public void setCessPer(float cessPer) {
+		this.cessPer = cessPer;
+	}
+
 	@Override
 	public String toString() {
 		return "GetGrnGvnForCreditNote [grnGvnId=" + grnGvnId + ", grnGvnDate=" + grnGvnDate + ", billNo=" + billNo
@@ -391,13 +376,11 @@ public class GetGrnGvnForCreditNote {
 				+ isGrn + ", isGrnEdit=" + isGrnEdit + ", frGrnGvnRemark=" + frGrnGvnRemark + ", grnGvnStatus="
 				+ grnGvnStatus + ", grnApprovedDateTimeAcc=" + grnApprovedDateTimeAcc + ", delStatus=" + delStatus
 				+ ", grnGvnQtyAuto=" + grnGvnQtyAuto + ", isTallySync=" + isTallySync + ", baseRate=" + baseRate
-				+ ", sgstPer=" + sgstPer + ", cgstPer=" + cgstPer + ", igstPer=" + igstPer + ", aprTaxableAmt="
-				+ aprTaxableAmt + ", aprTotalTax=" + aprTotalTax + ", aprROff=" + aprROff + ", itemName=" + itemName
-				+ ", frName=" + frName + ", isCreditNote=" + isCreditNote + ", menuId=" + menuId + ", catId=" + catId
-				+ ", invoiceNo=" + invoiceNo + ", refInvoiceDate=" + refInvoiceDate + ", grngvnSrno=" + grngvnSrno
-				+ ", grnGvnHeaderId=" + grnGvnHeaderId + ", hsnCode=" + hsnCode + "]";
+				+ ", sgstPer=" + sgstPer + ", cgstPer=" + cgstPer + ", cessPer=" + cessPer + ", igstPer=" + igstPer
+				+ ", aprTaxableAmt=" + aprTaxableAmt + ", aprTotalTax=" + aprTotalTax + ", aprROff=" + aprROff
+				+ ", itemName=" + itemName + ", frName=" + frName + ", isCreditNote=" + isCreditNote + ", menuId="
+				+ menuId + ", catId=" + catId + ", invoiceNo=" + invoiceNo + ", refInvoiceDate=" + refInvoiceDate
+				+ ", grngvnSrno=" + grngvnSrno + ", grnGvnHeaderId=" + grnGvnHeaderId + ", hsnCode=" + hsnCode + "]";
 	}
-
-	
 
 }

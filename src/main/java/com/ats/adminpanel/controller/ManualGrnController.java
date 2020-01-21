@@ -268,7 +268,7 @@ public class ManualGrnController {
 			GrnGvnHeader grnHeader = new GrnGvnHeader();
 
 			float sumTaxableAmt = 0;
-			float sumTaxAmt = 0;
+			float sumTaxAmt = 0;	float sumCgstAmt = 0;	float sumSgstAmt = 0;float sumIgstAmt=0;	float sumCessAmt = 0;
 			float sumTotalAmt = 0;
 
 			String curDateTime = null;
@@ -339,7 +339,7 @@ public class ManualGrnController {
 
 					taxableAmt = taxableAmt - discAmt;
 
-					float totalTax = (taxableAmt * (selectedGrn.get(i).getSgstPer() + selectedGrn.get(i).getCgstPer()))
+					float totalTax = (taxableAmt * (selectedGrn.get(i).getSgstPer() + selectedGrn.get(i).getCgstPer() + selectedGrn.get(i).getCessPer()))
 							/ 100;
 
 					float grandTotal = taxableAmt + totalTax;
@@ -393,7 +393,7 @@ public class ManualGrnController {
 					postGrnGvn.setSgstPer(selectedGrn.get(i).getSgstPer());
 					postGrnGvn.setCgstPer(selectedGrn.get(i).getCgstPer());
 					postGrnGvn.setIgstPer(selectedGrn.get(i).getIgstPer());
-
+					postGrnGvn.setCessPer(selectedGrn.get(i).getCessPer());//new1
 					postGrnGvn.setTaxableAmt(roundUp(taxableAmt));
 					postGrnGvn.setTotalTax(roundUp(totalTax));
 					postGrnGvn.setFinalAmt(roundUp(finalAmt));
@@ -414,14 +414,18 @@ public class ManualGrnController {
 					postGrnGvn.setAprQtyAcc(grnQty);
 					postGrnGvn.setAprTaxableAmt(roundUp(taxableAmt));
 					postGrnGvn.setAprTotalTax(roundUp(totalTax));
+					sumCessAmt=sumCessAmt+(taxableAmt * (selectedGrn.get(i).getCessPer()/100));
+					postGrnGvn.setAprCessRs(roundUp(sumCessAmt));//new1
 
 					if (frList.getIsSameState() == 1) {
-
-						postGrnGvn.setAprSgstRs(roundUp((totalTax / 2)));
-						postGrnGvn.setAprCgstRs(roundUp((totalTax / 2)));
+						sumCgstAmt=sumCgstAmt+(taxableAmt * (selectedGrn.get(i).getCgstPer()/100));
+						sumSgstAmt=sumSgstAmt+(taxableAmt * (selectedGrn.get(i).getSgstPer()/100));
+						postGrnGvn.setAprSgstRs(roundUp(sumSgstAmt));//new1
+						postGrnGvn.setAprCgstRs(roundUp(sumCgstAmt));//new1
 
 					} else {
-						postGrnGvn.setAprIgstRs(roundUp(totalTax));
+						sumIgstAmt=sumIgstAmt+(taxableAmt * (selectedGrn.get(i).getIgstPer()/100));
+						postGrnGvn.setAprIgstRs(roundUp(sumIgstAmt));//new1
 
 					}
 
@@ -462,15 +466,15 @@ public class ManualGrnController {
 
 			grnHeader.setAprTotalTax(roundUp(sumTaxAmt));
 			if (frList.getIsSameState() == 1) {
-
-				grnHeader.setAprCgstRs(roundUp((sumTaxAmt / 2)));
-				grnHeader.setAprSgstRs(roundUp((sumTaxAmt / 2)));
+				
+				grnHeader.setAprCgstRs(roundUp(sumCgstAmt));
+				grnHeader.setAprSgstRs(roundUp(sumSgstAmt));
 
 			} else {
-				grnHeader.setAprIgstRs(roundUp((sumTaxAmt)));
+				grnHeader.setAprIgstRs(roundUp((sumIgstAmt)));
 
 			}
-
+			grnHeader.setAprCessRs(roundUp((sumCessAmt)));//new1
 			postGrnList.setGrnGvnHeader(grnHeader);
 			Info insertGrn = null;
 			if (postGrnList != null) {

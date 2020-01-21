@@ -6,62 +6,42 @@ import java.util.Date;
 public class GrnGvn {
 	
 	int grnGvnId;
-
 	
 	Date grnGvnDate;
 	
-
-	
 	private int billNo;
-
 	
 	private int frId;
-
 	
 	private int itemId;
 	
-	
 	private float itemRate;
 	
-	
 	private float itemMrp;
-
 	
 	private int grnGvnQty;
-
 	
 	private float grnGvnAmt;
-
 	
 	private int grnType;
 	
-	
 	private int isGrn;
-	
 	
 	private int isGrnEdit;
 	
-	
 	private String grnGvnEntryDateTime;
-
 	
 	private String frGrnGvnRemark;
-
 	
 	private String gvnPhotoUpload1;
-
 	
 	private String gvnPhotoUpload2;
-
 	
 	private int grnGvnStatus;
-
 	
 	private int approvedLoginGate;
-
 	
 	private String approveimedDateTimeGate;
-
 	
 	private String approvedRemarkGate;
 
@@ -108,6 +88,7 @@ public class GrnGvn {
 		
 		private float cgstPer;
 		
+		private float cessPer;
 		
 		private float igstPer;
 		
@@ -160,6 +141,7 @@ public class GrnGvn {
 		float aprTotalTax;
 		float aprSgstRs;
 		float aprCgstRs;
+		float aprCessRs;
 		float aprIgstRs;
 		float aprGrandTotal;
 		float aprROff;
@@ -172,6 +154,26 @@ public class GrnGvn {
 		
 		
 		
+	   public float getCessPer() {
+			return cessPer;
+		}
+
+
+		public void setCessPer(float cessPer) {
+			this.cessPer = cessPer;
+		}
+
+
+		public float getAprCessRs() {
+			return aprCessRs;
+		}
+
+
+		public void setAprCessRs(float aprCessRs) {
+			this.aprCessRs = aprCessRs;
+		}
+
+
 	public String getHsnCode() {
 			return hsnCode;
 		}
@@ -740,14 +742,14 @@ public class GrnGvn {
 				+ approvedRemarkStore + ", approvedLoginAcc=" + approvedLoginAcc + ", grnApprovedDateTimeAcc="
 				+ grnApprovedDateTimeAcc + ", approvedRemarkAcc=" + approvedRemarkAcc + ", delStatus=" + delStatus
 				+ ", grnGvnQtyAuto=" + grnGvnQtyAuto + ", billDetailNo=" + billDetailNo + ", isTallySync=" + isTallySync
-				+ ", baseRate=" + baseRate + ", sgstPer=" + sgstPer + ", cgstPer=" + cgstPer + ", igstPer=" + igstPer
-				+ ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", roundUpAmt=" + roundUpAmt + ", finalAmt="
-				+ finalAmt + ", isCreditNote=" + isCreditNote + ", menuId=" + menuId + ", catId=" + catId
-				+ ", invoiceNo=" + invoiceNo + ", refInvoiceDate=" + refInvoiceDate + ", aprQtyGate=" + aprQtyGate
-				+ ", aprQtyStore=" + aprQtyStore + ", aprQtyAcc=" + aprQtyAcc + ", aprTaxableAmt=" + aprTaxableAmt
-				+ ", aprTotalTax=" + aprTotalTax + ", aprSgstRs=" + aprSgstRs + ", aprCgstRs=" + aprCgstRs
-				+ ", aprIgstRs=" + aprIgstRs + ", aprGrandTotal=" + aprGrandTotal + ", aprROff=" + aprROff
-				+ ", isSameState=" + isSameState + ", hsnCode=" + hsnCode + "]";
+				+ ", baseRate=" + baseRate + ", sgstPer=" + sgstPer + ", cgstPer=" + cgstPer + ", cessPer=" + cessPer
+				+ ", igstPer=" + igstPer + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", roundUpAmt="
+				+ roundUpAmt + ", finalAmt=" + finalAmt + ", isCreditNote=" + isCreditNote + ", menuId=" + menuId
+				+ ", catId=" + catId + ", invoiceNo=" + invoiceNo + ", refInvoiceDate=" + refInvoiceDate
+				+ ", aprQtyGate=" + aprQtyGate + ", aprQtyStore=" + aprQtyStore + ", aprQtyAcc=" + aprQtyAcc
+				+ ", aprTaxableAmt=" + aprTaxableAmt + ", aprTotalTax=" + aprTotalTax + ", aprSgstRs=" + aprSgstRs
+				+ ", aprCgstRs=" + aprCgstRs + ", aprCessRs=" + aprCessRs + ", aprIgstRs=" + aprIgstRs
+				+ ", aprGrandTotal=" + aprGrandTotal + ", aprROff=" + aprROff + ", isSameState=" + isSameState
+				+ ", hsnCode=" + hsnCode + "]";
 	}
-    
 }

@@ -58,7 +58,16 @@ public class GenerateBill {
 	
 	private String  hsnCode;//new
 	
-	
+	private float cessPer;//new1
+
+
+	public float getCessPer() {
+		return cessPer;
+	}
+
+	public void setCessPer(float cessPer) {
+		this.cessPer = cessPer;
+	}
 
 	public String getHsnCode() {
 		return hsnCode;
@@ -280,7 +289,8 @@ public class GenerateBill {
 				+ itemTax1 + ", itemTax2=" + itemTax2 + ", itemTax3=" + itemTax3 + ", grnType=" + grnType
 				+ ", itemShelfLife=" + itemShelfLife + ", isSameState=" + isSameState + ", deliveryDate=" + deliveryDate
 				+ ", partyName=" + partyName + ", partyGstin=" + partyGstin + ", partyAddress=" + partyAddress
-				+ ", hsnCode=" + hsnCode + "]";
+				+ ", hsnCode=" + hsnCode + ", cessPer=" + cessPer + "]";
 	}
-    
+
+	
 }

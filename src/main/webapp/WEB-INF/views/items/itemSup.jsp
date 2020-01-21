@@ -256,6 +256,14 @@
 											data-rule-required="true"  data-rule-number="true" value="${itemSupp.noOfItemPerTray}"/>
 									</div>
 							  </div> 
+							   <div class="col2">
+									<label class="col-sm-3 col-lg-2 control-label">Cess %</label>
+									<div class="col-sm-9 col-lg-3 controls">
+										<input type="text" name="cessPer" id="cessPer"
+										   class="form-control"
+											 value="${itemSupp.itemCess}"/>
+									</div>
+							  </div>
 							      <div class="col2" style="visibility: hidden;">
 									<label class="col-sm-3 col-lg-2 control-label">Gate Sale Allowed?</label>
 									<div class="col-sm-9 col-lg-3 controls">
@@ -365,7 +373,7 @@
 												</c:choose>
 									</div>
 							  </div>
-							  
+							 
 							 
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">

@@ -5,7 +5,6 @@ public class GetCreditNoteReport  {
 	
 	
 	private int crnId;
-
 	
 	private String crnNo;
 
@@ -22,9 +21,7 @@ public class GetCreditNoteReport  {
 	private String frName;
 
 	private String frAddress;
-	
-	
-	
+		
 	private String frGstNo;
 	
 	private int isSameState;
@@ -32,8 +29,12 @@ public class GetCreditNoteReport  {
 	private int isGrn;
 	
 	float sgstSum;
+	
 	float cgstSum;
+	
 	float igstSum;
+	
+	float cessSum;//new1
 	public int getCrnId() {
 		return crnId;
 	}
@@ -46,8 +47,6 @@ public class GetCreditNoteReport  {
 	public void setCrnNo(String crnNo) {
 		this.crnNo = crnNo;
 	}
-	
-	
 	
 	public String getCrnDate() {
 		return crnDate;
@@ -127,16 +126,20 @@ public class GetCreditNoteReport  {
 	public void setIgstSum(float igstSum) {
 		this.igstSum = igstSum;
 	}
+	
+	public float getCessSum() {
+		return cessSum;
+	}
+	public void setCessSum(float cessSum) {
+		this.cessSum = cessSum;
+	}
 	@Override
 	public String toString() {
 		return "GetCreditNoteReport [crnId=" + crnId + ", crnNo=" + crnNo + ", crnDate=" + crnDate + ", frId=" + frId
 				+ ", crnTaxableAmt=" + crnTaxableAmt + ", crnTotalTax=" + crnTotalTax + ", crnGrandTotal="
 				+ crnGrandTotal + ", frName=" + frName + ", frAddress=" + frAddress + ", frGstNo=" + frGstNo
 				+ ", isSameState=" + isSameState + ", isGrn=" + isGrn + ", sgstSum=" + sgstSum + ", cgstSum=" + cgstSum
-				+ ", igstSum=" + igstSum + "]";
+				+ ", igstSum=" + igstSum + ", cessSum=" + cessSum + "]";
 	}
 	
-	
-	
-
 }

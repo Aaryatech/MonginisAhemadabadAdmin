@@ -193,7 +193,7 @@
 																name="acc_gvn_qty${gvnList.grnGvnId}"
 																style="width: 50px" class="form-control"
 																onkeyup="calcGvn(${gvnList.baseRate},${gvnList.grnGvnId},
-																	${gvnList.sgstPer},${gvnList.cgstPer},${gvnList.grnGvnQty},${qty},${gvnList.itemMrp})"
+																	${gvnList.sgstPer},${gvnList.cgstPer},${gvnList.cessPer},${gvnList.grnGvnQty},${qty},${gvnList.itemMrp})"
 																id='acc_gvn_qty${gvnList.grnGvnId}' value="${qty}" /></td>
 
 															<td id='gvnAmt${gvnList.grnGvnId}' align="left"><c:out
@@ -716,7 +716,7 @@
 	<!-- insertGrnDisAgree -->
 	<script type="text/javascript">
 
-function calcGvn(baseRate,grnId,sgstPer,cgstPer,gvnQty,curQty,discPer){
+function calcGvn(baseRate,grnId,sgstPer,cgstPer,cessPer,gvnQty,curQty,discPer){
 	
 	
 //alert("HII");
@@ -741,7 +741,7 @@ function calcGvn(baseRate,grnId,sgstPer,cgstPer,gvnQty,curQty,discPer){
 	 var discAmt=(taxableAmt*discPer)/100;
 	 taxableAmt=taxableAmt-discAmt;
 		
-		var totalTax=(taxableAmt*(sgstPer+cgstPer))/100;
+		var totalTax=(taxableAmt*(sgstPer+cgstPer+cessPer))/100;
 		
 		var grandTotal=taxableAmt+totalTax;	
 		

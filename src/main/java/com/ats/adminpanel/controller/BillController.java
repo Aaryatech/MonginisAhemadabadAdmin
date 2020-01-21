@@ -247,7 +247,7 @@ public class BillController {
 				header.setFrId(frId);
 				postBillDetailsList = new ArrayList();
 
-				float sumTaxableAmt = 0, sumTotalTax = 0, sumGrandTotal = 0;
+				float sumTaxableAmt = 0, sumTotalTax = 0, sumGrandTotal = 0,totalCessRs=0;
 				float sumDiscAmt = 0;
 				float sumT1 = 0;
 				float sumT2 = 0;
@@ -316,8 +316,9 @@ public class BillController {
 						Float tax1 = (float) gBill.getItemTax1();
 						Float tax2 = (float) gBill.getItemTax2();
 						Float tax3 = (float) gBill.getItemTax3();
+						float cessPer = (float) gBill.getCessPer();
 
-						Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
+						Float baseRate = (orderRate * 100) / (100 + (tax1 + tax2+cessPer));
 						baseRate = roundUp(baseRate);
 
 						Float taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
@@ -328,14 +329,15 @@ public class BillController {
 						float sgstRs = (taxableAmt * tax1) / 100;
 						float cgstRs = (taxableAmt * tax2) / 100;
 						float igstRs = (taxableAmt * tax3) / 100;
-						Float totalTax = sgstRs + cgstRs;
+						float cessRs = (taxableAmt * cessPer) / 100;
+						Float totalTax = sgstRs + cgstRs+cessRs;
 						float discAmt = 0;
 						if (billQty == null || billQty == "") {// new code to handle hidden records
 							billQty = "0";
 						}
 
 						if (gBill.getIsSameState() == 1) {
-							baseRate = (orderRate * 100) / (100 + (tax1 + tax2));
+							baseRate = (orderRate * 100) / (100 + (tax1 + tax2+cessPer));
 							taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
 							// ----------------------------------------------------------
 							discAmt = ((taxableAmt * discPer) / 100); // new row added
@@ -346,13 +348,14 @@ public class BillController {
 							// ----------------------------------------------------------
 							sgstRs = (taxableAmt * tax1) / 100;
 							cgstRs = (taxableAmt * tax2) / 100;
+							cessRs = (taxableAmt * cessPer) / 100;
 							igstRs = 0;
-							totalTax = sgstRs + cgstRs;
+							totalTax = sgstRs + cgstRs+cessRs;
 
 						}
 
 						else {
-							baseRate = (orderRate * 100) / (100 + (tax3));
+							baseRate = (orderRate * 100) / (100 + (tax3+cessPer));
 							taxableAmt = (float) (baseRate * Integer.parseInt(billQty));
 							// ----------------------------------------------------------
 							discAmt = ((taxableAmt * discPer) / 100); // new row added
@@ -364,13 +367,14 @@ public class BillController {
 							sgstRs = 0;
 							cgstRs = 0;
 							igstRs = (taxableAmt * tax3) / 100;
-							totalTax = igstRs;
+							cessRs = (taxableAmt * cessPer) / 100;
+							totalTax = igstRs+cessRs;
 						}
 
 						sgstRs = roundUp(sgstRs);
 						cgstRs = roundUp(cgstRs);
 						igstRs = roundUp(igstRs);
-
+						cessRs = roundUp(cessRs);
 						// header.setSgstSum(sumT1);
 						// header.setCgstSum(sumT2);
 						// header.setIgstSum(sumT3);
@@ -409,8 +413,8 @@ public class BillController {
 						billDetail.setIgstPer(tax3);
 						billDetail.setIgstRs(igstRs);
 
-						billDetail.setCessPer(0);// hardcoded--change Reqrd while add bill
-						billDetail.setCessRs(0);// hardcoded--change Reqrd while add bill
+						billDetail.setCessPer(cessPer);// --changed  while add bill
+						billDetail.setCessRs(cessRs);// --changed while add bill
 
 						billDetail.setTotalTax(totalTax);
 						billDetail.setGrandTotal(grandTotal);
@@ -422,7 +426,7 @@ public class BillController {
 						header.setSgstSum(header.getSgstSum() + billDetail.getSgstRs());
 						header.setCgstSum(header.getCgstSum() + billDetail.getCgstRs());
 						header.setIgstSum(header.getIgstSum() + billDetail.getIgstRs());
-
+						totalCessRs=totalCessRs+cessRs;
 						int itemShelfLife = gBill.getItemShelfLife();
 
 						String deliveryDate = gBill.getDeliveryDate();
@@ -459,12 +463,12 @@ public class BillController {
 						header.setPartyName(gBill.getPartyName());// new
 						header.setPartyGstin(gBill.getPartyGstin());// new
 						header.setPartyAddress(gBill.getPartyAddress());// new
-						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()));
+						header.setTaxApplicable((int) (gBill.getItemTax1() + gBill.getItemTax2()+gBill.getCessPer()));
 						header.setExVarchar1(sectionId);
 					}
 
 				}
-				header.setExVarchar2("0");// for cessAmt change
+				header.setExVarchar2(""+roundUp(totalCessRs));// for cessAmt change
 				// header.setTaxApplicable((int)sumT1+(int)sumT2+(int)sumT3);
 				// header.setSgstSum(sumT1);
 				// header.setCgstSum(sumT2);

@@ -292,6 +292,7 @@ public class CreditNoteController {
 				rowData.add("CGST");
 				rowData.add("SGST");
 				rowData.add("IGST");
+				rowData.add("CESS");
 				rowData.add("Tax Rate");
 				rowData.add("Grand Total");
 				rowData.add("Document Amount");
@@ -311,7 +312,7 @@ public class CreditNoteController {
 						if(crnIds.get(l)==crnExcelListRes.get(j).getCrnId())
 						{
 							docAmt=docAmt+roundUp(crnExcelListRes.get(j).getTaxableAmt() + crnExcelListRes.get(j).getCgstRs()
-									+ crnExcelListRes.get(j).getSgstRs());
+									+ crnExcelListRes.get(j).getSgstRs()+ crnExcelListRes.get(j).getCessRs());
 						}
 					}
 					for(int i=0;i<crnExcelListRes.size();i++)
@@ -332,9 +333,10 @@ public class CreditNoteController {
 					rowData.add("" + roundUp(crnExcelListRes.get(i).getCgstRs()));
 					rowData.add("" + roundUp(crnExcelListRes.get(i).getSgstRs()));
 					rowData.add("" + roundUp(crnExcelListRes.get(i).getIgstRs()));
+					rowData.add("" + roundUp(crnExcelListRes.get(i).getCessRs()));
 					rowData.add("" + roundUp(crnExcelListRes.get(i).getTaxRate()));
-					rowData.add(roundUp(crnExcelListRes.get(i).getTaxableAmt() + crnExcelListRes.get(i).getCgstRs()
-							+ crnExcelListRes.get(i).getSgstRs()) + "");
+					rowData.add(""+roundUp(crnExcelListRes.get(i).getTaxableAmt() + crnExcelListRes.get(i).getCgstRs()
+							+ crnExcelListRes.get(i).getSgstRs()+ crnExcelListRes.get(i).getCessRs()));
 					rowData.add("" + roundUp(docAmt));
 					rowData.add("" + crnExcelListRes.get(i).getFrGstNo());
 					rowData.add("" + crnExcelListRes.get(i).getCountry());
@@ -459,7 +461,7 @@ public class CreditNoteController {
 						PostCreditNoteDetails creditNoteDetail = new PostCreditNoteDetails();
 
 						creditNoteDetail.setBillNo(creditNote.getBillNo());
-						creditNoteDetail.setCessRs(00);
+					
 
 						creditNoteDetail.setCgstPer(creditNote.getCgstPer());
 						float cgstRs = (creditNote.getCgstPer() * creditNote.getAprTaxableAmt()) / 100;
@@ -472,6 +474,10 @@ public class CreditNoteController {
 						creditNoteDetail.setIgstPer(creditNote.getIgstPer());
 						float igstRs = (creditNote.getIgstPer() * creditNote.getAprTaxableAmt()) / 100;
 						creditNoteDetail.setIgstRs(roundUp(igstRs));
+						
+						creditNoteDetail.setCessPer(creditNote.getCessPer());//
+						float cessRs = (creditNote.getCessPer() * creditNote.getAprTaxableAmt()) / 100;//
+						creditNoteDetail.setCessRs(roundUp(cessRs));//
 
 						creditNoteDetail.setDelStatus(0);
 						creditNoteDetail.setGrnGvnAmt(roundUp(creditNote.getAprGrandTotal()));
@@ -492,7 +498,7 @@ public class CreditNoteController {
 						// newly added
 						creditNoteDetail.setCatId(creditNote.getCatId());
 						creditNoteDetail.setBaseRate(roundUp(creditNote.getBaseRate()));
-						creditNoteDetail.setCessPer(0);
+					
 						creditNoteDetail.setRefInvoiceNo(creditNote.getInvoiceNo());
 
 						// 23 Feb
@@ -600,7 +606,7 @@ public class CreditNoteController {
 					PostCreditNoteDetails creditNoteDetail = new PostCreditNoteDetails();
 
 					creditNoteDetail.setBillNo(creditNote.getBillNo());
-					creditNoteDetail.setCessRs(00);
+					
 					creditNoteDetail.setCgstPer(creditNote.getCgstPer());
 					float cgstRs = (creditNote.getCgstPer() * creditNote.getAprTaxableAmt()) / 100;
 					creditNoteDetail.setCgstRs(roundUp(cgstRs));
@@ -610,6 +616,9 @@ public class CreditNoteController {
 					creditNoteDetail.setIgstPer(creditNote.getIgstPer());
 					float igstRs = (creditNote.getIgstPer() * creditNote.getAprTaxableAmt()) / 100;
 					creditNoteDetail.setIgstRs(roundUp(igstRs));
+					creditNoteDetail.setCessPer(creditNote.getCessPer());//
+					float cessRs = (creditNote.getCessPer() * creditNote.getAprTaxableAmt()) / 100;//
+					creditNoteDetail.setCessRs(roundUp(cessRs));//
 					creditNoteDetail.setDelStatus(0);
 					creditNoteDetail.setGrnGvnAmt(roundUp(creditNote.getAprGrandTotal()));
 					creditNoteDetail.setGrnGvnDate(grnGvnDate);
@@ -626,7 +635,7 @@ public class CreditNoteController {
 					creditNoteDetail.setRefInvoiceNo(creditNote.getInvoiceNo());
 					creditNoteDetail.setCatId(creditNote.getCatId());
 					creditNoteDetail.setBaseRate(roundUp(creditNote.getBaseRate()));
-					creditNoteDetail.setCessPer(00);
+					
 					creditNoteDetail.setBillDate(creditNote.getRefInvoiceDate());
 
 					// newly set 23 FEB
@@ -905,6 +914,7 @@ public class CreditNoteController {
 				rowData.add("Sgst Rs");
 				rowData.add("Cgst Rs");
 				rowData.add("Igst Rs");
+				rowData.add("Cess Rs");
 				rowData.add("Total Tax");
 				rowData.add("Grand Total");
 
@@ -939,6 +949,7 @@ public class CreditNoteController {
 						rowData.add(roundUp(report.getIgstSum())+"");
 
 					}
+					rowData.add(roundUp(report.getCessSum())+"");
 					rowData.add(roundUp(report.getCrnTotalTax())+"");
 					rowData.add(roundUp(report.getCrnGrandTotal())+"");
 
@@ -1288,11 +1299,11 @@ public class CreditNoteController {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(11);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 0.4f, 1.0f, 0.9f, 1.7f, 1.1f, 1.1f, 1.1f, 0.8f, 1.1f, 1.0f });
+			table.setWidths(new float[] { 0.4f, 1.0f, 0.9f, 1.7f, 1.1f,1.1f, 1.1f, 1.1f, 0.8f, 1.1f, 1.0f });
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -1334,6 +1345,10 @@ public class CreditNoteController {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("IGST", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CESS", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			table.addCell(hcell);
 
@@ -1413,6 +1428,13 @@ public class CreditNoteController {
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + report.getIgstSum(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(2);
+				cell.setPadding(4);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + report.getCessSum(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setPaddingRight(2);

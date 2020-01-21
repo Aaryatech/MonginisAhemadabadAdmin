@@ -44,6 +44,8 @@ public class TempGrnGvnBeanUp {
 		
 		float aprIgstRs;
 		
+		float aprCessRs;//new1
+		
 		float aprGrandTotal;
 		
 		float aprROff;
@@ -227,6 +229,14 @@ public class TempGrnGvnBeanUp {
 			this.isSameState = isSameState;
 		}
 
+		public float getAprCessRs() {
+			return aprCessRs;
+		}
+
+		public void setAprCessRs(float aprCessRs) {
+			this.aprCessRs = aprCessRs;
+		}
+
 		@Override
 		public String toString() {
 			return "TempGrnGvnBeanUp [grnGvnId=" + grnGvnId + ", grnGvnStatus=" + grnGvnStatus + ", approvedLoginGate="
@@ -237,9 +247,8 @@ public class TempGrnGvnBeanUp {
 					+ approvedDateTimeAcc + ", approvedRemarkAcc=" + approvedRemarkAcc + ", aprQtyGate=" + aprQtyGate
 					+ ", aprQtyStore=" + aprQtyStore + ", aprQtyAcc=" + aprQtyAcc + ", aprTaxableAmt=" + aprTaxableAmt
 					+ ", aprTotalTax=" + aprTotalTax + ", aprSgstRs=" + aprSgstRs + ", aprCgstRs=" + aprCgstRs
-					+ ", aprIgstRs=" + aprIgstRs + ", aprGrandTotal=" + aprGrandTotal + ", aprROff=" + aprROff
-					+ ", isSameState=" + isSameState + "]";
+					+ ", aprIgstRs=" + aprIgstRs + ", aprCessRs=" + aprCessRs + ", aprGrandTotal=" + aprGrandTotal
+					+ ", aprROff=" + aprROff + ", isSameState=" + isSameState + "]";
 		}
-		
-
+     
 }

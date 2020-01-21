@@ -42,12 +42,21 @@ public class GrnGvnHeader {
 	float aprSgstRs;
 	float aprCgstRs;
 	float aprIgstRs;
+	float aprCessRs;
 	float aprGrandTotal;
 	float aprROff;
 	//nw field
-
+    
 	public int getGrnGvnHeaderId() {
 		return grnGvnHeaderId;
+	}
+
+	public float getAprCessRs() {
+		return aprCessRs;
+	}
+
+	public void setAprCessRs(float aprCessRs) {
+		this.aprCessRs = aprCessRs;
 	}
 
 	public void setGrnGvnHeaderId(int grnGvnHeaderId) {
@@ -224,9 +233,8 @@ public class GrnGvnHeader {
 				+ ", isCreditNote=" + isCreditNote + ", creditNoteId=" + creditNoteId + ", approvedDatetime="
 				+ approvedDatetime + ", grnGvn=" + grnGvn + ", aprTaxableAmt=" + aprTaxableAmt + ", aprTotalTax="
 				+ aprTotalTax + ", aprSgstRs=" + aprSgstRs + ", aprCgstRs=" + aprCgstRs + ", aprIgstRs=" + aprIgstRs
-				+ ", aprGrandTotal=" + aprGrandTotal + ", aprROff=" + aprROff + "]";
+				+ ", aprCessRs=" + aprCessRs + ", aprGrandTotal=" + aprGrandTotal + ", aprROff=" + aprROff + "]";
 	}
 
-	
 	
 }

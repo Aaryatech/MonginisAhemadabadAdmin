@@ -1095,7 +1095,7 @@ public class GrnGvnController {
 
 			float aprAmt = 0;
 			float aprTaxableAmt, aprTotalTax;
-			float sgstRs, cgstRs, igstRs;
+			float sgstRs, cgstRs,cessRs, igstRs;
 
 			float grandTotal;
 			if (detail.getGrnType() == 0) {
@@ -1123,19 +1123,19 @@ public class GrnGvnController {
 			System.out.println("apr Taxable Amt = " + aprTaxableAmt);
 
 			System.out.println("Grn RAte " + grnRate);
-			aprTotalTax = ((aprTaxableAmt) * (detail.getSgstPer() + detail.getCgstPer())) / 100;
+			aprTotalTax = ((aprTaxableAmt) * (detail.getSgstPer() + detail.getCgstPer()+ detail.getCessPer())) / 100;
 			System.out.println("Apr Total Tax " + aprTotalTax);
 
 			if (detail.getIsSameState() == 1) {
 
-				sgstRs = aprTotalTax / 2;
-				cgstRs = aprTotalTax / 2;
-
+				sgstRs = aprTaxableAmt * (detail.getSgstPer()/100);
+				cgstRs =aprTaxableAmt * (detail.getCgstPer()/100);;
+				cessRs =aprTaxableAmt * (detail.getCessPer()/100);;
 				igstRs = 0.0f;
 			} else {
 
-				igstRs = aprTotalTax;
-
+				igstRs =aprTaxableAmt * (detail.getIgstPer()/100);;
+				cessRs =aprTaxableAmt * (detail.getCessPer()/100);;
 				sgstRs = 0.0f;
 				cgstRs = 0.0f;
 			}
@@ -1218,7 +1218,7 @@ public class GrnGvnController {
 
 					float aprAmt = 0;
 					float aprTaxableAmt, aprTotalTax;
-					float sgstRs, cgstRs, igstRs;
+					float sgstRs, cgstRs,cessRs, igstRs;
 
 					float grandTotal;
 					if (detail.getGrnType() == 0) {
@@ -1246,19 +1246,19 @@ public class GrnGvnController {
 					System.out.println("apr Taxable Amt = " + aprTaxableAmt);
 
 					System.out.println("Grn RAte " + grnRate);
-					aprTotalTax = ((aprTaxableAmt) * (detail.getSgstPer() + detail.getCgstPer())) / 100;
+					aprTotalTax = ((aprTaxableAmt) * (detail.getSgstPer() + detail.getCgstPer() + detail.getCessPer())) / 100;
 					System.out.println("Apr Total Tax " + aprTotalTax);
 
 					if (detail.getIsSameState() == 1) {
 
-						sgstRs = aprTotalTax / 2;
-						cgstRs = aprTotalTax / 2;
-
+						sgstRs = aprTaxableAmt * (detail.getSgstPer()/100);
+						cgstRs =  aprTaxableAmt * (detail.getCgstPer()/100);
+						cessRs =  aprTaxableAmt * (detail.getCessPer()/100);
 						igstRs = 0.0f;
 					} else {
 
-						igstRs = aprTotalTax;
-
+						igstRs = aprTaxableAmt * (detail.getIgstPer()/100);
+						cessRs =  aprTaxableAmt * (detail.getCessPer()/100);
 						sgstRs = 0.0f;
 						cgstRs = 0.0f;
 					}
@@ -1286,6 +1286,7 @@ public class GrnGvnController {
 					data.setAprCgstRs(roundUp(cgstRs));
 					data.setAprIgstRs(roundUp(igstRs));
 					data.setAprSgstRs(roundUp(sgstRs));
+					data.setAprCessRs(roundUp(cessRs));//new1
 
 					data.setAprTaxableAmt(roundUp(aprTaxableAmt));
 					data.setAprTotalTax(roundUp(aprTotalTax));
@@ -1302,7 +1303,7 @@ public class GrnGvnController {
 					detail.setAprCgstRs(data.getAprCgstRs());
 					detail.setAprSgstRs(data.getAprSgstRs());
 					detail.setAprIgstRs(data.getAprIgstRs());
-
+					detail.setAprCessRs(data.getAprCessRs());
 					detail.setAprROff(data.getAprROff());
 
 					grnAccDetailList.set(i, detail);
@@ -1436,14 +1437,14 @@ public class GrnGvnController {
 			accHeader.setAprGrandTotal(0);
 			accHeader.setAprCgstRs(0);
 			accHeader.setAprSgstRs(0);
-			accHeader.setAprIgstRs(0);
+			accHeader.setAprIgstRs(0);accHeader.setAprCessRs(0);
 			accHeader.setAprROff(0);
 			accHeader.setApporvedAmt(0);
 			 float apporvedAmt=0.0f;
 	            float aprTaxableAmt=0.0f;
 	            float aprTotalTax=0.0f;
 	            float aprGrandTotal=0.0f;
-	            float aprCgstRs=0.0f;
+	            float aprCgstRs=0.0f;    float aprCessRs=0.0f;
 	            float aprSgstRs=0.0f;
 	            float aprIgstRs=0.0f;
 	            float aprROff=0.0f;
@@ -1462,7 +1463,7 @@ public class GrnGvnController {
 					aprSgstRs=aprSgstRs + grnAccDetailList.get(i).getAprSgstRs();
 					aprIgstRs=aprIgstRs + grnAccDetailList.get(i).getAprIgstRs();
 					aprROff=aprROff + grnAccDetailList.get(i).getAprROff();
-
+					aprCessRs=aprCessRs + grnAccDetailList.get(i).getAprCessRs();//new1
 					// accHeader.setApporvedAmt(0);
 
 				}
@@ -1474,6 +1475,7 @@ public class GrnGvnController {
 			accHeader.setAprCgstRs(roundUp(aprCgstRs));
 			accHeader.setAprSgstRs(roundUp(aprSgstRs));
 			accHeader.setAprIgstRs(roundUp(aprIgstRs));	
+			accHeader.setAprCessRs(roundUp(aprCessRs));//new1
 			accHeader.setAprROff(roundUp(aprROff));	
 			
 			System.out.println("acc Header total amt " + accHeader.getApporvedAmt());
@@ -1578,7 +1580,7 @@ public class GrnGvnController {
 
 					float aprAmt = 0;
 					float aprTaxableAmt, aprTotalTax, aprGrandTotal;
-					float sgstRs, cgstRs, igstRs;
+					float sgstRs, cgstRs,cessRs, igstRs;
 
 					float grandTotal;
 					if (detail.getGrnType() == 0) {
@@ -1606,19 +1608,19 @@ public class GrnGvnController {
 					System.out.println("apr Taxable Amt = " + aprTaxableAmt);
 
 					System.out.println("Grn RAte " + grnRate);
-					aprTotalTax = ((aprTaxableAmt) * (detail.getSgstPer() + detail.getCgstPer())) / 100;
+					aprTotalTax = ((aprTaxableAmt) * (detail.getSgstPer() + detail.getCgstPer()+detail.getCessPer())) / 100;
 					System.out.println("Apr Total Tax " + aprTotalTax);
 
 					if (detail.getIsSameState() == 1) {
 
-						sgstRs = aprTotalTax / 2;
-						cgstRs = aprTotalTax / 2;
-
+						sgstRs = (aprTaxableAmt) * (detail.getSgstPer()/100);
+						cgstRs =  (aprTaxableAmt) * (detail.getCgstPer()/100);
+						cessRs =  (aprTaxableAmt) * (detail.getCessPer()/100);//new1
 						igstRs = 0.0f;
 					} else {
 
-						igstRs = aprTotalTax;
-
+						igstRs = (aprTaxableAmt) * (detail.getIgstPer()/100);//new change
+						cessRs =  (aprTaxableAmt) * (detail.getCessPer()/100);//new1
 						sgstRs = 0.0f;
 						cgstRs = 0.0f;
 					}
@@ -1646,6 +1648,7 @@ public class GrnGvnController {
 					data.setAprCgstRs(roundUp(cgstRs));
 					data.setAprIgstRs(roundUp(igstRs));
 					data.setAprSgstRs(roundUp(sgstRs));
+					data.setAprCessRs(roundUp(cessRs));//new1
 
 					data.setAprTaxableAmt(roundUp(aprTaxableAmt));
 					data.setAprTotalTax(roundUp(aprTotalTax));
@@ -1662,7 +1665,7 @@ public class GrnGvnController {
 					detail.setAprCgstRs(data.getAprCgstRs());
 					detail.setAprSgstRs(data.getAprSgstRs());
 					detail.setAprIgstRs(data.getAprIgstRs());
-
+					detail.setAprCessRs(data.getAprCessRs());//new1
 					detail.setAprROff(data.getAprROff());
 
 					grnAccDetailList.set(i, detail);
@@ -1791,7 +1794,7 @@ public class GrnGvnController {
 			accHeader.setAprTaxableAmt(0);
 			accHeader.setAprTotalTax(0);
 			accHeader.setAprGrandTotal(0);
-			accHeader.setAprCgstRs(0);
+			accHeader.setAprCgstRs(0);	accHeader.setAprCessRs(0);
 			accHeader.setAprSgstRs(0);
 			accHeader.setAprIgstRs(0);
 			accHeader.setAprROff(0);
@@ -1800,7 +1803,7 @@ public class GrnGvnController {
             float aprTaxableAmt=0.0f;
             float aprTotalTax=0.0f;
             float aprGrandTotal=0.0f;
-            float aprCgstRs=0.0f;
+            float aprCgstRs=0.0f;  float aprCessRs=0.0f;
             float aprSgstRs=0.0f;
             float aprIgstRs=0.0f;
             float aprROff=0.0f;
@@ -1818,7 +1821,7 @@ public class GrnGvnController {
 					aprSgstRs=aprSgstRs + grnAccDetailList.get(i).getAprSgstRs();
 					aprIgstRs=aprIgstRs + grnAccDetailList.get(i).getAprIgstRs();
 					aprROff=aprROff + grnAccDetailList.get(i).getAprROff();
-
+					aprCessRs=aprCessRs + grnAccDetailList.get(i).getAprCessRs();//new1
 					// accHeader.setApporvedAmt(0);
 
 				}
@@ -1828,6 +1831,7 @@ public class GrnGvnController {
 			accHeader.setAprTotalTax(roundUp(aprTotalTax));
 			accHeader.setAprGrandTotal(roundUp(aprGrandTotal));	
 			accHeader.setAprCgstRs(roundUp(aprCgstRs));
+			accHeader.setAprCessRs(roundUp(aprCessRs));//new1
 			accHeader.setAprSgstRs(roundUp(aprSgstRs));
 			accHeader.setAprIgstRs(roundUp(aprIgstRs));	
 			accHeader.setAprROff(roundUp(aprROff));	
@@ -1954,7 +1958,7 @@ public class GrnGvnController {
 						float total = detail.getBaseRate() * accGrnQty;
 						float aprAmt = 0;
 						float aprTaxableAmt, aprTotalTax, aprGrandTotal;
-						float sgstRs, cgstRs, igstRs;
+						float sgstRs, cgstRs, igstRs,cessRs;
 						float grandTotal;
 						if (detail.getGrnType() == 0) {
 
@@ -1980,19 +1984,20 @@ public class GrnGvnController {
 						System.out.println("apr Taxable Amt = " + aprTaxableAmt);
 
 						System.out.println("Grn RAte " + grnRate);
-						aprTotalTax = ((aprTaxableAmt) * (detail.getSgstPer() + detail.getCgstPer())) / 100;
+						aprTotalTax = ((aprTaxableAmt) * (detail.getSgstPer() + detail.getCgstPer()+detail.getCessPer())) / 100;
 						System.out.println("Apr Total Tax " + aprTotalTax);
+
 
 						if (detail.getIsSameState() == 1) {
 
-							sgstRs = aprTotalTax / 2;
-							cgstRs = aprTotalTax / 2;
-
+							sgstRs = (aprTaxableAmt) * (detail.getSgstPer()/100);
+							cgstRs =  (aprTaxableAmt) * (detail.getCgstPer()/100);
+							cessRs =  (aprTaxableAmt) * (detail.getCessPer()/100);//new1
 							igstRs = 0.0f;
 						} else {
 
-							igstRs = aprTotalTax;
-
+							igstRs = (aprTaxableAmt) * (detail.getIgstPer()/100);//new change
+							cessRs =  (aprTaxableAmt) * (detail.getCessPer()/100);//new1
 							sgstRs = 0.0f;
 							cgstRs = 0.0f;
 						}
@@ -2020,6 +2025,7 @@ public class GrnGvnController {
 						data.setAprCgstRs(roundUp(cgstRs));
 						data.setAprIgstRs(roundUp(igstRs));
 						data.setAprSgstRs(roundUp(sgstRs));
+						data.setAprCessRs(roundUp(cessRs));//new1
 
 						data.setAprTaxableAmt(roundUp(aprTaxableAmt));
 						data.setAprTotalTax(roundUp(aprTotalTax));
@@ -2033,7 +2039,7 @@ public class GrnGvnController {
 						detail.setAprCgstRs(data.getAprCgstRs());
 						detail.setAprSgstRs(data.getAprSgstRs());
 						detail.setAprIgstRs(data.getAprIgstRs());
-
+						detail.setAprCessRs(data.getAprCessRs());//new1
 						detail.setAprROff(data.getAprROff());
 
 						grnAccDetailList.set(i, detail);
@@ -2167,7 +2173,7 @@ public class GrnGvnController {
 			accHeader.setAprTaxableAmt(0);
 			accHeader.setAprTotalTax(0);
 			accHeader.setAprGrandTotal(0);
-			accHeader.setAprCgstRs(0);
+			accHeader.setAprCgstRs(0);	accHeader.setAprCessRs(0);
 			accHeader.setAprSgstRs(0);
 			accHeader.setAprIgstRs(0);
 			accHeader.setAprROff(0);
@@ -2176,7 +2182,7 @@ public class GrnGvnController {
 	            float aprTaxableAmt=0.0f;
 	            float aprTotalTax=0.0f;
 	            float aprGrandTotal=0.0f;
-	            float aprCgstRs=0.0f;
+	            float aprCgstRs=0.0f;float aprCessRs=0.0f;
 	            float aprSgstRs=0.0f;
 	            float aprIgstRs=0.0f;
 	            float aprROff=0.0f;
@@ -2196,7 +2202,7 @@ public class GrnGvnController {
 					aprSgstRs=aprSgstRs + grnAccDetailList.get(i).getAprSgstRs();
 					aprIgstRs=aprIgstRs + grnAccDetailList.get(i).getAprIgstRs();
 					aprROff=aprROff + grnAccDetailList.get(i).getAprROff();
-
+					aprCessRs=aprCessRs + grnAccDetailList.get(i).getAprCessRs();//new1
 				}
 			}
 			accHeader.setApporvedAmt(roundUp(apporvedAmt));
@@ -2204,6 +2210,7 @@ public class GrnGvnController {
 			accHeader.setAprTotalTax(roundUp(aprTotalTax));
 			accHeader.setAprGrandTotal(roundUp(aprGrandTotal));	
 			accHeader.setAprCgstRs(roundUp(aprCgstRs));
+			accHeader.setAprCessRs(roundUp(aprCessRs));//new
 			accHeader.setAprSgstRs(roundUp(aprSgstRs));
 			accHeader.setAprIgstRs(roundUp(aprIgstRs));	
 			accHeader.setAprROff(roundUp(aprROff));	

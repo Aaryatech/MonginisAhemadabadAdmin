@@ -20,7 +20,7 @@ public class GetGrnItemConfig {
     float sgstPer;
     float cgstPer;
     float igstPer;
-    
+    float cessPer;
     
     int catId;
     int menuId;
@@ -37,6 +37,14 @@ public class GetGrnItemConfig {
     
     
     
+	public float getCessPer() {
+		return cessPer;
+	}
+
+	public void setCessPer(float cessPer) {
+		this.cessPer = cessPer;
+	}
+
 	public String getHsnCode() {
 		return hsnCode;
 	}
@@ -212,9 +220,9 @@ public class GetGrnItemConfig {
 		return "GetGrnItemConfig [billDetailNo=" + billDetailNo + ", itemId=" + itemId + ", frId=" + frId
 				+ ", itemName=" + itemName + ", grnType=" + grnType + ", billNo=" + billNo + ", rate=" + rate + ", mrp="
 				+ mrp + ", billQty=" + billQty + ", billDate=" + billDate + ", sgstPer=" + sgstPer + ", cgstPer="
-				+ cgstPer + ", igstPer=" + igstPer + ", catId=" + catId + ", menuId=" + menuId + ", invoiceNo="
-				+ invoiceNo + ", autoGrnQty=" + autoGrnQty + ", billDateTime=" + billDateTime + ", discPer=" + discPer
-				+ ", hsnCode=" + hsnCode + "]";
+				+ cgstPer + ", igstPer=" + igstPer + ", cessPer=" + cessPer + ", catId=" + catId + ", menuId=" + menuId
+				+ ", invoiceNo=" + invoiceNo + ", autoGrnQty=" + autoGrnQty + ", billDateTime=" + billDateTime
+				+ ", discPer=" + discPer + ", hsnCode=" + hsnCode + "]";
 	}
 
 }

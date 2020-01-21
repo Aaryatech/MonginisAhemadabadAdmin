@@ -3,177 +3,141 @@ package com.ats.adminpanel.model.grngvn;
 import java.util.Date;
 
 public class GetGrnGvnDetails {
-	
-	
-int grnGvnId;
-int grnGvnHeaderId;
-String itemHsncd;
-	
+
+	int grnGvnId;
+	int grnGvnHeaderId;
+	String itemHsncd;
+
 	String grnGvnDate;
-	
-	
+
 	private int billNo;
 
-	
 	private int frId;
 
-	
 	private int itemId;
-	
-	
+
 	private float itemRate;
-	
-	
+
 	private float itemMrp;
 
-	
 	private int grnGvnQty;
 
-	
 	private float grnGvnAmt;
 
-	
 	private int grnType;
-	
-	
+
 	private int isGrn;
-	
-	
+
 	private int isGrnEdit;
-	
-	
+
 	private String grnGvnEntryDateTime;
 
-	
 	private String frGrnGvnRemark;
 
-	
 	private String gvnPhotoUpload1;
 
-	
 	private String gvnPhotoUpload2;
 
-	
 	private int grnGvnStatus;
 
-	
 	private int approvedLoginGate;
 
-	
 	private String approveimedDateTimeGate;
 
-	
 	private String approvedRemarkGate;
 
-	
 	private int approvedLoginStore;
 
-	
 	private String approvedDateTimeStore;
 
-	
 	private String approvedRemarkStore;
 
-	
 	private int approvedLoginAcc;
 
-	
 	private String grnApprovedDateTimeAcc;
 
-	
 	private String approvedRemarkAcc;
-	
 
-	
 	private int delStatus;
-	
-	
+
 	private int grnGvnQtyAuto;
-	
+
 	private String itemName;
-	
+
 	private String frName;
-	
-	
-	//newly Added
-	
+
+	// newly Added
+
 	private int isTallySync;
-		
-		
-		
-		private float baseRate;
-		
-		
-		private float sgstPer;
-		
-		
-		private float cgstPer;
-		
-		
-		private float igstPer;
-		
-		
-		private float taxableAmt;
-		
-		
-		private float totalTax;
-		
-		
-		
-		
-		private float roundUpAmt;
-		
-		
-		private float finalAmt;
 
-		private int isCreditNote;
-		
-		
-		
-		
-		
-		private int menuId;
-		
+	private float baseRate;
 
-		private int catId;
-		
+	private float sgstPer;
 
-		private String invoiceNo;
-		
+	private float cgstPer;
 
-		private String refInvoiceDate;
-		
-		
-		//23 FEB new Fields to handle qty variation between entry(insert) and dispatch
-		
-				int aprQtyGate;
-				int aprQtyStore;
-				int aprQtyAcc;
-				
-				
-				float aprTaxableAmt;
-				float aprTotalTax;
-				float aprSgstRs;
-				float aprCgstRs;
-				float aprIgstRs;
-				float aprGrandTotal;
-				float aprROff;
-				
-				
-				int isSameState;
-				//23 FEB new Fields to handle qty variation between entry(insert) and dispatch
-				
-				
-		
-						
+	private float igstPer;
 
-	
+	private float cessPer;// new1
+
+	private float taxableAmt;
+
+	private float totalTax;
+
+	private float roundUpAmt;
+
+	private float finalAmt;
+
+	private int isCreditNote;
+
+	private int menuId;
+
+	private int catId;
+
+	private String invoiceNo;
+
+	private String refInvoiceDate;
+
+	// 23 FEB new Fields to handle qty variation between entry(insert) and dispatch
+
+	int aprQtyGate;
+	int aprQtyStore;
+	int aprQtyAcc;
+
+	float aprTaxableAmt;
+	float aprTotalTax;
+	float aprSgstRs;
+	float aprCgstRs;
+	float aprIgstRs;
+	float aprCessRs;// new1
+
+	float aprGrandTotal;
+	float aprROff;
+
+	int isSameState;
+	// 23 FEB new Fields to handle qty variation between entry(insert) and dispatch
 
 	public int getIsCreditNote() {
-			return isCreditNote;
-		}
+		return isCreditNote;
+	}
 
-		public String getRefInvoiceDate() {
+	public float getCessPer() {
+		return cessPer;
+	}
+
+	public void setCessPer(float cessPer) {
+		this.cessPer = cessPer;
+	}
+
+	public float getAprCessRs() {
+		return aprCessRs;
+	}
+
+	public void setAprCessRs(float aprCessRs) {
+		this.aprCessRs = aprCessRs;
+	}
+
+	public String getRefInvoiceDate() {
 		return refInvoiceDate;
 	}
 
@@ -181,36 +145,33 @@ String itemHsncd;
 		this.refInvoiceDate = refInvoiceDate;
 	}
 
-		public void setIsCreditNote(int isCreditNote) {
-			this.isCreditNote = isCreditNote;
-		}
+	public void setIsCreditNote(int isCreditNote) {
+		this.isCreditNote = isCreditNote;
+	}
 
 	public int getMenuId() {
-			return menuId;
-		}
+		return menuId;
+	}
 
-		public int getCatId() {
-			return catId;
-		}
+	public int getCatId() {
+		return catId;
+	}
 
-		public String getInvoiceNo() {
-			return invoiceNo;
-		}
+	public String getInvoiceNo() {
+		return invoiceNo;
+	}
 
-		
-		public void setMenuId(int menuId) {
-			this.menuId = menuId;
-		}
+	public void setMenuId(int menuId) {
+		this.menuId = menuId;
+	}
 
-		public void setCatId(int catId) {
-			this.catId = catId;
-		}
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
 
-		public void setInvoiceNo(String invoiceNo) {
-			this.invoiceNo = invoiceNo;
-		}
-
-		
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
+	}
 
 	public int getGrnGvnId() {
 		return grnGvnId;
@@ -219,8 +180,6 @@ String itemHsncd;
 	public void setGrnGvnId(int grnGvnId) {
 		this.grnGvnId = grnGvnId;
 	}
-
-	 
 
 	public String getGrnGvnDate() {
 		return grnGvnDate;
@@ -600,7 +559,7 @@ String itemHsncd;
 
 	public float getAprGrandTotal() {
 		return aprGrandTotal;
-	} 
+	}
 
 	public void setAprGrandTotal(float aprGrandTotal) {
 		this.aprGrandTotal = aprGrandTotal;
@@ -645,14 +604,14 @@ String itemHsncd;
 				+ grnApprovedDateTimeAcc + ", approvedRemarkAcc=" + approvedRemarkAcc + ", delStatus=" + delStatus
 				+ ", grnGvnQtyAuto=" + grnGvnQtyAuto + ", itemName=" + itemName + ", frName=" + frName
 				+ ", isTallySync=" + isTallySync + ", baseRate=" + baseRate + ", sgstPer=" + sgstPer + ", cgstPer="
-				+ cgstPer + ", igstPer=" + igstPer + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax
-				+ ", roundUpAmt=" + roundUpAmt + ", finalAmt=" + finalAmt + ", isCreditNote=" + isCreditNote
-				+ ", menuId=" + menuId + ", catId=" + catId + ", invoiceNo=" + invoiceNo + ", refInvoiceDate="
-				+ refInvoiceDate + ", aprQtyGate=" + aprQtyGate + ", aprQtyStore=" + aprQtyStore + ", aprQtyAcc="
-				+ aprQtyAcc + ", aprTaxableAmt=" + aprTaxableAmt + ", aprTotalTax=" + aprTotalTax + ", aprSgstRs="
-				+ aprSgstRs + ", aprCgstRs=" + aprCgstRs + ", aprIgstRs=" + aprIgstRs + ", aprGrandTotal="
-				+ aprGrandTotal + ", aprROff=" + aprROff + ", isSameState=" + isSameState + "]";
+				+ cgstPer + ", igstPer=" + igstPer + ", cessPer=" + cessPer + ", taxableAmt=" + taxableAmt
+				+ ", totalTax=" + totalTax + ", roundUpAmt=" + roundUpAmt + ", finalAmt=" + finalAmt + ", isCreditNote="
+				+ isCreditNote + ", menuId=" + menuId + ", catId=" + catId + ", invoiceNo=" + invoiceNo
+				+ ", refInvoiceDate=" + refInvoiceDate + ", aprQtyGate=" + aprQtyGate + ", aprQtyStore=" + aprQtyStore
+				+ ", aprQtyAcc=" + aprQtyAcc + ", aprTaxableAmt=" + aprTaxableAmt + ", aprTotalTax=" + aprTotalTax
+				+ ", aprSgstRs=" + aprSgstRs + ", aprCgstRs=" + aprCgstRs + ", aprIgstRs=" + aprIgstRs + ", aprCessRs="
+				+ aprCessRs + ", aprGrandTotal=" + aprGrandTotal + ", aprROff=" + aprROff + ", isSameState="
+				+ isSameState + "]";
 	}
 
-	
 }

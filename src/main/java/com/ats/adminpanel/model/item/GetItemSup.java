@@ -38,12 +38,22 @@ public class GetItemSup{
 	private int cutSection;
 	
 	private int delStatus;
-	private String shortName;
 	
+	private String shortName;
 	
 	private String itemCode;
 	
+	private float itemCess;
 	
+	
+	public float getItemCess() {
+		return itemCess;
+	}
+
+	public void setItemCess(float itemCess) {
+		this.itemCess = itemCess;
+	}
+
 	public int getCutSection() {
 		return cutSection;
 	}
@@ -211,7 +221,9 @@ public class GetItemSup{
 				+ ", actualWeight=" + actualWeight + ", baseWeight=" + baseWeight + ", inputPerQty=" + inputPerQty
 				+ ", isGateSale=" + isGateSale + ", trayType=" + trayType + ", noOfItemPerTray=" + noOfItemPerTray
 				+ ", isGateSaleDisc=" + isGateSaleDisc + ", isAllowBday=" + isAllowBday + ", cutSection=" + cutSection
-				+ ", delStatus=" + delStatus + ", shortName=" + shortName + ", itemCode=" + itemCode + "]";
+				+ ", delStatus=" + delStatus + ", shortName=" + shortName + ", itemCode=" + itemCode + ", itemCess="
+				+ itemCess + "]";
 	}
 
+	
 }

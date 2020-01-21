@@ -1504,7 +1504,7 @@ public class ItemController {
 			float actualWeight = Float.parseFloat(request.getParameter("actual_weight"));
 
 			float baseWeight = Float.parseFloat(request.getParameter("base_weight"));
-
+			float itemCessPer= Float.parseFloat(request.getParameter("cessPer"));
 			float inputPerQty = Float.parseFloat(request.getParameter("input_per_qty"));
 			int trayType = Integer.parseInt(request.getParameter("tray_type"));
 
@@ -1536,7 +1536,7 @@ public class ItemController {
 			itemSup.setIsTallySync(0);
 			itemSup.setCutSection(cutSection);
 			itemSup.setShortName(shortName);
-
+			itemSup.setItemCess(itemCessPer);//cess%
 			RestTemplate restTemplate = new RestTemplate();
 
 			Info info = restTemplate.postForObject(Constants.url + "/saveItemSup", itemSup, Info.class);
