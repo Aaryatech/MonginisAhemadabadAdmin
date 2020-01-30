@@ -450,8 +450,9 @@ $(document).ready(function() {
 								
 								document.getElementById("callsearch").disabled=false;
 								
-								  if (data == "") {
-									//alert("No records found !!");
+								  if (data.length==0) {
+										$('#loader').hide();
+									alert("No records found !!");
 									document.getElementById("callSubmit").disabled=true;
 								} 
 								  

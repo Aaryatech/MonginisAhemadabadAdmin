@@ -14,6 +14,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
@@ -461,24 +462,46 @@ public class AccessRightController {
 	}
 
 	@RequestMapping(value = "/changeUserPass", method = RequestMethod.POST)
-	public String changeUserPass(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView model = new ModelAndView("accessRight/changePass");
+	public ModelAndView changeUserPass(HttpServletRequest request, HttpServletResponse response) {
+		String changePasswordResp = "";
+		ModelAndView model = new ModelAndView("login");
 		HttpSession session = request.getSession();
-		String newPass = request.getParameter("new_pass2");
+		String curPass = request.getParameter("cur_pass");
+		String newPass = request.getParameter("new_pass1");
+		String newPass2 = request.getParameter("new_pass2");
 
-		System.err.println("NEw Pass =  " + newPass);
 		UserResponse userResponse = (UserResponse) session.getAttribute("UserDetail");
 
 		User user = userResponse.getUser();
 
-		user.setPassword(newPass);
-		// insertUser
-		Info info = rest.postForObject(Constants.url + "changeAdminUserPass", user, Info.class);
+		System.err.println("NEW Pass =  " + curPass + " " + newPass + " " + newPass2);
+		if (newPass.equals(newPass2)) {
 
-		System.err.println("Response of password change = " + info.toString());
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			int userId = userResponse.getUser().getId();
 
-		return "redirect:/sessionTimeOut";
+			map.add("userId", userId);
+			map.add("curPass", curPass);
+			map.add("newPass", newPass);
+
+			Info info = rest.postForObject(Constants.url + "changeAdminUserPass", map, Info.class);
+			if (info.getError() == false) {
+				changePasswordResp = "Password Changed Sucessfully";		
+				model.addObject("changePasswordResp", changePasswordResp);
+				System.err.println("Password Change Succsessfully= " + info.toString());
+			} else {
+				changePasswordResp = "Password Not Changed";
+				model.addObject("changePasswordResp", changePasswordResp);
+				System.err.println("Password Not Change Successfully= " + info.toString());
+			}
+
+		} else {
+			changePasswordResp = "Password Not Matched";
+			model.addObject("changePasswordResp", changePasswordResp);
+			System.err.println("Password Not Matched");
+			return model;
+		}
+		return model;
 
 	}
 
@@ -562,6 +585,8 @@ public class AccessRightController {
 		// ModelAndView model = new ModelAndView("user/userList");
 		try {
 			String upass = request.getParameter("upass");
+			String email = request.getParameter("email");
+			String contact = request.getParameter("contact");
 
 			int deptId = Integer.parseInt(request.getParameter("dept_id"));
 			int userType = Integer.parseInt(request.getParameter("user_type"));
@@ -573,7 +598,11 @@ public class AccessRightController {
 			editUser.setDeptId(deptId);
 			editUser.setUsertype(userType);
 			editUser.setPassword(upass);
+			
+			editUser.setContact(contact);
+			editUser.setEmail(email);
 			editUser.setId(user.getId());
+			
 			Info info = rest.postForObject(Constants.url + "updateUser", editUser, Info.class);
 			System.err.println("Update User Response  " + info.toString());
 			System.err.println("Param for update " + upass + "dept Id " + deptId + "userType  " + userType);

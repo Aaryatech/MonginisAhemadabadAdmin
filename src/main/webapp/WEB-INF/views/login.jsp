@@ -33,7 +33,23 @@
 </style>
 </head>
 <body class="container bg-overlay">
-	
+	    <%
+	    Cookie[] cookies=request.getCookies();
+	    String userName = "", password = "",rememberVal="";
+	    if (cookies != null) {
+	         for (Cookie cookie : cookies) {
+	           if(cookie.getName().equals("cookuser")) {
+	             userName = cookie.getValue();
+	           }
+	           if(cookie.getName().equals("cookpass")){
+	             password = cookie.getValue();
+	           }
+	           if(cookie.getName().equals("cookrem")){
+	             rememberVal = cookie.getValue();
+	           }
+	        }
+	    }
+	%>
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
@@ -60,14 +76,53 @@
 							Sign in
 						</button>
 					</div>
-	<c:if test="${not empty loginResponseMessage}">
+					
+					
+<%-- 	<c:if test="${not empty changePasswordResp}"> --%>
+   <!-- here would be a message with a result of processing -->
+
+
+					<%
+						if (session.getAttribute("changePassword") != null) {
+					%>
+					
+						<p style="color: white;">Password Change Successfully</p>
+					
+					<%
+						}
+
+						session.removeAttribute("changePassword");
+					%>
+
+					<%
+						if (session.getAttribute("changePasswordFail") != null) {
+					%>
+				
+						<p style="color: white;">Password Not Changed</p>
+					
+					<%
+						}
+
+						session.removeAttribute("changePasswordFail");
+					%>
+					<c:if test="${not empty loginResponseMessage}">
    <!-- here would be a message with a result of processing -->
     <div style="color:white;"> ${loginResponseMessage} </div>
         	
-</c:if><div class="text-center p-t-45 p-b-4">
+</c:if>
+<div class="form-group">
+				<!-- <div class="controls">
+					<label class="checkbox"> <input type="checkbox"
+						value="remember" /> Remember me
+					</label>
+				</div> -->
+			</div>
+<div class="text-center p-t-45 p-b-4">
 					
-						<span class="txt1">
+						<span class="txt1" >
 							<!-- Forgot -->
+							<a href="${pageContext.request.contextPath}/forgetPwd"><span class="links" style="color:white;">
+							Forget Password</span></a>
 						</span>
 
 						<a href="#" class="txt2 hov1">
@@ -88,9 +143,7 @@
 			</div>
 		</div>
 	</div>
-	
 
-	
 <!--===============================================================================================-->
 	<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

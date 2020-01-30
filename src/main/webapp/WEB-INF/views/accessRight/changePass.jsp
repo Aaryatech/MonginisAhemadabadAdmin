@@ -63,7 +63,7 @@
 						</div>
 
 						<div class="box-content">
-							<form action="" method="post"
+							<form action="${pageContext.request.contextPath}/changeUserPass" method="post"
 								class="form-horizontal" id="validation-form" method="post">
 
 								<div class="form-group">
@@ -103,7 +103,7 @@
 
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
-										<input type="button" onclick="validate()" class="btn btn-info"
+										<input type="submit"class="btn btn-info"
 											value="Submit" >
 
 									</div>
@@ -201,6 +201,7 @@
 
 	<script type="text/javascript">
 		function validate() {
+			alert("HI");
 			var valid = true;
 
 			
@@ -208,7 +209,7 @@
 			var newPass1 = document.getElementById("new_pass1").value;
 			var newPass2 = document.getElementById("new_pass2").value;
 			var dbPass=${curPass};
-
+	alert("PWD---------"+curEntered);
 			if(curEntered!=dbPass){
 				alert("Current Password did not matched");
 				valid = false;
@@ -225,7 +226,7 @@
 				var form = document.getElementById("validation-form")
 				form.action = "${pageContext.request.contextPath}/changeUserPass";
 				form.submit();
-			}
+			} 
 
 		}
 	</script>
