@@ -174,8 +174,6 @@ public class HomeController {
 
 				mav = new ModelAndView("login");
 			} else {
-
-
 				UserResponse userObj = restTemplate.getForObject(
 						Constants.url+"/login?username=" + name + "&password=" + password,
 						UserResponse.class);
@@ -191,11 +189,8 @@ public class HomeController {
 				UserResponse userResponse =(UserResponse) session.getAttribute("UserDetail");
 				
 				System.out.println("new Field Dept Id = "+userResponse.getUser().getDeptId());
-				
-
 				System.out.println("JSON Response Objet " + userObj.toString());
 				String loginResponseMessage="";
-
 				
 				if (userObj.getErrorMessage().isError()==false) {
 					
@@ -222,8 +217,6 @@ public class HomeController {
 						session.setAttribute("newModuleList", newModuleList);
 						session.setAttribute("sessionModuleId", 0);
 						session.setAttribute("sessionSubModuleId", 0);
-						
-					
 				//	System.out.println("Role Json "+Commons.newModuleList.toString());
 					}catch (Exception e) {
 						System.out.println(e.getMessage());
@@ -244,11 +237,7 @@ public class HomeController {
 					System.out.println("menu list =="+orderCounts.toString());
 					System.out.println("order count tile -"+orderCounts.get(0).getMenuTitle());
 					System.out.println("order  count -"+orderCounts.get(0).getTotal());
-					
-					
-
 				} else {
-
 					
 					mav = new ModelAndView("login");
 					
