@@ -237,10 +237,11 @@ select {
 											</div>
 										</div>
 												   <div class="form-group">
+												   <input type="hidden" name="menu_id" id="menu_id" value="${getConfiguredSpDayCk.menuId}">
 											<label class="col-sm-3 col-lg-2 control-label">Menu List</label>
 											<div class="col-sm-9 col-lg-10 controls">
-												<select data-placeholder="Select Menu" name="menu_id"
-													class="form-control chosen"  id="menu_id" onchange="getItemsByMenuId()"
+												<select data-placeholder="Select Menu" name="menuid" disabled="disabled"
+													class="form-control chosen"  id="menuid" onchange="getItemsByMenuId()"
 													>
                                                    <option value=""> </option>
 													<optgroup label="All Menu">
@@ -263,11 +264,13 @@ select {
 												</select>
 												
 											</div>
-										</div>						
+										</div>			
+										
+										<%-- <h2>${selectedItemList}</h2>			 --%>
 											<div class="form-group">
 											<label class="col-sm-3 col-lg-2 control-label">Items</label>
 											<div class="col-sm-9 col-lg-10 controls">
-												<select data-placeholder="Select Items" name="items[]"
+												<select data-placeholder="Select Items" name="items[]"  
 													class="form-control chosen" tabindex="-1" id="item" multiple="multiple"
 													data-rule-required="true">
                                                       <option value=""> </option>
@@ -432,7 +435,8 @@ select {
 												class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
 												<input type="submit" class="btn btn-primary"
 													value="Configure">
-												<button type="button" class="btn">Cancel</button>
+												<a href="${pageContext.request.contextPath}/configureSpecialDayCkList">
+												<button type="button" class="btn">Cancel</button></a>
 											</div>
 										</div>
 

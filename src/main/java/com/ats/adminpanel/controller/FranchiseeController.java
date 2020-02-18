@@ -2098,7 +2098,8 @@ public class FranchiseeController {
 			map.add("menuId", menuId);
 			RestTemplate restTemplate = new RestTemplate();
 
-			itemList = restTemplate.postForObject(Constants.url + "/getItemsByMenuId", map, List.class);
+			ItemIdOnly[] itemArr = restTemplate.postForObject(Constants.url + "/getItemsByMenuId", map, ItemIdOnly[].class);
+			itemList = new ArrayList<ItemIdOnly>(Arrays.asList(itemArr));
 
 			System.out.println("itemList" + itemList.toString());
 
@@ -2365,6 +2366,7 @@ public class FranchiseeController {
 		int menuId = frMenu.getMenuId();
 		// ------------------------------------------------------------------------
 		// ------------Service Call to get Selected Record for Edit by Id----------
+		
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("spdayId", spdayId);
 
@@ -2373,39 +2375,42 @@ public class FranchiseeController {
 
 		// ------------------------------------------------------------------------
 
-		logger.info("-------------SELECTED getConfiguredSpDayCk-------------");
+		//logger.info("-------------SELECTED getConfiguredSpDayCk-------------");
 
 		String frPrevItems = getConfiguredSpDayCk.getItemId();
 
-		logger.info("-------------frPrevItems--------------------" + frPrevItems.toString());
+		//logger.info("-------------frPrevItems--------------------" + frPrevItems.toString());
 
 		List<String> frPrevItemsList = Arrays.asList(frPrevItems.split("\\s*,\\s*"));
-
+		
+		logger.info("-------------IdList--------------------" + frPrevItemsList);
 		logger.info("-------------frPrevItemsList--------------------" + getConfiguredSpDayCk.getCatId());
 
 		// ------------Service Call to get Configured SpDay Cake by
 		// CatId(Grp1)----------
+		System.out.println("--------------3");
 		MultiValueMap<String, Object> mav = new LinkedMultiValueMap<String, Object>();
 		mav.add("itemGrp1", getConfiguredSpDayCk.getCatId());
 
 		Item[] item = restTemplate.postForObject(Constants.url + "getItemsByCatId", mav, Item[].class);
 		ArrayList<Item> itemList = new ArrayList<Item>(Arrays.asList(item));
-		logger.info("Filter Item List " + itemList.toString());
+		System.err.println("Items----------"+itemList);
+		//logger.info("Filter Item List " + itemList.toString());
 		// ------------------------------------------------------------------------------
 		List<Item> filteredItemList = new ArrayList<Item>();
 		List<Item> tempItemList = new ArrayList<Item>(Arrays.asList(item));
-		logger.info("temp Item List " + itemList.toString());
+		//logger.info("temp Item List " + itemList.toString());
 
 		// ------------------------------------------------------------------------------
-
+		
 		for (int j = 0; j < frPrevItemsList.size(); j++) {
-			logger.info("j " + j);
+			//logger.info("j " + j);
 
 			for (int k = 0; k < itemList.size(); k++) {
-				logger.info("k " + k);
+			//	logger.info("k " + k);
 
 				if (Integer.parseInt(frPrevItemsList.get(j)) == (itemList.get(k).getId())) {
-					logger.info("jk " + j + "k" + k);
+			//		logger.info("jk " + j + "k" + k);
 					filteredItemList.add(itemList.get(k));
 					tempItemList.remove(itemList.get(k));
 				}
@@ -2415,7 +2420,7 @@ public class FranchiseeController {
 		}
 
 		// ------------------------------------------------------------------------------
-
+		
 		model.addObject("selectedItemList", filteredItemList);
 		logger.info("filteredItemList " + filteredItemList.toString());
 
@@ -2430,16 +2435,17 @@ public class FranchiseeController {
 		String toTime = getConfiguredSpDayCk.getToTime();
 
 		try {
+			
 			final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 			final Date fromDate = sdf.parse(fromTime);
 			final Date toDate = sdf.parse(toTime);
 
-			logger.info("From Time " + fromDate);
-			logger.info("To Time " + toDate);
+		//	logger.info("From Time " + fromDate);
+		//	logger.info("To Time " + toDate);
 
-			logger.info(new SimpleDateFormat("hh:mm a").format(fromDate));
+		//	logger.info(new SimpleDateFormat("hh:mm a").format(fromDate));
 
-			logger.info(new SimpleDateFormat("hh:mm a").format(toDate));
+		//	logger.info(new SimpleDateFormat("hh:mm a").format(toDate));
 
 			model.addObject("fromTime", new SimpleDateFormat("hh:mm a").format(fromDate));
 			model.addObject("toTime", new SimpleDateFormat("hh:mm a").format(toDate));
@@ -2448,15 +2454,15 @@ public class FranchiseeController {
 			e.printStackTrace();
 		}
 
-		// ------------------------------------------------------------------------------
+		// ------------------------------------------------------------------------------	
 		List<FranchiseeList> franchiseeList = franchiseeAndMenuList.getAllFranchisee();
-		logger.info("franchiseeList " + franchiseeList.toString());
+		//logger.info("franchiseeList " + franchiseeList.toString());
 
 		String frPrevFr = getConfiguredSpDayCk.getFrId();
-		logger.info("frPrevFr " + frPrevFr.toString());
+		//logger.info("frPrevFr " + frPrevFr.toString());
 
 		List<String> frPrevFrList = Arrays.asList(frPrevFr.split("\\s*,\\s*"));
-		logger.info("frPrevFrList " + frPrevFrList.toString());
+		//logger.info("frPrevFrList " + frPrevFrList.toString());
 
 		// ------------------------------------------------------------------------------
 		List<FranchiseeList> filteredFrList = new ArrayList<FranchiseeList>();
@@ -2464,7 +2470,7 @@ public class FranchiseeController {
 		logger.info("tempFrList " + tempFrList.toString());
 
 		// ------------------------------------------------------------------------------
-		logger.info("frPrevFrList.size() " + frPrevFrList.size());
+		//logger.info("frPrevFrList.size() " + frPrevFrList.size());
 		for (int j = 0; j < frPrevFrList.size(); j++) {
 
 			for (int k = 0; k < franchiseeList.size(); k++) {
@@ -2479,15 +2485,16 @@ public class FranchiseeController {
 
 		}
 		// ------------------------------------------------------------------------------
-
+		System.out.println("--------------9");
 		model.addObject("selectedFrList", filteredFrList);
 
 		model.addObject("remFrList", tempFrList);
 
 		// ------------------------------------------------------------------------------------
-		model.addObject("catId", catId);
+		model.addObject("catId", getConfiguredSpDayCk.getCatId());
 		model.addObject("menuId", menuId);
-
+		model.addObject("menuList", menuList);
+		
 		model.addObject("franchiseeAndMenuList", franchiseeAndMenuList);
 
 		model.addObject("getConfiguredSpDayCk", getConfiguredSpDayCk);
