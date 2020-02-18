@@ -89,15 +89,15 @@ public class UserController {
 	public @ResponseBody Info getUniqueEmail(HttpServletRequest request, HttpServletResponse response) {
 		Info info = new Info();
 	try{
-		
+																																																																																																																																																																																																																																																																																																																																																																																																																																																
 		RestTemplate rest = new RestTemplate();
 		String email = request.getParameter("email");
-		System.out.println("Email--------------------------"+email);
+		//System.out.println("Email--------------------------"+email);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("email", email);
 		
 		User user = rest.postForObject(Constants.url + "getUserInfoByEmail", map, User.class);
-		System.err.println("User-----------"+user);
+	//	System.err.println("User-----------"+user);
 		if(user!=null) {
 			info.setError(false);
 			info.setMessage("User Found");
@@ -122,12 +122,12 @@ public class UserController {
 		
 		RestTemplate rest = new RestTemplate();
 		String contact = request.getParameter("contact");
-		System.out.println("Contact--------------------------"+contact);
+		//System.out.println("Contact--------------------------"+contact);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("contact", contact);
 		
 		User user = rest.postForObject(Constants.url + "getUserInfoByContact", map, User.class);
-		System.err.println("User-----------"+user);
+		//System.err.println("User-----------"+user);
 		if(user!=null) {
 			info.setError(false);
 			info.setMessage("User Found");
@@ -153,12 +153,12 @@ public class UserController {
 		
 		RestTemplate rest = new RestTemplate();
 		String uname = request.getParameter("uname");
-		System.out.println("uname--------------------------"+uname);
+	//	System.out.println("uname--------------------------"+uname);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("uname", uname);
 		
 		User user = rest.postForObject(Constants.url + "getUserInfoByUser", map, User.class);
-		System.err.println("User-----------"+user);
+		//System.err.println("User-----------"+user);
 		if(user!=null) {
 			info.setError(false);
 			info.setMessage("User Found");

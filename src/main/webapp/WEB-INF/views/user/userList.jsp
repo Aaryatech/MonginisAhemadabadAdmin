@@ -99,7 +99,7 @@
 									<label class="col-sm-3 col-lg-2 control-label">Email</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="email" id="email"
-											value="${user.email}" onkeyup="sameEmail()"
+											value="${user.email}" 
 											class="form-control" placeholder="Email"
 											data-rule-required="true" />
 									</div>
@@ -111,7 +111,7 @@
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="contact" maxlength="10"
 											value="${user.contact}" id="contact"
-											onkeyup="sameContact()" class="form-control"
+											 class="form-control"
 											placeholder="Contact" data-rule-required="true" />
 									</div>
 									

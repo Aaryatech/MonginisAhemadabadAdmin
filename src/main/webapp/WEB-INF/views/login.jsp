@@ -33,23 +33,6 @@
 </style>
 </head>
 <body class="container bg-overlay">
-	    <%
-	    Cookie[] cookies=request.getCookies();
-	    String userName = "", password = "",rememberVal="";
-	    if (cookies != null) {
-	         for (Cookie cookie : cookies) {
-	           if(cookie.getName().equals("cookuser")) {
-	             userName = cookie.getValue();
-	           }
-	           if(cookie.getName().equals("cookpass")){
-	             password = cookie.getValue();
-	           }
-	           if(cookie.getName().equals("cookrem")){
-	             rememberVal = cookie.getValue();
-	           }
-	        }
-	    }
-	%>
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
@@ -122,7 +105,7 @@
 						<span class="txt1" >
 							<!-- Forgot -->
 							<a href="${pageContext.request.contextPath}/forgetPwd"><span class="links" style="color:white;">
-							Forget Password</span></a>
+							Forgot Password</span></a>
 						</span>
 
 						<a href="#" class="txt2 hov1">
