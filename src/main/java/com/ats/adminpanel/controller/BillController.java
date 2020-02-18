@@ -126,6 +126,7 @@ public class BillController {
 	public List<GenerateBill> staticGetGenerateBills = new ArrayList<>();
 	public List<String> frList = new ArrayList<>();
 	LinkedHashMap<Integer, List<GetBillDetail>>	billDetailsListHMap=null;
+	LinkedHashMap<Integer, GetBillHeader>	billHeaderListHMap=null;
 	public List<GetBillDetail> billDetailsList;
 
 	public List<GetBillDetailPrint> billDetailsListForPrint;
@@ -807,7 +808,7 @@ public class BillController {
 
 		} else {
         	billDetailsListHMap = new LinkedHashMap<Integer, List<GetBillDetail>>();
-
+        	billHeaderListHMap = new LinkedHashMap<Integer, GetBillHeader>();
 			model = new ModelAndView("billing/viewbillheader");
 
 			Constants.mainAct = 2;
@@ -2189,7 +2190,6 @@ public class BillController {
 
 	}
 	
-	GetBillHeader getBillHeader1 = new GetBillHeader();
 	FranchiseeAndMenuList franchiseeAndMenuList=null;
 	
 	@RequestMapping(value = "/updateBillDetails/{billNo}/{frName}", method = RequestMethod.GET)
@@ -2213,8 +2213,9 @@ public class BillController {
 			billDetailsListHMap.put(billNo, billDetailsList);
 			allFrIdNameList = restTemplate.getForObject(Constants.url + "getAllFrIdName", AllFrIdNameList.class);
 
-			getBillHeader1 = restTemplate.postForObject(Constants.url + "getBillHeaderByBillNo", map,
+			GetBillHeader getBillHeader1 = restTemplate.postForObject(Constants.url + "getBillHeaderByBillNo", map,
 					GetBillHeader.class);
+			billHeaderListHMap.put(billNo, getBillHeader1);
 			model.addObject("getBillHeader", getBillHeader1);
 			model.addObject("frList", allFrIdNameList.getFrIdNamesList());
 			model.addObject("frName", frName);
@@ -2476,7 +2477,7 @@ public class BillController {
 
 			Info info = restTemplate.postForObject(Constants.url + "updateBillData", postBillDataCommon, Info.class);
 
-			if (getBillHeader1.getFrId() != frId) {
+			if (billHeaderListHMap.get(billNo).getFrId() != frId) {
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("frId", frId);

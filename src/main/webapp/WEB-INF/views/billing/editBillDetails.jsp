@@ -84,7 +84,7 @@
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-2 control-label" for="item_name">Bill
-										date Name</label>
+										date</label>
 									<div class="col-sm-9 col-lg-10 controls">
 										<input type="text" name="bill_date" id="bill_date"
 											placeholder="Bill Date" class="form-control date-picker"
