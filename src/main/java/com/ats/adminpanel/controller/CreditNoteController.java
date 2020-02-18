@@ -1102,7 +1102,7 @@ public class CreditNoteController {
 			
 			String date = request.getParameter("date");
 			 crnId = Integer.parseInt(request.getParameter("crnId"));
-			
+			String crnInvNo = request.getParameter("crnInvNo"); 
 			HttpSession session = request.getSession();
 			UserResponse userResponse = (UserResponse) session.getAttribute("UserDetail");
 			int userId = userResponse.getUser().getId();
@@ -1212,7 +1212,7 @@ public class CreditNoteController {
 			postCreditHeader.setRoundOff(roundUp(totalRoundUpAmt));
 			postCreditHeader.setUserId(userId);
 			postCreditHeader.setCrnId(crnId);
-			postCreditHeader.setCrnNo(crnHeaderMap.getCrnNo());
+			postCreditHeader.setCrnNo(crnInvNo);//
 			postCreditHeader.setExInt1(crnHeaderMap.getExInt1());
 			postCreditHeader.setExVarchar1(crnHeaderMap.getExVarchar1());
 			postCreditHeader.setFrId(crnHeaderMap.getFrId());

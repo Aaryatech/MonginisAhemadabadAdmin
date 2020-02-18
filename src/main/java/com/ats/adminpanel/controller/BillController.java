@@ -2333,6 +2333,8 @@ public class BillController {
 						.parseFloat(request.getParameter("cgstPer" + billDetailsListHMap.get(billNo).get(i).getBillDetailNo()));
 				float newCessPer = Float
 						.parseFloat(request.getParameter("cessPer" + billDetailsListHMap.get(billNo).get(i).getBillDetailNo()));
+				float newDiscPer = Float
+						.parseFloat(request.getParameter("discPer" + billDetailsListHMap.get(billNo).get(i).getBillDetailNo()));
 
 				System.out.println("new bill qty = " + newBillQty);
 				System.out.println("new BillRate = " + newBillRate);
@@ -2373,7 +2375,7 @@ public class BillController {
 
 				float taxableAmt = baseRate * newBillQty;
 				// ----------------------------------------------------------
-				float discAmt = ((taxableAmt * getBillDetail.getDiscPer()) / 100); // new row added
+				float discAmt = ((taxableAmt * newDiscPer) / 100); // new row added
 				System.out.println("discAmt: " + discAmt);// new row added
 				sumDiscAmt = sumDiscAmt + discAmt;
 
@@ -2405,7 +2407,7 @@ public class BillController {
 				sumTotalTax = sumTotalTax + totalTax;
 				sumGrandTotal = sumGrandTotal + grandTotal;
 
-				postBillDetail.setDiscPer(getBillDetail.getDiscPer());
+				postBillDetail.setDiscPer(newDiscPer);
 				postBillDetail.setRemark(Float.valueOf(df.format(discAmt)) + "");
 
 				postBillDetail.setSgstRs(Float.valueOf(df.format(sgstRs)));

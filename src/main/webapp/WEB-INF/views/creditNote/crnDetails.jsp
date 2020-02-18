@@ -96,7 +96,7 @@
 									<table style="width: 100%; border: 1px dashed;font-size: 14px;">
 										<tbody>
 											<tr >
-											<td style="border: 1px dashed;font-weight: bold;">&nbsp;CREDIT NOTE NO: </td><td style="border: 1px dashed;">&nbsp; <b> ${creditNoteHeaders.crnNo} </b></td>
+											<td style="border: 1px dashed;font-weight: bold;">&nbsp;CREDIT NOTE NO: </td><td style="border: 1px dashed;">&nbsp; <b><input type="text" class="form-control" name="crnInvNo" id="crnInvNo" value="${creditNoteHeaders.crnNo}" />  </b></td>
 											<td style="border: 1px dashed;font-weight: bold;">&nbsp;DATE:</td><td style="border: 1px dashed;"><b>
 											<input class="form-control date-picker" id="date" size="19" style="width:170px;" placeholder="dd-mm-yyyy" type="text" name="date" value="${creditNoteHeaders.crnDate}" required/>
 											  </b></td>
