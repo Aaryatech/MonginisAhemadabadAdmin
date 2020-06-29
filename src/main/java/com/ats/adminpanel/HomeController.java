@@ -34,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
  
 import com.ats.adminpanel.commons.Constants;
 import com.ats.adminpanel.commons.DateConvertor;
+import com.ats.adminpanel.model.Info;
 import com.ats.adminpanel.model.Login;
 import com.ats.adminpanel.model.OrderCount;
 import com.ats.adminpanel.model.OrderCountsResponse;
@@ -193,50 +194,66 @@ public class HomeController {
 				String loginResponseMessage="";
 				
 				if (userObj.getErrorMessage().isError()==false) {
-					
-					session.setAttribute("userName", name);
-					
-					loginResponseMessage="Login Successful";
-					mav.addObject("loginResponseMessage",loginResponseMessage);
-					
-					
 					MultiValueMap<String, Object> map =new LinkedMultiValueMap<String, Object>();
-					int userId=userObj.getUser().getId();
-					map.add("usrId", userId);
-					System.out.println("Before web service");
-					try {
-					 ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
-					};
-					ResponseEntity<List<ModuleJson>> responseEntity = restTemplate.exchange(Constants.url + "getRoleJson",
-							HttpMethod.POST, new HttpEntity<>(map), typeRef);
 					
-					 List<ModuleJson> newModuleList = responseEntity.getBody();
-					
-					 System.err.println("new Module List " +newModuleList.toString());
-					 
-						session.setAttribute("newModuleList", newModuleList);
-						session.setAttribute("sessionModuleId", 0);
-						session.setAttribute("sessionSubModuleId", 0);
-				//	System.out.println("Role Json "+Commons.newModuleList.toString());
-					}catch (Exception e) {
-						System.out.println(e.getMessage());
-					}
-					
-					mav = new ModelAndView("home");
+					//Server Status 1=Down, 0=OK
 					map =new LinkedMultiValueMap<String, Object>();
-					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				      			      
-					map.add("cDate",  dateFormat.format(new Date()));
-					OrderCountsResponse orderCountList=restTemplate.postForObject(
-							Constants.url+"/showOrderCounts",map,
-							OrderCountsResponse.class);
-					List<OrderCount> orderCounts=new ArrayList<OrderCount>();
-					orderCounts=orderCountList.getOrderCount();
-					mav.addObject("orderCounts",orderCounts);
-					mav.addObject("cDate",dateFormat.format(new Date()));
-					System.out.println("menu list =="+orderCounts.toString());
-					System.out.println("order count tile -"+orderCounts.get(0).getMenuTitle());
-					System.out.println("order  count -"+orderCounts.get(0).getTotal());
+					map.add("serverStatus", "server_status");
+					
+					Info siteStatus = restTemplate.postForObject(Constants.url+"/checkServerStatus",map,
+							Info.class);
+					
+					if(siteStatus.getError()==false) {
+						System.out.println(siteStatus.getError()+"----"+siteStatus.getMessage());
+						session.removeAttribute("UserDetail");
+						session.invalidate();
+						mav = new ModelAndView("maintenance");
+					}else {
+							
+						session.setAttribute("userName", name);
+						
+						loginResponseMessage="Login Successful";
+						mav.addObject("loginResponseMessage",loginResponseMessage);
+						
+						
+						
+						int userId=userObj.getUser().getId();
+						map.add("usrId", userId);
+						System.out.println("Before web service");
+						try {
+						 ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
+						};
+						ResponseEntity<List<ModuleJson>> responseEntity = restTemplate.exchange(Constants.url + "getRoleJson",
+								HttpMethod.POST, new HttpEntity<>(map), typeRef);
+						
+						 List<ModuleJson> newModuleList = responseEntity.getBody();
+						
+						 System.err.println("new Module List " +newModuleList.toString());
+						 
+							session.setAttribute("newModuleList", newModuleList);
+							session.setAttribute("sessionModuleId", 0);
+							session.setAttribute("sessionSubModuleId", 0);
+					//	System.out.println("Role Json "+Commons.newModuleList.toString());
+						}catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
+						
+						mav = new ModelAndView("home");
+						map =new LinkedMultiValueMap<String, Object>();
+						DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					      			      
+						map.add("cDate",  dateFormat.format(new Date()));
+						OrderCountsResponse orderCountList=restTemplate.postForObject(
+								Constants.url+"/showOrderCounts",map,
+								OrderCountsResponse.class);
+						List<OrderCount> orderCounts=new ArrayList<OrderCount>();
+						orderCounts=orderCountList.getOrderCount();
+						mav.addObject("orderCounts",orderCounts);
+						mav.addObject("cDate",dateFormat.format(new Date()));
+						System.out.println("menu list =="+orderCounts.toString());
+						System.out.println("order count tile -"+orderCounts.get(0).getMenuTitle());
+						System.out.println("order  count -"+orderCounts.get(0).getTotal());
+				}
 				} else {
 					
 					mav = new ModelAndView("login");
