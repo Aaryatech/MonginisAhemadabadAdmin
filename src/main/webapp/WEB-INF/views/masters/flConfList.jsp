@@ -4,6 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style>
+table{border: 1px solid;} 
+.highlight td {background: red;}
+
  #overlay {
     position: fixed;
     display: none;
@@ -86,7 +89,12 @@
 			<div class="box">
 				
 				<div class="box-content">
-
+					<form action="${pageContext.request.contextPath}/deleteFlavourConfMulti"
+							method="post"  id="flavConfForm">
+	<input type="submit" class="btn btn-primary" value="Delete Selected Configuration"
+												id="deleteId2"
+												onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Flavour Selected');return false;	}else{   return confirm('Are you sure want to delete these flavour configuration ');}"
+												style="align-content: center; width: 185px; margin-left: 40px;">
 				 	<jsp:include page="/WEB-INF/views/include/tableSearch.jsp"></jsp:include> 
 
 					<div class="clearfix"></div>
@@ -101,6 +109,7 @@
 									<tr class="bgpink">
 										<th class="col-md-1">Sr.No.</th>
 										<th class="col-md-4">Sp Name</th>
+										<th class="col-md-1">Select </th>
 										<th class="col-md-3">Flavour Name</th>
 										<th class="col-md-3">Mrp</th>
 										<th class="col-md-3">Rate</th>
@@ -132,6 +141,9 @@
 								
 											
 											</td>
+											<td>		<input type="checkbox" class="form-control chk" name="flavIds"
+															id="flList${count.index+1}"
+															value="${flList.flavId}" /></td>
 											<td align="left"  class="col-md-1">
 							
 							 <c:forEach items="${flavoursList}" var="fl"
@@ -145,6 +157,7 @@
 								</c:choose>
 									
 							</c:forEach> 
+					
 										</td>
 
 										<td align="left" class="col-md-1"><input type="text" style="height: 34px;  padding: 6px 12px;  font-size: 14px;line-height: 1.428571429;  color: #555;  vertical-align: middle;background-color: #fff;    border: 1px solid #ccc;
@@ -169,8 +182,18 @@
 								</tbody>
 							</table>
 						</div>
+						
+						
+						<input type="submit" class="btn btn-primary" value="Delete Selected Configuration"
+												id="deleteId"
+												onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Flavour Selected');return false;	}else{   return confirm('Are you sure want to delete these flavour configuration ');}"
+												style="align-content: center; width: 185px; margin-left: 40px;">
+											
+						
 					</div>
+					</form>
 				</div>
+				
 			</div>
 
 			<!-- END Main Content -->
@@ -305,6 +328,17 @@ function on() {
 function off() {
     document.getElementById("overlay").style.display = "none";
 }
+
+$(document).ready(function(){
+	  $("input[type='checkbox']").change(function(e) {
+	    if($(this).is(":checked")){ 
+	      $(this).closest('tr').addClass("highlight");
+	    }else{
+	      $(this).closest('tr').removeClass("highlight");
+	    }
+	  });
+	});
+	
 </script>
 </body>
 

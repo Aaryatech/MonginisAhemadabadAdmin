@@ -1043,17 +1043,74 @@ public class MastersController {
 	}
 	@RequestMapping(value = "/deleteFlavourConf/{flavId}", method = RequestMethod.GET)
 
-	public String deleteFlavourConf(@PathVariable("flavId") int flavId) {
+	public String deleteFlavourConf(HttpServletRequest request,@PathVariable("flavId") Integer flavId) {
 
 		try {
+			
 			RestTemplate restTemplate = new RestTemplate();
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			
+			
+			if (flavId.equals(0)) {
+
+				System.err.println("Multiple records delete ");
+				String[] flavIdsArray = request.getParameterValues("flavIds");
+				// System.out.println("id are" + instIds);
+
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < flavIdsArray.length; i++) {
+					sb = sb.append(flavIdsArray[i] + ",");
+
+				}
+				String strFlavIds = sb.toString();
+				strFlavIds = strFlavIds.substring(0, strFlavIds.length() - 1);
+
+				map.add("flavIds", strFlavIds);
+				Info info = restTemplate.postForObject(Constants.url + "/deleteMultiFlavourConf", map, Info.class);
+
+			}else {
 			map.add("flavId", flavId);
 			Info info = restTemplate.postForObject(Constants.url + "/deleteFlavourConf", map, Info.class);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
 		return "redirect:/flConfList";
 	}
+	
+	
+	
+	@RequestMapping(value = "/deleteFlavourConfMulti", method = RequestMethod.POST)
+
+	public String deleteFlavourConfMulti(HttpServletRequest request) {
+
+		try {
+			
+			RestTemplate restTemplate = new RestTemplate();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			
+			
+
+				//System.err.println("Multiple records delete deleteFlavourConfMulti ");
+				String[] flavIdsArray = request.getParameterValues("flavIds");
+				// System.out.println("id are" + flavIdsArray);
+
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < flavIdsArray.length; i++) {
+					sb = sb.append(flavIdsArray[i] + ",");
+
+				}
+				String strFlavIds = sb.toString();
+				strFlavIds = strFlavIds.substring(0, strFlavIds.length() - 1);
+
+				map.add("flavIds", strFlavIds);
+				Info info = restTemplate.postForObject(Constants.url + "/deleteMultiFlavourConf", map, Info.class);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return "redirect:/flConfList";
+	}
+	
 }
