@@ -434,7 +434,9 @@ public class SalesReportController {
 					rowData1.add("Sales");
 					rowData1.add(headerList.get(j).getInvoiceNo());
 					rowData1.add(headerList.get(j).getFrName());
-					rowData1.add(" " + (int) Math.ceil(headerList.get(j).getGrandTotal()));
+					// sac comment rowData1.add(" " + (int) Math.ceil(headerList.get(j).getGrandTotal()));
+					rowData1.add(" " + (int) Math.round((headerList.get(j).getGrandTotal())));
+
 					rowData1.add("Dr");
 					rowData1.add(" ");
 					expoExcel1.setRowData(rowData1);
@@ -461,9 +463,15 @@ public class SalesReportController {
 							BigDecimal bd = new BigDecimal(taxReportList.get(i).getTaxableAmt()).setScale(2,
 									RoundingMode.HALF_UP);
 							double taxable = bd.doubleValue();
-							bd = new BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2, RoundingMode.HALF_UP);
+							// Sac comment bd = new BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2,RoundingMode.HALF_UP );
+							bd = new BigDecimal((taxReportList.get(i).getTaxableAmt()*taxReportList.get(i).getCgstPer())/100).setScale(2,RoundingMode.HALF_UP );
+							
 							double cgstAmt = bd.doubleValue();
-							bd = new BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
+						
+						// Sac comment	bd = new BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
+							bd = new BigDecimal((taxReportList.get(i).getTaxableAmt()*taxReportList.get(i).getSgstPer())/100).setScale(2,RoundingMode.HALF_UP );
+							
+							
 							double sgstAmt = bd.doubleValue();
 
 							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt;
@@ -475,7 +483,9 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("CGST " + taxReportList.get(i).getCgstPer() + "%");
-							rowData1.add(" " + df.format(taxReportList.get(i).getCgstAmt()));
+							//rowData1.add(" " + df.format(taxReportList.get(i).getCgstAmt()));
+							rowData1.add(" " + cgstAmt);
+							
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
@@ -488,7 +498,9 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("SGST " + taxReportList.get(i).getSgstPer() + "%");
-							rowData1.add(" " + df.format(taxReportList.get(i).getSgstAmt()));
+					//		rowData1.add(" " + df.format(taxReportList.get(i).getSgstAmt()));
+							rowData1.add(" " +sgstAmt);
+							
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
@@ -504,7 +516,7 @@ public class SalesReportController {
 					rowData1.add("");
 					rowData1.add("");
 					rowData1.add("kasar / vatav ");
-					rowData1.add(" " + ((int) Math.ceil(headerList.get(j).getGrandTotal()) - finalAmt));
+					rowData1.add(" " + ((int) Math.round(headerList.get(j).getGrandTotal()) - finalAmt));
 					rowData1.add("Cr");
 					rowData1.add(" ");
 					expoExcel1.setRowData(rowData1);
