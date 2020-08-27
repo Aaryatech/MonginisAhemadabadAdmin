@@ -227,7 +227,10 @@ select {
 
 								<c:forEach items="${unSelectedMenuList}" var="unSelectedMenu"
 									varStatus="count">
+								<c:when test="${unSelectedMenu.mainCatId==5}">
+									
 									<option value="${unSelectedMenu.menuId}"><c:out value="${unSelectedMenu.menuTitle}"/></option>
+									</c:when>
 								</c:forEach>
 
 							</select>
@@ -243,7 +246,7 @@ select {
 										</div>
 											<div class="form-group">
 											
-											<div class="col-md-2" style="text-align:right;">
+											<div class="col-md-2">
 												Delivery Date: <font size="3" color="red" >*</font>
 											</div>
 											<div class="col-md-2">
@@ -258,15 +261,15 @@ select {
 													</c:when>
 													<c:otherwise>
 														<input id="datepicker" class="form-control date-picker"
-															autocomplete="off" value="${date}" required
-															name="datepicker" type="text" required>
+															autocomplete="off" data-date-format="dd-mm-yyyy" value="${date}" required
+															name="datepicker" type="text">
 													</c:otherwise>
 												</c:choose>
 											</div>
 											
 										
-											<div class="col-md-1" align="left">Production Date:</div>
-											<div class="col-md-2" align="left">
+											<div class="col-md-1">Production:</div>
+											<div class="col-md-2">
 												<input id="spProdDate" readonly
 													data-date-format="dd-mm-yyyy" value="${date}"
 													autocomplete="off" class="form-control date-picker"
@@ -342,8 +345,8 @@ select {
 										<div class="form-group">
 											<input type="hidden" name="sptype" id="sptype" value="1" />
 											
-											 <div class="col-md-1">
-												Sp List <font size="5" color="red">*</font>
+											 <div class="col-md-2">
+												Special Cake<font size="3" color="red">*</font>
 											</div>
 											<div class="col-md-2">
 												<select data-placeholder="Select Menu" name="sp_cake_id"
@@ -366,7 +369,7 @@ select {
 											</div> 
 
 											<div class="col-md-1">
-												Flavour<font size="5" color="red">*</font>
+												Flavour<font size="3" color="red">*</font>
 											</div>
 											<div class="col-md-2">
 												<select data-placeholder="Select Flavour" name="spFlavour"
@@ -381,7 +384,7 @@ select {
 											</div>
 											
 											<div class="col-md-1">
-												Weight<font size="5" color="red">*</font>
+												Weight<font size="3" color="red">*</font>
 											</div>
 											<div class="col-md-1">
 												<input type="hidden" name="dbRate" id="dbRate" value="0">
@@ -404,7 +407,7 @@ select {
 												
 											
 											</div>
-											<input type="button" class="button btn-primary" value="Add" onclick="addSpCake()"> 
+											<input type="button" class="btn btn-primary" id="add_btn" value="Add to SP" title="Add Selected SP into SP List" onclick="addSpCake()"> 
 											</div>
 											
 															<div class="box-content">
@@ -424,7 +427,7 @@ select {
 														<th class="col-md-2" align="center">SP Flavour</th>
 															<th class="col-md-2" align="center">SP Weight</th>
 														<th class="col-md-2" align="center">SP Amount</th>
-														<th class="col-md-1" align="center">Action</th>
+													<!-- 	<th class="col-md-1" align="center">Action</th> -->
 												</tr>
 												</thead>
 												</table>
@@ -455,8 +458,19 @@ select {
 										</div>
 									</div>
 
+<input type="button" class="btn btn-primary" onclick="callSubmit()" title="Save All Added SP" value="Submit -Save ALL Sp Order List" />
+							
+							
+								<div align="center" id="loader" style="display: none">
 
-								</div>
+						<span>
+							<h4>
+								<font color="#343690">Loading</font>
+							</h4>
+						</span> <span class="l-1"></span> <span class="l-2"></span> <span
+							class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+						<span class="l-6"></span>
+					</div>	</div>
 											
 											</form>
 											<!--------------------------2------------------------------->
@@ -893,21 +907,22 @@ select {
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript">
 		function addSpCake(){
-			alert("Hi");
+			//alert("Hi");
 			
+			try{
+				document.getElementById("add_btn").disabled=true;
+			$('#loader').show();
 			   $.ajax({
 			       type: "POST",
 			            url: "${pageContext.request.contextPath}/addSpOrderInList",
 			            data: $("#validation-form").serialize(),
 			            dataType: 'json',
 			    success: function(data){
-			  
 			    	
-			    	
-					//$('#loader').hide();
 					if (data == "") {
 						alert("No records found !!");
-
+						$('#loader').hide();
+						document.getElementById("add_btn").disabled=false;
 					}
 					$('#table_grid td').remove();
 
@@ -954,24 +969,30 @@ select {
 					
 			    }
 			    }).done(function() {
-			   
+			    	$('#loader').hide();
+			    	document.getElementById("add_btn").disabled=false;
 			    });
-			
+			   $('#loader').hide();
+			}catch (e) {
+				document.getElementById("add_btn").disabled=false;
+				//alert(e);
+			}
+			document.getElementById("add_btn").disabled=false;
 		}
 		
 		</script>
 		
 	<script type="text/javascript">
 		function callSubmit() {
-			var isValid=validate();
-			if(isValid){
-				var isInsert=confirm("Do you want to save your ORDER     !");
+				var isInsert=confirm("Do you want to save ORDERS !");
 	             if(isInsert==true)	{
-			document.getElementById("hdnbt").value=0;
-			var form=document.getElementById("validation-form1");
+			//document.getElementById("hdnbt").value=0;
+			$('#loader').show();
+			var form=document.getElementById("validation-form");
+			form.setAttribute("method","post")
+			form.action=("${pageContext.request.contextPath}/submitMultiManSPOrder")
 			form.submit();
 	             }
-			}
 		}
 		function callBillSubmit() {
 			var isValid=validate();
@@ -1018,7 +1039,7 @@ $(document).ready(function() {
 				//alert("spId" +spId);
 				//alert("flav Id " +$(this).val());
 				var spfName=$("#spFlavour option:selected").html();
-				alert("spfName " +spfName)
+				//alert("spfName " +spfName)
 				 document.getElementById("flav_name").value=spfName;
 				 
 				$.getJSON('${findAddOnRate}', {
@@ -1691,7 +1712,27 @@ function showPdf(billNo)
 	
  jQuery(function() {
    jQuery('#sp_cake_id').change(function() {
-	   
+	   $('#loader').show();
+	   var frId=document.getElementById("fr_id").value;
+	   var menuId=document.getElementById("selectMenu").value;
+	   alert(menuId)
+	   isvalid=true;
+	   if(frId==null|| frId==""){
+		   isvalid=false;
+		   alert("Please select franchise")
+		   $('#loader').hide();
+	   }
+	   if(menuId==null|| menuId==""|| parseInt(menuId)<1){
+		   isvalid=false;
+		   alert("Please select menu")
+		   $('#loader').hide();
+	   }
+	   $('#spFlavour').find('option').remove().end();
+	   $("#spFlavour").trigger("chosen:updated");
+	  
+	   $('#spwt').find('option').remove().end();
+		$("#spwt").trigger("chosen:updated");
+		if(isvalid)
 	   $.ajax({
 	       type: "POST",
 	            url: "${pageContext.request.contextPath}/getSpCakeForMultiSpBill",
@@ -1701,7 +1742,9 @@ function showPdf(billNo)
 	  
 	    	//alert("rate " +JSON.stringify(data.sprRate));
 	    	//alert("backend rate " +JSON.stringify(data.spBackendRate));
-	    	
+	    	if(data==""){
+	    		$('#loader').hide();
+	    	}
 	    	
 			for (var i = 0; i < data.filterFlavoursList.length; i++) {
 
@@ -1736,14 +1779,15 @@ function showPdf(billNo)
 
 			$("#spwt").trigger("chosen:updated");
             document.getElementById("sp_id").value=data.specialCake.spId;
-            
+            $('#loader').hide();
 			
 	    }
 	    }).done(function() {
-	   
+	    	$('#loader').hide();
 	    });
 	   
    });
+   $('#loader').hide();
 });
 </script>
 </body>
