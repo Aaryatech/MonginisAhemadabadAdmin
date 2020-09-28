@@ -169,8 +169,9 @@
 								style="width: 100%" id="table_grid">
 								<thead style="background-color: #f3b5db;">
 									<tr>
-										<th>Sr.No.</th>
+										<th>Sr.No.</th>										
 										<th>HSN</th>
+										<th>Sub Category</th>
 										<th>TAX %</th>
 										<th>MANUF</th>
 										<th>RET</th>
@@ -286,6 +287,13 @@
 																		'<td></td>')
 																		.html(
 																				report.itemHsncd));
+														
+														tr
+														.append($(
+																'<td></td>')
+																.html(
+																		report.subCatName));
+														
 
 														tr
 																.append($(
@@ -397,12 +405,19 @@
 																		'<td></td>')
 																		.html(
 																				key + 1));
-
+														
 														tr
 																.append($(
 																		'<td></td>')
 																		.html(
 																				report.itemHsncd));
+														
+														tr
+														.append($(
+																'<td></td>')
+																.html(
+																		report.subCatName));
+														
 
 														tr
 																.append($(
@@ -513,13 +528,19 @@
 																.append($(
 																		'<td></td>')
 																		.html(
-																				key + 1));
-
+																				key + 1));														
+														
 														tr
 																.append($(
 																		'<td></td>')
 																		.html(
 																				report.itemHsncd));
+														tr
+														.append($(
+																'<td></td>')
+																.html(
+																		report.subCatName));
+														
 
 														tr
 																.append($(
@@ -614,6 +635,7 @@
 
 								var tr = $('<tr></tr>');
 
+								tr.append($('<td></td>').html(""));
 								tr.append($('<td></td>').html(""));
 								tr.append($('<td></td>').html(""));
 								tr.append($('<td></td>').html(""));

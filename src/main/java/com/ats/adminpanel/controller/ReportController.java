@@ -850,7 +850,7 @@ public class ReportController {
 	ExportToExcel expoExcel = new ExportToExcel();
 	List<String> rowData = new ArrayList<String>();
 
-	rowData.add("Sr No");rowData.add("HSN Code");rowData.add("DESC");rowData.add("UQC");rowData.add("Total Qty");rowData.add("Total Value");rowData.add("Taxable Amount");rowData.add("Integrated Tax Amount");rowData.add("Central Tax Amount");rowData.add("State/UT Tax Amount");rowData.add("Cess Amount");
+	rowData.add("Sr No");rowData.add("HSN Code");rowData.add("Sub Category");rowData.add("DESC");rowData.add("UQC");rowData.add("Total Qty");rowData.add("Total Value");rowData.add("Taxable Amount");rowData.add("Integrated Tax Amount");rowData.add("Central Tax Amount");rowData.add("State/UT Tax Amount");rowData.add("Cess Amount");
 
 	/*
 	 * rowData.add("TAX %"); rowData.add("MANUF"); rowData.add("RET");
@@ -875,6 +875,7 @@ public class ReportController {
 
 			rowData.add("" + srno);
 			rowData.add(hsnListBill.get(i).getItemHsncd());
+			rowData.add(hsnListBill.get(i).getSubCatName());
 			rowData.add(" ");
 			rowData.add(" ");
 			rowData.add(" " + (hsnListBill.get(i).getBillQty() - hsnListBill.get(i).getGrnGvnQty()));
@@ -915,7 +916,8 @@ public class ReportController {
 
 	expoExcel=new ExportToExcel();rowData=new ArrayList<String>();
 
-	rowData.add("");rowData.add("");rowData.add("");rowData.add("Total");rowData.add("");rowData.add(""+Long.toString((long)(grandTotal)));rowData.add(""+Long.toString((long)(taxableAmt)));rowData.add(""+
+	rowData.add("");rowData.add("");rowData.add("");rowData.add("");
+	rowData.add("Total");rowData.add("");rowData.add(""+Long.toString((long)(grandTotal)));rowData.add(""+Long.toString((long)(taxableAmt)));rowData.add(""+
 
 	roundUp(igstSum));
 		rowData.add("" + roundUp(cgstSum));
@@ -972,12 +974,12 @@ public class ReportController {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(14);
+		PdfPTable table = new PdfPTable(15);
 		table.setHeaderRows(1);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 0.7f, 1.1f, 0.9f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f,1.2f, 1.2f, 0.9f, 1.2f });
+			table.setWidths(new float[] { 0.7f, 1.1f, 1.1f, 0.9f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f,1.2f, 1.2f, 0.9f, 1.2f });
 			Font headFont = new Font(FontFamily.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 10.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -987,8 +989,13 @@ public class ReportController {
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
-
+			
 			hcell = new PdfPCell(new Phrase("HSN", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Sub Category", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
@@ -1065,6 +1072,12 @@ public class ReportController {
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + hsnListBill.get(j).getItemHsncd(), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setPaddingRight(1);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + hsnListBill.get(j).getSubCatName(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setPaddingRight(1);
