@@ -185,11 +185,12 @@
 									<th>Tax Rate</th>
 									<th>Crn Qty</th>
 									<th>Taxable Amt</th>
-
 									<th>Cgst Amt</th>
-
 									<th>Sgst Amt</th>
 									<th>Crn Amt</th>
+									<th>Total Taxable</th>
+									<th>Total Tax</th>
+									<th>Grand Total</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -268,6 +269,11 @@
 				var cgstAmt = 0;
 				var sgstAmt = 0;
 				var crnAmt = 0;
+				
+				var ttlTaxable = 0;
+				var ttlTax = 0;
+				var ttlGrandTotal=0;
+				
 				$.each(data, function(key, report) {
 
 					document.getElementById("expExcel").disabled = false;
@@ -292,6 +298,11 @@
 					cgstAmt = cgstAmt + report.cgstAmt;
 					sgstAmt = sgstAmt + report.sgstAmt;
 					crnAmt = crnAmt + report.crnAmt;
+					
+					ttlTaxable = ttlTaxable + report.ttlTaxable
+					ttlTax = ttlTax + report.ttlTaxAmt;
+					ttlGrandTotal = ttlGrandTotal + report.ttlCrnAmt;
+					
 					tr.append($('<td style="text-align:left;"></td>').html(
 							(report.cgstPer + report.sgstPer).toFixed(2)));
 					tr.append($('<td style="text-align:center;"></td>').html(
@@ -306,6 +317,15 @@
 							report.sgstAmt.toFixed(2)));
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.crnAmt.toFixed(2)));
+					
+					tr.append($('<td style="text-align:right;"></td>').html(
+							report.ttlTaxable.toFixed(2)));
+					
+					tr.append($('<td style="text-align:right;"></td>').html(
+							report.ttlTaxAmt.toFixed(2)));
+					
+					tr.append($('<td style="text-align:right;"></td>').html(
+							report.ttlCrnAmt.toFixed(2)));
 
 					$('#table_grid tbody').append(tr);
 
@@ -332,6 +352,16 @@
 						"" + sgstAmt.toFixed(2)));
 				tr.append($('<td style="font-weight:12px;"></td>').html(
 						"" + crnAmt.toFixed(0)));
+				
+				tr.append($('<td style="font-weight:12px;"></td>').html(
+						"-"));
+				
+				tr.append($('<td style="font-weight:12px;"></td>').html(
+						"-" ));
+				
+				tr.append($('<td style="font-weight:12px;"></td>').html(
+						"-" ));
+				
 				$('#table_grid tbody').append(tr);
 
 			});

@@ -153,7 +153,8 @@ public class ReportController {
 
 			CrNoteRegisterList crnArray = restTemplate.postForObject(Constants.url + "getCrNoteRegisterDone", map,
 					CrNoteRegisterList.class);
-
+			System.out.println("Data1---------->"+crnArray.getCrNoteRegItemList());
+			System.out.println("Data2---------->"+crnArray.getCrNoteRegSpList());
 			List<CrNoteRegSp> crnRegSpList = new ArrayList<>();
 
 			crNoteRegItemList = crnArray.getCrNoteRegItemList();
@@ -180,6 +181,9 @@ public class ReportController {
 						crNoteRegItemList.get(i)
 								.setCrnAmt((crNoteRegItemList.get(i).getCrnAmt() + crnRegSpList.get(j).getCrnAmt()));
 
+						crNoteRegItemList.get(i).setTtlTaxable(crnRegSpList.get(j).getTtlTaxable());
+						crNoteRegItemList.get(i).setTtlTaxAmt(crnRegSpList.get(j).getTtlTaxAmt());
+						crNoteRegItemList.get(i).setTtlCrnAmt(crnRegSpList.get(j).getTtlCrnAmt());
 					}
 
 				}
@@ -208,6 +212,10 @@ public class ReportController {
 					regItem.setCrnTaxable(crnRegSpList.get(j).getCrnTaxable());
 
 					regItem.setFrCode(crnRegSpList.get(j).getFrCode());
+					
+					regItem.setTtlCrnAmt(crnRegSpList.get(j).getTtlCrnAmt());
+					regItem.setTtlTaxable(crnRegSpList.get(j).getTtlTaxable());
+					regItem.setTtlTaxAmt(crnRegSpList.get(j).getTtlTaxAmt());
 
 					crNoteRegItemList.add(regItem);
 				}
@@ -234,6 +242,10 @@ public class ReportController {
 			rowData.add("Rate");
 			rowData.add("Taxable Value");
 			rowData.add("Cess Amount");
+			
+			rowData.add("Total Taxable");
+			rowData.add("Total Tax");
+			rowData.add("Grand Total");
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -267,6 +279,10 @@ public class ReportController {
 				rowData.add("" + (crNoteRegItemList.get(i).getCgstPer() + crNoteRegItemList.get(i).getSgstPer()));
 				rowData.add("" + roundUp(crNoteRegItemList.get(i).getCrnTaxable()));
 				rowData.add("0");
+				
+				rowData.add("" + roundUp(crNoteRegItemList.get(i).getTtlTaxable()));
+				rowData.add("" + roundUp(crNoteRegItemList.get(i).getTtlTaxAmt()));
+				rowData.add("" + roundUp(crNoteRegItemList.get(i).getTtlCrnAmt()));
 
 				crnQty = crnQty + crNoteRegItemList.get(i).getCrnQty();
 				crnTaxable = crnTaxable + crNoteRegItemList.get(i).getCrnTaxable();
@@ -488,13 +504,13 @@ public class ReportController {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(13);
+		PdfPTable table = new PdfPTable(16);
 		table.setHeaderRows(1);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
 			table.setWidths(
-					new float[] { 0.7f, 1.1f, 2.0f, 2.1f, 2.3f, 2.0f, 2.2f, 1.2f, 1.2f, 1.2f, 0.9f, 0.9f, 1.2f });
+					new float[] { 0.7f, 1.1f, 2.0f, 2.1f, 2.3f, 2.0f, 2.2f, 1.2f, 1.2f, 1.2f, 0.9f, 0.9f, 1.2f, 1.2f, 1.2f, 1.2f});
 			Font headFont = new Font(FontFamily.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 10.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -561,6 +577,21 @@ public class ReportController {
 			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("Bill Amt", headFont1)); // Varience title replaced with P2 Production
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Total Taxable", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Total Tax", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Grand Total", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
@@ -651,6 +682,29 @@ public class ReportController {
 
 				cell = new PdfPCell(
 						new Phrase(String.valueOf(roundUp(crNoteRegItemList.get(j).getCrnAmt())), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(8);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(
+						new Phrase(String.valueOf(roundUp(crNoteRegItemList.get(j).getTtlTaxable())), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(8);
+				table.addCell(cell);
+				
+				
+				cell = new PdfPCell(
+						new Phrase(String.valueOf(roundUp(crNoteRegItemList.get(j).getTtlTaxAmt())), headFont));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setPaddingRight(8);
+				table.addCell(cell);
+				
+				
+				cell = new PdfPCell(
+						new Phrase(String.valueOf(roundUp(crNoteRegItemList.get(j).getTtlCrnAmt())), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(8);

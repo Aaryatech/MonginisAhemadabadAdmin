@@ -35,6 +35,10 @@ private int crndId;
 	private float igstAmt;
 	
 	private float crnAmt;
+	
+	private float ttlTaxable;
+	private float ttlTaxAmt;
+	private float ttlCrnAmt;
 
 	public String getHsnCode() {
 		return hsnCode;
@@ -172,13 +176,39 @@ private int crndId;
 		this.crnAmt = crnAmt;
 	}
 
+	public float getTtlTaxable() {
+		return ttlTaxable;
+	}
+
+	public void setTtlTaxable(float ttlTaxable) {
+		this.ttlTaxable = ttlTaxable;
+	}
+
+	public float getTtlTaxAmt() {
+		return ttlTaxAmt;
+	}
+
+	public void setTtlTaxAmt(float ttlTaxAmt) {
+		this.ttlTaxAmt = ttlTaxAmt;
+	}
+
+	public float getTtlCrnAmt() {
+		return ttlCrnAmt;
+	}
+
+	public void setTtlCrnAmt(float ttlCrnAmt) {
+		this.ttlCrnAmt = ttlCrnAmt;
+	}
+
 	@Override
 	public String toString() {
 		return "CrNoteRegItem [crndId=" + crndId + ", hsnCode=" + hsnCode + ", crnId=" + crnId + ", crnDate=" + crnDate
 				+ ", invoiceNo=" + invoiceNo + ", billDate=" + billDate + ", frName=" + frName + ", frCode=" + frCode
 				+ ", frGstNo=" + frGstNo + ", crnQty=" + crnQty + ", crnTaxable=" + crnTaxable + ", cgstPer=" + cgstPer
 				+ ", sgstPer=" + sgstPer + ", igstPer=" + igstPer + ", cgstAmt=" + cgstAmt + ", sgstAmt=" + sgstAmt
-				+ ", igstAmt=" + igstAmt + ", crnAmt=" + crnAmt + "]";
+				+ ", igstAmt=" + igstAmt + ", crnAmt=" + crnAmt + ", ttlTaxable=" + ttlTaxable + ", ttlTaxAmt="
+				+ ttlTaxAmt + ", ttlCrnAmt=" + ttlCrnAmt + "]";
 	}
+
 	
 }
