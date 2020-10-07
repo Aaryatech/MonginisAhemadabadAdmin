@@ -392,8 +392,8 @@ public class ReportController {
 						rowData1.add("");
 						rowData1.add("");
 						rowData1.add("");
-						rowData1.add("Sales Gst "
-								+ (crNoteRegItemList.get(i).getCgstPer() + crNoteRegItemList.get(i).getSgstPer())
+						rowData1.add("Sales GST "
+								+ new BigDecimal(crNoteRegItemList.get(i).getCgstPer() + crNoteRegItemList.get(i).getSgstPer()).stripTrailingZeros()
 								+ "%");
 						rowData1.add("" + (df.format(crNoteRegItemList.get(i).getCrnTaxable())));
 						rowData1.add("Dr");
@@ -418,7 +418,7 @@ public class ReportController {
 						rowData1.add("");
 						rowData1.add("");
 						rowData1.add("");
-						rowData1.add("CGST " + crNoteRegItemList.get(i).getCgstPer() + "%");
+						rowData1.add("CGST " + new BigDecimal(crNoteRegItemList.get(i).getCgstPer()).stripTrailingZeros() + "%");
 						rowData1.add("" + df.format(crNoteRegItemList.get(i).getCgstAmt()));
 						rowData1.add("Dr");
 						rowData1.add("");
@@ -433,7 +433,7 @@ public class ReportController {
 						rowData1.add("");
 						rowData1.add("");
 						rowData1.add("");
-						rowData1.add("SGST " + crNoteRegItemList.get(i).getSgstPer() + "%");
+						rowData1.add("SGST " + new BigDecimal(crNoteRegItemList.get(i).getSgstPer()).stripTrailingZeros() + "%");
 						rowData1.add(" " + df.format(crNoteRegItemList.get(i).getSgstAmt()));
 						rowData1.add("Dr");
 						rowData1.add("");
@@ -451,7 +451,7 @@ public class ReportController {
 				rowData1.add("");
 				rowData1.add("");
 				rowData1.add("");
-				rowData1.add("kasar / vatav ");
+				rowData1.add("DIFFERENCE & DISCOUNT");
 				rowData1.add(" " + ((int) Math.ceil(headerList.get(j).getCrnAmt()) - finalAmt));
 				rowData1.add("Dr");
 				rowData1.add("");
