@@ -849,7 +849,7 @@ public class ReportController {
 				String grngvnParam="";
 				
 				if(grngvnType==-1) {
-					grngvnParam="0,1";
+					grngvnParam="0,1,2";
 				}else {
 					grngvnParam=""+grngvnType;
 				}
@@ -868,7 +868,7 @@ public class ReportController {
 
 			for (int i = 0; i < hsnList.size(); i++) {
 				for (int j = 0; j < hsnListBill.size(); j++) {
-					if (hsnList.get(i).getId().equals(hsnListBill.get(j).getId())) {
+					if ((hsnList.get(i).getItemHsncd().equals(hsnListBill.get(j).getItemHsncd())) && (hsnList.get(i).getSubCatName().equals(hsnListBill.get(j).getSubCatName())) ){
 						hsnListBill.get(j)
 								.setTaxableAmt(hsnListBill.get(j).getTaxableAmt() - hsnList.get(i).getTaxableAmt());
 						

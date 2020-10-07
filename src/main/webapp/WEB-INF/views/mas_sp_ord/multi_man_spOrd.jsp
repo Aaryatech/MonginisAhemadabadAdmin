@@ -227,10 +227,10 @@ select {
 
 								<c:forEach items="${unSelectedMenuList}" var="unSelectedMenu"
 									varStatus="count">
-								<c:when test="${unSelectedMenu.mainCatId==5}">
+								<c:if test="${unSelectedMenu.mainCatId==5}">
 									
 									<option value="${unSelectedMenu.menuId}"><c:out value="${unSelectedMenu.menuTitle}"/></option>
-									</c:when>
+									</c:if>
 								</c:forEach>
 
 							</select>

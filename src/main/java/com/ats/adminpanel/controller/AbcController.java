@@ -74,7 +74,7 @@ public class AbcController {
 		Info view = AccessControll.checkAccess("showAddMultiSpManBill", "showAddMultiSpManBill", "1", "0", "0", "0",
 				newModuleList);
 
-		if (view.getError() == false) {
+		if (view.getError() == true) {
 
 			model = new ModelAndView("accessDenied");
 
