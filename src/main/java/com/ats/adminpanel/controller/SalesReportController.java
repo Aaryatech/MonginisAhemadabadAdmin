@@ -453,7 +453,7 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("");
-							rowData1.add("Sales Gst " + taxReportList.get(i).getTaxPer() + "%");
+							rowData1.add("Sales GST " + new BigDecimal(taxReportList.get(i).getTaxPer()).stripTrailingZeros() + "%");
 							rowData1.add(" " + df.format(taxReportList.get(i).getTaxableAmt()));
 							rowData1.add("Cr");
 							rowData1.add(" ");
@@ -482,7 +482,7 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("");
-							rowData1.add("CGST " + taxReportList.get(i).getCgstPer() + "%");
+							rowData1.add("CGST " + new BigDecimal(taxReportList.get(i).getCgstPer()).stripTrailingZeros() + "%");
 							//rowData1.add(" " + df.format(taxReportList.get(i).getCgstAmt()));
 							rowData1.add(" " + cgstAmt);
 							
@@ -497,7 +497,7 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("");
-							rowData1.add("SGST " + taxReportList.get(i).getSgstPer() + "%");
+							rowData1.add("SGST " + new BigDecimal(taxReportList.get(i).getSgstPer()).stripTrailingZeros() + "%");
 					//		rowData1.add(" " + df.format(taxReportList.get(i).getSgstAmt()));
 							rowData1.add(" " +sgstAmt);
 							
@@ -515,7 +515,7 @@ public class SalesReportController {
 					rowData1.add("");
 					rowData1.add("");
 					rowData1.add("");
-					rowData1.add("kasar / vatav ");
+					rowData1.add("DIFFERENCE & DISCOUNT");
 					rowData1.add(" " + ((int) Math.round(headerList.get(j).getGrandTotal()) - finalAmt));
 					rowData1.add("Cr");
 					rowData1.add(" ");
@@ -525,7 +525,7 @@ public class SalesReportController {
 
 				session.setAttribute("exportToExcelTally", exportToExcelList1);
 				session.setAttribute("excelNameNewTally", "Tax1ReportTally");
-				session.setAttribute("reportNameNewTally", "Tax_Repot_Tally");
+				session.setAttribute("reportNameNewTally", "Tax_Report_Tally");
 				session.setAttribute("searchByNewTally", "From Date: " + fromDate + "  To Date: " + toDate + " ");
 				session.setAttribute("mergeUpto1Tally", "$A$1:$H$1");
 				session.setAttribute("mergeUpto2Tally", "$A$2:$H$2");

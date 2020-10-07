@@ -76,20 +76,22 @@
 						<div class="col-sm-2 col-lg-1 controls date_select">
 							<input class="form-control date-picker" id="toDate" name="toDate"
 								size="30" type="text" value="${todaysDate}" />
-								
+
 						</div>
-						<label class="col-sm-1 col-lg-1	 control-label">Credit Note Type</label>
+						<label class="col-sm-1 col-lg-1	 control-label">Credit
+							Note Type</label>
 						<div class="col-sm-6 col-lg-2  controls">
 
 							<select data-placeholder="Select Type"
-								class="form-control chosen" id="Credittype" name="Credittype" required>
+								class="form-control chosen" id="Credittype" name="Credittype"
+								required>
 								<option value="">Select Credit Note Type</option>
-								
+
 								<option value="1">GRN</option>
 								<option value="0">GVN</option>
 							</select>
 						</div>
-						
+
 						<!-- 	</div>
 
 				</div>
@@ -162,7 +164,13 @@
 					<h3>
 						<i class="fa fa-list-alt"></i>Credit Note Register
 					</h3>
+					<label for="search" id="search" style="float: right;"> <i class="fa fa-search"
+						style="font-size: 20px"></i> <input type="text" id="myInput"
+						onkeyup="myFunction()" style="border-radius: 25px;"
+						placeholder="CRN No, Invoice No., Party Name" title="Type in a name">
+					</label>
 
+					<div class="clearfix"></div>
 				</div>
 
 				<form id="submitBillForm"
@@ -175,7 +183,7 @@
 							style="width: 100%" id="table_grid">
 							<thead style="background-color: #f3b5db;">
 								<tr>
-									<th>Sr</th>
+									<th>Sr No</th>
 									<th>CRN No</th>
 									<th>CRN Date</th>
 									<th>Invoice No</th>
@@ -240,8 +248,6 @@
 			var from_date = $("#fromDate").val();
 			var to_date = $("#toDate").val();
 			var credit_note_type = $("#Credittype").val();
-			
-			
 
 			$('#loader').show();
 
@@ -269,11 +275,11 @@
 				var cgstAmt = 0;
 				var sgstAmt = 0;
 				var crnAmt = 0;
-				
+
 				var ttlTaxable = 0;
 				var ttlTax = 0;
-				var ttlGrandTotal=0;
-				
+				var ttlGrandTotal = 0;
+
 				$.each(data, function(key, report) {
 
 					document.getElementById("expExcel").disabled = false;
@@ -298,11 +304,11 @@
 					cgstAmt = cgstAmt + report.cgstAmt;
 					sgstAmt = sgstAmt + report.sgstAmt;
 					crnAmt = crnAmt + report.crnAmt;
-					
+
 					ttlTaxable = ttlTaxable + report.ttlTaxable
 					ttlTax = ttlTax + report.ttlTaxAmt;
 					ttlGrandTotal = ttlGrandTotal + report.ttlCrnAmt;
-					
+
 					tr.append($('<td style="text-align:left;"></td>').html(
 							(report.cgstPer + report.sgstPer).toFixed(2)));
 					tr.append($('<td style="text-align:center;"></td>').html(
@@ -317,13 +323,13 @@
 							report.sgstAmt.toFixed(2)));
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.crnAmt.toFixed(2)));
-					
+
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.ttlTaxable.toFixed(2)));
-					
+
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.ttlTaxAmt.toFixed(2)));
-					
+
 					tr.append($('<td style="text-align:right;"></td>').html(
 							report.ttlCrnAmt.toFixed(2)));
 
@@ -352,16 +358,13 @@
 						"" + sgstAmt.toFixed(2)));
 				tr.append($('<td style="font-weight:12px;"></td>').html(
 						"" + crnAmt.toFixed(0)));
-				
-				tr.append($('<td style="font-weight:12px;"></td>').html(
-						"-"));
-				
-				tr.append($('<td style="font-weight:12px;"></td>').html(
-						"-" ));
-				
-				tr.append($('<td style="font-weight:12px;"></td>').html(
-						"-" ));
-				
+
+				tr.append($('<td style="font-weight:12px;"></td>').html("-"));
+
+				tr.append($('<td style="font-weight:12px;"></td>').html("-"));
+
+				tr.append($('<td style="font-weight:12px;"></td>').html("-"));
+
 				$('#table_grid tbody').append(tr);
 
 			});
@@ -630,6 +633,32 @@
 			window
 					.open("${pageContext.request.contextPath}/exportToExcelTally");
 			document.getElementById("expExcelTally").disabled = true;
+		}
+	</script>
+
+	<script>
+		function myFunction() {
+			var input, filter, table, tr, td, td1, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table_grid");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				td1 = tr[i].getElementsByTagName("td")[3];
+				td2 = tr[i].getElementsByTagName("td")[5];
+				if (td || td1) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}//end of for    
 		}
 	</script>
 
