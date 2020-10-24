@@ -499,7 +499,12 @@ System.err.println("del sql dt " +delDate);
 			// document.getElementById("m_gst_amt").setAttribute('value',mrpBaseRate.toFixed(2));
 			float m_gst_amt = mrpBaseRate;
 
-			float floatBackEndRate = ((spBackendRate + flavourAdonRate) * spWeight) + 0;
+			
+			System.err.println("------------------------------ BACKEND RATE = "+spBackendRate);
+			System.err.println("------------------------------ flavourAdonRate RATE = "+flavourAdonRate);
+			System.err.println("------------------------------ spWeight RATE = "+spWeight);
+			
+			//float floatBackEndRate = ((spBackendRate + flavourAdonRate) * spWeight) + 0;
 
 			spCakeOrder.setRmAmount(sp_sub_total); // Ok
 
@@ -520,15 +525,14 @@ System.err.println("del sql dt " +delDate);
 			spCakeOrder.setItemId(spCode);
 			spCakeOrder.setMenuId(menuId);
 
-			spCakeOrder.setSpBackendRate(floatBackEndRate);// Ok
+			//spCakeOrder.setSpBackendRate(floatBackEndRate);// Ok
+			spCakeOrder.setSpBackendRate(spBackendRate);// Ok
 
 			// spCakeOrder.setSpBookForDob(new java.sql.Date("2019","01","01"));
 			spCakeOrder.setSpBookForDob(sqlProdDate);
 
 			spCakeOrder.setSpCustDob(sqlProdDate);
-
 			
-
 			spCakeOrder.setSpFlavourId(spfId);
 			spCakeOrder.setSpMaxWeight(Float.parseFloat(specialCake.getSpMaxwt()));
 			spCakeOrder.setSpMinWeight(Float.parseFloat(specialCake.getSpMinwt()));

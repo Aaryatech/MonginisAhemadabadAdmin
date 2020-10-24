@@ -70,7 +70,7 @@ page-break-inside: auto !important
 					</p>
 					<p style="color: #000; font-size: 12px; text-align: left; margin: 0px;">
 					<b>${frDetails.partyName}</b>   <br /> 
-						<span style="font-size: 10px;"> ${frDetails.frAddress} </span><br></br>
+						<span style="font-size: 10px;"> ${frDetails.partyAddress} </span><br></br>
 						<span style="font-size: 10px;">GSTIN:   ${frDetails.partyGstin}</span>
 					</p>
 				</td>

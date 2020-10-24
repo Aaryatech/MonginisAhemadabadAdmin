@@ -193,7 +193,7 @@ select {
 											<div class="col-md-4">
 												<select data-placeholder="Select Franchisee" name="fr_id"
 													class="form-control chosen" tabindex="-1" id="fr_id"
-													data-rule-required="true" onchange="findFranchiseeData(0)" >
+													data-rule-required="true" onchange="findFranchiseeData(0)">
 													<option value=""></option>
 													<!-- <optgroup label="All Franchisee"> -->
 													<option value="">Select Franchise</option>
@@ -209,45 +209,49 @@ select {
 													</c:forEach>
 												</select>
 											</div>
-											
-												
-											<!-- By Rate --><input type="radio" name="sel_rate" id="sel_rate"
-															checked value="1" hidden="true">
-											<!-- By MRP  --><input type="radio" name="sel_rate" id="sel_rate"
-															value="0" hidden="true">
-													
-											<label class=" col-md-2 control-label menu_label">Select Menu:<font size="3" color="red">*</font></label>
-						<div class=" col-md-4 controls menu_select">
 
-							<select data-placeholder="Choose Menu"
-								class="form-control chosen" tabindex="6" id="selectMenu"
-								name="selectMenu">
 
-								<option value="-1"><c:out value=""/></option>
+											<!-- By Rate -->
+											<input type="radio" name="sel_rate" id="sel_rate" checked
+												value="1" hidden="true">
+											<!-- By MRP  -->
+											<input type="radio" name="sel_rate" id="sel_rate" value="0"
+												hidden="true"> <label
+												class=" col-md-2 control-label menu_label">Select
+												Menu:<font size="3" color="red">*</font>
+											</label>
+											<div class=" col-md-4 controls menu_select">
 
-								<c:forEach items="${unSelectedMenuList}" var="unSelectedMenu"
-									varStatus="count">
-								<c:if test="${unSelectedMenu.mainCatId==5}">
-									
-									<option value="${unSelectedMenu.menuId}"><c:out value="${unSelectedMenu.menuTitle}"/></option>
-									</c:if>
-								</c:forEach>
+												<select data-placeholder="Choose Menu"
+													class="form-control chosen" tabindex="6" id="selectMenu"
+													name="selectMenu">
 
-							</select>
-						</div>
-											
-											
-											
-											
-											
-														
-											
+													<option value="-1"><c:out value="" /></option>
+
+													<c:forEach items="${unSelectedMenuList}"
+														var="unSelectedMenu" varStatus="count">
+														<c:if test="${unSelectedMenu.mainCatId==5}">
+
+															<option value="${unSelectedMenu.menuId}"><c:out
+																	value="${unSelectedMenu.menuTitle}" /></option>
+														</c:if>
+													</c:forEach>
+
+												</select>
+											</div>
+
+
+
+
+
+
+
 
 										</div>
-											<div class="form-group">
-											
+										<div class="form-group">
+
 											<div class="col-md-2">
-												Delivery Date: <font size="3" color="red" >*</font>
+												Delivery Date: <font size="3" color="red">*</font>
 											</div>
 											<div class="col-md-2">
 												<c:choose>
@@ -261,23 +265,23 @@ select {
 													</c:when>
 													<c:otherwise>
 														<input id="datepicker" class="form-control date-picker"
-															autocomplete="off" data-date-format="dd-mm-yyyy" value="${date}" required
-															name="datepicker" type="text">
+															autocomplete="off" data-date-format="dd-mm-yyyy"
+															value="${date}" required name="datepicker" type="text">
 													</c:otherwise>
 												</c:choose>
 											</div>
-											
-										
+
+
 											<div class="col-md-1">Production:</div>
 											<div class="col-md-2">
 												<input id="spProdDate" readonly
 													data-date-format="dd-mm-yyyy" value="${date}"
 													autocomplete="off" class="form-control date-picker"
-													placeholder="" name="spProdDate"  type="text" required >
+													placeholder="" name="spProdDate" type="text" required>
 											</div>
-						
-						</div>
-									<%-- Sac Comment </form>
+
+										</div>
+										<%-- Sac Comment </form>
 									<hr>
 
 									<form
@@ -344,8 +348,8 @@ select {
 
 										<div class="form-group">
 											<input type="hidden" name="sptype" id="sptype" value="1" />
-											
-											 <div class="col-md-2">
+
+											<div class="col-md-2">
 												Special Cake<font size="3" color="red">*</font>
 											</div>
 											<div class="col-md-2">
@@ -366,7 +370,7 @@ select {
 														</c:choose>
 													</c:forEach>
 												</select>
-											</div> 
+											</div>
 
 											<div class="col-md-1">
 												Flavour<font size="3" color="red">*</font>
@@ -382,15 +386,16 @@ select {
 
 												</select>
 											</div>
-											
+
 											<div class="col-md-1">
 												Weight<font size="3" color="red">*</font>
 											</div>
 											<div class="col-md-1">
 												<input type="hidden" name="dbRate" id="dbRate" value="0">
-																								<input type="hidden" name="flav_name" id="flav_name" value="-">
-												
-												
+												<input type="hidden" name="flav_name" id="flav_name"
+													value="-">
+
+
 												<%-- ${sprRate} --%>
 
 												<select name="spwt" id="spwt" class="form-control"
@@ -401,87 +406,92 @@ select {
 													</c:forEach>
 												</select>
 											</div>
-											
+
 											<div class="col-md-1">
-												Rate<font size="2" color="red">*</font><div id="sac_sp_rate"></div>
-												
-											
-											</div>
-											<input type="button" class="btn btn-primary" id="add_btn" value="Add to SP" title="Add Selected SP into SP List" onclick="addSpCake()"> 
-											</div>
-											
-															<div class="box-content">
+												Rate<font size="2" color="red">*</font>
+												<div id="sac_sp_rate"></div>
 
-										<div class="clearfix"></div>
-										
-										<div id="table-scroll" class="table-scroll">
-							 
-									<div id="faux-table" class="faux-table" aria="hidden">
-									<table id="table2" class="table table-advance" border="1">
-											<thead>
-												<tr class="bgpink">
-										<th  class="col-md-1"align="left">Sr
-															</th>
-															
-														<th class="col-md-2" align="center">SP Name</th>
-														<th class="col-md-2" align="center">SP Flavour</th>
-															<th class="col-md-2" align="center">SP Weight</th>
-														<th class="col-md-2" align="center">SP Amount</th>
-													<!-- 	<th class="col-md-1" align="center">Action</th> -->
-												</tr>
-												</thead>
-												</table>
-									
-									</div>
-									<div class="table-wrap">
-									
-										<table  class="table table-advance" id="table_grid"  border="1">
-											<thead>
-												<tr class="bgpink">
-										<th  class="col-md-1" align="left">Sr
-															</th>
-														<th class="col-md-2" align="center">SP Code</th>
-														<th class="col-md-2" align="center">SP Flavour</th>
-															<th class="col-md-2" align="center">SP Weight</th>
-														<th class="col-md-2" align="center">SP Amount</th>
-														<!-- <th class="col-md-1" align="center">Action</th> -->
-												</tr>
-												</thead>
-										
-										
-												<tbody>
-											
-												
-												</tbody>
-												
-											</table>
+
+											</div>
+											<input type="button" class="btn btn-primary" id="add_btn"
+												value="Add to SP" title="Add Selected SP into SP List"
+												onclick="addSpCake()">
 										</div>
-									</div>
 
-<input type="button" class="btn btn-primary" onclick="callSubmit()" title="Save All Added SP" value="Submit -Save ALL Sp Order List" />
-							
-							
-								<div align="center" id="loader" style="display: none">
+										<div class="box-content">
 
-						<span>
-							<h4>
-								<font color="#343690">Loading</font>
-							</h4>
-						</span> <span class="l-1"></span> <span class="l-2"></span> <span
-							class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-						<span class="l-6"></span>
-					</div>	</div>
-											
-											</form>
-											<!--------------------------2------------------------------->
-											<!--Sac comment <div class="col-md-1" style="border: 1px dashed;">
+											<div class="clearfix"></div>
+
+											<div id="table-scroll" class="table-scroll">
+
+												<div id="faux-table" class="faux-table" aria="hidden">
+													<table id="table2" class="table table-advance" border="1">
+														<thead>
+															<tr class="bgpink">
+																<th class="col-md-1" align="left">Sr</th>
+
+																<th class="col-md-2" align="center">SP Name</th>
+																<th class="col-md-2" align="center">SP Flavour</th>
+																<th class="col-md-2" align="center">SP Weight</th>
+																<th class="col-md-2" align="center">SP Amount</th>
+																<!-- 	<th class="col-md-1" align="center">Action</th> -->
+															</tr>
+														</thead>
+													</table>
+
+												</div>
+												<div class="table-wrap">
+
+													<table class="table table-advance" id="table_grid"
+														border="1">
+														<thead>
+															<tr class="bgpink">
+																<th class="col-md-1" align="left">Sr</th>
+																<th class="col-md-2" align="center">SP Code</th>
+																<th class="col-md-2" align="center">SP Flavour</th>
+																<th class="col-md-2" align="center">SP Weight</th>
+																<th class="col-md-2" align="center">SP Amount</th>
+																<!-- <th class="col-md-1" align="center">Action</th> -->
+															</tr>
+														</thead>
+
+
+														<tbody>
+
+
+														</tbody>
+
+													</table>
+												</div>
+											</div>
+
+											<input type="button" class="btn btn-primary"
+												onclick="callSubmit()" title="Save All Added SP"
+												value="Submit -Save ALL Sp Order List" />
+
+
+											<div align="center" id="loader" style="display: none">
+
+												<span>
+													<h4>
+														<font color="#343690">Loading</font>
+													</h4>
+												</span> <span class="l-1"></span> <span class="l-2"></span> <span
+													class="l-3"></span> <span class="l-4"></span> <span
+													class="l-5"></span> <span class="l-6"></span>
+											</div>
+										</div>
+
+									</form>
+									<!--------------------------2------------------------------->
+									<!--Sac comment <div class="col-md-1" style="border: 1px dashed;">
 												<b>Type</b>
 											</div>
 											<div class="col-md-1" style="border: 1px dashed;">
 												<span style="color: #eb4bad;"><b>Premium</b></span>
 											</div> -->
-											<!--------------------------2- End-------------------------->
-										
+									<!--------------------------2- End-------------------------->
+
 									<%--Sac comment 	<div class="form-group">
 											
 											<div class="col-md-2">
@@ -518,7 +528,7 @@ select {
 											<!--------------------------3 End--------------------------->
 
 										</div> --%>
-										<!-- Sac comment <div class="form-group">
+									<!-- Sac comment <div class="form-group">
 								
 
 											<div class="col-md-1"
@@ -529,7 +539,7 @@ select {
 											<input name="sp_add_rate" id="sp_add_rate" type="hidden"
 												value="0">
 										</div> -->
-<%-- Sac comment
+									<%-- Sac comment
 										<div class="form-group">
 											<!-- <div class="col-md-2"> -->
 											<!-- Customer Name -->
@@ -575,7 +585,7 @@ select {
 
 										</div> --%>
 
-										<%--Sac comment <div class="form-group">
+									<%--Sac comment <div class="form-group">
 
 											<div class="col-md-2" id="englishDiv" style="display: none;">
 												<textarea id="textarea" name="sp_inst2" cols="" rows=""
@@ -616,7 +626,7 @@ select {
 											<!-----------------------5-End-------------------------->
 										</div> --%>
 
-							<%--Sac comment			<div class="form-group">
+									<%--Sac comment			<div class="form-group">
 											<div class="col-md-2">
 												<!-- Franchise Name -->
 											</div>
@@ -862,7 +872,7 @@ select {
 											Sac comment  <input type="hidden" id="sp_id" name="sp_id"
 												value="${specialCake.spId}">
 										</div> --%>
-										<%-- Sac comment <div class="form-group">
+									<%-- Sac comment <div class="form-group">
 											<div id="ctype1">
 												<div class="col-md-2" id="cktype">
 													<!-- Cake Type -->
@@ -905,7 +915,7 @@ select {
 	<!-- END Container -->
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 		function addSpCake(){
 			//alert("Hi");
 			
@@ -966,6 +976,16 @@ select {
 										
 									
 									})
+									
+									document.getElementById("sp_cake_id").options[0].selected = true;
+									//document.getElementById("spFlavour").options[0].selected = true;
+									//document.getElementById("spwt").options[0].selected = true;
+									  $('#spFlavour').find('option').remove().end();
+									  $('#spwt').find('option').remove().end();
+									$("#sp_cake_id").trigger("chosen:updated");
+									$("#spFlavour").trigger("chosen:updated");
+									$("#spwt").trigger("chosen:updated");
+									
 					
 			    }
 			    }).done(function() {
@@ -981,7 +1001,7 @@ select {
 		}
 		
 		</script>
-		
+
 	<script type="text/javascript">
 		function callSubmit() {
 				var isInsert=confirm("Do you want to save ORDERS !");
@@ -1715,7 +1735,7 @@ function showPdf(billNo)
 	   $('#loader').show();
 	   var frId=document.getElementById("fr_id").value;
 	   var menuId=document.getElementById("selectMenu").value;
-	   alert(menuId)
+	   //alert(menuId)
 	   isvalid=true;
 	   if(frId==null|| frId==""){
 		   isvalid=false;
@@ -1746,13 +1766,18 @@ function showPdf(billNo)
 	    		$('#loader').hide();
 	    	}
 	    	
+	    	$("#spFlavour").append($(
+							"<option selected></option>")
+							.attr("value",0)
+							.text("Select Flavour"));
+	    	
 			for (var i = 0; i < data.filterFlavoursList.length; i++) {
 
 				$(
 						"#spFlavour")
 						.append(
 								$(
-										"<option selected></option>")
+										"<option ></option>")
 										.attr(
 												"value",
 												data.filterFlavoursList[i].spfId)
