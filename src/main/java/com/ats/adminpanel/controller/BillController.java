@@ -242,7 +242,7 @@ public class BillController {
 			for (int i = 0; i < frIdList.size(); i++) {
 
 				PostBillHeader header = new PostBillHeader();
-				header.setVehNo(vehNo);
+				header.setVehNo("0");
 				header.setBillTime(billTime);
 				header.setExVarchar1("-");
 				header.setExVarchar2("-");
@@ -449,7 +449,10 @@ public class BillController {
 
 			System.out.println("Test data : " + postBillDataCommon.toString());
 
-			List<PostBillHeader> info = restTemplate.postForObject(Constants.url + "insertBillData", postBillDataCommon,
+//			List<PostBillHeader> info = restTemplate.postForObject(Constants.url + "insertBillData", postBillDataCommon,
+//					List.class);
+			
+			List<PostBillHeader> info = restTemplate.postForObject(Constants.url + "insertBillDataWithTCS", postBillDataCommon,
 					List.class);
 
 			System.out.println("Info Data " + info.toString());

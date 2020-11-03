@@ -304,9 +304,9 @@
 
 
 						<div class="row">
-							<label class="col-sm-3 col-lg-1 control-label">Veh-No: </label>
-							<div class="col-sm-6 col-lg-2 controls">
-								<input type="text" name="vehNo" class="form-control" id="vehNo" value="-"/>
+							<label class="col-sm-3 col-lg-1 control-label" style="display: none;">Veh-No: </label>
+							<div class="col-sm-6 col-lg-2 controls"  style="display: none;">
+								<input type="text" name="vehNo" class="form-control" id="vehNo" value="0"/>
 							</div>
 							<label class="col-sm-3 col-lg-1 control-label">Time </label>
 							<div class="col-sm-6 col-lg-2 controls">
