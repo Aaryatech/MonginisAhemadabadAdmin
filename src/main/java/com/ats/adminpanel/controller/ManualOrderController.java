@@ -1073,7 +1073,7 @@ public class ManualOrderController {
 						header.setPartyAddress(partyAddress);
 
 						header.setBillTime(sdf1.format(calender.getTime()));
-						header.setVehNo("-");
+						header.setVehNo("0");
 						header.setExVarchar1(sectionId);
 						
 						postBillHeaderList.add(header);
@@ -1081,8 +1081,12 @@ public class ManualOrderController {
 
 						System.out.println("Test data : " + postBillDataCommon.toString());
 
-						PostBillHeader[] respList = restTemplate.postForObject(Constants.url + "insertBillData",
+//						PostBillHeader[] respList = restTemplate.postForObject(Constants.url + "insertBillData",
+//								postBillDataCommon, PostBillHeader[].class);
+						
+						PostBillHeader[] respList = restTemplate.postForObject(Constants.url + "insertBillDataWithTCS",
 								postBillDataCommon, PostBillHeader[].class);
+						
 
 						List<PostBillHeader> billRespList = new ArrayList<PostBillHeader>(Arrays.asList(respList));
 

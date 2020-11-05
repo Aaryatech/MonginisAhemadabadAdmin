@@ -1045,7 +1045,7 @@ System.err.println("flavour is " +flavourConf.toString());
 
 						header.setRemark(dateFormat1.format(cal.getTime()));
 						header.setTime(strtime);
-						header.setVehNo("-");
+						header.setVehNo("0");
 						header.setExVarchar1(sectionId);
 						header.setExVarchar2("0");
 						header.setPostBillDetailsList(postBillDetailsList);
@@ -1053,8 +1053,11 @@ System.err.println("flavour is " +flavourConf.toString());
 
 						postBillDataCommon.setPostBillHeadersList(postBillHeaderList);
 
-						PostBillHeader[] infoRes = restTemplate.postForObject(Constants.url + "insertBillData",
-							postBillDataCommon, PostBillHeader[].class);
+//						PostBillHeader[] infoRes = restTemplate.postForObject(Constants.url + "insertBillData",
+//							postBillDataCommon, PostBillHeader[].class);
+						
+						PostBillHeader[] infoRes = restTemplate.postForObject(Constants.url + "insertBillDataWithTCS",
+								postBillDataCommon, PostBillHeader[].class);
 
 						System.out.println("Info Data insertBillData response " + infoRes.toString());
 						List<PostBillHeader> billRespList = new ArrayList<PostBillHeader>(Arrays.asList(infoRes));
