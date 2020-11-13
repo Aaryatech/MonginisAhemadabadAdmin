@@ -1391,7 +1391,7 @@ $(document).ready(function() {
 	</script>
 	<script type="text/javascript">
 		function showPdf(billNo) {
-
+			
 			if (billNo != 0) {
 				window.open(
 						'${pageContext.request.contextPath}/pdf?url=pdf/showBillPdf/By-Road/0/'

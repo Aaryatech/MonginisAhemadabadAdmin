@@ -110,8 +110,10 @@
 									<th>GSTIN</th>
 									<th>CGST %</th>
 									<th>SGST %</th>
+									<th>IGST %</th>
 									<th>CGST Amt</th>
 									<th>SGST Amt</th>
+									<th>IGST Amt</th>
 									<th>Taxable Amt</th>
 									<th>Total Tax</th>
 									<th>Grand Total</th>
@@ -120,6 +122,7 @@
 							</thead>
 							<tbody>
 								<c:set var="totalCgstAmt" value="0" />
+								<c:set var="totalSgstAmt" value="0" />
 								<c:set var="totalIgstAmt" value="0" />
 								<c:set var="totalTaxableAmt" value="0" />
 								<c:set var="totalTax" value="0" />
@@ -129,8 +132,10 @@
 									<tr>
 										<c:set var="totalCgstAmt"
 											value="${totalCgstAmt+taxList.cgstAmt}" />
+										<c:set var="totalSgstAmt"
+											value="${totalSgstAmt+taxList.sgstAmt}" />
 										<c:set var="totalIgstAmt"
-											value="${totalIgstAmt+taxList.sgstAmt}" />
+											value="${totalIgstAmt+taxList.igstAmt}" />
 										<c:set var="totalTaxableAmt"
 											value="${totalTaxableAmt+taxList.taxableAmt}" />
 										<c:set var="totalTax" value="${totalTax+taxList.totalTax}" />
@@ -150,9 +155,15 @@
 										<td style="text-align: right;"><c:out
 												value="${taxList.sgstPer}" /></td>
 										<td style="text-align: right;"><c:out
+												value="${taxList.igstPer}" /></td>
+
+										<td style="text-align: right;"><c:out
 												value="${taxList.cgstAmt}" /></td>
 										<td style="text-align: right;"><c:out
 												value="${taxList.sgstAmt}" /></td>
+										<td style="text-align: right;"><c:out
+												value="${taxList.igstAmt}" /></td>
+
 										<td style="text-align: right;"><c:out
 												value="${taxList.taxableAmt}" /></td>
 										<td style="text-align: right;"><c:out
@@ -171,6 +182,7 @@
 									<td></td>
 									<td></td>
 									<td></td>
+									<td></td>
 
 									<td style="text-align: left;">Total</td>
 
@@ -179,6 +191,9 @@
 											type="number" maxFractionDigits="2" minFractionDigits="2"
 											value="${totalCgstAmt}" /></td>
 									<td style="text-align: right;"><fmt:formatNumber
+											type="number" maxFractionDigits="2" minFractionDigits="2"
+											value="${totalSgstAmt}" /></td>
+											<td style="text-align: right;"><fmt:formatNumber
 											type="number" maxFractionDigits="2" minFractionDigits="2"
 											value="${totalIgstAmt}" /></td>
 
@@ -431,7 +446,8 @@
 		}
 		function exportToExcelTally() {
 
-			window.open("${pageContext.request.contextPath}/exportToExcelTally");
+			window
+					.open("${pageContext.request.contextPath}/exportToExcelTally");
 			document.getElementById("expExcelTally").disabled = true;
 		}
 	</script>

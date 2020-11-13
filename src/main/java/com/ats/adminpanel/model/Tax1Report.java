@@ -3,36 +3,38 @@ package com.ats.adminpanel.model;
 import java.io.Serializable;
 import java.util.Date;
 
+public class Tax1Report implements Serializable {
 
-public class Tax1Report implements Serializable{
-	
 	private int billDetailNo;
-	
+
 	private String invoiceNo;
-	
+
 	private String billDate;
-	
+
 	private String frName;
-	
+
 	private String frGstNo;
-	
+
 	private int billNo;
-	
+
 	private float cgstPer;
-	
+
 	private float sgstPer;
-	
+
 	private float taxPer;
-	
+
 	private float taxableAmt;
-	
+
 	private float cgstAmt;
 
 	private float sgstAmt;
-	
+
 	private float totalTax;
-	
+
 	private float grandTotal;
+
+	private float igstPer;
+	private float igstAmt;
 
 	public int getBillDetailNo() {
 		return billDetailNo;
@@ -146,15 +148,29 @@ public class Tax1Report implements Serializable{
 		this.grandTotal = grandTotal;
 	}
 
+	public float getIgstPer() {
+		return igstPer;
+	}
+
+	public void setIgstPer(float igstPer) {
+		this.igstPer = igstPer;
+	}
+
+	public float getIgstAmt() {
+		return igstAmt;
+	}
+
+	public void setIgstAmt(float igstAmt) {
+		this.igstAmt = igstAmt;
+	}
+
 	@Override
 	public String toString() {
 		return "Tax1Report [billDetailNo=" + billDetailNo + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate
 				+ ", frName=" + frName + ", frGstNo=" + frGstNo + ", billNo=" + billNo + ", cgstPer=" + cgstPer
 				+ ", sgstPer=" + sgstPer + ", taxPer=" + taxPer + ", taxableAmt=" + taxableAmt + ", cgstAmt=" + cgstAmt
-				+ ", sgstAmt=" + sgstAmt + ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + "]";
+				+ ", sgstAmt=" + sgstAmt + ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + ", igstPer="
+				+ igstPer + ", igstAmt=" + igstAmt + "]";
 	}
-	
-	
-	
-	
+
 }

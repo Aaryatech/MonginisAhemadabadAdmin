@@ -1,29 +1,29 @@
 package com.ats.adminpanel.model.billing;
 
-public class SlabwiseBill{
+public class SlabwiseBill {
 
 	private int billDetailNo;
 
 	private String itemHsncd;
 
 	private float taxPer;
-	
+
 	private float billQty;
 
 	private float taxableAmt;
-	
+
 	private float cgstAmt;
-	
+
 	private float sgstAmt;
-	
+
+	private float igstAmt;
+
 	private float cessAmt;
-	
+
 	private float totalTax;
-	
+
 	private float grandTotal;
-	
-	
-	
+
 	public float getCessAmt() {
 		return cessAmt;
 	}
@@ -104,11 +104,20 @@ public class SlabwiseBill{
 		this.grandTotal = grandTotal;
 	}
 
+	public float getIgstAmt() {
+		return igstAmt;
+	}
+
+	public void setIgstAmt(float igstAmt) {
+		this.igstAmt = igstAmt;
+	}
+
 	@Override
 	public String toString() {
 		return "SlabwiseBill [billDetailNo=" + billDetailNo + ", itemHsncd=" + itemHsncd + ", taxPer=" + taxPer
 				+ ", billQty=" + billQty + ", taxableAmt=" + taxableAmt + ", cgstAmt=" + cgstAmt + ", sgstAmt="
-				+ sgstAmt + ", cessAmt=" + cessAmt + ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + "]";
+				+ sgstAmt + ", igstAmt=" + igstAmt + ", cessAmt=" + cessAmt + ", totalTax=" + totalTax + ", grandTotal="
+				+ grandTotal + "]";
 	}
 
 }

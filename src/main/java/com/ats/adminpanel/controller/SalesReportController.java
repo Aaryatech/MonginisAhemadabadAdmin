@@ -426,6 +426,19 @@ public class SalesReportController {
 				exportToExcelList1.add(expoExcel1);
 
 				for (int j = 0; j < headerList.size(); j++) {
+					
+					String tcsStr = headerList.get(j).getTcs();
+					float tcs = 0;
+					try {
+						if (tcsStr != null) {
+							if (!tcsStr.isEmpty()) {
+								tcs = Float.parseFloat(tcsStr);
+							}
+						}
+					} catch (Exception e) {
+					}
+
+					
 
 					expoExcel1 = new ExportToExcel();
 					rowData1 = new ArrayList<String>();
@@ -434,8 +447,9 @@ public class SalesReportController {
 					rowData1.add("Sales");
 					rowData1.add(headerList.get(j).getInvoiceNo());
 					rowData1.add(headerList.get(j).getFrName());
-					// sac comment rowData1.add(" " + (int) Math.ceil(headerList.get(j).getGrandTotal()));
-					rowData1.add(" " + (int) Math.round((headerList.get(j).getGrandTotal())));
+					// sac comment rowData1.add(" " + (int)
+					// Math.ceil(headerList.get(j).getGrandTotal()));
+					rowData1.add(" " + ((int) Math.round((headerList.get(j).getGrandTotal()+tcs))));
 
 					rowData1.add("Dr");
 					rowData1.add(" ");
@@ -443,7 +457,8 @@ public class SalesReportController {
 					exportToExcelList1.add(expoExcel1);
 
 					double finalAmt = 0;
-
+					
+			
 					for (int i = 0; i < taxReportList.size(); i++) {
 
 						if (headerList.get(j).getBillNo() == taxReportList.get(i).getBillNo()) {
@@ -453,7 +468,8 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("");
-							rowData1.add("Sales GST " + new BigDecimal(taxReportList.get(i).getTaxPer()).stripTrailingZeros() + "%");
+							rowData1.add("Sales GST "
+									+ new BigDecimal(taxReportList.get(i).getTaxPer()).stripTrailingZeros() + "%");
 							rowData1.add(" " + df.format(taxReportList.get(i).getTaxableAmt()));
 							rowData1.add("Cr");
 							rowData1.add(" ");
@@ -463,16 +479,30 @@ public class SalesReportController {
 							BigDecimal bd = new BigDecimal(taxReportList.get(i).getTaxableAmt()).setScale(2,
 									RoundingMode.HALF_UP);
 							double taxable = bd.doubleValue();
-							// Sac comment bd = new BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2,RoundingMode.HALF_UP );
-							bd = new BigDecimal((taxReportList.get(i).getTaxableAmt()*taxReportList.get(i).getCgstPer())/100).setScale(2,RoundingMode.HALF_UP );
-							
+							// Sac comment bd = new
+							// BigDecimal(taxReportList.get(i).getCgstAmt()).setScale(2,RoundingMode.HALF_UP
+							// );
+							bd = new BigDecimal(
+									(taxReportList.get(i).getTaxableAmt() * taxReportList.get(i).getCgstPer()) / 100)
+											.setScale(2, RoundingMode.HALF_UP);
+
 							double cgstAmt = bd.doubleValue();
-						
-						// Sac comment	bd = new BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2, RoundingMode.HALF_UP);
-							bd = new BigDecimal((taxReportList.get(i).getTaxableAmt()*taxReportList.get(i).getSgstPer())/100).setScale(2,RoundingMode.HALF_UP );
-							
-							
+
+							// Sac comment bd = new
+							// BigDecimal(taxReportList.get(i).getSgstAmt()).setScale(2,
+							// RoundingMode.HALF_UP);
+							bd = new BigDecimal(
+									(taxReportList.get(i).getTaxableAmt() * taxReportList.get(i).getSgstPer()) / 100)
+											.setScale(2, RoundingMode.HALF_UP);
+
 							double sgstAmt = bd.doubleValue();
+							
+							
+							bd = new BigDecimal(
+									(taxReportList.get(i).getTaxableAmt() * taxReportList.get(i).getIgstPer()) / 100)
+											.setScale(2, RoundingMode.HALF_UP);
+							
+							double igstAmt = bd.doubleValue();
 
 							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt;
 
@@ -482,10 +512,11 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("");
-							rowData1.add("CGST " + new BigDecimal(taxReportList.get(i).getCgstPer()).stripTrailingZeros() + "%");
-							//rowData1.add(" " + df.format(taxReportList.get(i).getCgstAmt()));
+							rowData1.add("CGST "
+									+ new BigDecimal(taxReportList.get(i).getCgstPer()).stripTrailingZeros() + "%");
+							// rowData1.add(" " + df.format(taxReportList.get(i).getCgstAmt()));
 							rowData1.add(" " + cgstAmt);
-							
+
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
@@ -497,14 +528,34 @@ public class SalesReportController {
 							rowData1.add("");
 							rowData1.add("");
 							rowData1.add("");
-							rowData1.add("SGST " + new BigDecimal(taxReportList.get(i).getSgstPer()).stripTrailingZeros() + "%");
-					//		rowData1.add(" " + df.format(taxReportList.get(i).getSgstAmt()));
-							rowData1.add(" " +sgstAmt);
-							
+							rowData1.add("SGST "
+									+ new BigDecimal(taxReportList.get(i).getSgstPer()).stripTrailingZeros() + "%");
+							// rowData1.add(" " + df.format(taxReportList.get(i).getSgstAmt()));
+							rowData1.add(" " + sgstAmt);
+
 							rowData1.add("Cr");
 							rowData1.add(" ");
 							expoExcel1.setRowData(rowData1);
 							exportToExcelList1.add(expoExcel1);
+							
+							
+							expoExcel1 = new ExportToExcel();
+							rowData1 = new ArrayList<String>();
+							rowData1.add(headerList.get(j).getInvoiceNo());
+							rowData1.add("");
+							rowData1.add("");
+							rowData1.add("");
+							rowData1.add("IGST "
+									+ new BigDecimal(taxReportList.get(i).getIgstPer()).stripTrailingZeros() + "%");
+							// rowData1.add(" " + df.format(taxReportList.get(i).getSgstAmt()));
+							rowData1.add(" " + igstAmt);
+
+							rowData1.add("Cr");
+							rowData1.add(" ");
+							expoExcel1.setRowData(rowData1);
+							exportToExcelList1.add(expoExcel1);
+							
+							
 						}
 
 					}
@@ -521,6 +572,24 @@ public class SalesReportController {
 					rowData1.add(" ");
 					expoExcel1.setRowData(rowData1);
 					exportToExcelList1.add(expoExcel1);
+
+					
+
+					if (tcs > 0) {
+						expoExcel1 = new ExportToExcel();
+						rowData1 = new ArrayList<String>();
+						rowData1.add(headerList.get(j).getInvoiceNo());
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("");
+						rowData1.add("TCS");
+						rowData1.add(" " + tcs);
+						rowData1.add("Cr");
+						rowData1.add(" ");
+						expoExcel1.setRowData(rowData1);
+						exportToExcelList1.add(expoExcel1);
+					}
+
 				}
 
 				session.setAttribute("exportToExcelTally", exportToExcelList1);
@@ -4029,14 +4098,14 @@ public class SalesReportController {
 		ExportToExcel expoExcel = new ExportToExcel();
 		List<String> rowData = new ArrayList<String>();
 		rowData.add("Sr.");
-		//rowData.add("Bill No");
+		// rowData.add("Bill No");
 		rowData.add("Invoice No");
 		rowData.add("Bill Date");
 
 		rowData.add("Franchisee");
 		rowData.add("City");
 		rowData.add("Fr Gst No");
-		//rowData.add("Item Name");
+		// rowData.add("Item Name");
 		rowData.add("Item Hsn");
 		rowData.add("SGST %");
 		rowData.add("CGST %");
@@ -4060,7 +4129,7 @@ public class SalesReportController {
 			expoExcel = new ExportToExcel();
 			rowData = new ArrayList<String>();
 			rowData.add("" + (i + 1));
-			//rowData.add("" + saleList.get(i).getBillNo());
+			// rowData.add("" + saleList.get(i).getBillNo());
 			rowData.add(saleList.get(i).getInvoiceNo());
 			rowData.add(saleList.get(i).getBillDate());
 
@@ -4068,7 +4137,7 @@ public class SalesReportController {
 
 			rowData.add(saleList.get(i).getFrCity());
 			rowData.add(saleList.get(i).getFrGstNo());
-			//rowData.add("" + saleList.get(i).getItemName());
+			// rowData.add("" + saleList.get(i).getItemName());
 			rowData.add("" + saleList.get(i).getItemHsncd());
 			rowData.add("" + saleList.get(i).getItemTax1());
 
@@ -4096,10 +4165,10 @@ public class SalesReportController {
 		expoExcel = new ExportToExcel();
 		rowData = new ArrayList<String>();
 
-		//rowData.add("");
+		// rowData.add("");
 		rowData.add("");
 		rowData.add("Total");
-		//rowData.add("");
+		// rowData.add("");
 		rowData.add("");
 		rowData.add("");
 		rowData.add("");
@@ -6546,11 +6615,14 @@ public class SalesReportController {
 					float totGrnValue = 0;
 					float totGvnValue = 0;
 					for (int k = 0; k < salesReturnValueReportList.get(i).getSalesReturnQtyValueList().size(); k++) {
-						
-						float temp=salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGrandTotal()-(salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGrnQty()+salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGvnQty());
-						
-						totBillAmt = totBillAmt
-								+ temp;
+
+						float temp = salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k)
+								.getGrandTotal()
+								- (salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGrnQty()
+										+ salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k)
+												.getGvnQty());
+
+						totBillAmt = totBillAmt + temp;
 						totGrnValue = totGrnValue
 								+ salesReturnValueReportList.get(i).getSalesReturnQtyValueList().get(k).getGrnQty();
 						totGvnValue = totGvnValue

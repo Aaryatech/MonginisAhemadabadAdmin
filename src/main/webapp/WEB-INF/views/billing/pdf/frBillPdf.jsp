@@ -192,6 +192,8 @@ table {
 				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">SGST</td>
 				<td align="center" width="10%" colspan="2"
+					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">IGST</td>
+				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">CESS</td>
 				<td align="center" width="10%" rowspan="2"
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Total</td>
@@ -211,6 +213,10 @@ table {
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+				<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
+				<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
 			</tr>
 
 			<c:set var="totalQty" value="0" />
@@ -219,6 +225,7 @@ table {
 			<c:set var="totalCgst" value="0" />
 			<c:set var="totalDisc" value="0" />
 			<c:set var="totalSgst" value="0" />
+			<c:set var="totalIgst" value="0" />
 			<c:set var="totalCess" value="0" />
 			<c:set var="acttotal" value="0" />
 
@@ -239,6 +246,10 @@ table {
 					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 
+					<td
+						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+					<td
+						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
@@ -501,6 +512,8 @@ table {
 				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">SGST</td>
 				<td align="center" width="10%" colspan="2"
+					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">IGST</td>
+				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">CESS</td>
 				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">Total</td>
@@ -510,6 +523,10 @@ table {
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%
 				</td>
+				<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+				<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
 				<td align="center"
@@ -626,6 +643,30 @@ table {
 						value="${billDetails.sgstRs}" /></td>
 				<c:set var="totalSgst" value="${totalSgst+billDetails.sgstRs}" />
 
+
+				<!-- IGST -->
+				<td align="right"
+					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">
+
+					<c:choose>
+						<c:when test="${billDetails.igstRs>0}">
+							<fmt:formatNumber type="number" maxFractionDigits="2"
+								minFractionDigits="2" value="${billDetails.igstPer}" />
+						</c:when>
+						<c:otherwise>
+							<fmt:formatNumber type="number" maxFractionDigits="2"
+								minFractionDigits="2" value="0" />
+						</c:otherwise>
+					</c:choose>
+
+				</td>
+				<td align="right"
+					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+						type="number" maxFractionDigits="2" minFractionDigits="2"
+						value="${billDetails.igstRs}" /></td>
+				<c:set var="totalIgst" value="${totalIgst+billDetails.igstRs}" />
+				<!-- ----------------------- -->
+
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
@@ -639,9 +680,9 @@ table {
 				<td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
-						value="${(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.cessRs)+(billDetails.taxableAmt)}" /></td>
+						value="${(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.igstRs)+(billDetails.cessRs)+(billDetails.taxableAmt)}" /></td>
 				<c:set var="acttotal"
-					value="${acttotal+(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.cessRs)+(billDetails.taxableAmt)}" />
+					value="${acttotal+(billDetails.sgstRs)+(billDetails.cgstRs)+(billDetails.igstRs)+(billDetails.cessRs)+(billDetails.taxableAmt)}" />
 			</tr>
 			</c:when>
 			</c:choose>
@@ -692,6 +733,12 @@ table {
 				<td align="right"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
+							value="${totalIgst}" /></b></td>
+				<td align="center"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+				<td align="right"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
+							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalCess}" /></b></td>
 				<td align="right"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
@@ -705,7 +752,8 @@ table {
 
 				<fmt:formatNumber type="number" minFractionDigits="0"
 					groupingUsed="false" maxFractionDigits="0"
-					value="${totalAmt+totalCgst+totalSgst+totalCess}" var="totAmt" />
+					value="${totalAmt+totalCgst+totalSgst+totalIgst+totalCess}"
+					var="totAmt" />
 
 				<td align="right"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
@@ -724,9 +772,10 @@ table {
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 12px;"><b>&nbsp;TCS:</b></td>
-				
+
 
 				<c:set value="${frDetails.vehNo}" var="tcsVal"></c:set>
 
@@ -737,8 +786,8 @@ table {
 				<fmt:formatNumber type="number" minFractionDigits="2"
 					groupingUsed="false" maxFractionDigits="2" value="${tcsVal}"
 					var="tcs" />
-					
-					<td align="right"
+
+				<td align="right"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b>
 						${tcs}</b></td>
 
@@ -748,7 +797,8 @@ table {
 
 				<fmt:formatNumber type="number" minFractionDigits="0"
 					groupingUsed="false" maxFractionDigits="0"
-					value="${totalAmt+totalCgst+totalSgst+totalCess+tcs}" var="totAmt" />
+					value="${totalAmt+totalCgst+totalSgst+totalIgst+totalCess+tcs}"
+					var="totAmt" />
 
 				<td align="right"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
@@ -762,6 +812,8 @@ table {
 
 				<td
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
@@ -774,13 +826,13 @@ table {
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b>
 						<fmt:formatNumber type="number" minFractionDigits="2"
 							maxFractionDigits="2" groupingUsed="false"
-							value="${totAmt-(totalAmt+totalCgst+totalSgst+totalCess+tcs)}" />
+							value="${totAmt-(totalAmt+totalCgst+totalSgst+totalIgst+totalCess+tcs)}" />
 
 				</b></td>
 			</tr>
 			<tr>
 				<c:set var="finalAmt"
-					value="${totalAmt+totalCgst+totalSgst+totalCess+tcs}"></c:set>
+					value="${totalAmt+totalCgst+totalSgst+totalIgst+totalCess+tcs}"></c:set>
 				<%
 					double fAmt = 0;// (Double)pageContext.getAttribute("finalAmt");
 						fAmt = Math.round(fAmt);
@@ -799,6 +851,8 @@ table {
 
 				<td
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
@@ -939,12 +993,15 @@ table {
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">SGST
 					Amount</td>
 				<td align="center" width="9%" colspan="2"
-					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">CESS
+					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">IGST
 					Amount</td>
 				<td align="center" width="9%" colspan="2"
+					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">CESS
+					Amount</td>
+				<td align="center" width="9%" colspan="1"
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">Total
 					Tax</td>
-				<td align="center" width="9%" colspan="2"
+				<td align="center" width="9%" colspan="1"
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">Total
 					Amount</td>
 
@@ -978,15 +1035,19 @@ table {
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${slabwiseBill.sgstAmt}" /></td>
+											<td align="right" width="9%" colspan="2"
+									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
+										type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${slabwiseBill.igstAmt}" /></td>
 								<td align="right" width="9%" colspan="2"
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${slabwiseBill.cessAmt}" /></td>
-								<td align="right" width="9%" colspan="2"
+								<td align="right" width="9%" colspan="1"
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${slabwiseBill.totalTax}" /></td>
-								<td align="right" width="9%" colspan="2"
+								<td align="right" width="9%" colspan="1"
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${slabwiseBill.grandTotal}" /></td>
@@ -1013,14 +1074,18 @@ table {
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
 				<td align="right" width="9%" colspan="2"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
+				
 				<td align="right" width="9%" colspan="2"
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
+					
+				<td align="right" width="9%" colspan="1"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right">TCS</td>
-				<td align="right" width="9%" colspan="2"
+				<td align="right" width="9%" colspan="1"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${tcs}" /></td>
 			</tr>
-			
+
 		</table>
 
 		<table width="100%" border="0" cellpadding="0" cellspacing="0"

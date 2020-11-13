@@ -99,6 +99,8 @@ public class ManualOrderController {
 				System.out.println("Franchisee Response " + franchiseeAndMenuList.getAllFranchisee());
 
 				model.addObject("allFranchiseeAndMenuList", franchiseeAndMenuList);
+				
+				System.err.println("BILL NO --------------------- > "+billNo);
 				model.addObject("billNo", billNo);
 				billNo = "0";
 
