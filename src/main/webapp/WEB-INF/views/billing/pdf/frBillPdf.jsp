@@ -186,13 +186,32 @@ table {
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Taxable
 					Amt</td>
 
-				<td align="center" width="10%" colspan="2"
-					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">
-					CGST</td>
-				<td align="center" width="10%" colspan="2"
-					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">SGST</td>
-				<td align="center" width="10%" colspan="2"
-					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">IGST</td>
+
+				<c:set value="0" var="isIgst"></c:set>
+				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
+					varStatus="count">
+					<c:if test="${billDetails.igstRs>0}">
+						<c:set value="1" var="isIgst"></c:set>
+					</c:if>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${isIgst==1}">
+						<td align="center" width="10%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">IGST</td>
+					</c:when>
+					<c:otherwise>
+						<td align="center" width="10%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">
+							CGST</td>
+						<td align="center" width="10%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">SGST</td>
+					</c:otherwise>
+				</c:choose>
+
+
+
+
 				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">CESS</td>
 				<td align="center" width="10%" rowspan="2"
@@ -200,7 +219,29 @@ table {
 			</tr>
 			<tr>
 
-				<td align="center"
+				<c:choose>
+					<c:when test="${isIgst==1}">
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%
+						</td>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+					</c:when>
+					<c:otherwise>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%
+						</td>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+					</c:otherwise>
+				</c:choose>
+
+				<!-- <td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%
 				</td>
 				<td align="center"
@@ -212,7 +253,8 @@ table {
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
 				<td align="center"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td> -->
+
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
 				<td align="center"
@@ -250,7 +292,9 @@ table {
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
-					<td
+					<!-- <td
+						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+					 <td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
@@ -261,9 +305,33 @@ table {
 					<td
 						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
 					<td
-						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td> -->
+
+
+					<c:choose>
+						<c:when test="${isIgst==1}">
+							<td
+								style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+							<td
+								style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+						</c:when>
+						<c:otherwise>
+							<td
+								style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+							<td
+								style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+							<td
+								style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+							<td
+								style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+						</c:otherwise>
+					</c:choose>
+
 					<td
-						style="border-left: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+						style="border-left: 1px solid #313131; border-right: 1px solid #313131; padding: 3px 5px; color: white; font-size: 10px;">-</td>
+
+
+
 				</tr>
 				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
 					varStatus="count">
@@ -506,13 +574,38 @@ table {
 					style="border-bottom: 1px solid #313131; border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px;">Taxable
 					Amt</td>
 
-				<td align="center" width="10%" colspan="2"
+				<!-- <td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">
 					CGST</td>
 				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">SGST</td>
 				<td align="center" width="10%" colspan="2"
-					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">IGST</td>
+					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">IGST</td> -->
+
+
+				<%-- <c:set value="0" var="isIgst2"></c:set>
+				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
+					varStatus="count">
+					<c:if test="${billDetails.igstRs>0}">
+						<c:set value="1" var="isIgst2"></c:set>
+					</c:if>
+				</c:forEach> --%>
+
+				<c:choose>
+					<c:when test="${isIgst == 1}">
+						<td align="center" width="10%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">IGST</td>
+					</c:when>
+					<c:otherwise>
+						<td align="center" width="10%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">
+							CGST</td>
+						<td align="center" width="10%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">SGST</td>
+					</c:otherwise>
+				</c:choose>
+
+
 				<td align="center" width="10%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 10px; color: #000; font-size: 10px; text-align: center;">CESS</td>
 				<td align="center" width="10%" colspan="2"
@@ -525,7 +618,7 @@ table {
 				</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
-				<td align="center"
+				<!-- <td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
@@ -537,6 +630,30 @@ table {
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+ -->
+
+				<c:choose>
+					<c:when test="${isIgst == 1}">
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+
+					</c:when>
+					<c:otherwise>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Rate%</td>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 10px;">Amount</td>
+
+					</c:otherwise>
+				</c:choose>
+
 
 			</tr>
 
@@ -624,7 +741,8 @@ table {
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${billDetails.discAmt}" /> </td> --%>
 				<c:set var="totalDisc" value="${totalDisc+billDetails.discAmt}" />
-				<td align="right"
+
+				<%-- <td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${billDetails.cgstPer}" /></td>
@@ -641,11 +759,11 @@ table {
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${billDetails.sgstRs}" /></td>
-				<c:set var="totalSgst" value="${totalSgst+billDetails.sgstRs}" />
+				<c:set var="totalSgst" value="${totalSgst+billDetails.sgstRs}" /> --%>
 
 
 				<!-- IGST -->
-				<td align="right"
+				<%-- <td align="right"
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">
 
 					<c:choose>
@@ -664,7 +782,49 @@ table {
 					style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
 						type="number" maxFractionDigits="2" minFractionDigits="2"
 						value="${billDetails.igstRs}" /></td>
-				<c:set var="totalIgst" value="${totalIgst+billDetails.igstRs}" />
+				<c:set var="totalIgst" value="${totalIgst+billDetails.igstRs}" /> --%>
+
+
+				<c:choose>
+					<c:when test="${billDetails.igstRs>0}">
+
+						<td align="right"
+							style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;">
+							<fmt:formatNumber type="number" maxFractionDigits="2"
+								minFractionDigits="2" value="${billDetails.igstPer}" />
+						</td>
+
+						<td align="right"
+							style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+								type="number" maxFractionDigits="2" minFractionDigits="2"
+								value="${billDetails.igstRs}" /></td>
+						<c:set var="totalIgst" value="${totalIgst+billDetails.igstRs}" />
+					</c:when>
+					<c:otherwise>
+						<td align="right"
+							style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+								type="number" maxFractionDigits="2" minFractionDigits="2"
+								value="${billDetails.cgstPer}" /></td>
+						<td align="right"
+							style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+								type="number" maxFractionDigits="2" minFractionDigits="2"
+								value="${billDetails.cgstRs}" /></td>
+						<c:set var="totalCgst" value="${totalCgst+billDetails.cgstRs}" />
+						<td align="right"
+							style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+								type="number" maxFractionDigits="2" minFractionDigits="2"
+								value="${billDetails.sgstPer}" /></td>
+						<td align="right"
+							style="border-left: 1px solid #313131; padding: 3px 5px; color: #000; font-size: 12px;"><fmt:formatNumber
+								type="number" maxFractionDigits="2" minFractionDigits="2"
+								value="${billDetails.sgstRs}" /></td>
+						<c:set var="totalSgst" value="${totalSgst+billDetails.sgstRs}" />
+					</c:otherwise>
+				</c:choose>
+
+
+
+
 				<!-- ----------------------- -->
 
 				<td align="right"
@@ -715,25 +875,48 @@ table {
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
 							value="${totalDisc}" /></b></td> --%>
-				<td align="center"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 
-				<td align="right"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${totalCgst}" /></b></td>
-				<td align="center"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
-				<td align="right"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${totalSgst}" /></b></td>
-				<td align="center"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
-				<td align="right"
-					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
-							type="number" maxFractionDigits="2" minFractionDigits="2"
-							value="${totalIgst}" /></b></td>
+
+
+				<c:set value="0" var="isIgst"></c:set>
+				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
+					varStatus="count">
+					<c:if test="${billDetails.igstRs>0}">
+						<c:set value="1" var="isIgst"></c:set>
+					</c:if>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${isIgst==1}">
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+						<td align="right"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalIgst}" /></b></td>
+					</c:when>
+					<c:otherwise>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+
+						<td align="right"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalCgst}" /></b></td>
+						<td align="center"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
+						<td align="right"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 12px;"><b><fmt:formatNumber
+									type="number" maxFractionDigits="2" minFractionDigits="2"
+									value="${totalSgst}" /></b></td>
+					</c:otherwise>
+				</c:choose>
+
+
+
+
+
+
 				<td align="center"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 				<td align="right"
@@ -762,7 +945,7 @@ table {
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-				<td
+				<!-- 	<td
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 
 				<td
@@ -770,7 +953,32 @@ table {
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td> -->
+
+
+				<c:set value="0" var="isIgst"></c:set>
+				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
+					varStatus="count">
+					<c:if test="${billDetails.igstRs>0}">
+						<c:set value="1" var="isIgst"></c:set>
+					</c:if>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${isIgst==1}">
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+					</c:when>
+					<c:otherwise>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+					</c:otherwise>
+				</c:choose>
+
+
+
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
@@ -807,7 +1015,7 @@ table {
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-				<td
+				<!-- <td
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 
 				<td
@@ -815,7 +1023,32 @@ table {
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td> -->
+
+
+
+				<c:set value="0" var="isIgst"></c:set>
+				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
+					varStatus="count">
+					<c:if test="${billDetails.igstRs>0}">
+						<c:set value="1" var="isIgst"></c:set>
+					</c:if>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${isIgst==1}">
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+					</c:when>
+					<c:otherwise>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+					</c:otherwise>
+				</c:choose>
+
+
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
@@ -846,7 +1079,7 @@ table {
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-				<td
+				<!-- <td
 					style="border-bottom: 1px solid #313131; padding: 4px; color: #000; font-size: 0px;">-</td>
 
 				<td
@@ -854,7 +1087,30 @@ table {
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
-				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td> -->
+
+
+				<c:set value="0" var="isIgst"></c:set>
+				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
+					varStatus="count">
+					<c:if test="${billDetails.igstRs>0}">
+						<c:set value="1" var="isIgst"></c:set>
+					</c:if>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${isIgst==1}">
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+					</c:when>
+					<c:otherwise>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+						<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
+					</c:otherwise>
+				</c:choose>
+
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
 				<td style="border-bottom: 1px solid #313131; font-size: 0px;">-</td>
@@ -986,7 +1242,7 @@ table {
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">Taxable
 					Amount</td>
 
-				<td align="center" width="9%" colspan="2"
+				<!-- <td align="center" width="9%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">CGST
 					Amount</td>
 				<td align="center" width="9%" colspan="2"
@@ -994,7 +1250,35 @@ table {
 					Amount</td>
 				<td align="center" width="9%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">IGST
-					Amount</td>
+					Amount</td> -->
+
+
+
+				<c:set value="0" var="isIgst"></c:set>
+				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
+					varStatus="count">
+					<c:if test="${billDetails.igstRs>0}">
+						<c:set value="1" var="isIgst"></c:set>
+					</c:if>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${isIgst==1}">
+						<td align="center" width="9%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">IGST
+							Amount</td>
+					</c:when>
+					<c:otherwise>
+						<td align="center" width="9%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">CGST
+							Amount</td>
+						<td align="center" width="9%" colspan="2"
+							style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">SGST
+							Amount</td>
+					</c:otherwise>
+				</c:choose>
+
+
 				<td align="center" width="9%" colspan="2"
 					style="border-left: 1px solid #313131; padding: 2px; color: #000; font-size: 10px; text-align: center;">CESS
 					Amount</td>
@@ -1027,7 +1311,37 @@ table {
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${slabwiseBill.taxableAmt}" /></td>
 
-								<td align="right" width="9%" colspan="2"
+
+
+								<c:set value="0" var="isIgst"></c:set>
+								<c:forEach items="${frDetails.billDetailsList}"
+									var="billDetails" varStatus="count">
+									<c:if test="${billDetails.igstRs>0}">
+										<c:set value="1" var="isIgst"></c:set>
+									</c:if>
+								</c:forEach>
+
+								<c:choose>
+									<c:when test="${isIgst==1}">
+										<td align="right" width="9%" colspan="2"
+											style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
+												type="number" maxFractionDigits="2" minFractionDigits="2"
+												value="${slabwiseBill.igstAmt}" /></td>
+									</c:when>
+									<c:otherwise>
+										<td align="right" width="9%" colspan="2"
+											style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
+												type="number" maxFractionDigits="2" minFractionDigits="2"
+												value="${slabwiseBill.cgstAmt}" /></td>
+										<td align="right" width="9%" colspan="2"
+											style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
+												type="number" maxFractionDigits="2" minFractionDigits="2"
+												value="${slabwiseBill.sgstAmt}" /></td>
+									</c:otherwise>
+								</c:choose>
+
+
+								<%-- <td align="right" width="9%" colspan="2"
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${slabwiseBill.cgstAmt}" /></td>
@@ -1035,10 +1349,10 @@ table {
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${slabwiseBill.sgstAmt}" /></td>
-											<td align="right" width="9%" colspan="2"
+								<td align="right" width="9%" colspan="2"
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${slabwiseBill.igstAmt}" /></td>
+										value="${slabwiseBill.igstAmt}" /></td> --%>
 								<td align="right" width="9%" colspan="2"
 									style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"><fmt:formatNumber
 										type="number" maxFractionDigits="2" minFractionDigits="2"
@@ -1070,14 +1384,41 @@ table {
 
 				<td align="right" width="9%" colspan="2"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
-				<td align="right" width="9%" colspan="2"
+				<!-- <td align="right" width="9%" colspan="2"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
 				<td align="right" width="9%" colspan="2"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
-				
+
 				<td align="right" width="9%" colspan="2"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
-					
+ -->
+
+
+				<c:set value="0" var="isIgst"></c:set>
+				<c:forEach items="${frDetails.billDetailsList}" var="billDetails"
+					varStatus="count">
+					<c:if test="${billDetails.igstRs>0}">
+						<c:set value="1" var="isIgst"></c:set>
+					</c:if>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${isIgst==1}">
+						<td align="right" width="9%" colspan="2"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
+					</c:when>
+					<c:otherwise>
+						<td align="right" width="9%" colspan="2"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
+
+						<td align="right" width="9%" colspan="2"
+							style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right"></td>
+
+
+					</c:otherwise>
+				</c:choose>
+
+
 				<td align="right" width="9%" colspan="1"
 					style="border-top: 1px solid #313131; border-left: 1px solid #313131; padding: 5px; color: #000; font-size: 10px; text-align: right">TCS</td>
 				<td align="right" width="9%" colspan="1"
