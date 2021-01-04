@@ -81,6 +81,7 @@ import com.ats.adminpanel.model.SpFlavourSummaryDaoResponse;
 import com.ats.adminpanel.model.SpKgSummaryDao;
 import com.ats.adminpanel.model.SpKgSummaryDaoResponse;
 import com.ats.adminpanel.model.Tax1Report;
+import com.ats.adminpanel.model.Tax1ReportNew;
 import com.ats.adminpanel.model.Tax2Report;
 import com.ats.adminpanel.model.accessright.ModuleJson;
 import com.ats.adminpanel.model.creditnote.GetCreditNoteReport;
@@ -265,7 +266,7 @@ public class SalesReportController {
 			model = new ModelAndView("reports/tax/tax1Report");
 			// Constants.mainAct =2;
 			// Constants.subAct =20;
-			List<Tax1Report> taxReportList = null;
+			List<Tax1ReportNew> taxReportList = null;
 
 			try {
 
@@ -284,10 +285,17 @@ public class SalesReportController {
 				map.add("fromDate", fromDate);
 				map.add("toDate", toDate);
 
-				ParameterizedTypeReference<List<Tax1Report>> typeRef = new ParameterizedTypeReference<List<Tax1Report>>() {
+				// ParameterizedTypeReference<List<Tax1Report>> typeRef = new
+				// ParameterizedTypeReference<List<Tax1Report>>() {
+				// };
+				// ResponseEntity<List<Tax1Report>> responseEntity =
+				// restTemplate.exchange(Constants.url + "getTax1Report",
+				// HttpMethod.POST, new HttpEntity<>(map), typeRef);
+
+				ParameterizedTypeReference<List<Tax1ReportNew>> typeRef = new ParameterizedTypeReference<List<Tax1ReportNew>>() {
 				};
-				ResponseEntity<List<Tax1Report>> responseEntity = restTemplate.exchange(Constants.url + "getTax1Report",
-						HttpMethod.POST, new HttpEntity<>(map), typeRef);
+				ResponseEntity<List<Tax1ReportNew>> responseEntity = restTemplate
+						.exchange(Constants.url + "getTax1ReportNew", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 				taxReportList = responseEntity.getBody();
 				model.addObject("taxReportList", taxReportList);
@@ -404,6 +412,8 @@ public class SalesReportController {
 				session.setAttribute("mergeUpto1", "$A$1:$N$1");
 				session.setAttribute("mergeUpto2", "$A$2:$N$2");
 
+				// -------------------------------------------------------------------------------
+
 				DecimalFormat df = new DecimalFormat("#.00");
 
 				List<ExportToExcel> exportToExcelList1 = new ArrayList<ExportToExcel>();
@@ -447,9 +457,9 @@ public class SalesReportController {
 					rowData1.add(headerList.get(j).getFrName());
 					// sac comment rowData1.add(" " + (int)
 					// Math.ceil(headerList.get(j).getGrandTotal()));
-					rowData1.add(" " + ( (int)Math.round((headerList.get(j).getGrandTotal() + tcs))));
-					
-					//rowData1.add(" " + ( df.format(headerList.get(j).getGrandTotal() + tcs)));
+					rowData1.add(" " + ((int) Math.round((headerList.get(j).getGrandTotal() + tcs))));
+
+					// rowData1.add(" " + ( df.format(headerList.get(j).getGrandTotal() + tcs)));
 
 					rowData1.add("Dr");
 					rowData1.add(" ");
@@ -457,7 +467,7 @@ public class SalesReportController {
 					exportToExcelList1.add(expoExcel1);
 
 					double finalAmt = 0;
-					
+
 					// DecimalFormat df = new DecimalFormat("0.00");
 
 					for (int i = 0; i < taxReportList.size(); i++) {
@@ -504,10 +514,10 @@ public class SalesReportController {
 
 							double igstAmt = bd.doubleValue();
 
-							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt + tcs;
+							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt +taxReportList.get(i).getCessRs()+ tcs;
 
 							if (igstAmt > 0) {
-								
+
 								expoExcel1 = new ExportToExcel();
 								rowData1 = new ArrayList<String>();
 								rowData1.add(headerList.get(j).getInvoiceNo());
@@ -523,9 +533,9 @@ public class SalesReportController {
 								rowData1.add(" ");
 								expoExcel1.setRowData(rowData1);
 								exportToExcelList1.add(expoExcel1);
-								
+
 							} else {
-								
+
 								expoExcel1 = new ExportToExcel();
 								rowData1 = new ArrayList<String>();
 								rowData1.add(headerList.get(j).getInvoiceNo());
@@ -557,39 +567,39 @@ public class SalesReportController {
 								rowData1.add(" ");
 								expoExcel1.setRowData(rowData1);
 								exportToExcelList1.add(expoExcel1);
-								
+
 							}
 
-							
+							if (taxReportList.get(i).getCessPer() > 0) {
 
-							
+								expoExcel1 = new ExportToExcel();
+								rowData1 = new ArrayList<String>();
+								rowData1.add(headerList.get(j).getInvoiceNo());
+								rowData1.add("");
+								rowData1.add("");
+								rowData1.add("");
+								rowData1.add("CESS "
+										+ new BigDecimal(taxReportList.get(i).getCessPer()).stripTrailingZeros() + "%");
+								// rowData1.add(" " + df.format(taxReportList.get(i).getSgstAmt()));
+								rowData1.add(" " + taxReportList.get(i).getCessRs());
+
+								rowData1.add("Cr");
+								rowData1.add(" ");
+								expoExcel1.setRowData(rowData1);
+								exportToExcelList1.add(expoExcel1);
+
+							}
 
 						}
 
 					}
-
-					expoExcel1 = new ExportToExcel();
-					rowData1 = new ArrayList<String>();
-					rowData1.add(headerList.get(j).getInvoiceNo());
-					rowData1.add("");
-					rowData1.add("");
-					rowData1.add("");
-					rowData1.add("DIFFERENCE & DISCOUNT");
-					rowData1.add(" " + (( (int)Math.round(headerList.get(j).getGrandTotal()+tcs)) - finalAmt));
-					rowData1.add("Cr");
-					rowData1.add(" ");
-					expoExcel1.setRowData(rowData1);
-					exportToExcelList1.add(expoExcel1);
 					
-					
-					
-
 					if (tcs > 0) {
-					
-						System.err.println("INVOICE - "+headerList.get(j).getInvoiceNo());
-						System.err.println("GRAND - "+ (int)Math.round(headerList.get(j).getGrandTotal()));
-						System.err.println("FINAL AMT - "+finalAmt);
-						
+
+						System.err.println("INVOICE - " + headerList.get(j).getInvoiceNo());
+						System.err.println("GRAND - " + (int) Math.round(headerList.get(j).getGrandTotal()+ tcs));
+						System.err.println("FINAL AMT - " + finalAmt);
+
 						expoExcel1 = new ExportToExcel();
 						rowData1 = new ArrayList<String>();
 						rowData1.add(headerList.get(j).getInvoiceNo());
@@ -603,6 +613,21 @@ public class SalesReportController {
 						expoExcel1.setRowData(rowData1);
 						exportToExcelList1.add(expoExcel1);
 					}
+
+					expoExcel1 = new ExportToExcel();
+					rowData1 = new ArrayList<String>();
+					rowData1.add(headerList.get(j).getInvoiceNo());
+					rowData1.add("");
+					rowData1.add("");
+					rowData1.add("");
+					rowData1.add("DIFFERENCE & DISCOUNT");
+					rowData1.add(" " + (finalAmt - (int)Math.round(headerList.get(j).getGrandTotal()+ tcs) ));
+					rowData1.add("Cr");
+					rowData1.add(" ");
+					expoExcel1.setRowData(rowData1);
+					exportToExcelList1.add(expoExcel1);
+
+
 
 				}
 
