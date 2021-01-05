@@ -514,16 +514,18 @@ public class SalesReportController {
 
 							double igstAmt = bd.doubleValue();
 
-							//finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt +taxReportList.get(i).getCessRs()+ tcs;
-							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt +taxReportList.get(i).getCessRs();
+							// finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt
+							// +taxReportList.get(i).getCessRs()+ tcs;
+							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt
+									+ taxReportList.get(i).getCessRs();
 
-							if(taxReportList.get(i).getInvoiceNo().equalsIgnoreCase("TI023761") ) {
-							System.err.println("TCS = "+tcs);
-							System.err.println("finalAmt = "+finalAmt);
-							
+							if (taxReportList.get(i).getInvoiceNo().equalsIgnoreCase("TI023761")) {
+								System.err.println("TCS = " + tcs);
+								System.err.println("finalAmt = " + finalAmt);
+
 							}
-								//TI023761
-							
+							// TI023761
+
 							if (igstAmt > 0) {
 
 								expoExcel1 = new ExportToExcel();
@@ -601,15 +603,13 @@ public class SalesReportController {
 						}
 
 					}
-					
-					
-					
+
 					if (tcs > 0) {
 
-						finalAmt=finalAmt+tcs;
-						
+						finalAmt = finalAmt + tcs;
+
 						System.err.println("INVOICE - " + headerList.get(j).getInvoiceNo());
-						System.err.println("GRAND - " + (int) Math.round(headerList.get(j).getGrandTotal()+ tcs));
+						System.err.println("GRAND - " + (int) Math.round(headerList.get(j).getGrandTotal() + tcs));
 						System.err.println("FINAL AMT - " + finalAmt);
 
 						expoExcel1 = new ExportToExcel();
@@ -633,13 +633,11 @@ public class SalesReportController {
 					rowData1.add("");
 					rowData1.add("");
 					rowData1.add("DIFFERENCE & DISCOUNT");
-					rowData1.add(" " + (finalAmt - (int)Math.round(headerList.get(j).getGrandTotal()+ tcs) ));
+					rowData1.add(" " + ((int) Math.round(headerList.get(j).getGrandTotal() + tcs) - finalAmt));
 					rowData1.add("Cr");
 					rowData1.add(" ");
 					expoExcel1.setRowData(rowData1);
 					exportToExcelList1.add(expoExcel1);
-
-
 
 				}
 
