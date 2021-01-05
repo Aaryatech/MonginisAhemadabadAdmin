@@ -514,8 +514,16 @@ public class SalesReportController {
 
 							double igstAmt = bd.doubleValue();
 
-							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt +taxReportList.get(i).getCessRs()+ tcs;
+							//finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt +taxReportList.get(i).getCessRs()+ tcs;
+							finalAmt = finalAmt + taxable + cgstAmt + sgstAmt + igstAmt +taxReportList.get(i).getCessRs();
 
+							if(taxReportList.get(i).getInvoiceNo().equalsIgnoreCase("TI023761") ) {
+							System.err.println("TCS = "+tcs);
+							System.err.println("finalAmt = "+finalAmt);
+							
+							}
+								//TI023761
+							
 							if (igstAmt > 0) {
 
 								expoExcel1 = new ExportToExcel();
@@ -594,8 +602,12 @@ public class SalesReportController {
 
 					}
 					
+					
+					
 					if (tcs > 0) {
 
+						finalAmt=finalAmt+tcs;
+						
 						System.err.println("INVOICE - " + headerList.get(j).getInvoiceNo());
 						System.err.println("GRAND - " + (int) Math.round(headerList.get(j).getGrandTotal()+ tcs));
 						System.err.println("FINAL AMT - " + finalAmt);
