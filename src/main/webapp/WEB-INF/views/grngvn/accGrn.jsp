@@ -939,6 +939,10 @@ function calcGrn(grnType,baseRate,grnId,sgstPer,cgstPer,cessPer,grnQty,curQty,di
 		grnRate=baseRate*75/100;
 	}
 	
+	if(grnType==5){
+		grnRate=baseRate*90/100;
+	}
+	
 	if(grnType==2 || grnType==4){
 		grnRate=baseRate;
 	}

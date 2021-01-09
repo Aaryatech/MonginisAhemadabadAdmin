@@ -324,6 +324,12 @@ public class ManualGrnController {
 						grnRate = (selectedGrn.get(i).getRate() * 75) / 100;
 						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
 					}
+					
+					if (selectedGrn.get(i).getGrnType() == 5) {
+						grnBaseRate = baseRate * 90 / 100;
+						grnRate = (selectedGrn.get(i).getRate() * 90) / 100;
+						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));
+					}
 
 					if (selectedGrn.get(i).getGrnType() == 2 || selectedGrn.get(i).getGrnType() == 4) {
 						// postGrnGvn.setGrnGvnAmt(roundUp(grnAmt));

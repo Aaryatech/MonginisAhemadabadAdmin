@@ -1107,6 +1107,11 @@ public class GrnGvnController {
 
 				grnRate = detail.getBaseRate() * 75 / 100;
 			}
+			
+			if (detail.getGrnType() == 5) {
+
+				grnRate = detail.getBaseRate() * 90 / 100;
+			}
 
 			if (detail.getGrnType() == 2 || detail.getGrnType() == 4) {
 
@@ -1968,6 +1973,11 @@ public class GrnGvnController {
 						if (detail.getGrnType() == 1) {
 
 							grnRate = detail.getBaseRate() * 75 / 100;
+						}
+						
+						if (detail.getGrnType() == 5) {
+
+							grnRate = detail.getBaseRate() * 90 / 100;
 						}
 
 						if (detail.getGrnType() == 2 || detail.getGrnType() == 4) {

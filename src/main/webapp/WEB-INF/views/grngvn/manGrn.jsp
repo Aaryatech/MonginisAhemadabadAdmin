@@ -280,6 +280,8 @@
 						  	}
 						  	else 	if(bill.grnType==1){
 						  		 grnType="Grn 2";}
+						  	else 	if(bill.grnType==5){
+						  		 grnType="Grn 4";}
 						  	else 	if(bill.grnType==2 || bill.grnType==4){
 						  		 grnType="Grn 3";}
 						  	
@@ -373,6 +375,14 @@
 						var grnRate=rate;
 						grnBaseRate = baseRate * 75 / 100;
 						grnRate=(rate * 75) / 100;
+					
+						}
+				 
+				 if(grnType==5){
+
+						var grnRate=rate;
+						grnBaseRate = baseRate * 90 / 100;
+						grnRate=(rate * 90) / 100;
 					
 						}
 				 
