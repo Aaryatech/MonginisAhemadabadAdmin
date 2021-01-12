@@ -456,8 +456,6 @@
 												<c:choose>
 													<c:when test="${strGrnAppl.equals('0')}">
 
-													
-
 														<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" checked
 															value="0" /> GRN1 (85% Refund)
@@ -472,45 +470,77 @@
 															GRN3 (100% Refund)
 														</label>
 														
+														<label class="radio-inline"> <input type="radio"
+															name="grn_two" id="optionsRadios2" value="5" />
+															GRN4 (90% Refund)
+														</label>
 													</c:when>
 													
 													<c:when test="${strGrnAppl.equals('1')}">
 
-													
-
 														<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" 
-															value="0" /> GRN1
+															value="0" /> GRN1 (85% Refund)
 														</label>
 															<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" value="1"checked />
-															GRN2
+															GRN2 (75% Refund)
 														</label>
 														
 														<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" value="2" />
-															GRN3
+															GRN3 (100% Refund)
 														</label>
 														
+														<label class="radio-inline"> <input type="radio"
+															name="grn_two" id="optionsRadios2" value="5" />
+															GRN4 (90% Refund)
+														</label>
 													</c:when>
 													
 													
 													<c:when test="${strGrnAppl.equals('2')}">
 
-													
-
 														<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" 
-															value="0" /> GRN1
+															value="0" /> GRN1 (85% Refund)
 														</label>
 															<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" value="1" />
-															GRN2
+															GRN2 (75% Refund)
 														</label>
 														
 														<label class="radio-inline"> <input type="radio"
 															name="grn_two" id="optionsRadios2" value="2" checked />
-															GRN3
+															GRN3 (100% Refund)
+														</label>
+														
+														<label class="radio-inline"> <input type="radio"
+															name="grn_two" id="optionsRadios2" value="5" />
+															GRN4 (90% Refund)
+														</label>
+														
+													</c:when>
+													
+													<c:when test="${strGrnAppl.equals('5')}">
+
+														<label class="radio-inline"> <input type="radio"
+															name="grn_two" id="optionsRadios2" 
+															value="0" />GRN1 (85% Refund)
+														</label>
+															<label class="radio-inline"> <input type="radio"
+															name="grn_two" id="optionsRadios2" value="1" />
+															GRN2 (75% Refund)
+														</label>
+														
+														<label class="radio-inline"> <input type="radio"
+															name="grn_two" id="optionsRadios2" value="2" />
+															GRN3 (100% Refund)
+														</label>
+														
+														<label class="radio-inline"> <input type="radio"
+															name="grn_two" id="optionsRadios2" value="5" checked />
+															GRN4 (90% Refund)
 														</label>
 														
 													</c:when>

@@ -396,6 +396,10 @@
 											name="grn_two" id="optionsRadios1" value="2"
 											data-rule-required="false" />GRN3 (100% Refund)
 										</label>
+										<label class="radio-inline"> <input type="radio"
+											name="grn_two" id="optionsRadios1" value="5"
+											data-rule-required="false" />GRN4 (90% Refund)
+										</label>
 									</div>
 								</div>
 								<div class="form-group">
